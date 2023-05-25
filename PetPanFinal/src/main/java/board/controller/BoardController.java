@@ -40,7 +40,7 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 			Model model
 			
 			) {
-		logger.info("/board/notice [GET]");
+//		logger.info("/board/notice [GET]");
 		Paging paging = boardService.getNoticePaging(curPage, search);
 		
 		List<Map<String, Object>> list = boardService.getNoticeList(paging);

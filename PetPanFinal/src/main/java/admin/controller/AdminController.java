@@ -32,8 +32,8 @@ public class AdminController {
 
 	@GetMapping("/reportboard/list")
 	public void reportBoard(@RequestParam(defaultValue = "0") int curPage, Model model) {
-		logger.info("/reportboard [GET}");
-		logger.info("curPage = {}", curPage);
+//		logger.info("/reportboard [GET}");
+//		logger.info("curPage = {}", curPage);
 		Paging paging = new Paging();
 		
 		paging = adminService.getPage(curPage);
