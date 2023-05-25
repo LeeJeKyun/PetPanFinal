@@ -83,9 +83,9 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		
 		List<Map<String, Object>> list = boardService.getCareList(paging);
 		
-		
+		//확인해보기
 //		for(Map<String, Object> m : list) {
-//			logger.info("{}", m);
+//			logger.info("map -> {}", m);
 //		}
 		
 		model.addAttribute("paging", paging);

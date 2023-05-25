@@ -42,6 +42,7 @@ function searchInit(){
 <table style="margin: 0 auto; width: 1000px; text-align: center; border-collapse: collapse;">
 	<tr style="height: 50px">
 		<th>번호</th>
+		<th></th>
 		<th>제목</th>
 		<th>글쓴이</th>
 		<th>등록일</th>
@@ -49,8 +50,9 @@ function searchInit(){
 		<th>추천수</th>
 	</tr>
 <c:forEach items="${list }" var="care">
-	<tr style="height: 40px; border-top: 2px solid #f5cbcb">
+	<tr style="height: 40px; border-top: 2px solid #f5cbcb;">
 		<td>${care.BOARDNO }</td>
+		<td style="height: 90px;"><img width="120px" height="90px" alt="아가사진" src="<%=request.getContextPath() %>/upload/${care.STOREDNAME}" style="vertical-align: middle;" ></td>
 		<td><a href="../care/view?boardno=${care.BOARDNO }">${care.BOARDTITLE }</a></td>
 		<td>${care.USERID }</td>
 		<td><fmt:formatDate value="${care.WRITEDATE }" pattern="yyyy-MM-dd" /></td>
