@@ -1,8 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
-
 <html>
 <head>
   <meta charset="utf-8" />
@@ -18,8 +15,8 @@
 
     <meta name="description" content="" />
 
-    <!-- Favicon  -->
-<!--     <link rel="icon" type="image/x-icon" href="../../../../resources/assets//img/favicon/favicon.ico" /> -->
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/resources/assets//img/favicon/favicon.ico" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -30,75 +27,32 @@
     />
 
     <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/fonts/boxicons.css" />
+    <link rel="stylesheet" href="/resources/assets//vendor/fonts/boxicons.css" />
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/css/core.css" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/css/demo.css" />
+    <link rel="stylesheet" href="/resources/assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="/resources/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="/resources/assets/css/demo.css" />
 
     <!-- Vendors CSS -->
-     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" /> 
+     <link rel="stylesheet" href="/resources/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" /> 
 
-    <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/libs/apex-charts/apex-charts.css" />
+    <link rel="stylesheet" href="/resources/assets/vendor/libs/apex-charts/apex-charts.css" />
 
     <!-- Page CSS -->
 
     <!-- Helpers -->
-    <script src="<%=request.getContextPath() %>/resources/assets/vendor/js/helpers.js"></script>
+    <script src="/resources/assets//vendor/js/helpers.js"></script>
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
        <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     
-    <script src="<%=request.getContextPath() %>/resources/assets/js/config.js"></script>
-    
-    
-    
-	<style type="text/css">
-	html{
-	position:relative;
-
-	}
-	.menu:not(.menu-no-animation) .menu-icon {
-    transition: margin-right 0.3s ease;
-	}
-	
-	.container2 {
-  	position: absolute;
-     margin-left: 400px; 
-     margin-top: 100px; 
-
-/*   	margin-top: 10px; */
- /* 특정 div의 위쪽 여백 설정 */
-	}
-	.logon {
-  	position: absolute;
-     top : 10px;
-     right : 10px;
-     width: 250px;
-     height: 30px;
-    
-
-/*   	margin-top: 10px; */
- /* 특정 div의 위쪽 여백 설정 */
-	}
-	.welcome{
-	position: absolute;
-	top : 10px;
-    right : 500px;
-    width: 270px;
-    height: 30px;
-	}
-	
-
-	
-	
-	</style>
+    <script src="/resources/assets/js/config.js"></script>
   </head>
 
 </head>
 <body>
-<div id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" style = "float: left; position: absolute; top:0; left:0;  display: flex;">
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="index.html" class="app-brand-link">
               <span class="app-brand-logo demo">
@@ -488,13 +442,5 @@
               </a>
             </li>
           </ul>
-        </div>
-        
-        <div class = welcome>
-        	<h3>PetPan 관리자 페이지</h3>
-        </div>
-        
-        <div class = logon>
-        	<h3>${userName} 님 환영합니다</h3>
-        </div>
+        </aside>
 

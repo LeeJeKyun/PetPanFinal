@@ -19,6 +19,11 @@
 		<level value="info" />
 	</logger>
 
+	<logger name="member">
+		<level value="info" />
+	</logger>
+
+
 	<!-- 기본로그AOP 로그설정 -->
 	<logger name="aop">
 		<level value="info" />

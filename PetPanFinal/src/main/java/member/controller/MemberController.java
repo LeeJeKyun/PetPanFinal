@@ -3,13 +3,11 @@ package member.controller;
 
 
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.asm.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,9 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import member.dto.Member;
+import member.service.face.KakaoService;
 import member.service.face.MemberService;
 
 
@@ -30,6 +27,7 @@ public class MemberController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	@Autowired private KakaoService kakaoService;
 	@Autowired private MemberService memberService;
 	
 	
@@ -39,15 +37,45 @@ public class MemberController {
 				
 	}
 
-	@RequestMapping("/kakaoLogin")
-	public void kakaoLogin() {
+
 		
-	}
 	
 	@GetMapping("/login/login")
 	public void login() {
 		logger.info("Login");
 	}
+	
+	
+	@GetMapping("/kakaoLogin")
+	public String kakaoLogin(
+			@RequestParam("code")String code
+			, HttpSession session) {
+		
+		logger.info("/kakaoLogin ");
+		logger.info("code: {}", code);
+
+		String access_Token = kakaoService.getAccessToken(code);
+		
+		logger.info("controller access_token : {}" + access_Token);
+			
+		HashMap<String, Object> userInfo = kakaoService.getUserInfo(access_Token);
+		
+		logger.info("Info {}", userInfo);
+
+////		    클라이언트의 이메일이 존재할 때 세션에 해당 이메일과 토큰 등록
+	    if (userInfo.get("email") != null) {
+	        session.setAttribute("userId", userInfo.get("email"));
+	        session.setAttribute("access_Token", access_Token);
+	    }
+		    
+		return "./main";
+			
+		}
+	
+	
+	
+	
+	
 	
 	@PostMapping("/login/login")
 	public String loginProc( 
@@ -56,9 +84,9 @@ public class MemberController {
 			, HttpSession session
 			) {
 		
-//		logger.info("/login/login");
+		logger.info("/login/login");
 		
-//		logger.info("{}", member);
+		logger.info("{}", member);
 		
 		
 		if( memberService.login( member ) ) {
@@ -68,7 +96,7 @@ public class MemberController {
 			session.setAttribute("userno", member.getUserNo());
 			session.setAttribute("userName", member.getUserName());
 			
-//			logger.info("session: {} ", member.getUserNo());
+			logger.info("session: {} ", member.getUserNo());
 			
 			return "./main";
 		}
@@ -104,7 +132,6 @@ public class MemberController {
 		logger.info("/login/join");
 		logger.info("member: {}", member);
 		logger.info("지번: {}", jibunAddress);
-//		logger.info("zipCode: {}", zipCode);
 		
 		memberService.getKakaoApiFromAddress( jibunAddress);
 		
@@ -118,11 +145,11 @@ public class MemberController {
 		memberService.insertJoin( member );
 		
 		
-		
-		
-		
 		return "/main";
 	}
+	
+	
+	
 	
 	
 	@GetMapping("/login/mypage")
@@ -137,30 +164,7 @@ public class MemberController {
 	}
 
 
-	
-//	@GetMapping("/test")
-//	public void test(
-//			String jibunAddress
-//			) {
-//		
-//		memberService.getKakaoApiFromAddress( jibunAddress);
-//		
-//		
-//		memberService.getXYMapfromJson( memberService.getKakaoApiFromAddress( jibunAddress) );
-//		
-//	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
-	
-	
 	
 
 	

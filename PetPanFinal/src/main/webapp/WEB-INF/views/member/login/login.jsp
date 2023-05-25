@@ -123,7 +123,7 @@ input:focus {
    </div>
       
    <div class="kakao">
-   <c:import url="../login/kakao.jsp" />
+   <c:import url="../login/loginkakao.jsp" />
    </div>
   
       
