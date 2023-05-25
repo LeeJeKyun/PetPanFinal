@@ -145,4 +145,39 @@ public interface BoardDao {
 	 * @return 상세보기할 게시글의 정보
 	 */
 	public Map<String, Object> selectBoardOne(int boardNo);
+
+	/**
+	 * boardNo에 맞는 파일들 select
+	 * 
+	 * @param boardNo 가져올 파일들의 boardNo
+	 * @return   boardNo에 맞는 파일들 
+	 */
+	public List<BoardFile> selectFiles(int boardNo);
+
+	/**
+	 * boardNo 게시글 삭제
+	 * boardtypeno을 5로 변경
+	 * @param boardNo 삭제할 게시글의 boardNo
+	 */
+	public void updateBoard(int boardNo);
+
+	/**
+	 * 신고테이블에 boardNo이 있는지 검사
+	 * 
+	 * @param boardNo select할 boardNo
+	 * @return 있으면 true 없으면 false
+	 */
+	public int selectReportBoard(int boardNo);
+
+	/**
+	 * 게시글 파일 삭제
+	 * @param boardNo 삭제할 게시글 파일  
+	 */
+	public void deleteBoardFile(int boardNo);
+
+	/**
+	 * 게시글 삭제 
+	 * @param boardNo 삭제할 게시글 
+	 */
+	public void deleteBoard(int boardNo);
 }

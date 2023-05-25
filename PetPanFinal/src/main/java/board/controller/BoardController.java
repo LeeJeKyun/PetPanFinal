@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import board.dto.Board;
+import board.dto.BoardFile;
 import board.dto.Notice;
 import board.service.face.BoardService;
 import util.Paging;
@@ -184,11 +185,34 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	public void detail(int boardNo, Model model) {
 		// boardno, boardTitle, hit, recommend, writeDate, userName, content, boardTypeNo, writeDate
 		Map<String, Object> map =  boardService.getBoardOne(boardNo);
+		
+		// boardNo에 맞는 파일 가져오기
+		List<BoardFile> list = boardService.getBoardFile(boardNo);
+		
+		logger.info("boardFile  {}", list);
 		logger.info("map {}", map);
 		
-		model.addAttribute(map);
+		model.addAttribute("list", list);
+		model.addAttribute("map", map);
 	}
-	
+	// 게시글 신고 구현중
+	@GetMapping("/board/report")
+	public String reportBoard(int boardNo, int userNo) {
+		
+		//이미 신고한 게시글이면 신고한 게시글이다
+		
+		//아니면 신고 추가
+		
+		return "redirect:/board/board/detail?boardNo="+ boardNo;
+	}
+	@GetMapping("/board/delete/board")
+	public String deleteBoard(int boardNo) {
+		boardService.deleteBoard(boardNo);
+		
+		logger.info("게시글 삭제 {}", boardNo);
+		return "redirect:/board/board";
+	}
+	//댓글 ajax 구현중
 	@GetMapping("/board/comment")
 	public void comment() {
 		

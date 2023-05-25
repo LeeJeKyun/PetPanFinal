@@ -267,5 +267,37 @@ public class BoardServiceImpl implements BoardService{
 	public Map<String, Object> getBoardOne(int boardNo) {
 		return boardDao.selectBoardOne(boardNo);
 	}
+
+	@Override
+	public List<BoardFile> getBoardFile(int boardNo) {
+		return boardDao.selectFiles(boardNo);
+	}
+
+	@Override
+	public void deleteBoard(int boardNo) {
+
+		// 신고 테이블이 있는 게시글인지 검사
+		if(boardDao.selectReportBoard(boardNo) > 0) {
+			// 있으면 boardTypeNo을 5로 변경
+			boardDao.updateBoard(boardNo);
+		}else {
+			//없으면 게시글 삭제
+			//게시글 파일 삭제
+			boardDao.deleteBoardFile(boardNo);
+			//게시글 삭제
+			boardDao.deleteBoard(boardNo);
+			
+		}
+		
+		// 없으면 게시글 삭제
+	}
+
+//	@Override
+//	public boolean checkReported(int boardNo) {
+//		if(boardDao.selectReportBoard(boardNo) > 0) {
+//			return true;
+//		}
+//		return false;
+//	}
 	
 }

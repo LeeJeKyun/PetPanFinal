@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import board.dto.Board;
+import board.dto.BoardFile;
 import board.dto.Notice;
 import util.Paging;
 
@@ -115,5 +116,20 @@ public interface BoardService {
 	 * @return boardno, boardTitle, hit, recommend, writeDate, userName, content, boardTypeNo 
 	 */
 	public Map<String, Object> getBoardOne(int boardNo);
+
+	/**
+	 * boardNo에 맞는 파일들 가져오기
+	 * @param boardNo 가져올 파일의 boardNo
+	 * @return boardNo 게시글의 파일들
+	 */
+	public List<BoardFile> getBoardFile(int boardNo);
+
+	/**
+	 * 게시글 삭제
+	 * @param boardNo 삭제할 게시글 boardNo
+	 */
+	public void deleteBoard(int boardNo);
+
+	
 
 }
