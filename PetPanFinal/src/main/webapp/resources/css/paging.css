@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+ul{
+	list-style: none;
+}
+li{
+	float: left;	
+	border: solid black 1px;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+}
+a{
+	text-decoration-line: none;
+}
+.endPage{
+	font-size: 0.8em;
+	width: 40px;
+	border-radius: 0px 10px 10px 0px  / 0px 10px 10px 0px;
+}
+.startPage{
+	font-size: 0.8em;
+	width: 40px;
+	border-radius: 10px 0px 0px 10px  / 10px 0px 0px 10px; 
+}
+.colorBox{
+	background-color: #1a73e8;
+	color: #FFFFFF;
+}

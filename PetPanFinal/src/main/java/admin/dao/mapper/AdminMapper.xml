@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="admin.dao.face.AdminDao">
+  
+  	<select id="selectTotal" resultType="int">
+		SELECT count(*) FROM reportboard
+	
+	</select>
+  
+	<select id="ReportBoardtselectAll" resultType="admin.dto.ReportBoard" parameterType="util.Paging">
+		SELECT re.* FROM (SELECT rownum rnum, B.* FROM (
+		(SELECT boreportno, reportdetail, report_date AS reportDate, complete, r.userNo, m.userid, r.boardno, b.boardtitle
+		FROM reportboard r, board b, member m
+		WHERE r.boardno = b.boardno
+		AND b.userno = m.userno
+		ORDER BY boreportno DESC) B)) re WHERE rnum BETWEEN #{startNo} AND #{endNo}
+	</select>
+	
+	
+	<select id="selectReportInfo" resultType="admin.dto.ReportBoard">
+	SELECT boreportno, reportdetail, report_date AS reportDate, complete, r.userNo, m.userid, r.boardno, b.boardtitle
+		FROM reportboard r, board b, member m
+        WHERE r.boardno = b.boardno
+        AND b.userno = m.userno
+        AND boreportno = #{boreportno}
+	</select>
+	
+	<select id="selectMember" resultType="member.dto.Member">
+	SELECT * FROM MEMBER WHERE USERNO = #{userNo}
+	</select>
+	
+	<select id="selectBoarduser" resultType="int">
+	SELECT userno FROM Board WHERE boardno = #{boardno}
+	</select>
+	
+	<select id="selectBoardDetail" resultType="board.dto.Board">
+	SELECT boardno, boardtitle, content, write_date AS writedate, userno, boardtypeno FROM BOARD WHERE boardno = #{boardno}
+	</select>
+	
+<!-- 	<delete id="DeleteReport"> -->
+<!-- 	DELETE FROM REPORTBOARD where boreportno = #{deleteNo} -->
+<!-- 	</delete> -->
+	
+	<select id="BlacklistselectAll" resultType="admin.dto.Blacklist" parameterType="util.Paging">
+		SELECT blackno, blackdate, reason, userno
+		FROM blacklist
+	</select>
+	
+	<select id="selectObjectNo" resultType="int">
+		SELECT SEQ_SHOP.NEXTVAL FROM DUAL
+	</select>
+	
+	<insert id="insertObjectContent" parameterType="shop.dto.Shop">
+		INSERT INTO SHOP (objectno, name, price, remain, shopcontent) VALUES (#{objectno},#{name},#{price},#{remain},#{shopcontent})
+	</insert>
+	
+	<insert id="insertFile" parameterType="shop.dto.ShopFile">
+		INSERT INTO SHOPFILE (fileno, originname, storedname, filesize, objectno) VALUES (seq_shopfile.nextval, #{originname},#{storedname},#{filesize},#{objectno})
+	</insert>
+	
+	<select id="selectBoardNo" resultType="int">
+		SELECT boardno FROM reportboard WHERE boreportno = #{deleteNo}
+	</select>
+	
+	<update id="updateBoardtype" parameterType="int">
+		UPDATE BOARD SET BOARDTYPENO = 5 WHERE BOARDNO = #{boardno}
+	</update>
+	
+	<update id="updateReportComplete" parameterType="int">
+		UPDATE reportboard SET COMPLETE = 'Y' WHERE boreportno = #{deleteNo}
+	</update>
+	
+	<delete id="deleteBlacklist">
+	DELETE FROM blacklist where blackno = #{blackNo}
+	</delete>
+	
+	<insert id="insertBlacklist">
+		INSERT INTO blacklist(blackno, blackdate, reason, userno)
+		VALUES(seq_blacklist.nextval,sysdate,#{reason},#{userno})
+	</insert>
+	
+  </mapper>

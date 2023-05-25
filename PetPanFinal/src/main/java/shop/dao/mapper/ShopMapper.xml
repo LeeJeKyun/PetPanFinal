@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="shop.dao.face.ShopDao">
+
+	<select id="countShop" resultType="int">
+		select count(*) from shop		
+	</select>
+	
+	<select id="selectAll" resultType="shop.dto.Shop" parameterType="util.ShopPaging">
+		SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+		        SELECT * FROM shop
+		        ORDER BY objectno DESC
+		    ) B
+		)
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }
+	</select>
+	
+	<select id="selectByObjno" resultType="shop.dto.Shop" parameterType="shop.dto.Shop">
+		select * from shop
+		where objectno = #{objectno}
+	</select>
+	
+	<insert id="insertBasket" parameterType="shop.dto.Basket">
+		insert into basket 
+		values ( seq_basket.nextval, #{quantity}, #{userno}, #{objectno} )
+	</insert>
+	
+	<select id="checkBasket" resultType="int" parameterType="shop.dto.Basket">
+		select count(*) from basket
+		where userno = #{userno} and objectno = #{objectno}
+	</select>
+	
+	<update id="updateBasket" parameterType="shop.dto.Basket">
+		update basket set quantity = #{quantity} 
+		where userno = #{userno} and objectno = #{objectno}
+	</update>
+	
+	<select id="selectBasket" parameterType="shop.dto.Basket" resultType="hashmap">
+		select a.* ,b.*
+		from basket a
+		inner join shop b
+		on a.objectno = b.objectno
+		where userno = ${userno}
+	</select>
+
+</mapper>

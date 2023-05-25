@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board.dao.face.BoardDao" >
+	
+	<select id="selectNoticeCntAll" parameterType="string" resultType="int" >
+		SELECT count(*) cnt FROM notice
+		WHERE noticetitle LIKE '%${search}%'
+	</select>
+	
+	<select id="selectNoticeAll" parameterType="util.Paging" resultType="hashmap">
+		SELECT * FROM(
+    		SELECT rownum rnum, S.* 
+    		FROM ( 
+    			SELECT noticeno,
+        			NOTICETITLE,
+        			noticecontent,
+        			noticewritedate,
+        			N.userno,
+        			boardtypeno,
+        			M.username 
+        		FROM notice N, member M
+        		WHERE noticetitle LIKE '%${search}%' AND n.userno = m.userno
+				ORDER BY noticeno DESC
+        		) S
+    	)
+		WHERE rnum BETWEEN #{startNo} AND #{endNo}
+	</select>
+	
+	<select id="selectNoticeByNoticeno" parameterType="int" resultType="board.dto.Notice">
+		SELECT * FROM notice
+		WHERE noticeno = #{noticeno}
+	</select>
+	
+	<select id="selectCareCntAll" parameterType="string" resultType="int">
+		SELECT count(*) FROM board
+		WHERE boardtitle LIKE '%${search}%' 
+			AND boardtypeno = 1
+	</select>
+	
+	
+	<select id="selectCareAll" parameterType="util.Paging" resultType="hashmap">
+		SELECT * FROM(
+    		SELECT rownum rnum, S.* 
+   			FROM ( 
+        		SELECT boardno,
+            		boardtitle,
+            		content,
+         		   write_date AS writedate,
+         		   hit,
+         		   B.userno,
+         		   B.boardtypeno,
+         		   M.userid,
+         		   (SELECT count(*) FROM boardrecommend R WHERE B.userno = R.userno) AS recommend
+     	  		FROM Board B, Member M
+        		WHERE boardtitle LIKE '%${search}%' AND boardtypeno='1' AND B.userno = M.userno
+       			ORDER BY boardno DESC
+    	    ) S
+		)
+		WHERE rnum BETWEEN #{startNo} AND #{endNo}
+	</select>
+	
+	<select id="selectUsernoByUserid" parameterType="string" resultType="int">
+		select userno
+		FROM member
+		WHERE userid = #{logindid}
+	</select>
+	
+	<select id="selectBoardSeqNext" resultType="int">
+		SELECT seq_board.nextval FROM dual
+	</select>
+	
+	<insert id="insertCareBoard" parameterType="board.dto.Board">
+		INSERT INTO board (boardno, boardtitle, content, write_date, hit, userno, boardtypeno)
+		VALUES (#{boardNo}, #{boardTitle}, #{content}, sysdate, 0, #{userNo}, 1 )
+	</insert>
+	
+	
+	<!-- ============================== -->
+	<select id = "selectFreeBoardCnt"  parameterType="string" resultType = "int">
+		SELECT count(*)
+		FROM board
+		WHERE boardtypeno = 2
+					 AND content LIKE '%'||#{search}||'%' 
+					 OR boardtitle LIKE '%'||#{search}||'%' 
+	</select>
+	<select id = "selectMarketBoardCnt"  parameterType="string" resultType = "int">
+		SELECT count(*)
+		FROM board
+		WHERE boardtypeno = 3 
+					AND content LIKE '%'||#{search}||'%'
+					OR boardtitle LIKE '%'||#{search}||'%'
+	</select>
+	
+	<select id = "selectMarketList" parameterType="util.Paging" resultType = "map">
+		SELECT * FROM(
+			SELECT rownum rnum, B.* FROM(
+				SELECT board.boardno, boardtitle, username, content, write_date AS writeDate, hit
+                        ,(select count(*)
+                            from boardrecommend C, board
+                            where C.boardno = board.boardno) AS recommend 
+                        , member.userno, boardtypeno
+				FROM board, member
+				WHERE board.userno = member.userno AND boardtypeno = 3 AND content like '%'||#{search}||'%'
+				ORDER BY boardno desc
+			)B
+		)
+		WHERE rnum BETWEEN #{startNo} AND #{endNo}
+	</select>
+	<select id = "selectFreeList" parameterType="util.Paging" resultType = "map">
+		SELECT * FROM(
+			SELECT rownum rnum, B.* FROM(
+				SELECT board.boardno, boardtitle, username, content, write_date AS writeDate, hit
+                        ,(select count(*)
+                            from boardrecommend C, board
+                            where C.boardno = board.boardno) AS recommend 
+                        , member.userno, boardtypeno
+				FROM board, member
+				
+				WHERE board.userno = member.userno AND boardtypeno = 2 AND content like '%'||#{search}||'%'
+				ORDER BY boardno desc
+			)B
+		)
+		WHERE rnum BETWEEN #{startNo} AND #{endNo}
+	</select>
+	<select id = "selectNotice"  parameterType="hashmap" resultType = "map">
+		SELECT  *
+		FROM(
+		    SELECT rownum rnum, noticeno, noticetitle, noticecontent, noticewritedate, userno, boardtypeno
+		    FROM notice
+		    where boardtypeno = #{category}
+		    ORDER BY noticeno desc
+		) 
+		WHERE rnum BETWEEN #{max}-2 AND #{max }
+		ORDER BY rnum desc   
+	</select>
+	<select id = "selectNoticeCnt" parameterType="int" resultType = "int">
+		select count(*)
+  		from notice
+ 		where boardtypeno = #{category}
+	</select>
+	<select id="selectBoardNext" resultType="int">
+		select seq_board.nextval  
+		from dual
+	</select>
+	<insert id="insertBoard" parameterType="board.dto.Board">
+		insert into board(boardno, boardtitle, content, write_date, hit, userno, boardtypeno)
+		values(#{boardNo}, #{boardTitle}, #{content}, sysdate, #{hit}, #{userNo}, #{ boardTypeNo})
+	</insert>
+	<!-- 이름 겹침 -->
+	<insert id="insertBoardFile" parameterType="map">
+		insert into boardfile(fileno, originname, storedname, filesize, boardno)
+		values(seq_boardfile.nextval, #{originName}, #{storedName}, #{fileSize}, #{boardNo})
+	</insert>
+	<select id="selectBoardOne" parameterType="int" resultType="map">
+		select boardno, boardtitle, content, hit, boardtypeno, member.userno, username
+																, write_date AS writeDate 
+																, (select count(*) 
+                                                                from boardrecommend R, board 
+                                                                where R.boardno = board.boardno AND board.boardno= #{boardno}) AS recommend
+		from board, member
+		where board.userno = member.userno AND boardno = #{boardno}
+	</select>
+	
+</mapper>

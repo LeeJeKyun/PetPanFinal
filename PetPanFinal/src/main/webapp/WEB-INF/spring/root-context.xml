@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+   
+   <!-- Root Context: defines shared resources visible to all other web components -->
+   
+   <!-- DB접속 정보 -->
+   <bean id= "dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+      <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+      <property name="url" value="jdbc:oracle:thin:@(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1521)(host=adb.ap-chuncheon-1.oraclecloud.com))(connect_data=(service_name=gf9614238fce024_petpan_medium.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))"/>
+      <property name="username" value="ADMIN"/>
+      <property name="password" value="Rkdekqlsqkqh123!"/>
+   </bean>
+   <!-- 마이바티스 수행 객체 설정 (SqlSession) -->
+   <bean id="SqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+      
+      <!-- 스프링 빈으로 등록된 dataSource를 이용한 DB접속 정보 설정 -->
+      <property name="dataSource" ref="dataSource"/>
+
+      <!-- 마이바티스 설정 파일(XML)의 위치 지정하기 -->
+<!--       <property name="configLocation" ref="classpath:/myBatis-config.xml"/> -->
+
+      <!-- mapper XML파일의 위치 설정-->
+      <property name="mapperLocations">
+         <array>
+            <!-- ** : 모든 폴더 구조 -->
+            <!-- * : 모든 단어 -->
+            <value>classpath:/**/dao/**/*Mapper.xml</value>
+         </array>
+      </property>
+   		
+   </bean>
+   
+   <!-- 마이바티스를 이용하는 인턴페이스 설정(DAO설정) -->
+   <!-- Mapper XML의 newspace속성에 맞는 인터페이스를 찾는 패키지 -->
+   <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+      <property name="basePackage" value="admin.dao, board.dao, main.dao, member.dao, shop.dao"/>
+   </bean>
+</beans>
