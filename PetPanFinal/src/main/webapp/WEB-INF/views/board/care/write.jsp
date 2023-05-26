@@ -45,13 +45,24 @@ table{
 }
 #cancelBtn{
 	display: inline-block;
-	margin-left: 60%;
 	background-color:#ffdad7;
 	width: 101px;
 	height: 30px;
 	border-radius: 10px 10px 10px 10px;
 	text-align: center;
 	padding-top: 9px;
+}
+#fileBtn{
+	
+width: 101px;
+height: 30px;
+font-size: 15px;
+background-color: #f5cbcb;
+border-radius: 10px 10px 10px 10px / 10px 10px 10px 9px;
+border: none;
+color: #FF5050;
+cursor: pointer;
+	
 }
 </style>
 
@@ -136,18 +147,16 @@ function updateContents(){
 
 <div id = "container">
 	<div id = "center-div">
-		<h2 style = "margin-top: 20px; margin-bottom: 20px; margin-left: 30px;">글 작성중</h2>
-		<form action = "./write" method = "post" id = "content-form" enctype="multipart/form-data">
-			<div>
-				<label>자유게시판<input type = "radio" name = boardTypeNo value = "2"></label>
-				<label>중고거래<input type = "radio" name = "boardTypeNo" value = "3"></label>
-				<a href = "../board" id = "cancelBtn">글쓰기 취소</a>
+		<h2 style = "margin-top: 20px; margin-bottom: 20px; margin-left: 30px;">품앗이 글쓰기</h2>
+		<form action = "<%=request.getContextPath() %>/board/care/write" method = "post" id = "content-form" enctype="multipart/form-data">
+			<div style="text-align: right;">
+				<a href = "<%=request.getContextPath() %>/board/care/list" id = "cancelBtn">목록으로</a>
 			</div>
 			<input type = "text" name = "boardTitle" id = "title" placeholder = "제목을 입력하세요" required = "required">	
 			
 			<textarea id = "content" name = "content" required = "required"></textarea>
-			<input type ="file" name ="file" id = "file" multiple = "multiple" accept = ".gif, .jpg, .png, .jpeg" style = "display: none"><br>
-			<button type = "button" id ="fileBtn" >첨부파일</button>
+			<input type ="file" name ="file" id = "file" multiple = "multiple" style = "display: none" accept="image/*"><br>
+			<button type = "button" id ="fileBtn" >사진 업로드</button>
 			<div id = "input-files"></div>
 			
 <!-- 			<input type = "hidden" name = "userNo" value = "${userno}"> -->
