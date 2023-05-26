@@ -41,13 +41,34 @@ public class MemberServiceImpl implements MemberService {
 		
 		if (memberDao.loginProc(member) > 0) {
 			
+			
 			return true;
 		}
 		
 		return false;
 	}
 	
+	@Override
+	public Member selectlogin(Member member) {
+		Member member2 = memberDao.selectlogin(member);
+		return member2;
+	}
 
+	@Override
+	public boolean selcetBlack(Member member) {
+		
+
+		if( memberDao.selcetBlack(member) > 0) {
+			
+			
+			return true;
+		}
+		
+		
+		return false;
+	}
+	
+	
 
 	@Override
 	public Member selectDetail(String userId) {
@@ -56,6 +77,19 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.selectDetailMember(userId);
 	}
 
+	@Override
+	public boolean selectKakao(Member member) {
+
+		if( memberDao.selectKakao(member) > 0) {
+			
+			return true;
+		}
+		
+		
+		return false;
+	}
+	
+	
 	@Override
 	public void insertJoin(Member member) {
 		
@@ -147,7 +181,48 @@ public class MemberServiceImpl implements MemberService {
 	    
 	    return XYMap;
 	}
+	
+	
+	@Override
+	public void insertkakaoJoin(Member member, String sosId) {
+		
+		member.setSuserno(sosId);
+		logger.info("impl : {}", sosId);
+		logger.info("impl : {}", member);
+		
+		
+		memberDao.kakaoinsert(member);
+	}
 
+
+	
+	
+//	@Override
+//	public void updatekakaoJoin(Member member) {
+//
+//		memberDao.upadatekakaoJoin(member);
+//	}
+	
+	
+	
+	
+	
+	
+	
+
+//	@Override
+//	public boolean kakao(String code) {
+//		logger.info("login() 🤣🤣 ");
+//		
+//		
+//		if (memberDao.loginProc(code) > 0) {
+//			
+//			
+//			return true;
+//		}
+//		
+//		return false;
+//	}
 
 	
 	

@@ -14,6 +14,7 @@ public class Member {
    private String latitude;
    private String longitude;
    private int positionNo;
+   private String suserno;
    
    
   public Member() {}
@@ -21,7 +22,7 @@ public class Member {
 
 public Member(int userNo, String userName, String userId, String userPw, String email, String address,
 		String detailaddress, String zipCode, String phone, String idno, String latitude, String longitude,
-		int positionNo) {
+		int positionNo, String suserno) {
 	super();
 	this.userNo = userNo;
 	this.userName = userName;
@@ -36,6 +37,7 @@ public Member(int userNo, String userName, String userId, String userPw, String 
 	this.latitude = latitude;
 	this.longitude = longitude;
 	this.positionNo = positionNo;
+	this.suserno = suserno;
 }
 
 
@@ -44,7 +46,7 @@ public String toString() {
 	return "Member [userNo=" + userNo + ", userName=" + userName + ", userId=" + userId + ", userPw=" + userPw
 			+ ", email=" + email + ", address=" + address + ", detailaddress=" + detailaddress + ", zipCode=" + zipCode
 			+ ", phone=" + phone + ", idno=" + idno + ", latitude=" + latitude + ", longitude=" + longitude
-			+ ", positionNo=" + positionNo + "]";
+			+ ", positionNo=" + positionNo + ", suserno=" + suserno + "]";
 }
 
 
@@ -176,6 +178,19 @@ public int getPositionNo() {
 public void setPositionNo(int positionNo) {
 	this.positionNo = positionNo;
 }
+
+
+public String getSuserno() {
+	return suserno;
+}
+
+
+public void setSuserno(String suserno) {
+	this.suserno = suserno;
+}
+
+  
+
 
   
 

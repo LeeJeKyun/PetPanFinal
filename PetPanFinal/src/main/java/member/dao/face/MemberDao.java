@@ -26,6 +26,49 @@ public interface MemberDao {
 	 */
 	public void insertJoin(Member member);
 
+	/**
+	 * 
+	 * 
+	 * @param member
+	 */
+	public Member selectlogin(Member member);
+
+	/**
+	 * 블랙리스트 회원 조회하기
+	 * 
+	 * @param member
+	 * @return
+	 */
+	public int selcetBlack(Member member);
+
+	/**
+	 * 
+	 * 
+	 * @param sns
+	 */
+	public void kakaoinsert(Member member);
+
+	/**
+	 * 카카오 회원 조회하기
+	 * 
+	 * @param member
+	 */
+	public int selectKakao(Member member);
+
+	/**
+//	 * 카카오 회원 정보 수정(회원가입)
+//	 * 
+//	 * @param member
+//	 */
+//	public void upadatekakaoJoin(Member member);
+
+//	/**
+//	 * 
+//	 * @param code
+//	 * @return
+//	 */
+//	public int loginProc(String code);
+
 	
 
 	

@@ -4,7 +4,7 @@
     
 <!--     <link href = "../resources/css/paging.css"  rel = "stylesheet" /> -->
     <style>
-.paging div{
+.container div{
 	width: 600px;
 	
 }    
@@ -40,7 +40,7 @@ a{
 	color: #FFFFFF;
 }
     </style>
-<div id = paging>
+<div id = container>
 <div>
 	<ul class = "ul">
 		<!-- 처음으로 이동 -->

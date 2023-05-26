@@ -8,17 +8,14 @@
     <title>Insert title here</title>
 </head>
 <body>
-    <c:if test="${userId eq null || email eq null }">
+    <c:if test="${userId eq null}">
         <a href="https://kauth.kakao.com/oauth/authorize?client_id=fecd7b77d17e2393c47ca5ce09dd6b34&redirect_uri=http://localhost:8888/member/kakaoLogin&response_type=code">
 			<img src="/resources/member/img/kakao.png">
         </a>
     </c:if>
     
-    <c:if test="${userId ne null || email ne null}">
+    <c:if test="${userId ne null}">
         <h1>로그인 성공입니다</h1>
-       <button onclick="location.href='/member/login/mypage'">마이페이지</button>
-		<button onclick="location.href='/member/login/logout'">로그아웃</button>
-        
         <input type="button" value="로그아웃" onclick="location.href='./logout'">
     </c:if>
 </body>
