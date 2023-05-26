@@ -316,7 +316,6 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-<<<<<<< HEAD
 	public List<BoardFile> getBoardFile(int boardNo) {
 		return boardDao.selectFiles(boardNo);
 	}
@@ -362,7 +361,6 @@ public class BoardServiceImpl implements BoardService{
 		}
 		return false;
 	}
-=======
 	public Map<String, Object> getCareView(int boardNo) {
 		
 		Map<String, Object> boardMap = boardDao.selectBoardOne(boardNo);
@@ -372,8 +370,5 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 
-	
-	
->>>>>>> refs/remotes/origin/master
 	
 }

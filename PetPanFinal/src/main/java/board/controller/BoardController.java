@@ -20,10 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import board.dto.Board;
 import board.dto.BoardFile;
-<<<<<<< HEAD
 import board.dto.BoardRecommend;
-=======
->>>>>>> refs/remotes/origin/master
 import board.dto.Notice;
 import board.dto.ReportBoard;
 import board.service.face.BoardService;
