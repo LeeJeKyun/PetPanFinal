@@ -38,9 +38,10 @@
   
  <c:import url="../../layout/adminHeader.jsp"/>
 <body>
+<div class="container2">
 <div>
 	<form action="/petpan/admin/reportboard/delete" method="get">
-		<table>
+		<table class = "table table-striped" style="width:800px">
 		<tr>
 		<th>신고번호</th>
 		<th>신고자번호</th>
@@ -69,8 +70,9 @@
 		<input type="submit" id="codeIdSubmit" value="선택 삭제">
 		
 	</form>
-	
+	<c:import url="../../layout/adminpaging.jsp"/>
 </div>
-<c:import url="../../layout/paging.jsp"/>
+</div>
+
 </body>
 </html>

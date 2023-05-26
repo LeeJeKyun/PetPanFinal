@@ -83,13 +83,13 @@ $(function() {
    <div class="select">
       <label for="userId" >아이디</label><br><button>중복체크</button>
       <input type="text" id="userId" name="userId"  placeholder="6자 이상, 16자 이하의 영문자,숫자만 가능">
-      <span id="userid_msg" class="msg"></span>
+      <span id="userId_msg" class="msg"></span>
    </div>
       
    <div class="select">
       <label for="userPw">비밀번호</label>
       <input type="password" id="userPw" name="userPw" placeholder="알파벳 대소문자, 숫자, 특수기호 조합으로 6자 이상, 16자 이하로 작성">
-      <span id="userpw_msg" class="msg"></span>
+      <span id="userPw_msg" class="msg"></span>
    </div>
    
    <div class="select">

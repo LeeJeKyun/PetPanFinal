@@ -15,11 +15,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import admin.dto.Blacklist;
 import admin.dto.ReportBoard;
+import admin.dto.ReportComment;
 import admin.service.face.AdminService;
 import board.dto.Board;
+import board.dto.CommentTable;
 import member.dto.Member;
 import shop.dto.Shop;
 import shop.dto.ShopFile;
+import util.AdminPaging;
 import util.Paging;
 
 @RequestMapping("/admin")
@@ -29,13 +32,34 @@ public class AdminController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired AdminService adminService;
-
+	
+	@GetMapping("/")
+	public String goMain1() {
+		
+		return "redirect:/admin/main/main";
+	}
+	
+	@GetMapping("/main")
+	public String goMain2() {
+		
+		return "redirect:/admin/main/main";
+	}
+	
+	@GetMapping("/main/main")
+	public void goMain3() {
+		
+	}
+	
 	@GetMapping("/reportboard/list")
 	public void reportBoard(@RequestParam(defaultValue = "0") int curPage, Model model) {
+
 		logger.info("/reportboard [GET}");
 		logger.info("curPage = {}", curPage);
-		Paging paging = new Paging();
-		
+		AdminPaging paging = new AdminPaging();
+
+//		logger.info("/reportboard [GET}");
+//		logger.info("curPage = {}", curPage);
+	
 		paging = adminService.getPage(curPage);
 		
 //		logger.info("paging = {}", paging);
@@ -48,7 +72,7 @@ public class AdminController {
 	}
 	
 	@GetMapping("/reportboard/delete")
-	public String reportbComment(@RequestParam(value="delete",required=false) List<String> delete) {
+	public String deleteBoardReport(@RequestParam(value="delete",required=false) List<String> delete) {
 //		logger.info("delete = {}", delete);
 		adminService.deleteChecked(delete);
 		
@@ -107,11 +131,11 @@ public class AdminController {
 
 
 	//blacklist 수정
-	@GetMapping("/blacklist/list")
+	@GetMapping("/blacklist/board")
 	public void viewblackBoard(@RequestParam(defaultValue = "0") int curPage, Model model) {
 //		logger.info("/reportboard [GET}");
 //		logger.info("curPage = {}", curPage);
-		Paging paging = new Paging();
+		AdminPaging paging = new AdminPaging();
 		
 		paging = adminService.getPage(curPage);
 		
@@ -132,9 +156,58 @@ public class AdminController {
 		adminService.deleteblacklist(delete);
 		
 		
-		return "redirect:/admin/blacklist/list";
+		return "redirect:/admin/blacklist/board";
 		
 	}
+	
+	@GetMapping("/blacklist/insert")
+	public void blacklistinsert() {		
+		
+	}
+	
+	
+	@PostMapping("/blacklist/insert")
+	public void blacklistdeleteproc(Blacklist blacklist) {
+		
+		
+		logger.info("blacklist = {}", blacklist);
+		adminService.insertblacklist(blacklist);
+
+	}
+	
+	
+	@GetMapping("/member/board")
+	public void viewUserBoard(@RequestParam(defaultValue = "0") int curPage, Model model) {
+
+		AdminPaging paging = new AdminPaging();
+		
+		paging = adminService.getPage(curPage);
+		
+
+		
+		List<Member> list = adminService.getMemberBoard(paging);
+		
+		model.addAttribute("list",list);
+		model.addAttribute("paging",paging);
+	}
+	
+	@GetMapping("/member/search")
+	public void viewsearchBoard(@RequestParam(defaultValue = "0") int curPage, String keyword, Model model ) {
+		
+		AdminPaging paging = new AdminPaging();
+		
+		paging = adminService.getPage(curPage);
+		
+		
+		
+		List<Member> list = adminService.getsearchMemberBoard(paging,keyword);
+		
+		model.addAttribute("list",list);
+		model.addAttribute("paging",paging);
+		
+	}
+	
+	
 	
 	@GetMapping("/shop/list")
 	public void ShopList() {
@@ -161,20 +234,76 @@ public class AdminController {
 		return "redirect:/admin/shop/list";
 	}
 	
-	//
-	@GetMapping("/blacklist/insert")
-	public void blacklistdelete(@RequestParam(value="delete",required=false) Blacklist blacklist) {
+	
+	@GetMapping("/reportcomment/list")
+	public void reportComment(@RequestParam(defaultValue = "0") int curPage, Model model) {
+		logger.info("/reportboard [GET}");
+		logger.info("curPage = {}", curPage);
+		AdminPaging paging = new AdminPaging();
 		
+		paging = adminService.getPageComment(curPage);
 		
-		logger.info("blacklist = {}", blacklist);
-		adminService.insertblacklist(blacklist);
+//		logger.info("paging = {}", paging);
 		
+		List<ReportComment> list = adminService.getReportComment(paging);
 		
+		model.addAttribute("list",list);
+		model.addAttribute("paging",paging);
 		
 	}
 	
-	public void test11() {
-		logger.info("123");
+	@GetMapping("/reportcomment/delete")
+	public String deleteCommentReport(@RequestParam(value="delete",required=false) List<String> delete) {
+//		logger.info("delete = {}", delete);
+		adminService.deleteCheckedComment(delete);
+		
+		
+		return "redirect:/admin/reportcomment/list";
+	}
+	
+	@GetMapping("/reportcomment/view")
+	public void viewReportComment(String coreportNo, Model model, ReportComment reportComment, 
+			// 신고자
+			Member domember, 
+			//피신고자
+			Member getmember,
+			CommentTable comment
+			) {
+		
+		reportComment = adminService.getReportViewComment(coreportNo);
+		//신고자 정보
+		domember = adminService.getDoMember(reportComment.getUserNo());
+		//피신고자 정보
+		getmember = adminService.getGetMemberComment(reportComment.getCommentNo());
+		//신고한 게시글 상세정보
+		comment = adminService.getComment(reportComment.getCommentNo());
+		
+		model.addAttribute("list", reportComment);
+		model.addAttribute("domember", domember);
+		model.addAttribute("getmember", getmember);
+		model.addAttribute("comment", comment);
+		
+	}
+	
+	@GetMapping("/reportcomment/commentdetail")
+	public void viewRefComment(String commentno, CommentTable comment, Model model) {
+		comment = adminService.getComment(Integer.valueOf(commentno));
+		model.addAttribute("comment", comment);
+	}
+	
+	@PostMapping("/reportcomment/view/delete")
+	public String deleteViewReportComment(
+			Integer coreportNo, 
+			@RequestParam(required=false) Integer docommentNo,
+			@RequestParam(required=false) Integer getdoblack,
+			@RequestParam(required=false) Integer getgetblack,
+			@RequestParam(required=false) String getgetblackres,
+			@RequestParam(required=false) String getdoblackres
+			) {
+
+		adminService.changeReportComment(coreportNo,docommentNo,getdoblack,getgetblack,getdoblackres,getgetblackres);
+		
+		return "redirect:/admin/reportcomment/list";
 	}
 	
 }

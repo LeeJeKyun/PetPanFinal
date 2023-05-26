@@ -14,11 +14,11 @@
 <!-- 	인터셉터 설정 -->
 <!-- 	<interceptors> -->
 <!-- 		<interceptor> -->
-		<!-- mapping path는 url -->
+ 		<!-- mapping path는 url --> 
 <!-- 			<mapping path="/HelloSpring"/> -->
 			<!-- 인터셉터가 적용되지 않도록 제외할 예외 페이지 -->
 <!-- 			<exclude-mapping path="/HelloSpring"/> -->
-			<!-- 인터셉터 클래스 지정 -->
+ 			<!-- 인터셉터 클래스 지정 --> 
 <!-- 			<beans:bean class="controller.BasicController"/> -->
 <!-- 		</interceptor> -->
 <!-- 	</interceptors> -->
@@ -34,13 +34,16 @@
 	  in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/images/**" location="/WEB-INF/classes/images/" />
-	<resources mapping = "/upload/**" location = "/upload" />
+	<resources mapping = "/upload/**" location = "/upload/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
+	
+	<!-- Json 응답용jsonView를 스프링 빈으로 등록한다. -->
+	<beans:bean id = "jsonView" class = "org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
 	
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 	<!-- 메모리에서 파일을 처리할 수 있는 최대 사이즈 : 1MB -->

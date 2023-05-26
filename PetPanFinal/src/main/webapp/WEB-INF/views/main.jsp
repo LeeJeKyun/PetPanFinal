@@ -19,16 +19,16 @@
 
 <div class="main">
 
-
+<!-- userId eq null || email eq null -->
 
 <c:choose>
-<c:when test="${empty login }">
+<c:when test="${login eq null  }">
 <%-- <h2>세션 상태: ${not empty login}</h2> --%>
 <button onclick="location.href='/member/login/join'">회원가입</button>
 <button onclick="location.href='/member/login/login'">로그인</button>
 </c:when>
 
-<c:when test="${login eq true }">
+<c:when test="${login eq true  }">
 <%-- <h2>세션 상태: ${login eq true }</h2> --%>
 <h2>안녕하세요, ${userName}님</h2>
 <button onclick="location.href='/member/login/mypage'">마이페이지</button>

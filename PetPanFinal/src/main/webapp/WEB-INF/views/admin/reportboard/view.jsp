@@ -5,8 +5,14 @@
 <title>Insert title here</title>
   <%@ taglib  prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
   <%@ taglib  prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+ <style type="text/css">
+.boardinfo{
+	width: 1000px;
+}
+</style>
  <c:import url="../../layout/adminHeader.jsp"/>
 <body>
+<div class="container2">
 <div>
 	<div>
 		  <h3>신고 정보</h3>
@@ -18,7 +24,7 @@
 		<hr>
 		<form action="/petpan/admin/reportboard/view/delete" method="post">
 		<input type = "hidden" name="boreportNo" value="${list.boreportNo}">
-		<div>
+		<div class="boardinfo">
 		  <h3>신고글 정보</h3>
 		  <p>게시물 번호: ${board.boardNo}</p>
 		  <p>게시물 제목: ${board.boardTitle}</p>
@@ -49,8 +55,9 @@
 		  피신고자 블랙리스트 추가 <input type="checkbox" id="delete" name="getgetblack" value="${getmember.userNo }">
 		</div>
 		<hr>
-		<input type="submit" id="codeIdSubmit" value="선택 삭제">
+		<input type="submit" id="codeIdSubmit" value="선택 게시글 삭제/선택 회원 블랙리스트 추가">
 		</form>
+	</div>
 	</div>
 </body>
 </html>
