@@ -7,17 +7,20 @@ import org.springframework.web.multipart.MultipartFile;
 
 import admin.dto.Blacklist;
 import admin.dto.ReportBoard;
+import admin.dto.ReportComment;
 import board.dto.Board;
+import board.dto.CommentTable;
 import member.dto.Member;
 import shop.dto.Shop;
 import shop.dto.ShopFile;
+import util.AdminPaging;
 import util.Paging;
 
 public interface AdminService {
 
-	public List<ReportBoard> getReportBoard(Paging paging);
+	public List<ReportBoard> getReportBoard(AdminPaging paging);
 
-	public Paging getPage(int curPage);
+	public AdminPaging getPage(int curPage);
 
 	public ReportBoard getReportView(String boreportNo);
 
@@ -29,7 +32,7 @@ public interface AdminService {
 
 	public void deleteChecked(List<String> delete);
 
-	public List<Blacklist> getBlacklistBoard(Paging paging);
+	public List<Blacklist> getBlacklistBoard(AdminPaging paging);
 
 	public void deleteblacklist(List<String> delete);
 
@@ -40,6 +43,23 @@ public interface AdminService {
 
 	public void changeReportBoard(Integer boreportNo, Integer doboardNo, Integer getdoblack, Integer getgetblack,
 			String getdoblackres, String getgetblackres);
+
+	public List<ReportComment> getReportComment(AdminPaging paging);
+
+	public AdminPaging getPageComment(int curPage);
+
+	public void deleteCheckedComment(List<String> delete);
+
+	public ReportComment getReportViewComment(String coreportNo);
+
+	public CommentTable getComment(int commentNo);
+
+	public void changeReportComment(Integer coreportNo, Integer docommentNo, Integer getdoblack, Integer getgetblack,
+			String getdoblackres, String getgetblackres);
+
+	public Member getGetMemberComment(int commentNo);
+
+
 
 	
 	
