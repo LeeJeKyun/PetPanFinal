@@ -110,43 +110,16 @@ table{
 	margin-bottom: 10px;
 	margin-right: 20px;
 }
+.like{
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+}
 </style>
 <script type="text/javascript">
 $(function(){
 	
-// 	// 댓글 길이가 50 넘어가면 길이 추가
-// 	if( $(".main-comment").css('height').split('px')[0] > 50 ){
-// 		var height = 60 + Number($(".main-comment").css('height').split('px')[0]);
-// 		$(".comment").css('height', height);
-// 	}
-	// 본문 길이가 450 넘어가면 길이 추가
-	if($("#content").css('height').split('px')[0] > 450){
-		var height = 100 + Number( $("#content").css('height').split('px')[0])
-		$("#main").css('height', height);
-	}
-	
-	$("#refresh").click(function(){
-		console.log("#refresh click");
-		
-		$.ajax({
-			type : "get" 
-				, url: "./comment"
-				, data : { 
-					
-				}
-				, dataType : "html"
-				, success : function(data){
-					console.log("AJAX 성공")
-					
-					console.log("data", data);
-				}
-				, error : function(){
-					console.log("AJAX 실패")	
-				}
-		})
-	})
-	
-// 	$("#delete-comment").click(function(){
+// 	$(".like").click(function(){
 // 		$.ajax({
 // 			type: ""
 // 			, url: ""
@@ -163,7 +136,48 @@ $(function(){
 // 		})
 // 	})
 	
+	// 게시글 신고 버튼 클릭시
+	$("#reportBtn").click(function(){
+		console.log("#reportBtn click")
+		window.open("./reportPopup?boardNo="+${map.BOARDNO }, "신고", "width=400, height=500, resizable=no");
+	})
+	$(".like").click(function(){
+		console.log("heart clicked");
+		
+		$.ajax({
+			type : "get" 
+				, url: "./recommend"
+				, data : { 
+					like: ${like}
+					, boardNo: ${boardNo}
+					, userNo: ${userNo}
+				}
+				, dataType : "html"
+				, success : function(data){
+					console.log("AJAX 성공")
+					
+					console.log("data1", data.like);
+					console.log("data2", data.count)
+					
+					likeChange(data.like, data.count);
+					
+				}
+				, error : function(){
+					console.log("AJAX 실패")	
+				}
+		})
+	})
+	
+	// 본문 길이가 450 넘어가면 길이 추가
+	if($("#content").css('height').split('px')[0] > 450){
+		var height = 100 + Number( $("#content").css('height').split('px')[0])
+		$("#main").css('height', height);
+	}
 })
+function likeChange(like, count){
+	console.log("likeChange() 호출됨");
+	
+}
 </script>
 <div id = "fcontainer">
 	<c:if test="${map.BOARDTYPENO == 2}">
@@ -179,7 +193,6 @@ $(function(){
 			<a href = "./delete/board?boardNo=${map.BOARDNO }"  id = "delete-board">게시글 삭제</a>
 		</div>
 <%-- 	</c:if> --%>
-	
 	<div id = "line-gray" style = "background-color: gray; width: 100%; height:2px;"></div>
 	
 	<div id = "info">
@@ -215,12 +228,26 @@ $(function(){
 		 	</div>
 		 </c:forEach>
 		 <br>
+		 
+			 <div id = "like-area"> 
+			 <c:if test="${like }">
+			 	<div style = "padding-left: 16px;"><img alt="like"  class = "like" src="<%=request.getContextPath() %>/resources/img/fillheart.png" ></div>
+				 <div>추천수 : ${map.RECOMMEND}</div>
+			 </c:if>
+			 
+			 <c:if test="${!like }">
+			 	<div style = "padding-left: 16px;"><img alt="like"  class = "like" src="<%=request.getContextPath() %>/resources/img/emptyheart.png"></div>
+			 	<div>추천수 : ${map.RECOMMEND}</div>
+			 </c:if>
+			 </div>
+		 
 		 </div>
+		 
+		 
 	 </div>
 		 <hr>
 		 <div id = "report-area">
-<%-- 		<a href = "./report?boardNo=${map.BOARDNO }&userNo=${userNo}"  class = "font-options">게시글 신고</a> --%>
-			<a href = "./report?boardNo=${map.BOARDNO }&userNo=1"  class = "font-options">게시글 신고</a>
+			<a href = "#"  id = "reportBtn" class = "font-options">게시글 신고</a>
 		</div>
 	 		<div id = "write-comment" >댓글 <textarea id = "write"  placeholder = "댓글을 작성하세요."></textarea>
 	 		<button type = "button" id = "writeBtn">작성</button>	

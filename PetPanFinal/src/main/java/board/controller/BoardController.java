@@ -4,6 +4,7 @@ import java.util.List;
 
 import java.util.Map;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -19,7 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import board.dto.Board;
 import board.dto.BoardFile;
+import board.dto.BoardRecommend;
 import board.dto.Notice;
+import board.dto.ReportBoard;
 import board.service.face.BoardService;
 import util.Paging;
 
@@ -160,8 +163,13 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	public void board( @RequestParam(required = false, defaultValue = "1") Integer curPage
 			, Model model
 			,	@RequestParam(required = true, defaultValue = "2")int category
-			, 	@RequestParam(required = false) String search) {
+			, 	@RequestParam(required = false) String search
+			//테스트용 세션
+			, HttpSession session) {
 		Paging paging = new Paging();
+		
+		//테스트 session  userNo
+		session.setAttribute("userNo", 1);
 		
 		paging.setSearch(search);
 		
@@ -182,28 +190,46 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	}
 	
 	@GetMapping("/board/detail")
-	public void detail(int boardNo, Model model) {
+	public void detail(int boardNo, HttpSession session ,Model model) {
 		// boardno, boardTitle, hit, recommend, writeDate, userName, content, boardTypeNo, writeDate
 		Map<String, Object> map =  boardService.getBoardOne(boardNo);
 		
 		// boardNo에 맞는 파일 가져오기
 		List<BoardFile> list = boardService.getBoardFile(boardNo);
 		
+		// 게시글 추천 눌렀는지 가져오기
+		BoardRecommend boardReco = new BoardRecommend();
+		boardReco.setBoardNo(boardNo);
+		//boardReco.setUserNo((int)session.getAttribute("userNo"));
+		boardReco.setUserNo(1);
+		
+		boolean like = boardService.isLike(boardReco); 
+		
 		logger.info("boardFile  {}", list);
 		logger.info("map {}", map);
+		logger.info("like : {}", like);
 		
+		model.addAttribute("like", like);
 		model.addAttribute("list", list);
 		model.addAttribute("map", map);
 	}
 	// 게시글 신고 구현중
-	@GetMapping("/board/report")
-	public String reportBoard(int boardNo, int userNo) {
+	@PostMapping("/board/reportPopup")
+	public void reportBoard( HttpSession session, ReportBoard reportBoard, String writeDetail) {
+		int userNo = (int) session.getAttribute("userNo");
 		
-		//이미 신고한 게시글이면 신고한 게시글이다
+		reportBoard.setUserNo(userNo);
 		
-		//아니면 신고 추가
+		logger.info("reportBoard {}", reportBoard);
+		logger.info("writeDetail {}", writeDetail);
+		boardService.boardReport(reportBoard, writeDetail);  
+			
 		
-		return "redirect:/board/board/detail?boardNo="+ boardNo;
+		//return "redirect:/board/board/detail?boardNo="+ reportBoard.getBoardNo();
+	}
+	@GetMapping("/board/reportPopup")
+	public void reportPopup(int boardNo, Model model) {
+		model.addAttribute("boardNo", boardNo);
 	}
 	@GetMapping("/board/delete/board")
 	public String deleteBoard(int boardNo) {
@@ -212,9 +238,17 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		logger.info("게시글 삭제 {}", boardNo);
 		return "redirect:/board/board";
 	}
+	// detail 페이지 추천 ajax 구현중
+	@GetMapping("/board/recommend")
+	public String recommend(boolean like, BoardRecommend boardReco, Model model) {
+//		model.addAttribute({
+//			"like"
+//		})
+		
+		return "jsonView";
+	}
 	//댓글 ajax 구현중
 	@GetMapping("/board/comment")
 	public void comment() {
-		
 	}
 }

@@ -7,7 +7,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import board.dto.Board;
 import board.dto.BoardFile;
+import board.dto.BoardRecommend;
 import board.dto.Notice;
+import board.dto.ReportBoard;
 import util.Paging;
 
 public interface BoardService {
@@ -129,6 +131,20 @@ public interface BoardService {
 	 * @param boardNo 삭제할 게시글 boardNo
 	 */
 	public void deleteBoard(int boardNo);
+
+	/**
+	 * 게시글 신고
+	 * @param writeDetail  기타일때 사유
+	 * @param 신고할 내용과  boardNo userNo 객체
+	 */
+	public void boardReport(ReportBoard reportBoard, String writeDetail);
+
+	/**
+	 * 게시글 추천 했는지 가져오기
+	 * @param boardReco 게시글 번호와 유저 번호 객체
+	 * @return 추천했으면 true 아니면 false
+	 */
+	public boolean isLike(BoardRecommend boardReco);
 
 	
 

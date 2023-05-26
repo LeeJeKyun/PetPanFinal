@@ -42,6 +42,9 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- Json 응답용jsonView를 스프링 빈으로 등록한다. -->
+	<beans:bean id = "jsonView" class = "org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
+	
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 	<!-- 메모리에서 파일을 처리할 수 있는 최대 사이즈 : 1MB -->
 		<beans:property name="maxInMemorySize" value="1048576"></beans:property>

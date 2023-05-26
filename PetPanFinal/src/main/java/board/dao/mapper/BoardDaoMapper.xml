@@ -185,4 +185,18 @@
 		delete from board
 		where boardno = #{boardno}
 	</delete>
+	<select id="selectIsReport" parameterType="board.dto.ReportBoard" resultType="int">
+		select count(*)
+		from reportboard
+		where boardNo = #{boardNo} AND userNo = #{userNo}
+	</select>
+	<insert id="insertReport" parameterType="board.dto.ReportBoard">
+		insert into reportboard(BOREPORTNO, reportdetail, report_date, complete, userno, boardno)
+		values(SEQ_REPORTBOARD.nextval , #{reportDetail}, sysdate, 'N', #{userNo}, #{boardNo})
+	</insert>
+	<select id="selectIsReco" parameterType="board.dto.BoardRecommend" resultType="int">
+		select count(*)
+		from boardrecommend
+		where boardNo = #{boardNo} AND userNo = #{userNo}
+	</select>
 </mapper>

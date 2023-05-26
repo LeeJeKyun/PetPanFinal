@@ -5,7 +5,9 @@ import java.util.Map;
 
 import board.dto.Board;
 import board.dto.BoardFile;
+import board.dto.BoardRecommend;
 import board.dto.Notice;
+import board.dto.ReportBoard;
 import util.Paging;
 
 public interface BoardDao {
@@ -180,4 +182,24 @@ public interface BoardDao {
 	 * @param boardNo 삭제할 게시글 
 	 */
 	public void deleteBoard(int boardNo);
+
+	/**
+	 * 신고 테이블에 동일 boardNo, 동일 userNo이 있는지 확인
+	 * @param reportBoard boardNo과 userNo이 있는 객체
+	 * @return 없으면 0
+	 */
+	public int selectIsReport(ReportBoard reportBoard);
+
+	/**
+	 * 신고처리
+	 * @param reportBoard 신고할 객체
+	 */
+	public void insertReport(ReportBoard reportBoard);
+
+	/**
+	 * boardrecommend , 유저가 게시글을 추천했나?
+	 * @param boardReco 조회할 userNo 과 boardNo
+	 * @return 추천했으면 1 안했으면 0
+	 */
+	public int selectIsReco(BoardRecommend boardReco);
 }

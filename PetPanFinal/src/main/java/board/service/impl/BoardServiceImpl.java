@@ -23,7 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 import board.dao.face.BoardDao;
 import board.dto.Board;
 import board.dto.BoardFile;
+import board.dto.BoardRecommend;
 import board.dto.Notice;
+import board.dto.ReportBoard;
 import board.service.face.BoardService;
 import util.Paging;
 
@@ -292,12 +294,27 @@ public class BoardServiceImpl implements BoardService{
 		// 없으면 게시글 삭제
 	}
 
-//	@Override
-//	public boolean checkReported(int boardNo) {
-//		if(boardDao.selectReportBoard(boardNo) > 0) {
-//			return true;
-//		}
-//		return false;
-//	}
+	@Override
+	public void boardReport(ReportBoard reportBoard, String writeDetail) {
+		//동일 유저가 동일 게시글 신고했는지 확인
+		if( boardDao.selectIsReport(reportBoard) > 0) {
+			//있다 처리 안함
+		}else {
+			// 없다 신고 처리
+			if("기타".equals(reportBoard.getReportDetail())) {
+				reportBoard.setReportDetail(writeDetail);
+			}
+			boardDao.insertReport(reportBoard);
+		}
+	}
+
+	@Override
+	public boolean isLike(BoardRecommend boardReco) {
+		
+		if( boardDao.selectIsReco(boardReco) > 0 ) {
+			return true;
+		}
+		return false;
+	}
 	
 }
