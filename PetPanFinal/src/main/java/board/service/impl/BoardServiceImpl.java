@@ -179,6 +179,7 @@ public class BoardServiceImpl implements BoardService{
 		map.put("userNo", userNo);
 		
 		if( boardDao.selectRecommendCntByBoardNoUserNo(map) > 0) {
+			logger.info("추천이있다.");
 			return true;
 		}
 		

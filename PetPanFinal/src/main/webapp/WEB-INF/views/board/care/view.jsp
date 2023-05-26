@@ -98,6 +98,9 @@ table{
 <script type="text/javascript">
 function recommendAjax(boardNo){
 // 	console.log('boardNo : ' + boardNo)
+
+	$("#recommendBtn1").toggleClass("displayNone");
+	$("#recommendBtn2").toggleClass("displayNone");
 	$.ajax({
 		type : "get" 
 			, url: "./recommend"
@@ -228,14 +231,20 @@ $(function(){
 	 	<div id="recommend_count">
 	 		<span>추천수 : </span><span id="recommendCnt">${map.RECOMMEND }</span>
 	 	</div>
-	 	<c:if test="">
-		 	<img src="<%=request.getContextPath() %>/resources/img/emptyheart.png" width="22px" class="displayNone"
-		 		id="recommendBtn" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
- 		</c:if>
- 		<c:if test="">
-		 	<img src="<%=request.getContextPath() %>/resources/img/pilledheart.png" width="22px" class="displayNone"
-		 		id="recommendBtn" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
-		 </c:if>
+	 	<c:choose>
+			<c:when test="${empty isRecommended}">
+		 		<img src="<%=request.getContextPath() %>/resources/img/emptyheart.png" width="22px"
+		 			id="recommendBtn1" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
+		 		<img src="<%=request.getContextPath() %>/resources/img/pilledheart.png" width="22px" class="displayNone"
+		 			id="recommendBtn2" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
+	 		</c:when>
+	 		<c:otherwise>
+		 		<img src="<%=request.getContextPath() %>/resources/img/emptyheart.png" width="22px" class="displayNone"
+		 			id="recommendBtn1" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
+		 		<img src="<%=request.getContextPath() %>/resources/img/pilledheart.png" width="22px"
+		 			id="recommendBtn2" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
+			 </c:otherwise>
+		 </c:choose>
 	 </div>
 		 <hr>
 	 <table>

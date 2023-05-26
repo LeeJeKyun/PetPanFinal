@@ -146,11 +146,12 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 			userNo = boardService.getUserno(loginid);
 			
 			isRecommended = boardService.isRecommended(boardNo, userNo);
+			logger.info("isRecommended : {} ", isRecommended);
 		}
 		
 		model.addAttribute("map", map);
 		model.addAttribute("fileList", fileList);
-		model.addAttribute("idRecommended", isRecommended);
+		model.addAttribute("isRecommended", isRecommended);
 		
 	}
 	
