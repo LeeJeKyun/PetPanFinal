@@ -225,7 +225,7 @@ public class AdminServiceImpl implements AdminService{
 		
 	}
 	@Override
-	public List<Member> getMemberBoard(Paging paging) {
+	public List<Member> getMemberBoard(AdminPaging paging) {
 
 		List<Member> list = adminDao.MemberselectAll(paging);
 		
@@ -237,7 +237,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	@Override
-	public List<Member> getsearchMemberBoard(Paging paging, String keyword) {
+	public List<Member> getsearchMemberBoard(AdminPaging paging, String keyword) {
 			Map<String,Object> map = new HashMap<>();
 			
 			map.put("paging", paging);

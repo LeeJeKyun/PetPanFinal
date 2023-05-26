@@ -179,7 +179,7 @@ public class AdminController {
 	@GetMapping("/member/board")
 	public void viewUserBoard(@RequestParam(defaultValue = "0") int curPage, Model model) {
 
-		Paging paging = new Paging();
+		AdminPaging paging = new AdminPaging();
 		
 		paging = adminService.getPage(curPage);
 		
@@ -194,7 +194,7 @@ public class AdminController {
 	@GetMapping("/member/search")
 	public void viewsearchBoard(@RequestParam(defaultValue = "0") int curPage, String keyword, Model model ) {
 		
-		Paging paging = new Paging();
+		AdminPaging paging = new AdminPaging();
 		
 		paging = adminService.getPage(curPage);
 		

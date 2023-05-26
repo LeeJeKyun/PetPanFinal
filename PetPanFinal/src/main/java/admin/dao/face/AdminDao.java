@@ -53,7 +53,7 @@ public interface AdminDao {
 
 	public void insertBlacklist(Blacklist blacklist);
 
-	public List<Member> MemberselectAll(Paging paging);
+	public List<Member> MemberselectAll(AdminPaging paging);
 
 	public List<Member> MemberselectByKeyword(Map<String, Object> map);
 

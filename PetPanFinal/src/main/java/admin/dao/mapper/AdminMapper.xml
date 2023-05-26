@@ -46,7 +46,7 @@
 <!-- 	DELETE FROM REPORTBOARD where boreportno = #{deleteNo} -->
 <!-- 	</delete> -->
 	
-<<<<<<< HEAD
+
 	<select id="BlacklistselectAll" resultType="admin.dto.Blacklist" parameterType="util.Paging">
 		SELECT *
 		FROM (
@@ -58,13 +58,8 @@
 		    ) B
 		) 
 		WHERE rnum BETWEEN #{startNo} AND #{endNo}
-		
-=======
-	<select id="BlacklistselectAll" resultType="admin.dto.Blacklist" parameterType="util.AdminPaging">
-		SELECT blackno, blackdate, reason, userno
-		FROM blacklist
->>>>>>> refs/remotes/origin/master
 	</select>
+
 	
 	<select id="selectObjectNo" resultType="int">
 		SELECT SEQ_SHOP.NEXTVAL FROM DUAL
@@ -166,4 +161,4 @@
 		SELECT userno FROM CommentTable WHERE commentno = #{commentNo}
 	</select>
 	
-  </mapper>
+</mapper>
