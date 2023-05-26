@@ -1,4 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <%@ page session="false" %>
 <html>
 <head>
@@ -47,9 +50,7 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
        <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     
-<<<<<<< HEAD
     <script src="/resources/assets/js/config.js"></script>
-=======
     <script src="<%=request.getContextPath() %>/resources/assets/js/config.js"></script>
     
     <script type="text/javascript">
@@ -112,7 +113,7 @@
 
 
 /*   	margin-top: 10px; */
- /* 특정 div의 위쪽 여백 설정 */
+ /* í¹ì  divì ììª½ ì¬ë°± ì¤ì  */
 	}
 	.logon {
   	position: absolute;
@@ -123,7 +124,7 @@
     
 
 /*   	margin-top: 10px; */
- /* 특정 div의 위쪽 여백 설정 */
+ /* í¹ì  divì ììª½ ì¬ë°± ì¤ì  */
 	}
 	.welcome{
 	position: absolute;
@@ -137,7 +138,6 @@
 	
 	
 	</style>
->>>>>>> refs/remotes/origin/master
   </head>
 
 </head>
