@@ -1,6 +1,7 @@
 package admin.dao.face;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.ui.Model;
 
@@ -46,6 +47,10 @@ public interface AdminDao {
 	public int deleteBlacklist(int deleteNo);
 
 	public void insertBlacklist(Blacklist blacklist);
+
+	public List<Member> MemberselectAll(Paging paging);
+
+	public List<Member> MemberselectByKeyword(Map<String, Object> map);
 
 
 }

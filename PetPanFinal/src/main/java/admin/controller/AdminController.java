@@ -107,7 +107,7 @@ public class AdminController {
 
 
 	//blacklist 수정
-	@GetMapping("/blacklist/list")
+	@GetMapping("/blacklist/board")
 	public void viewblackBoard(@RequestParam(defaultValue = "0") int curPage, Model model) {
 //		logger.info("/reportboard [GET}");
 //		logger.info("curPage = {}", curPage);
@@ -132,9 +132,58 @@ public class AdminController {
 		adminService.deleteblacklist(delete);
 		
 		
-		return "redirect:/admin/blacklist/list";
+		return "redirect:/admin/blacklist/board";
 		
 	}
+	
+	@GetMapping("/blacklist/insert")
+	public void blacklistinsert() {		
+		
+	}
+	
+	
+	@PostMapping("/blacklist/insert")
+	public void blacklistdeleteproc(Blacklist blacklist) {
+		
+		
+		logger.info("blacklist = {}", blacklist);
+		adminService.insertblacklist(blacklist);
+
+	}
+	
+	
+	@GetMapping("/member/board")
+	public void viewUserBoard(@RequestParam(defaultValue = "0") int curPage, Model model) {
+
+		Paging paging = new Paging();
+		
+		paging = adminService.getPage(curPage);
+		
+
+		
+		List<Member> list = adminService.getMemberBoard(paging);
+		
+		model.addAttribute("list",list);
+		model.addAttribute("paging",paging);
+	}
+	
+	@GetMapping("/member/search")
+	public void viewsearchBoard(@RequestParam(defaultValue = "0") int curPage, String keyword, Model model ) {
+		
+		Paging paging = new Paging();
+		
+		paging = adminService.getPage(curPage);
+		
+		
+		
+		List<Member> list = adminService.getsearchMemberBoard(paging,keyword);
+		
+		model.addAttribute("list",list);
+		model.addAttribute("paging",paging);
+		
+	}
+	
+	
 	
 	@GetMapping("/shop/list")
 	public void ShopList() {
@@ -161,20 +210,5 @@ public class AdminController {
 		return "redirect:/admin/shop/list";
 	}
 	
-	//
-	@GetMapping("/blacklist/insert")
-	public void blacklistdelete(@RequestParam(value="delete",required=false) Blacklist blacklist) {
-		
-		
-		logger.info("blacklist = {}", blacklist);
-		adminService.insertblacklist(blacklist);
-		
-		
-		
-	}
-	
-	public void test11() {
-		logger.info("123");
-	}
 	
 }

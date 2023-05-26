@@ -2,7 +2,9 @@ package admin.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
@@ -214,6 +216,37 @@ public class AdminServiceImpl implements AdminService{
 			blacklist.setReason(getgetblackres);
 		}
 		
+		
+		
+	}
+	@Override
+	public List<Member> getMemberBoard(Paging paging) {
+
+		List<Member> list = adminDao.MemberselectAll(paging);
+		
+		for(Member b : list) {
+			System.out.println(b);
+		}
+		
+		return list;
+	}
+	
+	@Override
+	public List<Member> getsearchMemberBoard(Paging paging, String keyword) {
+			Map<String,Object> map = new HashMap<>();
+			
+			map.put("paging", paging);
+			map.put("keyword", keyword);
+	
+		
+		
+			List<Member> list = adminDao.MemberselectByKeyword(map);
+		
+		for(Member b : list) {
+			System.out.println(b);
+		}
+		
+		return list;
 	}
 
 	

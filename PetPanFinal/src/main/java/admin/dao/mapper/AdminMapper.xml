@@ -45,8 +45,17 @@
 <!-- 	</delete> -->
 	
 	<select id="BlacklistselectAll" resultType="admin.dto.Blacklist" parameterType="util.Paging">
-		SELECT blackno, blackdate, reason, userno
-		FROM blacklist
+		SELECT *
+		FROM (
+		    SELECT rownum rnum, B.*
+		    FROM (
+		        SELECT blackno, blackdate, reason, userno
+		        FROM blacklist
+		        ORDER BY blackno DESC
+		    ) B
+		) 
+		WHERE rnum BETWEEN #{startNo} AND #{endNo}
+		
 	</select>
 	
 	<select id="selectObjectNo" resultType="int">
@@ -81,5 +90,35 @@
 		INSERT INTO blacklist(blackno, blackdate, reason, userno)
 		VALUES(seq_blacklist.nextval,sysdate,#{reason},#{userno})
 	</insert>
+
+	<select id="MemberselectAll" resultType="member.dto.Member" parameterType="util.Paging">
+			SELECT *
+		FROM (
+		    SELECT rownum rnum, A.*
+		    FROM (
+		        SELECT userno, username, userid, userpw, email,address, zipcode, phone, positionno
+		        FROM member
+		        ORDER BY userno DESC
+		    ) A
+		) 
+		WHERE rnum BETWEEN #{startNo} AND #{endNo}
+		
+	</select>
+	
+	
+	<select id="MemberselectByKeyword" resultType="member.dto.Member" parameterType="hashmap">
+			SELECT *
+		FROM (
+		    SELECT rownum rnum, A.*
+		    FROM (
+		        SELECT userno, username, userid, userpw, email,address, zipcode, phone, positionno
+		        FROM member
+		        where lower(username) LIKE lower('%${keyword}%')
+		        ORDER BY userno DESC
+		    ) A
+		) 
+		WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+		
+	</select>
 	
   </mapper>
