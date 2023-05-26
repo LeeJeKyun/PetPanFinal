@@ -6,7 +6,7 @@ public interface KakaoService {
 
 
 	/**
-	 * ���� �ڵ� 
+	 * ���� 
 	 * 
 	 * @param code
 	 * @return 
@@ -14,14 +14,14 @@ public interface KakaoService {
 	public String getAccessToken(String code);
 
 	/**
-	 * �α׾ƿ�
+	 * �
 	 * 
 	 * @param attribute
 	 */
 	public void kakaoLogout(String access_Token);
 
 	/**
-	 * access Token���� �г��� ,�̸��� ��������
+	 * access 
 	 * 
 	 * @param access_Token
 	 * @return

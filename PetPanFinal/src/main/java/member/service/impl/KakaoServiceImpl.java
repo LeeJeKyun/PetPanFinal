@@ -26,6 +26,7 @@ import member.service.face.KakaoService;
 public class KakaoServiceImpl implements KakaoService{
 	
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+	
 	@Autowired KakaoDao kakaoDao;
 	
 	@Override
@@ -56,7 +57,7 @@ public class KakaoServiceImpl implements KakaoService{
 	            
 	            //    결과 코드가 200이라면 성공
 	            int responseCode = conn.getResponseCode();
-	            System.out.println("responseCode : " + responseCode);
+	            logger.info("responseCode : " + responseCode);
 	 
 //	          	요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
 	            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -66,7 +67,7 @@ public class KakaoServiceImpl implements KakaoService{
 	            while ((line = br.readLine()) != null) {
 	                result += line;
 	            }
-	            System.out.println("response body : " + result);
+	            logger.info("response body : " + result);
 	            
 //	          	Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
 //	            JsonParser parser = new JsonParser();
@@ -76,8 +77,8 @@ public class KakaoServiceImpl implements KakaoService{
 	            access_Token = element.getAsJsonObject().get("access_token").getAsString();
 	            refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
 	            
-	            System.out.println("access_token : " + access_Token);
-	            System.out.println("refresh_token : " + refresh_Token);
+	            logger.info("access_token : " + access_Token);
+	            logger.info("refresh_token : " + refresh_Token);
 	            
 	            br.close();
 	            bw.close();
@@ -104,7 +105,7 @@ public class KakaoServiceImpl implements KakaoService{
 		        conn.setRequestProperty("Authorization", "Bearer " + access_Token);
 		        
 		        int responseCode = conn.getResponseCode();
-		        System.out.println("responseCode : " + responseCode);
+		        logger.info("responseCode : " + responseCode);
 		        
 		        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 		        
@@ -114,12 +115,12 @@ public class KakaoServiceImpl implements KakaoService{
 		        while ((line = br.readLine()) != null) {
 		            result += line;
 		        }
-		        System.out.println("response body : " + result);
+		        logger.info("response body : " + result);
 		        
 //	            JsonElement element = JsonParser.parseString(result);
 //		        
 //		        JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
-////		        JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+//			    JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 //		        JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 //		        String nickname = properties.getAsJsonObject().get("nickname").getAsString();
 //		        String email = kakao_account.getAsJsonObject().get("email").getAsString();
@@ -127,13 +128,38 @@ public class KakaoServiceImpl implements KakaoService{
 		        Gson gson = new Gson();
 	            
 		        JsonElement je = gson.fromJson(result, JsonElement.class);
-		        String email = je.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
+		        logger.info("je :{}", je);
+		        
+		        String email = null;
+		        		
+		        try {
+				
+		        	email =	je.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
+
+		        } catch (NullPointerException e) {
+
+					email =  "none";
+				}
+		        	
+		        
+		        
+
+		        if(email == null) {
+		        	
+		        	email = "none";
+		        
+		        }
+		        	
+		        
 		        String id = je.getAsJsonObject().get("id").getAsString();
 		        
-		        
+
 //		        userInfo.put("nickname", nickname);
 		        userInfo.put("email", email);
 		        userInfo.put("id", id);
+		        
+			      
+		        
 		        
 		    } catch (IOException e) {
 		        e.printStackTrace();
@@ -156,7 +182,7 @@ public class KakaoServiceImpl implements KakaoService{
 		        conn.setRequestProperty("Authorization", "Bearer " + access_Token);
 		        
 		        int responseCode = conn.getResponseCode();
-		        System.out.println("responseCode : " + responseCode);
+		        logger.info("responseCode : " + responseCode);
 		        
 		        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 		        
@@ -166,7 +192,7 @@ public class KakaoServiceImpl implements KakaoService{
 		        while ((line = br.readLine()) != null) {
 		            result += line;
 		        }
-		        System.out.println(result);
+		        logger.info(result);
 		    } catch (IOException e) {
 		        e.printStackTrace();
 		    }   

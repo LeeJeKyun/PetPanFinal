@@ -71,7 +71,7 @@ $(function() {
 
 <div id="join">
 
-<form action="./join" method="post">
+<form action="./socialjoin" method="post">
 
    
    <div class="select">
@@ -83,13 +83,13 @@ $(function() {
    <div class="select">
       <label for="userId" >아이디</label><br><button>중복체크</button>
       <input type="text" id="userId" name="userId"  placeholder="6자 이상, 16자 이하의 영문자,숫자만 가능">
-      <span id="userId_msg" class="msg"></span>
+      <span id="userid_msg" class="msg"></span>
    </div>
       
    <div class="select">
       <label for="userPw">비밀번호</label>
       <input type="password" id="userPw" name="userPw" placeholder="알파벳 대소문자, 숫자, 특수기호 조합으로 6자 이상, 16자 이하로 작성">
-      <span id="userPw_msg" class="msg"></span>
+      <span id="userpw_msg" class="msg"></span>
    </div>
    
    <div class="select">
@@ -125,6 +125,8 @@ $(function() {
       <label><input type="radio" name="positionNo" value="1"> 일반 </label>
       <label><input type="radio" name="positionNo" value="2"> 병원관계자 </label>
    </div>
+   
+   
    
    
    <div class="select">

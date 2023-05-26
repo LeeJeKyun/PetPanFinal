@@ -23,23 +23,40 @@
   	</insert>
   	
   	
-  	
-<!--   	<select id="selectAccomodation" parameterType="int" resultType="member.dto.Lalo"> -->
-<!--     	SELECT AC_NO, NAME, INFO, AC_IMG,  -->
-<!--     	TO_CHAR(latitude, 'FM990.000000') AS latitude,  -->
-<!--  	   	TO_CHAR(longitude, 'FM990.000000') AS longitude,  -->
-<!--   	 	ADDRESS, AC_PHONE, AC_ACCOUNT, AC_PRICE, CATEGORY, MEM_NO -->
-<!--   	  	FROM lalo -->
-<!--    		WHERE AC_NO = #{ac_no} -->
-<!--   	  	ORDER BY AC_NO ASC -->
-<!-- 	</select> -->
+  	<select id="selectlogin" resultType="member.dto.Member" parameterType="member.dto.Member">
+  		SELECT * FROM member
+  		WHERE userId=#{userId}
+  	</select>
   	
   	
+  	 <select id ="selcetBlack" resultType="int">
+  		SELECT COUNT(*)
+  		FROM blacklist
+  		WHERE userNo=#{userNo}
+  	</select>
+  	
+  	 <select id ="selectKakao" resultType="int">
+  		SELECT COUNT(*)
+  		FROM member
+  		WHERE suserno=#{suserno}
+  	</select>
+  	
+  	<insert id="kakaoinsert" parameterType="member.dto.Member">
+  		INSERT INTO member( userno, username, userid, userpw, email, address, zipcode, phone, detailaddress, positionno, latitude, longitude, suserno )
+  		VALUES( seq_member.nextval, #{userName}, #{userId}, #{userPw}, #{email},  #{address}, #{zipCode}, #{phone}, #{detailaddress}, #{positionNo}, #{latitude}, #{longitude}, #{suserno}  )
+  	</insert>
+  	
+<!--   	 <update id="upadatekakaoJoin" parameterType="member.dto.Member"> -->
+<!--   		UPDATE member( username, userid, userpw, email, address, zipcode, phone, detailaddress, positionno, latitude, longitude ) -->
+<!--   		SET( #{userName}, #{userId}, #{userPw}, #{email},  #{address}, #{zipCode}, #{phone}, #{detailaddress}, #{positionNo}, #{latitude}, #{longitude}  ) -->
+<!--   		WHERE username = '카카오' -->
+<!--   	</update> -->
   	
   	
-  	
-  	
-  	
-  	
+<!--   	<select id ="loginProc" resultType="int"> -->
+<!--   		SELECT COUNT(*) -->
+<!--   		FROM sociallogin -->
+<!--   		WHERE userId=#{userId} AND userPw=#{userPw} -->
+<!--   	</select> -->
   	
   </mapper>

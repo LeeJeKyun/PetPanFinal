@@ -10,16 +10,71 @@
 function login(){
 
    if($("#login_form").$("#userId").value()==""){
-      $("#userid_msg").html("아이디를 잘못 입력했습니다")
+      $("#userid_msg").html("아이디를 입력하세요!")
       $("#userid").focus()
 //       return
    }else if($("#login_form").$("#userPw").value()==""){
-      $("#userpw_msg").html("비밀번호를 잘못 입력했습니다")
+      $("#userpw_msg").html("비밀번호를 입력하세요!")
       $("#userpw").focus()
 //       return
    }
    $("#login_form").submit()
 //    return true
+}
+
+// 아이디 저장하기 (쿠키)
+
+$(document).ready(function(){
+	  
+    var key = getCookie("key");
+    $("#userId").val(key); 
+      
+    if($("#userId").val() != ""){
+        $("#rememberId").attr("checked", true); 
+    }
+      
+    $("#rememberId").change(function(){ 
+        if($("#rememberId").is(":checked")){ 
+            setCookie("key", $("#userId").val(), 7); 
+        }else{ 
+            deleteCookie("key");
+        }
+    });
+      
+    
+    $("#userId").keyup(function(){ 
+        if($("#rememberId").is(":checked")){ 
+            setCookie("key", $("#userId").val(), 7); 
+        }
+    });
+});
+
+
+function setCookie(cookieName, value, exdays){
+    var exdate = new Date();
+    exdate.setDate(exdate.getDate() + exdays);
+    var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
+    document.cookie = cookieName + "=" + cookieValue;
+}
+  
+function deleteCookie(cookieName){
+    var expireDate = new Date();
+    expireDate.setDate(expireDate.getDate() - 1);
+    document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+}
+  
+function getCookie(cookieName) {
+    cookieName = cookieName + '=';
+    var cookieData = document.cookie;
+    var start = cookieData.indexOf(cookieName);
+    var cookieValue = '';
+    if(start != -1){
+        start += cookieName.length;
+        var end = cookieData.indexOf(';', start);
+        if(end == -1)end = cookieData.length;
+        cookieValue = cookieData.substring(start, end);
+    }
+    return unescape(cookieValue);
 }
 
 
@@ -96,9 +151,12 @@ input:focus {
    
    
    <div class="select">
-   
+<%--    <c:if test="${not empty cookie.user_check}"> --%>
+<%--    		<c:set value="checked" var="checked"/> --%>
+<%--    	</c:if> --%>
+   	
       <label for="userId" ></label>
-      <input type="text" class="boxcolor" id="userId" name="userId"  placeholder="아이디">
+      <input type="text" class="boxcolor" id="userId" name="userId" placeholder="아이디">
       <span id="userid_msg" class="msg" style="color:red"></span>
    </div>
       
@@ -108,12 +166,11 @@ input:focus {
       <span id="userpw_msg" class="msg" style="color:red"></span>
    
    </div>
-   
    <div class="select">
-      <input type="checkbox">아이디 저장
+      <input type="checkbox" name="rememberId" id="rememberId"  >아이디 저장
       <span id="login_error" class="msg" style="color:red"></span>
    </div>
-         
+    
    <div class="select">
       <button id="btn" onclick="login()">로그인</button>
    </div>
@@ -123,7 +180,7 @@ input:focus {
    </div>
       
    <div class="kakao">
-   <c:import url="../login/loginkakao.jsp" />
+   <c:import url="../login/kakaoLogin.jsp" />
    </div>
   
       

@@ -27,13 +27,6 @@
 	<dependencies>
 	
 	
-	<dependency>
-	    <groupId>jstl</groupId>
-	    <artifactId>jstl</artifactId>
-	    <version>1.2</version>
-	</dependency>
-
-	
 	<dependency> 
 	    <groupId>com.fasterxml.jackson.core</groupId> 
 	    <artifactId>jackson-databind</artifactId> 
@@ -70,6 +63,7 @@
 		    <artifactId>commons-fileupload</artifactId>
 		    <version>1.5</version>
 		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
 		<dependency>
 		    <groupId>com.google.code.gson</groupId>
