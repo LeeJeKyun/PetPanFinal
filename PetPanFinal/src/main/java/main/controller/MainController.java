@@ -14,7 +14,7 @@ public class MainController {
 	
 	@GetMapping("/")
 	public String main() {
-		logger.info("메인");
+//		logger.info("메인");
 		
 		return "/main";
 	}

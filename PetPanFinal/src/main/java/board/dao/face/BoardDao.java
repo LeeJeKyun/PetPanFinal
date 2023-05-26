@@ -5,7 +5,9 @@ import java.util.Map;
 
 import board.dto.Board;
 import board.dto.BoardFile;
+import board.dto.BoardRecommend;
 import board.dto.Notice;
+import board.dto.ReportBoard;
 import util.Paging;
 
 public interface BoardDao {
@@ -71,7 +73,43 @@ public interface BoardDao {
 	 * @return
 	 */
 	public int selectBoardSeqNext();
-
+	
+	/**
+	 * boardNo을 기준으로 해당하는 boardFile의 리스트를 가져오는 메소드
+	 * 
+	 * @param boardNo
+	 * @return
+	 */
+	public List<BoardFile> selectCareBoardFile(int boardNo);
+	
+	/**
+	 * 게시글 추천 내역이 있는지 가져오기 있을경우 1, 없을경우 0
+	 * 
+	 * @return
+	 */
+	public int selectRecommendCntByBoardNoUserNo(Map<String, Integer> map);
+	
+	/**
+	 * 게시글의 추천내역 올리기
+	 * 
+	 * @param map
+	 */
+	public void insertRecommendToCare(Map<String, Integer> map);
+	
+	/**
+	 * 게시글의 추천내역 삭제하기
+	 * 
+	 * @param map
+	 */
+	public void deleteRecommendToCare(Map<String, Integer> map);
+	
+	/**
+	 * 해당 게시글의 추천갯수 가져오기
+	 * 
+	 * @param boardNo
+	 * @return
+	 */
+	public int selectRecommendCnt(int boardNo);
 	
 	
 	//--------------------------제균--------------------------------
@@ -145,4 +183,59 @@ public interface BoardDao {
 	 * @return 상세보기할 게시글의 정보
 	 */
 	public Map<String, Object> selectBoardOne(int boardNo);
+
+	/**
+	 * boardNo에 맞는 파일들 select
+	 * 
+	 * @param boardNo 가져올 파일들의 boardNo
+	 * @return   boardNo에 맞는 파일들 
+	 */
+	public List<BoardFile> selectFiles(int boardNo);
+
+	/**
+	 * boardNo 게시글 삭제
+	 * boardtypeno을 5로 변경
+	 * @param boardNo 삭제할 게시글의 boardNo
+	 */
+	public void updateBoard(int boardNo);
+
+	/**
+	 * 신고테이블에 boardNo이 있는지 검사
+	 * 
+	 * @param boardNo select할 boardNo
+	 * @return 있으면 true 없으면 false
+	 */
+	public int selectReportBoard(int boardNo);
+
+	/**
+	 * 게시글 파일 삭제
+	 * @param boardNo 삭제할 게시글 파일  
+	 */
+	public void deleteBoardFile(int boardNo);
+
+	/**
+	 * 게시글 삭제 
+	 * @param boardNo 삭제할 게시글 
+	 */
+	public void deleteBoard(int boardNo);
+
+	/**
+	 * 신고 테이블에 동일 boardNo, 동일 userNo이 있는지 확인
+	 * @param reportBoard boardNo과 userNo이 있는 객체
+	 * @return 없으면 0
+	 */
+	public int selectIsReport(ReportBoard reportBoard);
+
+	/**
+	 * 신고처리
+	 * @param reportBoard 신고할 객체
+	 */
+	public void insertReport(ReportBoard reportBoard);
+
+	/**
+	 * boardrecommend , 유저가 게시글을 추천했나?
+	 * @param boardReco 조회할 userNo 과 boardNo
+	 * @return 추천했으면 1 안했으면 0
+	 */
+	public int selectIsReco(BoardRecommend boardReco);
 }

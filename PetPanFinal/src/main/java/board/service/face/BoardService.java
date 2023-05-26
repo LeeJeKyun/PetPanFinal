@@ -6,7 +6,10 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import board.dto.Board;
+import board.dto.BoardFile;
+import board.dto.BoardRecommend;
 import board.dto.Notice;
+import board.dto.ReportBoard;
 import util.Paging;
 
 public interface BoardService {
@@ -52,6 +55,49 @@ public interface BoardService {
 	 * @return
 	 */
 	public List<Map<String, Object>> getCareList(Paging paging);
+	
+	/**
+	 * 품앗이 상세보기 페이지의 보드 정보 가져오기
+	 * 
+	 * @param boardNo
+	 * @return
+	 */
+	public Map<String, Object> getCareView(int boardNo);
+	
+	/**
+	 * 품앗이 상세보기 페이지의 boardFile정보 가져오기
+	 * 
+	 * @param boardNo
+	 * @return
+	 */
+	public List<BoardFile> getCareFile(int boardNo);
+
+	/**
+	 * 게시글에 추천하는 메소드
+	 * 내부적으로 추천을 했던 데이터가 있는 경우 추천하지않고
+	 * 추천을 하지 않았을 경우 추천된다.
+	 * 
+	 * @param boardNo
+	 * @param userNo
+	 */
+	public void recommendBoardCare(int boardNo, int userNo);
+
+	/**
+	 * 추천수를 가져오는 메소드
+	 * 
+	 * @param boardNo
+	 */
+	public int getRecommendCnt(int boardNo);
+
+	/**
+	 * 현재 로그인한 유저가 추천한 적이 있는 경우 true
+	 * 
+	 * @param boardNo
+	 * @param loginid
+	 * @return
+	 */
+	public boolean isRecommended(int boardNo, int userNo);
+
 
 	//---------------------------제균------------------------------------
 
@@ -115,5 +161,34 @@ public interface BoardService {
 	 * @return boardno, boardTitle, hit, recommend, writeDate, userName, content, boardTypeNo 
 	 */
 	public Map<String, Object> getBoardOne(int boardNo);
+
+	/**
+	 * boardNo에 맞는 파일들 가져오기
+	 * @param boardNo 가져올 파일의 boardNo
+	 * @return boardNo 게시글의 파일들
+	 */
+	public List<BoardFile> getBoardFile(int boardNo);
+
+	/**
+	 * 게시글 삭제
+	 * @param boardNo 삭제할 게시글 boardNo
+	 */
+	public void deleteBoard(int boardNo);
+
+	/**
+	 * 게시글 신고
+	 * @param writeDetail  기타일때 사유
+	 * @param 신고할 내용과  boardNo userNo 객체
+	 */
+	public void boardReport(ReportBoard reportBoard, String writeDetail);
+
+	/**
+	 * 게시글 추천 했는지 가져오기
+	 * @param boardReco 게시글 번호와 유저 번호 객체
+	 * @return 추천했으면 true 아니면 false
+	 */
+	public boolean isLike(BoardRecommend boardReco);
+
+	
 
 }
