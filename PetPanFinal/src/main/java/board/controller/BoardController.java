@@ -1,7 +1,6 @@
 package board.controller;
 
 import java.util.List;
-
 import java.util.Map;
 
 import javax.security.auth.message.callback.PrivateKeyCallback.Request;
@@ -16,11 +15,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import board.dto.Board;
 import board.dto.BoardFile;
+<<<<<<< HEAD
 import board.dto.BoardRecommend;
+=======
+>>>>>>> refs/remotes/origin/master
 import board.dto.Notice;
 import board.dto.ReportBoard;
 import board.service.face.BoardService;
@@ -44,7 +47,7 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 			Model model
 			
 			) {
-		logger.info("/board/notice [GET]");
+//		logger.info("/board/notice [GET]");
 		Paging paging = boardService.getNoticePaging(curPage, search);
 		
 		List<Map<String, Object>> list = boardService.getNoticeList(paging);
@@ -87,9 +90,9 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		
 		List<Map<String, Object>> list = boardService.getCareList(paging);
 		
-		
+		//확인해보기
 //		for(Map<String, Object> m : list) {
-//			logger.info("{}", m);
+//			logger.info("map -> {}", m);
 //		}
 		
 		model.addAttribute("paging", paging);
@@ -122,6 +125,78 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		
 		return "redirect:/board/care/list";
 		
+	}
+	
+	@GetMapping("/care/view")
+	public void care_view(
+			
+			int boardNo
+			, Model model
+			, HttpSession session
+			) {
+//		logger.info("boardNo {}", boardNo);
+		Map<String, Object> map = boardService.getCareView(boardNo);
+		logger.info("map : {}", map);
+		
+		List<BoardFile> fileList = boardService.getCareFile(boardNo);
+		logger.info("fileList : {}", fileList);
+		String loginid = null;
+		int userNo = 0;
+		boolean isRecommended = false;
+		
+		if(session.getAttribute("login") != null) {
+			loginid = (String)session.getAttribute("loginid");
+			userNo = boardService.getUserno(loginid);
+			
+			isRecommended = boardService.isRecommended(boardNo, userNo);
+		}
+		
+		model.addAttribute("map", map);
+		model.addAttribute("fileList", fileList);
+		model.addAttribute("idRecommended", isRecommended);
+		
+	}
+	
+//	@GetMapping("/care/recommend")
+//	public @ResponseBody int care_view_recommend (
+//				int boardNo
+//				, HttpSession session
+//			) {
+//		
+////		logger.info("boardNo : {}", boardNo);
+//		String loginid = (String)session.getAttribute("loginid");
+////		logger.info("loginid : {}", loginid);
+//		int userNo = boardService.getUserno(loginid);
+////		logger.info("userNo : {}", userNo);
+//		
+//		boardService.recommendBoardCare(boardNo, userNo);
+//		int recommendCnt = boardService.getRecommendCnt(boardNo);
+//		
+//		logger.info("recommendCnt : {}", recommendCnt);
+//		
+//		return recommendCnt;
+//		
+//	}
+	
+	@GetMapping("/care/recommend")
+	public void care_view_recommend (
+			int boardNo
+			, HttpSession session
+			, Model model
+			) {
+		
+//		logger.info("boardNo : {}", boardNo);
+		String loginid = (String)session.getAttribute("loginid");
+//		logger.info("loginid : {}", loginid);
+		int userNo = boardService.getUserno(loginid);
+//		logger.info("userNo : {}", userNo);
+		
+		boardService.recommendBoardCare(boardNo, userNo);
+		int recommendCnt = boardService.getRecommendCnt(boardNo);
+		
+		logger.info("recommendCnt : {}", recommendCnt);
+		
+		model.addAttribute("recommendCnt", recommendCnt);
 	}
 	
 	//-----------------------------제균--------------------------------------------

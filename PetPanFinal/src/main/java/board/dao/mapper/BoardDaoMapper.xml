@@ -13,7 +13,7 @@
 	<select id="selectNoticeAll" parameterType="util.Paging" resultType="hashmap">
 		SELECT * FROM(
     		SELECT rownum rnum, S.* 
-    		FROM ( 
+    		FROM (
     			SELECT noticeno,
         			NOTICETITLE,
         			noticecontent,
@@ -43,29 +43,32 @@
 	
 	<select id="selectCareAll" parameterType="util.Paging" resultType="hashmap">
 		SELECT * FROM(
-    		SELECT rownum rnum, S.* 
-   			FROM ( 
-        		SELECT boardno,
-            		boardtitle,
-            		content,
-         		   write_date AS writedate,
-         		   hit,
-         		   B.userno,
-         		   B.boardtypeno,
-         		   M.userid,
-         		   (SELECT count(*) FROM boardrecommend R WHERE B.userno = R.userno) AS recommend
-     	  		FROM Board B, Member M
-        		WHERE boardtitle LIKE '%${search}%' AND boardtypeno='1' AND B.userno = M.userno
-       			ORDER BY boardno DESC
-    	    ) S
-		)
+        	SELECT rownum rnum, S.* 
+        	FROM ( 
+            	SELECT B.boardno,
+                	boardtitle,
+                	content,
+                	write_date AS writedate,
+                	hit,
+                	B.userno,
+                	B.boardtypeno,
+                	M.userid,
+                	(SELECT count(*) FROM boardrecommend R WHERE B.userno = R.userno) AS recommend,
+                	bf.originname,
+                	bf.storedname
+                FROM Board B, Member M, BoardFile BF
+                WHERE boardtitle LIKE '%${search}%' AND boardtypeno=1 AND B.userno = M.userno
+                AND BF.fileno = (SELECT max(fileno) FROM boardFile BF WHERE B.boardno = BF.boardno(+))
+            	ORDER BY boardno DESC
+			) S
+        )
 		WHERE rnum BETWEEN #{startNo} AND #{endNo}
 	</select>
 	
 	<select id="selectUsernoByUserid" parameterType="string" resultType="int">
 		select userno
 		FROM member
-		WHERE userid = #{logindid}
+		WHERE userid = #{loginid}
 	</select>
 	
 	<select id="selectBoardSeqNext" resultType="int">
@@ -77,8 +80,35 @@
 		VALUES (#{boardNo}, #{boardTitle}, #{content}, sysdate, 0, #{userNo}, 1 )
 	</insert>
 	
+	<select id="selectCareBoardFile" parameterType="int" resultType="board.dto.BoardFile">
+		SELECT * FROM boardfile
+		WHERE boardNo = #{boardNo}
+		ORDER BY fileno
+	</select>
 	
-	<!-- ============================== -->
+	<select id="selectRecommendCntByBoardNoUserNo" resultType="int" parameterType="hashmap">
+		SELECT count(*) FROM boardrecommend
+		WHERE boardNo = #{boardNo} AND userNo = #{userNo}
+	</select>
+	
+	<insert id="insertRecommendToCare" parameterType="hashmap">
+		INSERT INTO boardrecommend (boardrecomno, boardno, userno)
+		VALUES ( seq_boardrecommend.nextval, #{boardNo}, #{userNo} )
+	</insert>
+	
+	<delete id="deleteRecommendToCare" parameterType="hashmap">
+		DELETE boardrecommend
+		WHERE boardNo=#{boardNo} AND userNo=#{userNo}
+	</delete>
+	
+	<select id="selectRecommendCnt" parameterType="int" resultType="int">
+		SELECT count(*) FROM boardrecommend
+		WHERE boardno=#{boardNo}
+	</select>
+	
+	<!-- ===============================제균=============================== -->
+	
+	
 	<select id = "selectFreeBoardCnt"  parameterType="string" resultType = "int">
 		SELECT count(*)
 		FROM board
