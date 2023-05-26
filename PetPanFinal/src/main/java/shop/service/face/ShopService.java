@@ -3,6 +3,7 @@ package shop.service.face;
 import java.util.List;
 import java.util.Map;
 
+import member.dto.Member;
 import shop.dto.Basket;
 import shop.dto.Shop;
 import util.ShopPaging;
@@ -19,6 +20,10 @@ public interface ShopService {
 	public void insertBasket(Basket basket);
 
 	public List<Map<String, Object>> selectBasket(Basket basket);
+
+	public List<Basket> newBasket(Basket basket);
+
+	public Member memberShop(Basket basket);
 
 
 

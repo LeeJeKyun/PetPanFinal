@@ -177,7 +177,6 @@ $(function(){
   	}
 
 </style>
-
 <div class="line">
 			</div>			
 			<div class="content_top">

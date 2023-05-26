@@ -13,6 +13,7 @@
 		SELECT * FROM (
 		    SELECT rownum rnum, B.* FROM (
 		        SELECT * FROM shop
+		        where deleteobj = 1
 		        ORDER BY objectno DESC
 		    ) B
 		)
@@ -21,7 +22,7 @@
 	
 	<select id="selectByObjno" resultType="shop.dto.Shop" parameterType="shop.dto.Shop">
 		select * from shop
-		where objectno = #{objectno}
+		where objectno = #{objectno} 
 	</select>
 	
 	<insert id="insertBasket" parameterType="shop.dto.Basket">
@@ -46,5 +47,15 @@
 		on a.objectno = b.objectno
 		where userno = ${userno}
 	</select>
+	
+	<select id="basket" resultType="shop.dto.Basket" parameterType="shop.dto.Basket">
+		select * from basket
+		where userno = #{userno}
+	</select>
 
+	<select id="memberShop" resultType="member.dto.Member" parameterType="shop.dto.Basket">
+		select * from member
+		where userno = #{userno}
+	</select>
+	
 </mapper>

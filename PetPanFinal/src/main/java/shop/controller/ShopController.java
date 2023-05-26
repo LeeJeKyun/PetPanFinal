@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import member.dto.Member;
 import shop.dto.Basket;
 import shop.dto.Shop;
 import shop.service.face.ShopService;
@@ -49,13 +51,16 @@ public class ShopController {
 		
 		model.addAttribute("view", view);
 	}
-	
+	@GetMapping("/basket")
+	public void basket() {
+		
+	}
 	@PostMapping("/basket")
 	public void basketPost(Basket basket, HttpSession session, Model model) {
 		logger.info("/basket [POST]");
 		
 //		basket.setUserno((int)session.getAttribute("userno"));
-		basket.setUserno(122);
+		basket.setUserno(100);
 		
 		//장바구니 담기
 		shopService.insertBasket(basket);
@@ -63,16 +68,37 @@ public class ShopController {
 		//장바구니 보여주기
 		List<Map<String, Object>> list = shopService.selectBasket(basket);
 		
-		model.addAttribute("list", list.get(list.size()-1));
+		
+		model.addAttribute("list", list);
 		
 	}
 	
+	
 	@GetMapping("/buy")
-	public void buy() {
-		
+	public void buy(Model model, Basket basket) {
+
 	}
 	
 	@PostMapping("/buy")
-	public void buyPost(Basket basket) {
+	public void buyPost(Model model, Basket basket) {
+//		basket.setUserno((int)session.getAttribute("userno"));
+		basket.setUserno(100);
+		System.out.println(basket);
+		
+//		List<Basket> list = shopService.newBasket(basket);
+		List<Map<String, Object>> list = shopService.selectBasket(basket);
+		model.addAttribute("list", list);
+		System.out.println("장바구니 리스트 : " + list);
+		
+		Member member = shopService.memberShop(basket);
+		
+		System.out.println("멤버 : " + member);
+		model.addAttribute("member", member);		
+
+		
+	}
+	@PostMapping("/pay")
+	public void pay() {
+		
 	}
 }
