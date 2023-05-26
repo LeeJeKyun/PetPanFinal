@@ -7,10 +7,12 @@
   
   	<select id="selectTotal" resultType="int">
 		SELECT count(*) FROM reportboard
-	
+	</select>
+	<select id="selectTotalComment" resultType="int">
+		SELECT count(*) FROM reportcomment
 	</select>
   
-	<select id="ReportBoardtselectAll" resultType="admin.dto.ReportBoard" parameterType="util.Paging">
+	<select id="ReportBoardtselectAll" resultType="admin.dto.ReportBoard" parameterType="util.AdminPaging">
 		SELECT re.* FROM (SELECT rownum rnum, B.* FROM (
 		(SELECT boreportno, reportdetail, report_date AS reportDate, complete, r.userNo, m.userid, r.boardno, b.boardtitle
 		FROM reportboard r, board b, member m
@@ -44,10 +46,20 @@
 <!-- 	DELETE FROM REPORTBOARD where boreportno = #{deleteNo} -->
 <!-- 	</delete> -->
 	
+
 	<select id="BlacklistselectAll" resultType="admin.dto.Blacklist" parameterType="util.Paging">
-		SELECT blackno, blackdate, reason, userno
-		FROM blacklist
+		SELECT *
+		FROM (
+		    SELECT rownum rnum, B.*
+		    FROM (
+		        SELECT blackno, blackdate, reason, userno
+		        FROM blacklist
+		        ORDER BY blackno DESC
+		    ) B
+		) 
+		WHERE rnum BETWEEN #{startNo} AND #{endNo}
 	</select>
+
 	
 	<select id="selectObjectNo" resultType="int">
 		SELECT SEQ_SHOP.NEXTVAL FROM DUAL
@@ -79,7 +91,74 @@
 	
 	<insert id="insertBlacklist">
 		INSERT INTO blacklist(blackno, blackdate, reason, userno)
-		VALUES(seq_blacklist.nextval,sysdate,#{reason},#{userno})
+		VALUES(seq_blacklist.nextval,CURRENT_DATE,#{reason},#{userno})
 	</insert>
+
+	<select id="MemberselectAll" resultType="member.dto.Member" parameterType="util.Paging">
+			SELECT *
+		FROM (
+		    SELECT rownum rnum, A.*
+		    FROM (
+		        SELECT userno, username, userid, userpw, email,address, zipcode, phone, positionno
+		        FROM member
+		        ORDER BY userno DESC
+		    ) A
+		) 
+		WHERE rnum BETWEEN #{startNo} AND #{endNo}
+		
+	</select>
 	
-  </mapper>
+	
+	<select id="MemberselectByKeyword" resultType="member.dto.Member" parameterType="hashmap">
+			SELECT *
+		FROM (
+		    SELECT rownum rnum, A.*
+		    FROM (
+		        SELECT userno, username, userid, userpw, email,address, zipcode, phone, positionno
+		        FROM member
+		        where lower(username) LIKE lower('%${keyword}%')
+		        ORDER BY userno DESC
+		    ) A
+		) 
+		WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+		
+	</select>
+	
+	<select id="ReportCommentselectAll" resultType="admin.dto.ReportComment" parameterType="util.AdminPaging">
+		SELECT re.* FROM (SELECT rownum rnum, B.* FROM (
+		(SELECT coreportno, reportdetail, report_date AS reportDate, complete, c.userNo, m.userid, c.commentno, ct.content
+		FROM reportcomment c, commenttable ct, member m
+		WHERE c.commentno = ct.commentno
+		AND ct.userno = m.userno
+		ORDER BY coreportno DESC) B)) re WHERE rnum BETWEEN #{startNo} AND #{endNo}
+	</select>
+	
+	<select id="selectCommentNo" resultType="int">
+		SELECT commentno FROM reportcomment WHERE coreportno = #{deleteNo}
+	</select>
+	
+	<update id="updateReportComment" parameterType="int">
+		UPDATE COMMENTTABLE SET CONTENT='관리자에 의해 삭제된 게시글입니다.' WHERE COMMENTNO = #{commentno}
+	</update>
+	
+	<update id="updateReportCompleteComment" parameterType="int">
+		UPDATE reportcomment SET COMPLETE = 'Y' WHERE coreportno = #{deleteNo}
+	</update>
+	
+	<select id="selectReportInfoComment" resultType="admin.dto.ReportComment">
+		SELECT coreportno, reportdetail, report_date AS reportDate, complete, c.userNo, m.userid, c.commentno, ct.content
+		FROM reportcomment c, commenttable ct, member m
+		WHERE c.commentno = ct.commentno
+		AND ct.userno = m.userno
+        AND coreportno = #{coreportNo}
+	</select>
+	
+	<select id="selectCommentDetail" resultType="board.dto.CommentTable">
+		SELECT commentno, content, write_date AS writedate, userno, refcommentno FROM COMMENTTABLE WHERE commentno = #{commentNo}
+	</select>
+	
+	<select id="selectCommentuser" resultType="int">
+		SELECT userno FROM CommentTable WHERE commentno = #{commentNo}
+	</select>
+	
+</mapper>

@@ -2,7 +2,9 @@ package admin.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
@@ -17,11 +19,14 @@ import org.springframework.web.multipart.MultipartFile;
 import admin.dao.face.AdminDao;
 import admin.dto.Blacklist;
 import admin.dto.ReportBoard;
+import admin.dto.ReportComment;
 import admin.service.face.AdminService;
 import board.dto.Board;
+import board.dto.CommentTable;
 import member.dto.Member;
 import shop.dto.Shop;
 import shop.dto.ShopFile;
+import util.AdminPaging;
 import util.Paging;
 
 @Service
@@ -33,7 +38,7 @@ public class AdminServiceImpl implements AdminService{
 	@Autowired ServletContext context;
 
 	@Override
-	public List<ReportBoard> getReportBoard(Paging paging) {
+	public List<ReportBoard> getReportBoard(AdminPaging paging) {
 		
 		System.out.println(paging);
 		
@@ -47,9 +52,9 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public Paging getPage(int curPage) {
+	public AdminPaging getPage(int curPage) {
 		int totalpage = adminDao.selectTotal();
-		Paging paging = new Paging(totalpage, curPage);
+		AdminPaging paging = new AdminPaging(totalpage, curPage);
 
 		return paging;
 	}
@@ -103,7 +108,7 @@ public class AdminServiceImpl implements AdminService{
 	
 	
 	@Override
-	public List<Blacklist> getBlacklistBoard(Paging paging) {
+	public List<Blacklist> getBlacklistBoard(AdminPaging paging) {
 		System.out.println(paging);
 		
 		List<Blacklist> list = adminDao.BlacklistselectAll(paging);
@@ -206,15 +211,138 @@ public class AdminServiceImpl implements AdminService{
 		if(getdoblack!=null) {
 			blacklist.setUserno(getdoblack);
 			blacklist.setReason(getdoblackres);
+			adminDao.insertBlacklist(blacklist);
 			
 		}
 		
 		if(getgetblack!=null) {
 			blacklist.setUserno(getgetblack);
 			blacklist.setReason(getgetblackres);
+			adminDao.insertBlacklist(blacklist);
+		}
+		
+		
+		
+	}
+	@Override
+	public List<Member> getMemberBoard(AdminPaging paging) {
+
+		List<Member> list = adminDao.MemberselectAll(paging);
+		
+		for(Member b : list) {
+			System.out.println(b);
+		}
+		
+		return list;
+	}
+	
+	@Override
+	public List<Member> getsearchMemberBoard(AdminPaging paging, String keyword) {
+			Map<String,Object> map = new HashMap<>();
+			
+			map.put("paging", paging);
+			map.put("keyword", keyword);
+	
+		
+		
+			List<Member> list = adminDao.MemberselectByKeyword(map);
+		
+		for(Member b : list) {
+			System.out.println(b);
+		}
+		
+		return list;
+	}
+
+	@Override
+	public List<ReportComment> getReportComment(AdminPaging paging) {
+		List<ReportComment> list = adminDao.ReportCommentselectAll(paging);
+		
+		for(ReportComment e : list) {
+			System.out.println(e);
+		}
+		
+		return list;
+	}
+
+	@Override
+	public AdminPaging getPageComment(int curPage) {
+		
+		int totalpage = adminDao.selectTotalComment();
+		AdminPaging paging = new AdminPaging(totalpage, curPage);
+
+		return paging;
+	}
+
+	@Override
+	public void deleteCheckedComment(List<String> delete) {
+	    List<String> deleteNoList = delete;
+	    int commentno = 0;
+
+	    for (int i = 0; i < deleteNoList.size(); i++) {
+	        int deleteNo = Integer.valueOf(deleteNoList.get(i));
+	        //update할 BoardNo를 받아오는 메소드
+	        commentno = adminDao.selectCommentNo(deleteNo);
+	        //boardno의 타입을 5로 바꾸는 메소드
+	        adminDao.updateReportComment(commentno);
+	        //Report의 complete를 N->Y로 바꾸는 메소드
+	        adminDao.updateReportCompleteComment(deleteNo);
+	        
+	    }
+		
+	}
+
+	@Override
+	public ReportComment getReportViewComment(String coreportNo) {
+		int coreportno = Integer.valueOf(coreportNo);
+		ReportComment reportComment = adminDao.selectReportInfoComment(coreportNo);
+		return reportComment;
+	}
+
+	@Override
+	public CommentTable getComment(int commentNo) {
+		
+		CommentTable comment = adminDao.selectCommentDetail(commentNo);
+		return comment;
+	}
+
+	@Override
+	public void changeReportComment(Integer coreportNo, Integer docommentNo, Integer getdoblack, Integer getgetblack,
+			String getdoblackres, String getgetblackres) {
+		adminDao.updateReportCompleteComment(coreportNo);
+		Blacklist blacklist = new Blacklist();
+		
+		if(docommentNo!=null) {
+	        //comment의 내용을 지워서 '관리자에 의해 삭제된 게시글 입니다' 로 업데이트 하는 구문
+	        adminDao.updateReportComment(docommentNo);	
+		}
+		
+		if(getdoblack!=null) {
+			blacklist.setUserno(getdoblack);
+			blacklist.setReason(getdoblackres);
+			adminDao.insertBlacklist(blacklist);
+			
+		}
+		
+		if(getgetblack!=null) {
+			blacklist.setUserno(getgetblack);
+			blacklist.setReason(getgetblackres);
+			adminDao.insertBlacklist(blacklist);
 		}
 		
 	}
+
+	@Override
+	public Member getGetMemberComment(int commentNo) {
+		//boardno로 신고 당한 사람의 정보를 꺼내는 메소드
+		int userno = adminDao.selectCommentuser(commentNo);
+		Member member = adminDao.selectMember(userno);
+		return member;
+	
+	}
+
+
+
 
 	
 

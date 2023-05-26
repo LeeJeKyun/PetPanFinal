@@ -42,7 +42,7 @@ public class MemberController {
 	
 	@GetMapping("/login/login")
 	public void login() {
-		logger.info("Login");
+//		logger.info("Login");
 	}
 	
 	

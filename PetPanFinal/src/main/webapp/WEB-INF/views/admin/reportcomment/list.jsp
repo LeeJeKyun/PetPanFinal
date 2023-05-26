@@ -40,13 +40,13 @@
 <body>
 <div class="container2">
 <div>
-	<form action="/petpan/admin/reportboard/delete" method="get">
+	<form action="/petpan/admin/reportcomment/delete" method="get">
 		<table class = "table table-striped" style="width:800px">
 		<tr>
 		<th>신고번호</th>
 		<th>신고자번호</th>
 		<th>신고받은 ID</th>
-		<th>신고받은 글</th>
+		<th>신고받은 댓글</th>
 		<th>신고내용</th>
 		<th>신고일자</th>
 		<th>처리여부</th>
@@ -55,14 +55,14 @@
 		</tr>
 		<c:forEach var="list" items="${list}">
 		<tr>
-		<td>${list.boreportNo }</td>
+		<td>${list.coreportNo }</td>
 		<td>${list.userNo }</td>
 		<td>${list.userId }</td>
-		<td><a href ="/petpan/admin/reportboard/view/?boreportNo=${list.boreportNo}">${list.boardTitle }</a></td>
+		<td><a href ="/petpan/admin/reportcomment/view/?coreportNo=${list.coreportNo}">${list.content }</a></td>
 		<td>${list.reportDetail }</td>
 		<td><fmt:formatDate value="${list.reportDate }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
 		<td>${list.complete }</td>
-		<td><input type="checkbox" id="delete" name="delete" class="delete" value="${list.boreportNo }"></td>
+		<td><input type="checkbox" id="delete" name="delete" class="delete" value="${list.coreportNo }"></td>
 		</tr>
 		</c:forEach>
 		</table>

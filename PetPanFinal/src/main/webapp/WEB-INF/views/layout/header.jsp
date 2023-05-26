@@ -123,10 +123,10 @@ a {
 
 
 <div id="member">
-<small><a href="./member/login">로그인</a></small>
+<small><a href="<%=request.getContextPath() %>/member/login/login">로그인</a></small>
 
 
-<small><a href="./join">회원가입</a></small>
+<small><a href="<%=request.getContextPath() %>/member/login/join">회원가입</a></small>
 
 </div>
 

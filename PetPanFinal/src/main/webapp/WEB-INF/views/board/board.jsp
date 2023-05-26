@@ -95,6 +95,7 @@
 	    </tr>
 		</c:forEach>
 		<c:forEach var = "i" items="${list }">
+		<c:if test="${i.BOARDTYPENO != 5 }">
 		<tr class = "td-style items">
 			<td>${i.BOARDNO }</td>
 			<td><a href ="./board/detail?boardNo=${i.BOARDNO }">${i.BOARDTITLE}</a></td>
@@ -103,6 +104,7 @@
 			<td>${i.RECOMMEND }</td>
 			<td class = "date"><fmt:formatDate value = "${i.WRITEDATE }" pattern = "yyyy.MM.dd"  /></td>
 		</tr>
+		</c:if>
 		</c:forEach>
 	</table>
 	<div id = "searchBox" >

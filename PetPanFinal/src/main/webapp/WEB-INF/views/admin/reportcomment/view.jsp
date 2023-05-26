@@ -16,22 +16,21 @@
 <div>
 	<div>
 		  <h3>신고 정보</h3>
-		  <p>신고 번호: ${list.boreportNo}</p>
+		  <p>신고 번호: ${list.coreportNo}</p>
 		  <p>신고 내용: ${list.reportDetail}</p>
 		  <p>신고 일자: <fmt:formatDate value="${list.reportDate}" pattern="yyyy-MM-dd HH:mm:ss" /></p>
 		  <p>처리 여부: ${list.complete}</p>
 		</div>
 		<hr>
-		<form action="/petpan/admin/reportboard/view/delete" method="post">
-		<input type = "hidden" name="boreportNo" value="${list.boreportNo}">
-		<div class="boardinfo">
-		  <h3>신고글 정보</h3>
-		  <p>게시물 번호: ${board.boardNo}</p>
-		  <p>게시물 제목: ${board.boardTitle}</p>
-		  <p>게시물 내용: ${board.content}</p>
-		  <p>작성 일자: <fmt:formatDate value="${board.writeDate}" pattern="yyyy-MM-dd HH:mm:ss" /></p>
-		  <p>게시물 유형 번호: ${board.boardTypeNo}</p>
-		  신고게시글 삭제 <input type="checkbox" id="delete" name="doboardNo" value="${board.boardNo }">
+		<form action="/petpan/admin/reportcomment/view/delete" method="post">
+		<input type = "hidden" name="coreportNo" value="${list.coreportNo}">
+		<div class="commentinfo">
+		  <h3>신고 댓글 정보</h3>
+		  <p>댓글 번호: ${comment.commentNo}</p>
+		  <p>댓글 내용: ${comment.content}</p>
+		  <p>작성 일자: <fmt:formatDate value="${comment.writeDate}" pattern="yyyy-MM-dd HH:mm:ss" /></p>
+		  <p>원 댓글: <a href="javascript:void(window.open('/petpan/admin/reportcomment/commentdetail?commentno=${comment.refCommentNo}', '참조중인 댓글','width=500px, height=500px'))">${comment.refCommentNo}</a></p>
+		  신고게시글 삭제 <input type="checkbox" id="delete" name="docommentNo" value="${comment.commentNo }">
 		</div>
 		<hr>
 		
