@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import board.dto.Board;
+import board.dto.BoardFile;
 import board.dto.Notice;
 import util.Paging;
 
@@ -115,5 +116,47 @@ public interface BoardService {
 	 * @return boardno, boardTitle, hit, recommend, writeDate, userName, content, boardTypeNo 
 	 */
 	public Map<String, Object> getBoardOne(int boardNo);
+
+	/**
+	 * 품앗이 상세보기 페이지의 보드 정보 가져오기
+	 * 
+	 * @param boardNo
+	 * @return
+	 */
+	public Map<String, Object> getCareView(int boardNo);
+	
+	/**
+	 * 품앗이 상세보기 페이지의 boardFile정보 가져오기
+	 * 
+	 * @param boardNo
+	 * @return
+	 */
+	public List<BoardFile> getCareFile(int boardNo);
+
+	/**
+	 * 게시글에 추천하는 메소드
+	 * 내부적으로 추천을 했던 데이터가 있는 경우 추천하지않고
+	 * 추천을 하지 않았을 경우 추천된다.
+	 * 
+	 * @param boardNo
+	 * @param userNo
+	 */
+	public void recommendBoardCare(int boardNo, int userNo);
+
+	/**
+	 * 추천수를 가져오는 메소드
+	 * 
+	 * @param boardNo
+	 */
+	public int getRecommendCnt(int boardNo);
+
+	/**
+	 * 현재 로그인한 유저가 추천한 적이 있는 경우 true
+	 * 
+	 * @param boardNo
+	 * @param loginid
+	 * @return
+	 */
+	public boolean isRecommended(int boardNo, int userNo);
 
 }

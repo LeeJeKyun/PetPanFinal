@@ -53,7 +53,7 @@ function searchInit(){
 	<tr style="height: 40px; border-top: 2px solid #f5cbcb;">
 		<td>${care.BOARDNO }</td>
 		<td style="height: 90px;"><img width="120px" height="90px" alt="아가사진" src="<%=request.getContextPath() %>/upload/${care.STOREDNAME}" style="vertical-align: middle;" ></td>
-		<td><a href="../care/view?boardno=${care.BOARDNO }">${care.BOARDTITLE }</a></td>
+		<td><a href="../care/view?boardNo=${care.BOARDNO }">${care.BOARDTITLE }</a></td>
 		<td>${care.USERID }</td>
 		<td><fmt:formatDate value="${care.WRITEDATE }" pattern="yyyy-MM-dd" /></td>
 		<td>${care.HIT }</td>
