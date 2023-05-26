@@ -19,6 +19,11 @@ public class MainController {
 		return "/main";
 	}
 	
+	@GetMapping("/portone")
+	public void test() {
+		
+	}
+	
 
 	
 }
