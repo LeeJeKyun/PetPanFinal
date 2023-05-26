@@ -52,16 +52,14 @@ public class AdminController {
 	
 	@GetMapping("/reportboard/list")
 	public void reportBoard(@RequestParam(defaultValue = "0") int curPage, Model model) {
-<<<<<<< HEAD
+
 		logger.info("/reportboard [GET}");
 		logger.info("curPage = {}", curPage);
 		AdminPaging paging = new AdminPaging();
-=======
+
 //		logger.info("/reportboard [GET}");
 //		logger.info("curPage = {}", curPage);
-		Paging paging = new Paging();
->>>>>>> refs/remotes/origin/master
-		
+	
 		paging = adminService.getPage(curPage);
 		
 //		logger.info("paging = {}", paging);
