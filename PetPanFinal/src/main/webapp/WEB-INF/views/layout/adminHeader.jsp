@@ -107,9 +107,9 @@
 	}
 	
 	.container2 {
-  	position: absolute;
+  	position: relative;
      margin-left: 400px; 
-     margin-top: 100px; 
+
 
 /*   	margin-top: 10px; */
  /* 특정 div의 위쪽 여백 설정 */

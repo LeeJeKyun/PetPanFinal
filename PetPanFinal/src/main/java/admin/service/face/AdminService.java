@@ -44,6 +44,10 @@ public interface AdminService {
 	public void changeReportBoard(Integer boreportNo, Integer doboardNo, Integer getdoblack, Integer getgetblack,
 			String getdoblackres, String getgetblackres);
 
+	public List<Member> getMemberBoard(AdminPaging paging);
+
+	public List<Member> getsearchMemberBoard(AdminPaging paging, String keyword);
+
 	public List<ReportComment> getReportComment(AdminPaging paging);
 
 	public AdminPaging getPageComment(int curPage);

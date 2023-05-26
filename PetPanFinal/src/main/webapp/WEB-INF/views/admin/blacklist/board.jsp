@@ -61,15 +61,15 @@
 		</c:forEach>
 		</table>
 		<input type="checkbox" id="checkall" name="checkall" class="checkall">전부선택
-		<input type="submit" id="codeIdSubmit" value="선택 삭제">
+		<input type="submit" id="codeIdSubmit" value="선택 삭제" class="btn btn-danger">
 		
 	</form>
 	</div>	
-	<div class = "">	
-	<c:import url="../../layout/adminpaging.jsp"/>
+	<div class = "" style="margin-left: 170px;">	
+	<c:import url="../../layout/paging.jsp"/>
 	</div>
 	<div>
-		<a href="./insert"><button>삽입하기</button></a>
+		<a href="./insert"><button class="btn btn-info">삽입하기</button></a>
 	</div>
 </div>
 </body>
