@@ -46,7 +46,7 @@ public class MemberController {
 	
 	@GetMapping("/login/login")
 	public void login() {
-		logger.info("Login");
+//		logger.info("Login");
 	}
 	
 	@PostMapping("/login/login")
@@ -56,9 +56,9 @@ public class MemberController {
 			, HttpSession session
 			) {
 		
-//		logger.info("/login/login");
+		logger.info("/login/login");
 		
-//		logger.info("{}", member);
+		logger.info("{}", member);
 		
 		
 		if( memberService.login( member ) ) {

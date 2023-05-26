@@ -137,10 +137,55 @@ public class BoardServiceImpl implements BoardService{
 		
 	}
 	
+	@Override
+	public List<BoardFile> getCareFile(int boardNo) {
+		
+		return boardDao.selectCareBoardFile(boardNo);
+	}
+	
+	@Override
+	public void recommendBoardCare(int boardNo, int userNo) {
+		boolean isRecommended = false;
+		Map<String, Integer> map = new HashMap<>();
+		map.put("boardNo", boardNo);
+		map.put("userNo", userNo);
+		
+		if( boardDao.selectRecommendCntByBoardNoUserNo(map) > 0) {
+//			logger.info("추천내역이 있다~!");
+			boardDao.deleteRecommendToCare(map);
+//			logger.info("추천내역을 지웠따!");
+		} else {
+//			logger.info("추천내역이 없다~!");
+			boardDao.insertRecommendToCare(map);
+//			logger.info("추천내역을 올렸따!");
+		}
+	}
+	
+	@Override
+	public int getRecommendCnt(int boardNo) {
+		
+		
+		return boardDao.selectRecommendCnt(boardNo);
+	}
+	
+	@Override
+	public boolean isRecommended(int boardNo, int userNo) {
+		
+		Map<String, Integer> map = new HashMap<>();
+		
+		map.put("boardNo", boardNo);
+		map.put("userNo", userNo);
+		
+		if( boardDao.selectRecommendCntByBoardNoUserNo(map) > 0) {
+			return true;
+		}
+		
+		return false;
+	}
 	
 	//-------------------------------제균----------------------------------
-	
 
+	
 
 	@Override
 	public Paging getPaging(Integer curPage, int category, String search) {
@@ -267,5 +312,18 @@ public class BoardServiceImpl implements BoardService{
 	public Map<String, Object> getBoardOne(int boardNo) {
 		return boardDao.selectBoardOne(boardNo);
 	}
+
+	@Override
+	public Map<String, Object> getCareView(int boardNo) {
+		
+		Map<String, Object> boardMap = boardDao.selectBoardOne(boardNo);
+//		logger.info("boardMap : {}", boardMap);
+		
+		return boardMap;
+	}
+
+
+	
+	
 	
 }

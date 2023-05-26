@@ -71,7 +71,43 @@ public interface BoardDao {
 	 * @return
 	 */
 	public int selectBoardSeqNext();
-
+	
+	/**
+	 * boardNo을 기준으로 해당하는 boardFile의 리스트를 가져오는 메소드
+	 * 
+	 * @param boardNo
+	 * @return
+	 */
+	public List<BoardFile> selectCareBoardFile(int boardNo);
+	
+	/**
+	 * 게시글 추천 내역이 있는지 가져오기 있을경우 1, 없을경우 0
+	 * 
+	 * @return
+	 */
+	public int selectRecommendCntByBoardNoUserNo(Map<String, Integer> map);
+	
+	/**
+	 * 게시글의 추천내역 올리기
+	 * 
+	 * @param map
+	 */
+	public void insertRecommendToCare(Map<String, Integer> map);
+	
+	/**
+	 * 게시글의 추천내역 삭제하기
+	 * 
+	 * @param map
+	 */
+	public void deleteRecommendToCare(Map<String, Integer> map);
+	
+	/**
+	 * 해당 게시글의 추천갯수 가져오기
+	 * 
+	 * @param boardNo
+	 * @return
+	 */
+	public int selectRecommendCnt(int boardNo);
 	
 	
 	//--------------------------제균--------------------------------
@@ -145,4 +181,7 @@ public interface BoardDao {
 	 * @return 상세보기할 게시글의 정보
 	 */
 	public Map<String, Object> selectBoardOne(int boardNo);
+
+
+
 }
