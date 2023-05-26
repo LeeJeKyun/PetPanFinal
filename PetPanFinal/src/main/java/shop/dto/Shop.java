@@ -2,17 +2,17 @@ package shop.dto;
 
 public class Shop {
 
-   private int objectno;
-   private String name;
-   private int price;
-   private int remain;
-   private String shopcontent;
-   private int deleteobj;
+	private int objectno;
+	private String name;
+	private int price;
+	private int remain;
+	private String shopcontent;
+	private int deleteobj;
+	
    
    public Shop() {
       // TODO Auto-generated constructor stub
    }
-
    public Shop(int objectno, String name, int price, int remain, String shopcontent, int deleteobj) {
       super();
       this.objectno = objectno;
@@ -23,11 +23,13 @@ public class Shop {
       this.deleteobj = deleteobj;
    }
 
-   @Override
-   public String toString() {
-      return "Shop [objectno=" + objectno + ", name=" + name + ", price=" + price + ", remain=" + remain
-            + ", shopcontent=" + shopcontent + ", deleteobj=" + deleteobj + "]";
-   }
+
+	@Override
+	public String toString() {
+		return "Shop [objectno=" + objectno + ", name=" + name + ", price=" + price + ", remain=" + remain
+				+ ", shopcontent=" + shopcontent + ", deleteobj=" + deleteobj + "]";
+	}
+
 
    public int getObjectno() {
       return objectno;
@@ -65,17 +67,19 @@ public class Shop {
       return shopcontent;
    }
 
-   public void setShopcontent(String shopcontent) {
-      this.shopcontent = shopcontent;
-   }
 
-   public int getDeleteobj() {
-      return deleteobj;
-   }
+	public void setShopcontent(String shopcontent) {
+		this.shopcontent = shopcontent;
+	}
 
-   public void setDeleteobj(int deleteobj) {
-      this.deleteobj = deleteobj;
-   }
+	public int getDeleteobj() {
+		return deleteobj;
+	}
 
-   
+	public void setDeleteobj(int deleteobj) {
+		this.deleteobj = deleteobj;
+	}
+
+	
 }
+

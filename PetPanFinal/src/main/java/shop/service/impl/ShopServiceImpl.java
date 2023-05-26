@@ -3,11 +3,10 @@ package shop.service.impl;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import member.dto.Member;
 import shop.dao.face.ShopDao;
 import shop.dto.Basket;
 import shop.dto.Shop;
@@ -41,9 +40,12 @@ public class ShopServiceImpl implements ShopService{
 	@Override
 	public Shop view(Shop shop) {
 
-		Shop view = shopDao.selectByObjno(shop);
+			Shop view = shopDao.selectByObjno(shop);
+			
+			return view;
+			
 		
-		return view;
+		
 	}
 	
 	@Override
@@ -51,7 +53,7 @@ public class ShopServiceImpl implements ShopService{
 		
 		int cnt = shopDao.checkBasket(basket);
 		
-		if(cnt < 0) {
+		if(cnt <= 0) {
 			shopDao.insertBasket(basket);
 		}else {
 			shopDao.updateBasket(basket);
@@ -67,4 +69,19 @@ public class ShopServiceImpl implements ShopService{
 		
 		return list;
 	}
+	
+	@Override
+	public List<Basket> newBasket(Basket basket) {
+		
+		List<Basket> list = shopDao.basket(basket);
+		
+		return list; 
+	}
+	
+	@Override
+	public Member memberShop(Basket basket) {
+		
+		return shopDao.memberShop(basket);
+	}
+	
 }
