@@ -23,7 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 import board.dao.face.BoardDao;
 import board.dto.Board;
 import board.dto.BoardFile;
+import board.dto.BoardRecommend;
 import board.dto.Notice;
+import board.dto.ReportBoard;
 import board.service.face.BoardService;
 import util.Paging;
 
@@ -314,6 +316,51 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
+	public List<BoardFile> getBoardFile(int boardNo) {
+		return boardDao.selectFiles(boardNo);
+	}
+
+	@Override
+	public void deleteBoard(int boardNo) {
+
+		// 신고 테이블이 있는 게시글인지 검사
+		if(boardDao.selectReportBoard(boardNo) > 0) {
+			// 있으면 boardTypeNo을 5로 변경
+			boardDao.updateBoard(boardNo);
+		}else {
+			//없으면 게시글 삭제
+			//게시글 파일 삭제
+			boardDao.deleteBoardFile(boardNo);
+			//게시글 삭제
+			boardDao.deleteBoard(boardNo);
+			
+		}
+		
+		// 없으면 게시글 삭제
+	}
+
+	@Override
+	public void boardReport(ReportBoard reportBoard, String writeDetail) {
+		//동일 유저가 동일 게시글 신고했는지 확인
+		if( boardDao.selectIsReport(reportBoard) > 0) {
+			//있다 처리 안함
+		}else {
+			// 없다 신고 처리
+			if("기타".equals(reportBoard.getReportDetail())) {
+				reportBoard.setReportDetail(writeDetail);
+			}
+			boardDao.insertReport(reportBoard);
+		}
+	}
+
+	@Override
+	public boolean isLike(BoardRecommend boardReco) {
+		
+		if( boardDao.selectIsReco(boardReco) > 0 ) {
+			return true;
+		}
+		return false;
+	}
 	public Map<String, Object> getCareView(int boardNo) {
 		
 		Map<String, Object> boardMap = boardDao.selectBoardOne(boardNo);
@@ -323,7 +370,5 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 
-	
-	
 	
 }

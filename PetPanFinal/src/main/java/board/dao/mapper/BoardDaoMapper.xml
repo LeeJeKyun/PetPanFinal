@@ -193,5 +193,40 @@
 		from board, member
 		where board.userno = member.userno AND boardno = #{boardno}
 	</select>
-	
+	<select id="selectFiles" parameterType="int" resultType="board.dto.BoardFile">
+		select fileno, originname, storedname, filesize, boardno
+		from boardfile
+		where boardno = #{boardno}
+	</select> 
+	<update id="updateBoard" parameterType="int">
+		update board set boardTypeNo = 5
+		where boardno = #{boardNo}
+	</update>
+	<select id="selectReportBoard" parameterType="int"  resultType="int">
+		select count(*)
+		from reportboard
+		where boardNo = #{boardNo}
+	</select>
+	<delete id="deleteBoardFile" parameterType="int">
+		delete from boardfile
+		where boardno = #{boardno}
+	</delete>
+	<delete id="deleteBoard">
+		delete from board
+		where boardno = #{boardno}
+	</delete>
+	<select id="selectIsReport" parameterType="board.dto.ReportBoard" resultType="int">
+		select count(*)
+		from reportboard
+		where boardNo = #{boardNo} AND userNo = #{userNo}
+	</select>
+	<insert id="insertReport" parameterType="board.dto.ReportBoard">
+		insert into reportboard(BOREPORTNO, reportdetail, report_date, complete, userno, boardno)
+		values(SEQ_REPORTBOARD.nextval , #{reportDetail}, sysdate, 'N', #{userNo}, #{boardNo})
+	</insert>
+	<select id="selectIsReco" parameterType="board.dto.BoardRecommend" resultType="int">
+		select count(*)
+		from boardrecommend
+		where boardNo = #{boardNo} AND userNo = #{userNo}
+	</select>
 </mapper>

@@ -5,7 +5,9 @@ import java.util.Map;
 
 import board.dto.Board;
 import board.dto.BoardFile;
+import board.dto.BoardRecommend;
 import board.dto.Notice;
+import board.dto.ReportBoard;
 import util.Paging;
 
 public interface BoardDao {
@@ -182,6 +184,58 @@ public interface BoardDao {
 	 */
 	public Map<String, Object> selectBoardOne(int boardNo);
 
+	/**
+	 * boardNo에 맞는 파일들 select
+	 * 
+	 * @param boardNo 가져올 파일들의 boardNo
+	 * @return   boardNo에 맞는 파일들 
+	 */
+	public List<BoardFile> selectFiles(int boardNo);
 
+	/**
+	 * boardNo 게시글 삭제
+	 * boardtypeno을 5로 변경
+	 * @param boardNo 삭제할 게시글의 boardNo
+	 */
+	public void updateBoard(int boardNo);
 
+	/**
+	 * 신고테이블에 boardNo이 있는지 검사
+	 * 
+	 * @param boardNo select할 boardNo
+	 * @return 있으면 true 없으면 false
+	 */
+	public int selectReportBoard(int boardNo);
+
+	/**
+	 * 게시글 파일 삭제
+	 * @param boardNo 삭제할 게시글 파일  
+	 */
+	public void deleteBoardFile(int boardNo);
+
+	/**
+	 * 게시글 삭제 
+	 * @param boardNo 삭제할 게시글 
+	 */
+	public void deleteBoard(int boardNo);
+
+	/**
+	 * 신고 테이블에 동일 boardNo, 동일 userNo이 있는지 확인
+	 * @param reportBoard boardNo과 userNo이 있는 객체
+	 * @return 없으면 0
+	 */
+	public int selectIsReport(ReportBoard reportBoard);
+
+	/**
+	 * 신고처리
+	 * @param reportBoard 신고할 객체
+	 */
+	public void insertReport(ReportBoard reportBoard);
+
+	/**
+	 * boardrecommend , 유저가 게시글을 추천했나?
+	 * @param boardReco 조회할 userNo 과 boardNo
+	 * @return 추천했으면 1 안했으면 0
+	 */
+	public int selectIsReco(BoardRecommend boardReco);
 }
