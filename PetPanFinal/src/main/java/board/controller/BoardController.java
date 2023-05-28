@@ -3,7 +3,6 @@ package board.controller;
 import java.util.List;
 import java.util.Map;
 
-import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -15,12 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
+import board.dto.CommentTable;
 import board.dto.Notice;
 import board.dto.ReportBoard;
 import board.service.face.BoardService;
@@ -140,6 +139,7 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		String loginid = null;
 		int userNo = 0;
 		boolean isRecommended = false;
+		List<Map<String, Object>> commentList = boardService.getCommentList(boardNo);
 		
 		if(session.getAttribute("login") != null) {
 			loginid = (String)session.getAttribute("loginid");
@@ -152,6 +152,7 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		model.addAttribute("map", map);
 		model.addAttribute("fileList", fileList);
 		model.addAttribute("isRecommended", isRecommended);
+		model.addAttribute("commentList", commentList);
 		
 	}
 	
@@ -195,6 +196,20 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		logger.info("recommendCnt : {}", recommendCnt);
 		
 		model.addAttribute("recommendCnt", recommendCnt);
+	}
+	
+	@GetMapping("/care/comment")
+	public void care_view_comment(
+			CommentTable commentTable
+			, Model model
+			) {
+		logger.info("CommentTable : {}", commentTable);
+		boardService.inputComment(commentTable);
+		List<Map<String, Object>> commentList = boardService.getCommentList(commentTable.getBoardno());
+		
+		logger.info("commentList:{}", commentList);
+		model.addAttribute("commentList", commentList);
+		
 	}
 	
 	//-----------------------------제균--------------------------------------------

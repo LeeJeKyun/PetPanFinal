@@ -94,6 +94,11 @@ table{
 .displayNone{
 	display: none;
 }
+#comment{
+	width: 347px;
+	height: 22px;
+	font-size: 17px;
+}
 </style>
 <script type="text/javascript">
 function recommendAjax(boardNo){
@@ -122,6 +127,32 @@ function recommendAjax(boardNo){
 			}
 	})
 	
+}
+function commentInput(userno, boardno) {
+	console.log("commentInput click!" + userno)
+	console.log("commentInput click!" + boardno)
+	console.log("commentInput comment : " + $("#comment").val())
+	
+	$.ajax({
+	type : "get" 
+		, url: "./comment"
+		, data : { 
+			userno : userno,
+			boardno : boardno,
+			content : $("#comment").val()
+		}
+		, dataType : "html"
+		, success : function(data){
+			console.log("AJAX 성공")
+			console.log(data)
+			$(".comment-area").html(data)
+			$("#comment").val('');
+			
+		}
+		, error : function(){
+			console.log("AJAX 실패")	
+		}
+	})
 }
 $(function(){
 	
@@ -249,32 +280,14 @@ $(function(){
 		 <hr>
 	 <table>
 	 	<tr>
-	 		<td class = "left-side" ><span id = "write-comment" class = "cursor">댓글달기</span></td>
-	 		<td id = "refresh" class = "cursor right-side">새로고침</td>
+	 		<td class = "left-side" > 댓글 <input type="text" id="comment"></td>
+	 		<td><button type="button" id="commentInput" onclick="commentInput('${userno}', '${map.BOARDNO }')">입력</button></td>
+	 		<td id = "refresh" class = "cursor">새로고침</td>
 	 	</tr>
 	 </table>
 	 <!-- ajax html -->
 	 <div class = "comment-area">
-	 		<div class = " f comment">
-	 			<div class = "info-space">
-	 				<table>
-	 					<tr>
-	 						<td class = "left-side" id = "name-space">글쓴이${userName }
-	 							<span id = "date">(2020.12.13)</span>
-	 						</td>
-	 						
-	 						<td class = "right-side" id = "delete-comment">삭제</td>
-	 					</tr>
-	 				</table>
-	 			</div>
-	 			<div class = "main-comment">
-	 			<br>
-	 				댓그르르르
-	 			<br>
-	 			<br>
-	 			</div>
-	 		</div>
-	 		<div id = "comment2" class = "small6 cursor">답글달기</div>
+		<c:import url="./comment.jsp"/>
 	 </div>
 	 <!-- ajax html -->
 </div>

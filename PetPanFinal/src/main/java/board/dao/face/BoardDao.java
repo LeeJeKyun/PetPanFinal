@@ -6,6 +6,7 @@ import java.util.Map;
 import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
+import board.dto.CommentTable;
 import board.dto.Notice;
 import board.dto.ReportBoard;
 import util.Paging;
@@ -111,6 +112,20 @@ public interface BoardDao {
 	 */
 	public int selectRecommendCnt(int boardNo);
 	
+	/**
+	 * 품앗이 게시글의 댓글을 insert하는 메소드
+	 * 
+	 * @param commentTable
+	 */
+	public void insertCommentToCareBoard(CommentTable commentTable);
+
+	/**
+	 * 해당 게시글(boardno)의 댓글을 모두 가져오는 메소드 
+	 * 
+	 * @param boardno
+	 * @return
+	 */
+	public List<Map<String, Object>> selectCommentByBoardno(int boardno);
 	
 	//--------------------------제균--------------------------------
 
@@ -238,4 +253,7 @@ public interface BoardDao {
 	 * @return 추천했으면 1 안했으면 0
 	 */
 	public int selectIsReco(BoardRecommend boardReco);
+
+	
+
 }

@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
+import board.dto.CommentTable;
 import board.dto.Notice;
 import board.dto.ReportBoard;
 import util.Paging;
@@ -97,8 +98,22 @@ public interface BoardService {
 	 * @return
 	 */
 	public boolean isRecommended(int boardNo, int userNo);
+	
+	/**
+	 * 댓글을 DB에 입력해주는 메소드
+	 * 
+	 * @param commentTable
+	 */
+	public void inputComment(CommentTable commentTable);
 
-
+	/**
+	 * 댓글 리스트를 모두 가져오는 메소드
+	 * 
+	 * @param boardno
+	 * @return
+	 */
+	public List<Map<String, Object>> getCommentList(int boardno);
+	
 	//---------------------------제균------------------------------------
 
 	/**
@@ -188,6 +203,8 @@ public interface BoardService {
 	 * @return 추천했으면 true 아니면 false
 	 */
 	public boolean isLike(BoardRecommend boardReco);
+
+
 
 	
 
