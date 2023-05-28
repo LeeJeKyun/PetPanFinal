@@ -17,7 +17,7 @@
 		IMP.request_pay({
 			pg: "kakaopay",
 			pay_method: "card",
-			merchant_uid: "2",   // 주문번호
+			merchant_uid: "3",   // 주문번호
 			name: "노르웨이 회전 의자",
 			amount: 100,                         // 숫자 타입
 			buyer_email: "zxsi2003@naver.com",
