@@ -24,8 +24,19 @@
 /* 	height: 500px; */
 	margin: 0 auto;
 }
+table{
+	 border-collapse: collapse;
+}
+tr:hover{
+	background-color: #ccc;
+}
 .xFile{
 	cursor: pointer;
+	
+}
+.file-name{
+	width:700px;
+	display:  inline-block;
 }
 #btnWrite{
 	width: 730px;
@@ -52,6 +63,23 @@ table{
 	border-radius: 10px 10px 10px 10px;
 	text-align: center;
 	padding-top: 9px;
+}
+
+/* ------ 모달 css  */
+#modal{
+	position: relative;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+}
+#modal .modal_content{
+	width: 300px;
+	background: #fff;
+	border: 2px solid #666;
+}
+#modal .modal_layer{
+	position: fixed;
+	z-index: 1; 
 }
 </style>
 
@@ -109,11 +137,16 @@ $(function(){
 		for(var i = 0; i < file.length; i++){
 			console.log( file[i].name );
 			$(".file-line").eq(i).remove();
-			$("#input-files").append("<div class = 'file-line' data-no = "+ i + ">"
-													+ "<input type = 'hidden' data-no = " + i +" name = 'no' value = " + i +">"
-													+ file[i].name 
-													+ "<span class = 'xFile' data-no = " + i + " style = 'cursor: pointer;'> x </span>" 
-													+ "</div>")
+//			$("#input-files").append("<div class = 'file-line' data-no = "+ i + ">"
+//													+ "<input type = 'hidden' data-no = " + i +" name = 'no' value = " + i +">"
+//													+ file[i].name 
+//													+ "<span class = 'xFile' data-no = " + i + " style = 'cursor: pointer;'> x </span>" 
+//													+ "</div>")
+			$("#input-files").append("<tr class = 'file-line' data-no = " + i + ">"
+										+ "<td><input type = 'hidden' data-no = " + i +" name = 'no' value = " + i +"></td"
+										+ "<td><span class = 'file-name'>" + file[i].name + "</span></td>" 
+										+ "<td class = 'xFile' data-no = " + i + " > x</td>" 
+										+ "</td>")
 			console.log(i)
 			console.log(file[i].lastModified)
 		}
@@ -148,13 +181,25 @@ function updateContents(){
 			<textarea id = "content" name = "content" required = "required"></textarea>
 			<input type ="file" name ="file" id = "file" multiple = "multiple" accept = ".gif, .jpg, .png, .jpeg" style = "display: none"><br>
 			<button type = "button" id ="fileBtn" >첨부파일</button>
-			<div id = "input-files"></div>
+			<!-- <div id = "input-files"></div> -->
+			<table id = "input-files"></table>
 			
 <!-- 			<input type = "hidden" name = "userNo" value = "${userno}"> -->
 			<input type = "hidden" name = "userNo" value = "1">
 			
 <!-- 			<button type = "submit"  id = "btnWrite" onclick = "updateContents()">작성</button> -->
 			<button type = "button"  id = "btnWrite" >작성</button>
+			
+			<div id = "modal">
+				<div class = "modal_content"> 
+					모달 창
+					<div class = "modal_layer">
+						모달차앛아
+						<button id = "yesBtn">확인</button>
+						<button id = "noBtn">취소</button>
+					</div>
+				</div>
+			</div>
 		</form>
 	</div>
 </div>

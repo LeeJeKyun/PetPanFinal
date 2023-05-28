@@ -323,4 +323,13 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@GetMapping("/board/comment")
 	public void comment() {
 	}
+	
+	@GetMapping("/hospital/list")
+	public void hospitalList(Paging paging, Model model) {
+		
+	}
+	@GetMapping("/hospital/detail")
+	public void hospitalDetail(int hospitalNo) {
+		
+	}
 }
