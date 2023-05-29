@@ -58,4 +58,22 @@
 		where userno = #{userno}
 	</select>
 	
+	<insert id="inserOrderUser" parameterType="shop.dto.OrderUser">
+		insert into orderuser(buyno, buyername, buyeradd, buyerzip, buyerphone, complete, userno, buydate, buydetailaddress)
+		values(SEQ_ORDERUSER.nextval, #{buyername}, #{buyeradd}, #{buyerzip}, #{buyerphone}, 'n', #{userno}, current_date, #{detailaddress})
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

@@ -1,4 +1,5 @@
 
+<%@page import="shop.dto.Basket"%>
 <%@page import="member.dto.Member"%>
 <%@page import="java.math.BigDecimal"%>
 <%@page import="java.util.Map"%>
@@ -26,8 +27,15 @@
 		BigDecimal price = (BigDecimal)list.get(i).get("PRICE");
 		totalPrice += quantity.intValue() * price.intValue();
 	}
+	
+	int merchant_uid = 0;
+	for(int i = 0; i <8; i++){
+		merchant_uid += (Math.random()*100000000);
+	}
+	
+	
 %>
-
+	 
 <style>
 .content_top{
     width: 80%;
@@ -98,21 +106,37 @@ function requestPay() {
 	
 	IMP.request_pay({
 		pay_method:'card'				//결재 수단 (필수)
-		, merchant_uid:	'a007'			//고유 주문 번호 (필수)
-		, amount: 100					//금액 (필수)
-		, buyer_tel:010-0101-0202		//주문자 전화번호 (필수)
+		, merchant_uid:	'<%=merchant_uid%>'//고유 주문 번호 (필수)
+		, amount: <%=totalPrice%>		//금액 (필수)
+		, buyer_tel:<%=member.getPhone()%> //주문자 전화번호 (필수)
 		
 		, pg: "kakaopay"			//결제 지원 PG 선택
-		, name: "<%=list.get(0).get("NAME")%>"
-		, buyer_name: " <%=member.getUserName() %> "	
-	
-	}, function(rsp) {
+		, name: "<%= list.get(0).get("NAME") %>외 <%=totalQuantity - 1%>개"
 		
-		console.log(rsp)
-		
-		//서버로 응답된 데이터를 submit하도록한다
-		//서버에서는 DB에 데이터를 저장한다(INSERT)
+		, buyer_name: " <%=member.getUserName()%> "	
 	
+		
+	}, function(rsp) {	
+		
+		if(rsp.success) {
+				
+			var form = document.createElement('form');
+			form.setAttribute('method','post');
+			form.setAttribute('action',"./pay?buylistno="+<%=merchant_uid%> + "&amount=" + <%=totalPrice%> + "&userno=" + <%=member.getUserNo()%>)
+				/* 보낼값 적기 */
+			
+			location.href = "./pay";
+		
+			console.log(rsp)
+				
+		}else {
+      		console.log(rsp);
+      		var msg = '결제가 실패하였습니다.';
+      		msg += '에러내용 : ' + rsp.error_msg;
+      		alert(msg);
+      	}
+		
+		
 		
 	})
 	
@@ -168,7 +192,7 @@ function requestPay() {
 			</div>
 			<div>
 				<h4>주소 : ${member.address }</h4>
-				<input type="text" placeholder="상세주소를 입력하세요" style="height: 20px; width: 250px;" name="detailaddress">
+				<h4>${member.detailaddress }</h4>
 			</div>
 <!-- 			<div> -->
 <!-- 				<h4>요청 사항</h4> -->
@@ -191,6 +215,7 @@ function requestPay() {
 	</div>
 
 </div>
+
 
 <div class="content_bottom">
 	<button type="submit" class="pay" name="pay" onclick="requestPay()">결제하기</button>
