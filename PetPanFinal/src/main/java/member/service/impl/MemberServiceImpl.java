@@ -24,6 +24,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import member.dao.face.MemberDao;
 import member.dto.Member;
+import member.dto.Pet;
+import member.dto.PetFile;
 import member.service.face.MemberService;
 
 @Service
@@ -52,6 +54,7 @@ public class MemberServiceImpl implements MemberService {
 	public Member selectlogin(Member member) {
 		logger.info("member : {}", member);
 		Member member2 = memberDao.selectlogin(member);
+		
 		return member2;
 	}
 
@@ -69,15 +72,6 @@ public class MemberServiceImpl implements MemberService {
 		return false;
 	}
 	
-	
-
-	@Override
-	public Member selectDetail(String userId) {
-
-		
-		return memberDao.selectDetailMember(userId);
-	}
-
 	@Override
 	public boolean selectKakao(Member member) {
 
@@ -97,11 +91,6 @@ public class MemberServiceImpl implements MemberService {
 		memberDao.insertJoin(member);
 	}
 
-	
-	
-	
-	
-	
 	
 	@Override
 	public String getKakaoApiFromAddress(String jibunAddress) {
@@ -196,37 +185,41 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 
-	
-	
-//	@Override
-//	public void updatekakaoJoin(Member member) {
-//
-//		memberDao.upadatekakaoJoin(member);
-//	}
-	
+	@Override
+	public Member userDetail(Member userNo) {
+
+		
+		return memberDao.selectDetailMember(userNo);
+	}
 	
 	
 	
+	@Override
+	public void updateMember(Member member) {
+
+		memberDao.updateMember(member);
+	}
+	
+	
+	@Override
+	public void petInfo(Pet pet, PetFile petFile) {
+
+		
+		
+		
+	}
 	
 	
 	
 
-//	@Override
-//	public boolean kakao(String code) {
-//		logger.info("login() 🤣🤣 ");
-//		
-//		
-//		if (memberDao.loginProc(code) > 0) {
-//			
-//			
-//			return true;
-//		}
-//		
-//		return false;
-//	}
 
 	
-	
+	@Override
+	public Member selectSuser(String sosId) {
+		
+		return memberDao.selectSuser(sosId);
+		
+	}
 	
 	
 

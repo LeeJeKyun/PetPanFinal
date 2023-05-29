@@ -30,8 +30,8 @@
 
 <c:when test="${login eq true  }">
 <%-- <h2>세션 상태: ${login eq true }</h2> --%>
-<h2>안녕하세요, ${userName}님</h2>
-<button onclick="location.href='/member/login/mypage'">마이페이지</button>
+<h2>안녕하세요, ${userId}님</h2>
+<button onclick="location.href='/member/mypage/mypage'">마이페이지</button>
 <button onclick="location.href='/member/login/logout'">로그아웃</button>
 </c:when>
 

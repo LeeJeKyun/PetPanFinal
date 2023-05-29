@@ -1,10 +1,8 @@
 package member.controller;
 
 
-
 import java.util.HashMap;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -20,9 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import member.dto.Member;
+import member.dto.Pet;
+import member.dto.PetFile;
 import member.service.face.KakaoService;
 import member.service.face.MemberService;
-
 
 @Controller
 @RequestMapping("/member")
@@ -42,7 +41,7 @@ public class MemberController {
 	
 	@GetMapping("/login/login")
 	public void login() {
-//		logger.info("Login");
+		logger.info("Login");
 	}
 	
 	
@@ -51,18 +50,24 @@ public class MemberController {
 			@RequestParam("code")String code
 			, HttpSession session
 			, Member member
+			, String sosId
 			) {
 		
-		logger.info("/kakaoLogin ");
-		logger.info("code: {}", code);
+//		logger.info("/kakaoLogin ");
+//		logger.info("code: {}", code);
 
 		String access_Token = kakaoService.getAccessToken(code);
 		
-		
-		logger.info("Membercontroller access_token : {}" + access_Token);
+//		logger.info("Membercontroller access_token : {}" + access_Token);
 		HashMap<String, Object> userInfo = kakaoService.getUserInfo(access_Token);
 		
 		member.setSuserno((String)userInfo.get("id"));
+
+		sosId = (String)userInfo.get("id");
+		Member sMember = memberService.selectSuser(sosId);
+		
+//		logger.info("sMember: {}", sMember);
+		
 		boolean kakao = memberService.selectKakao(member);
 		
 		
@@ -71,6 +76,7 @@ public class MemberController {
 	    	session.setAttribute("login", true);
 	        session.setAttribute("userId", userInfo.get("id"));
 	        session.setAttribute("access_Token", access_Token);
+	        session.setAttribute("userno", sMember.getUserNo());
 			
 			return "./main";
 			
@@ -80,9 +86,6 @@ public class MemberController {
 			logger.info("info {}",userInfo.get("id"));
 	        session.setAttribute("userId", userInfo.get("id"));
 	        session.setAttribute("access_Token", access_Token);
-	        
-	        
-//			memberService.insertkakaoJoin( member );
 			
 		}
 		
@@ -95,77 +98,57 @@ public class MemberController {
 
 	    return "redirect:./login/socialjoin";
 
-		
-			
 	}
-	
 	
 	@PostMapping("/login/login")
 	public String loginProc( 
-			
 			Member member
 			, HttpSession session
 			, HttpServletResponse resp
 			, HttpServletRequest req
-			
+			, Model model
 			
 			) {
 		
 		logger.info("/login/login");
 		
-		logger.info("{}", member);
-		
-		
 		if( memberService.login( member ) ) {
 			
 			Member member2 = memberService.selectlogin(member);
+			
 			boolean black = memberService.selcetBlack(member2);
 			
 			if( black ) {
 				
 				logger.info("로그인 실패");
-				
 				session.invalidate();
 				
 			} if( !black ){	
 			
 				session.setAttribute("login", true );
-				session.setAttribute("loginid", member2.getUserId() );
 				session.setAttribute("userno", member2.getUserNo());
-				session.setAttribute("userName", member2.getUserName());
-				
-				logger.info("session: {} ", member2.getUserNo());
 				
 				}
 			
+			Member detail = memberService.userDetail(member2);
+			model.addAttribute("info", member);
+
 			return "./main";
 		}
 		
-		
-		
 		return "./main";
 	}
-	
 	
 	@GetMapping("/login/logout")
 	public String logout(HttpSession session
 			) {
 		
-		
-		
-		
-		
 		session.invalidate();
-		
-		
-		
 		
 		return "redirect:/";
 		
 	}
 
-
-	
 	@GetMapping("/login/join")
 	public void join() {
 		logger.info("/login/join");
@@ -180,8 +163,6 @@ public class MemberController {
 			) {
 		
 		logger.info("/login/join");
-		logger.info("member: {}", member);
-		logger.info("지번: {}", jibunAddress);
 		
 		memberService.getKakaoApiFromAddress( jibunAddress);
 		
@@ -190,14 +171,8 @@ public class MemberController {
 		member.setLatitude(XYMap.get("x"));
 		member.setLongitude(XYMap.get("y"));
 		
-		logger.info("memberlast : {} ", member);
 
 		memberService.insertJoin( member );
-		
-		
-//		kakaoService.getAccessToken(code);
-//		member.setSuserno(code);
-//		memberService.insertkakaoJoin( member );
 		
 		
 		return "/main";
@@ -210,10 +185,8 @@ public class MemberController {
 	public void socialjoin(String sosId, HttpSession session) {
 		logger.info("/login/socialjoin");
 		sosId = (String) session.getAttribute("userId");
-		logger.info("sosid: {}" , sosId);
 		
 	}
-	
 	
 	
 	@PostMapping("/login/socialjoin")
@@ -229,10 +202,7 @@ public class MemberController {
 		// 세션 카카오아이디만 해제하기
 		session.removeAttribute("sosId");
 		
-		logger.info("sosid: {}" , sosId);
-		
 		logger.info("/login/socialjoin");
-		logger.info("member: {}", member);
 		
 		
 		memberService.getKakaoApiFromAddress( jibunAddress);
@@ -241,8 +211,6 @@ public class MemberController {
 		
 		member.setLatitude(XYMap.get("x"));
 		member.setLongitude(XYMap.get("y"));
-		
-		logger.info("memberlast : {} ", member);
 		
 		
 		memberService.insertkakaoJoin( member, sosId );
@@ -253,26 +221,10 @@ public class MemberController {
 	
 	
 	
+	
+	
+	
 
-	
-	
-	
-	
-	
-	@GetMapping("/login/mypage")
-	public void mypage(
-			HttpSession session
-			,Model model
-			) {
-		
-		
-		model.addAttribute("detail", memberService.selectDetail((String)session.getAttribute("loginId")));
-		
-	}
-
-
-
-	
 
 	
 	

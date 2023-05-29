@@ -167,7 +167,7 @@ a {
 				<li><a href="<%=request.getContextPath() %>/board/notice/list">공지사항</a></li>
 			</ul>
 		</li>
-		<li><a href="<%=request.getContextPath() %>/member/mypage">마이페이지</a>
+			<li><a href="<%=request.getContextPath() %>/member/mypage">마이페이지</a>
 			<ul>
 				<li><a href="<%=request.getContextPath() %>/member/join">회원가입</a></li>
 				<li><a href="<%=request.getContextPath() %>/member/login">로그인</a></li>
