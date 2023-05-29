@@ -19,7 +19,7 @@
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/resources/assets//img/favicon/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="../../resources/assets//img/favicon/favicon.ico" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -30,28 +30,28 @@
     />
 
     <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" href="/resources/assets//vendor/fonts/boxicons.css" />
+    <link rel="stylesheet" href="../../resources/assets//vendor/fonts/boxicons.css" />
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="/resources/assets/vendor/css/core.css" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="/resources/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="/resources/assets/css/demo.css" />
+    <link rel="stylesheet" href="../../resources/assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="../../resources/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="../../resources/assets/css/demo.css" />
 
     <!-- Vendors CSS -->
-     <link rel="stylesheet" href="/resources/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" /> 
+     <link rel="stylesheet" href="../../resources/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" /> 
 
-    <link rel="stylesheet" href="/resources/assets/vendor/libs/apex-charts/apex-charts.css" />
+    <link rel="stylesheet" href="../../resources/assets/vendor/libs/apex-charts/apex-charts.css" />
 
     <!-- Page CSS -->
 
     <!-- Helpers -->
-    <script src="/resources/assets//vendor/js/helpers.js"></script>
+    <script src="../../resources/assets//vendor/js/helpers.js"></script>
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
        <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     
-    <script src="/resources/assets/js/config.js"></script>
-    <script src="<%=request.getContextPath() %>/resources/assets/js/config.js"></script>
+    <script src="../../resources/assets/js/config.js"></script>
+    <script src="<%=request.getContextPath() %>../../resources/assets/js/config.js"></script>
     
     <script type="text/javascript">
    	 document.addEventListener('DOMContentLoaded', function() {
@@ -112,8 +112,7 @@
      margin-left: 400px; 
 
 
-/*   	margin-top: 10px; */
- /* í¹ì  divì ììª½ ì¬ë°± ì¤ì  */
+
 	}
 	.logon {
   	position: absolute;

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.ui.Model;
 
 import admin.dto.Blacklist;
+import admin.dto.Notice;
 import admin.dto.ReportBoard;
 import admin.dto.ReportComment;
 import board.dto.Board;
@@ -70,6 +71,8 @@ public interface AdminDao {
 	public CommentTable selectCommentDetail(int commentNo);
 
 	public int selectCommentuser(int commentNo);
+
+	public List<Notice> SelectBytheme(int theme);
 
 
 }
