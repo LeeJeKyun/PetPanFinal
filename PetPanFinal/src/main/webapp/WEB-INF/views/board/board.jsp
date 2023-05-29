@@ -62,6 +62,11 @@
 	margin-bottom: 0;
 	padding-left: 20px;
 }
+.commentCnt{
+	font-size: 0.7em;
+	color:black;
+	font-style: italic;
+}
 </style>
 
 <div id = "fcontainer">
@@ -98,7 +103,7 @@
 		<c:if test="${i.BOARDTYPENO != 5 }">
 		<tr class = "td-style items">
 			<td>${i.BOARDNO }</td>
-			<td><a href ="./board/detail?boardNo=${i.BOARDNO }">${i.BOARDTITLE}</a></td>
+			<td><a href ="./board/detail?boardNo=${i.BOARDNO }">${i.BOARDTITLE}<span class = "commentCnt">[${i.COMMENTCNT }]</span></a></td>
 			<td>${i.USERNAME }</td>
 			<td>${i.HIT }</td>
 			<td>${i.RECOMMEND }</td>

@@ -146,10 +146,10 @@ a {
 				<li><a href="#">유기동물</a></li>
 			</ul>
 		</li>
-		<li><a href="#">병원</a>
+		<li><a href="<%=request.getContextPath() %>/board/hospital/list">병원</a>
 			<ul>
-				<li><a href="#">병원</a></li>
-				<li><a href="#">병원검색</a></li>
+				<li><a href="<%=request.getContextPath() %>/board/hospital/list">병원</a></li>
+				<li><a href="<%=request.getContextPath() %>/board/hospital/list">병원검색</a></li>
 				<li><a href="#">병원리뷰</a></li>
 			</ul>
 		</li>
@@ -160,18 +160,18 @@ a {
 				<li><a href="#">장바구니</a></li>
 			</ul>
 		</li>
-		<li><a href="#">게시판</a>
+		<li><a href="<%=request.getContextPath() %>/board/board">게시판</a>
 			<ul>
-				<li><a href="#">자유게시판</a></li>
-				<li><a href="#">중고거래</a></li>
+				<li><a href="<%=request.getContextPath() %>/board/board">자유게시판</a></li>
+				<li><a href="<%=request.getContextPath() %>/board/board?category=3">중고거래</a></li>
 				<li><a href="<%=request.getContextPath() %>/board/notice/list">공지사항</a></li>
 			</ul>
 		</li>
-		<li><a href="/member/mypage">마이페이지</a>
+		<li><a href="<%=request.getContextPath() %>/member/mypage">마이페이지</a>
 			<ul>
-				<li><a href="/member/join">회원가입</a></li>
-				<li><a href="/member/login">로그인</a></li>
-				<li><a href="/member/mypage">정보수정</a></li>
+				<li><a href="<%=request.getContextPath() %>/member/join">회원가입</a></li>
+				<li><a href="<%=request.getContextPath() %>/member/login">로그인</a></li>
+				<li><a href="<%=request.getContextPath() %>/member/mypage">정보수정</a></li>
 			</ul>
 		</li>
 	</ul>

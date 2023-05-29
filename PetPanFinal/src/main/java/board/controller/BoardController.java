@@ -1,5 +1,6 @@
 package board.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,9 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import board.dto.Board;
 import board.dto.BoardFile;
@@ -340,15 +343,43 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	}
 	// detail 페이지 추천 ajax 구현중
 	@GetMapping("/board/recommend")
-	public String recommend(boolean like, BoardRecommend boardReco, Model model) {
-//		model.addAttribute({
-//			"like"
-//		})
+	public ModelAndView recommend(BoardRecommend boardReco, HttpSession session) {
+
+		ModelAndView mv = new ModelAndView();
 		
-		return "jsonView";
+//		boardReco.setUserNo((int) session.getAttribute("userNo"));
+		boardReco.setUserNo(1);
+		
+		logger.info("추천 boardReco : {}",boardReco);
+
+		// 추천했으면 취소 or 추천
+		
+		mv.addObject("like", boardService.Reco(boardReco));
+		mv.addObject("recommend", boardService.getCountReco(boardReco));
+		mv.setViewName("jsonView");
+		
+		return mv;
 	}
 	//댓글 ajax 구현중
 	@GetMapping("/board/comment")
-	public void comment() {
+	public String comment(int boardNo, Model model) {
+		
+		// commentNo, content, writeDate, userNo, depth, refcommentNo
+		List<Map<String, Object>> list =  boardService.getComments(boardNo);
+		
+		model.addAttribute(list);
+		
+		return "./detail_comment";
+	}
+	
+	@GetMapping("/hospital/list")
+	public void hospitalList(Paging paging, Model model) {
+		
+	}
+	@GetMapping("/hospital/detail")
+	public void hospitalDetail(int hospitalNo, Model model) {
+		
+		
+		
 	}
 }
