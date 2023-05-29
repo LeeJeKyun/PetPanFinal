@@ -21,7 +21,7 @@ public interface AdminDao {
 
 	public List<ReportBoard> ReportBoardtselectAll(AdminPaging paging);
 
-	public int selectTotal();
+	public int selectTotalSearch(String search);
 	
 	public int selectTotalComment();
 
@@ -71,6 +71,10 @@ public interface AdminDao {
 	public CommentTable selectCommentDetail(int commentNo);
 
 	public int selectCommentuser(int commentNo);
+
+	public List<ReportBoard> ReportBoardSearchselectAll(AdminPaging paging);
+
+	public int selectTotal();
 
 	public List<Notice> SelectBytheme(int theme);
 

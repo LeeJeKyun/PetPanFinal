@@ -9,14 +9,17 @@ import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
+import org.aspectj.lang.annotation.Around;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import admin.dao.face.AdminDao;
+import admin.dao.face.AdminShopDao;
 import admin.dto.Blacklist;
 import admin.dto.Notice;
 import admin.dto.ReportBoard;
@@ -31,12 +34,14 @@ import util.AdminPaging;
 import util.Paging;
 
 @Service
+@Transactional
 public class AdminServiceImpl implements AdminService{
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired AdminDao adminDao;
 	@Autowired ServletContext context;
+	@Autowired AdminShopDao adminShopDao;
 
 	@Override
 	public List<ReportBoard> getReportBoard(AdminPaging paging) {
@@ -51,11 +56,20 @@ public class AdminServiceImpl implements AdminService{
 		
 		return list;
 	}
-
+	
 	@Override
 	public AdminPaging getPage(int curPage) {
 		int totalpage = adminDao.selectTotal();
 		AdminPaging paging = new AdminPaging(totalpage, curPage);
+
+		return paging;
+	}
+
+	@Override
+	public AdminPaging getPage(int curPage, String search) {
+		int totalpage = adminDao.selectTotalSearch(search);
+		AdminPaging paging = new AdminPaging(totalpage, curPage);
+		paging.setSearch(search);
 
 		return paging;
 	}
@@ -348,10 +362,63 @@ public class AdminServiceImpl implements AdminService{
 		return list;
 	}
 
+	@Override
+	public List<ReportBoard> getSearchReportBoard(AdminPaging paging) {
+		
+		List<ReportBoard> list = adminDao.ReportBoardSearchselectAll(paging);
+		
+		for(ReportBoard e : list) {
+			System.out.println(e);
+		}
+		
+		return list;
+	}
 
+	@Override
+	public AdminPaging getShopPage(int curPage, String search) {
+		int totalpage = adminShopDao.selectShopTotalSearch(search);
+		
+		AdminPaging paging = new AdminPaging(totalpage, curPage);
+		paging.setSearch(search);
 
+		return paging;
+	}
 
-	
+	@Override
+	public List<Shop> getSearchShopBoard(AdminPaging paging) {
+		
+		System.out.println(paging);
+		
+		List<Shop> list = adminShopDao.ShoptselectAll(paging);
+		
+		for(Shop e : list) {
+			System.out.println(e);
+		}
+		
+		return list;
+	}
+
+	@Override
+	public void deleteCheckedShop(List<String> delete) {
+	    List<String> deleteNoList = delete;
+	    
+	    for (int i = 0; i < deleteNoList.size(); i++) {
+	        int deleteNo = Integer.valueOf(deleteNoList.get(i));
+	        adminShopDao.updateShop(deleteNo); 
+	    }
+		
+	}
+
+	@Override
+	public int saveShopGetObjectno(Shop shop) {
+		int objectno = adminShopDao.selectNextObj();
+		System.out.println(objectno);
+		shop.setObjectno(objectno);
+		adminShopDao.insertShop(shop);
+
+		return objectno;
+	}
+
 
 
 }

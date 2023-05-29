@@ -64,6 +64,18 @@ public interface AdminService {
 
 	public Member getGetMemberComment(int commentNo);
 
+	public List<ReportBoard> getSearchReportBoard(AdminPaging paging);
+
+	public AdminPaging getPage(int curPage, String search);
+
+	public AdminPaging getShopPage(int curPage, String search);
+
+	public List<Shop> getSearchShopBoard(AdminPaging paging);
+
+	public void deleteCheckedShop(List<String> delete);
+
+	public int saveShopGetObjectno(Shop shop);
+	
 	public List<Notice> getNoticeListByType(int theme);
 
 

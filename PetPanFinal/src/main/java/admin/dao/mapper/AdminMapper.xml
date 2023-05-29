@@ -8,6 +8,11 @@
   	<select id="selectTotal" resultType="int">
 		SELECT count(*) FROM reportboard
 	</select>
+	
+	  <select id="selectTotalSearch" resultType="int" parameterType="String">
+		SELECT count(*) FROM reportboard WHERE reportdetail LIKE ('%${search}%')
+	</select>
+	
 	<select id="selectTotalComment" resultType="int">
 		SELECT count(*) FROM reportcomment
 	</select>
@@ -159,6 +164,18 @@
 	
 	<select id="selectCommentuser" resultType="int">
 		SELECT userno FROM CommentTable WHERE commentno = #{commentNo}
+	</select>
+	
+	<select id="ReportBoardSearchselectAll" resultType="admin.dto.ReportBoard" parameterType="util.AdminPaging">
+		SELECT re.* FROM (SELECT rownum rnum, B.* FROM (
+        SELECT C.* FROM
+		(SELECT boreportno, reportdetail, report_date AS reportDate, complete, r.userNo, m.userid, r.boardno, b.boardtitle
+		FROM reportboard r, board b, member m
+		WHERE r.boardno = b.boardno
+		AND b.userno = m.userno
+		ORDER BY boreportno DESC) C
+        WHERE reportdetail LIKE ('%${search}%') ) B)
+        re WHERE rnum BETWEEN #{startNo} AND #{endNo}
 	</select>
 	
 	<select id = "SelectBytheme" resultType="admin.dto.Notice" parameterType="int">
