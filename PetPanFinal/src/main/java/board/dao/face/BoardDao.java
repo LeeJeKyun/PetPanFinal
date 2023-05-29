@@ -238,4 +238,38 @@ public interface BoardDao {
 	 * @return 추천했으면 1 안했으면 0
 	 */
 	public int selectIsReco(BoardRecommend boardReco);
+
+	/**
+	 * 추천하기 insert 하기
+	 * @param boardReco 추천할 게시글과 유저정보
+	 */
+	public void insertBoardReco(BoardRecommend boardReco);
+
+	/**
+	 * 추천했는지 체크
+	 * @param boardReco
+	 * @return 추천했으면 1안했으면 0
+	 */
+	public int checkReco(BoardRecommend boardReco);
+
+	/**
+	 * 추천취소 delete
+	 * 
+	 * @param boardReco 추천 취소할 게시글 번호와 유저 번호
+	 */
+	public void deleteReco(BoardRecommend boardReco);
+
+	/**
+	 * 추천 개수 가져오기
+	 * @param boardReco 추천 개수 가져올 게시글 번호
+	 * @return 추천 개수
+	 */
+	public int selectCntReco(BoardRecommend boardReco);
+
+	/**
+	 * select 댓글 
+	 * @param boardNo 가져올 댓글의 boardNo
+	 * @return select한 댓글
+	 */
+	public List<Map<String, Object>> selectComments(int boardNo);
 }

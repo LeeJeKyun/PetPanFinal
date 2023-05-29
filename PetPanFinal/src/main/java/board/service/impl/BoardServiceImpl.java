@@ -226,7 +226,7 @@ public class BoardServiceImpl implements BoardService{
 			list = boardDao.selectFreeList(paging);
 		}
 		
-		logger.info("{}", list);
+		logger.info(" list {}", list);
 		return list;
 	}
 
@@ -356,7 +356,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public boolean isLike(BoardRecommend boardReco) {
 		
-		if( boardDao.selectIsReco(boardReco) > 0 ) {
+		if( boardDao.checkReco(boardReco) > 0 ) {
 			return true;
 		}
 		return false;
@@ -369,6 +369,32 @@ public class BoardServiceImpl implements BoardService{
 		return boardMap;
 	}
 
+	@Override
+	public boolean Reco(BoardRecommend boardReco) {
+
+		boolean flag = false;
+		
+		if( boardDao.checkReco(boardReco)  > 0) { 
+			boardDao.deleteReco(boardReco); // 추천 취소
+			
+		}else { 
+			boardDao.insertBoardReco(boardReco); //추천하기
+			flag = true;
+		}
+		return flag;
+	}
+
+	@Override
+	public int getCountReco(BoardRecommend boardReco) {
+
+		return boardDao.selectCntReco(boardReco);
+	}
+
+	@Override
+	public List<Map<String, Object>> getComments(int boardNo) {
+
+		return boardDao.selectComments(boardNo);
+	}
 
 	
 }

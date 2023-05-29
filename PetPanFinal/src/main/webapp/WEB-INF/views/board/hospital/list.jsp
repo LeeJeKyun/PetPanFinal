@@ -16,39 +16,6 @@ $(function(){
 <div id = "container">
 	<h2>병원</h2>
 	<div class = "block">
-		<div class = "img"><img alt="이미지" src="<%=request.getContextPath() %>/upload/${i.storedName}"></div>
-		<div class = "info-name">
-			<h4>병원이름</h4>
-		</div>
-		<div class = "info">
-			<div>운영시간: 9:00 ~ 18:00</div>
-			<div>전화번호: 031-123-6789</div>
-			<div>특수동물 가능</div>
-		</div>
-	</div>
-	<div class = "block">
-		<div class = "img"><img alt="이미지" src="<%=request.getContextPath() %>/upload/${i.storedName}"></div>
-		<div class = "info-name">
-			<h4>병원이름</h4>
-		</div>
-		<div class = "info">
-			<div>운영시간: 9:00 ~ 18:00</div>
-			<div>전화번호: 031-123-6789</div>
-			<div>특수동물 가능</div>
-		</div>
-	</div>
-	<div class = "block">
-		<div class = "img"><img alt="이미지" src="<%=request.getContextPath() %>/upload/${i.storedName}"></div>
-		<div class = "info-name">
-			<h4>병원이름</h4>
-		</div>
-		<div class = "info">
-			<div>운영시간: 9:00 ~ 18:00</div>
-			<div>전화번호: 031-123-6789</div>
-			<div>특수동물 가능</div>
-		</div>
-	</div>
-	<div class = "block">
 		<div class = "img">
 			<a href = "./detail?${i.hospitalNo }">
 				<img alt="이미지" src="<%=request.getContextPath() %>/upload/${i.storedName}">

@@ -146,10 +146,10 @@ a {
 				<li><a href="#">유기동물</a></li>
 			</ul>
 		</li>
-		<li><a href="#">병원</a>
+		<li><a href="<%=request.getContextPath() %>/board/hospital/list">병원</a>
 			<ul>
-				<li><a href="#">병원</a></li>
-				<li><a href="#">병원검색</a></li>
+				<li><a href="<%=request.getContextPath() %>/board/hospital/list">병원</a></li>
+				<li><a href="<%=request.getContextPath() %>/board/hospital/list">병원검색</a></li>
 				<li><a href="#">병원리뷰</a></li>
 			</ul>
 		</li>

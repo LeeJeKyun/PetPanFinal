@@ -189,6 +189,30 @@ public interface BoardService {
 	 */
 	public boolean isLike(BoardRecommend boardReco);
 
+	/**
+	 * 게시글 추천하기
+	 * 추천했으면 취소 안했으면 하기
+	 * 
+	 * @param boardReco 추천할 정보 객체
+	 * @return view에서 추천했는지 안했는지 확인 true면 추천했음 false면 안했음
+	 */
+	public boolean Reco(BoardRecommend boardReco);
+
+	/**
+	 * 추천개수 
+	 * @param boardReco
+	 * @return 추천 개수
+	 */
+	public int getCountReco(BoardRecommend boardReco);
+
+	/**
+	 * 댓글 가져오기
+	 * 
+	 * @param boardNo 가져올 댓글의 boardNo
+	 * @return boardNo에 맞는 댓글
+	 */
+	public List<Map<String, Object>> getComments(int boardNo);
+
 	
 
 }

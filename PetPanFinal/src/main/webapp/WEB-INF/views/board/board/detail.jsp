@@ -44,9 +44,6 @@
 .small6{
 	font-size: 0.6em;
 }
-#content{
-
-}
 table{
 	width: 800px;
 }
@@ -63,18 +60,18 @@ table{
 	width: 100%;
 	text-align: right;
 }
-#name-space{
+.name-space{
 	padding-top: 20px;
 	padding-left: 20px;
 	 
 }
-#delete-comment{
+.delete-comment{
 	padding-right: 20px;
 	padding-top: 20px;
 	font-size: 0.8em;
 	cursor: pointer;
 }
-#date{
+.date{
 	font-size: 0.8em;
 }
 .main-comment{
@@ -85,10 +82,15 @@ table{
 .cursor{
  	cursor: pointer;
 }
-#comment2{
+.comment2{
 	width: 800px;
 	text-align:right;
 	margin-right: 20px;
+	cursor: pointer;
+}
+.comment3{
+	width: 780px;
+	text-align: right;
 	cursor: pointer;
 }
 #write{
@@ -115,56 +117,83 @@ table{
 	height: 30px;
 	cursor: pointer;
 }
+.comment2-area{
+	width: 780px;
+	padding-left: 20px;
+}
+.comment3-area{
+	width: 760px;
+	padding-left: 40px;
+}
+#refresh{
+	cursor: pointer;
+}
 </style>
 <script type="text/javascript">
 $(function(){
-	
-// 	$(".like").click(function(){
-// 		$.ajax({
-// 			type: ""
-// 			, url: ""
-// 			, data :{
-				
-// 			}
-// 			, dateType: "json"
-// 			, success: function(data){
-// 				console.log("data ", data)
-// 			}
-// 			, error: function(data{
-// 				console.log("ajax error")
-// 			})
-// 		})
-// 	})
 	
 	// 게시글 신고 버튼 클릭시
 	$("#reportBtn").click(function(){
 		console.log("#reportBtn click")
 		window.open("./reportPopup?boardNo="+${map.BOARDNO }, "신고", "width=400, height=500, resizable=no");
 	})
-	$(".like").click(function(){
+	$("#like-area").on("click", ".like", function(){
 		console.log("heart clicked");
 		
 		$.ajax({
 			type : "get" 
 				, url: "./recommend"
 				, data : { 
-					like: ${like}
-					, boardNo: ${boardNo}
-					, userNo: ${userNo}
+					"boardNo": ${map.BOARDNO }
 				}
-				, dataType : "html"
+				, dataType : "json"
 				, success : function(data){
 					console.log("AJAX 성공")
 					
 					console.log("data1", data.like);
-					console.log("data2", data.count)
+					console.log("data2", data.recommend)
 					
-					likeChange(data.like, data.count);
+					likeChange(data.like, data.recommend);
 					
 				}
 				, error : function(){
 					console.log("AJAX 실패")	
 				}
+		})
+	})
+	// 새로고침
+	$("#refresh").click(function(){
+		$.ajax({
+			type: "get"
+			, url: "./comment"
+			, data: {
+				"boardNo": ${map.BOARDNO }
+			}
+			, dataType : "html"
+			, success: function(res){
+				$("#commentsBox").html(res);
+			}
+			, error: function(){
+				console.log("댓글 ajax 실패");
+			}
+		})
+	})
+	//  댓글 작성
+	$("#writeBtn").click(function(){
+		$.ajax({
+			type: "get"
+			, url: "./comment"
+			, data: {
+				"boardNo": ${map.BOARDNO }
+				, "depth": 
+			}
+			, dataType : "html"
+			, success: function(res){
+				$("#commentsBox").html(res);
+			}
+			, error: function(){
+				console.log("댓글 ajax 실패");
+			}
 		})
 	})
 	
@@ -176,6 +205,26 @@ $(function(){
 })
 function likeChange(like, count){
 	console.log("likeChange() 호출됨");
+
+	if(like){
+		var html = "";
+		html += "<div style = 'padding-left: 16px;'>";
+		html += "  <img alt='좋아요'  class = 'like' src='<%=request.getContextPath() %>/resources/img/fillheart.png'>"
+		html += "</div>"
+		html += "<div>추천수 : " + count + "</div>";
+		
+		console.log(html);			 
+		$("#like-area").html(html);
+	}else{
+		var html = "";
+		html += "<div style = 'padding-left: 16px;'>";
+		html += "  <img alt='좋아요'  class = 'like' src='<%=request.getContextPath() %>/resources/img/emptyheart.png'>"
+		html += "</div>"
+		html += "<div>추천수 : " + count + "</div>";
+
+	 	console.log(html);
+		$("#like-area").html(html);
+	}
 	
 }
 </script>
@@ -252,30 +301,10 @@ function likeChange(like, count){
 	 		<div id = "write-comment" >댓글 <textarea id = "write"  placeholder = "댓글을 작성하세요."></textarea>
 	 		<button type = "button" id = "writeBtn">작성</button>	
 	 		</div>
-	 		<div id = "refresh" class = "cursor right-side">새로고침</div>
+	 		<div class = "right-side"><span id = "refresh">새로고침</span></div>
 	 <!-- ajax html -->
-	 <div class = "comment-area">
-	 		<div class = " f comment">
-	 			<div class = "info-space">
-	 				<table>
-	 					<tr>
-	 						<td class = "left-side" id = "name-space">글쓴이${userName }
-	 							<span id = "date">(2020.12.13)</span>
-	 						</td>
-	 						
-	 						<td class = "right-side" id = "delete-comment">삭제</td>
-	 					</tr>
-	 				</table>
-	 			</div>
-	 			<div class = "main-comment">
-	 			<br>
-	 				댓그르르르
-	 			<br>
-	 			<br>
-	 			</div>
-	 		</div>
-	 		<div id = "comment2" class = "small6 cursor">답글달기</div>
-	 </div>
-	 <!-- ajax html -->
+	 <!-- 댓글 -->
+	 <div id = "commentsBox"></div>
+		<!-- 	 <!-- ajax html --> 
 </div>
 <c:import url = "../../layout/footer.jsp" />

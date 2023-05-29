@@ -126,13 +126,20 @@
 	
 	<select id = "selectMarketList" parameterType="util.Paging" resultType = "map">
 		SELECT * FROM(
-			SELECT rownum rnum, B.* FROM(
-				SELECT board.boardno, boardtitle, username, content, write_date AS writeDate, hit
-                        ,(select count(*)
-                            from boardrecommend C, board
-                            where C.boardno = board.boardno) AS recommend 
+			SELECT rownum rnum,
+                    (select count(*)
+                    from boardrecommend C
+                    where C.boardno = B.boardno) AS recommend  
+                    
+                    , (select count(*)
+                    from commenttable C
+                    where C.boardno = B.boardno) AS commentCnt 
+                    
+                    , B.* FROM(
+				SELECT board.boardno, boardtitle, username, write_date AS writeDate, hit
                         , member.userno, boardtypeno
 				FROM board, member
+				
 				WHERE board.userno = member.userno AND boardtypeno = 3 AND content like '%'||#{search}||'%'
 				ORDER BY boardno desc
 			)B
@@ -141,11 +148,17 @@
 	</select>
 	<select id = "selectFreeList" parameterType="util.Paging" resultType = "map">
 		SELECT * FROM(
-			SELECT rownum rnum, B.* FROM(
-				SELECT board.boardno, boardtitle, username, content, write_date AS writeDate, hit
-                        ,(select count(*)
-                            from boardrecommend C, board
-                            where C.boardno = board.boardno) AS recommend 
+			SELECT rownum rnum,
+                    (select count(*)
+                    from boardrecommend C
+                    where C.boardno = B.boardno) AS recommend  
+                    
+                    , (select count(*)
+                    from commenttable C
+                    where C.boardno = B.boardno) AS commentCnt 
+                    
+                    , B.* FROM(
+				SELECT board.boardno, boardtitle, username, write_date AS writeDate, hit
                         , member.userno, boardtypeno
 				FROM board, member
 				
@@ -228,5 +241,27 @@
 		select count(*)
 		from boardrecommend
 		where boardNo = #{boardNo} AND userNo = #{userNo}
+	</select>
+	<insert id="insertBoardReco" parameterType="board.dto.BoardRecommend">
+		insert into boardrecommend(boardRecomNo, boardNo, userNo)
+		values (seq_boardrecommend.nextval, #{boardNo}, #{userNo})
+	</insert>
+	<select id="checkReco" parameterType="board.dto.BoardRecommend" resultType="int">
+		select count(*)
+		from boardrecommend
+		where userNo = #{userNo} AND boardNo = #{boardNo}
+	</select>
+	<delete id="deleteReco" parameterType="board.dto.BoardRecommend" >
+		delete  from boardrecommend
+		where userNo = #{userNo} AND boardNo = #{boardNo}
+	</delete>
+	<select id="selectCntReco" parameterType="board.dto.BoardRecommend" resultType="int">
+		select count(*) from boardrecommend
+		where boardNo = #{boardNo}
+	</select>
+	<select id="selectComments" parameterType="int" resultType="map">
+		select commentno, content, write_date AS writeDate, userNo, depth, refcommentNo
+		from commenttable
+		where boardNo = #{boardNo}
 	</select>
 </mapper>
