@@ -39,7 +39,7 @@
  <c:import url="../../layout/adminHeader.jsp"/>
 <body>
 <div class="container2">
-<div>
+<div align="center">
 	<form action="/petpan/admin/reportcomment/delete" method="get">
 		<table class = "table table-striped" style="width:800px">
 		<tr>
@@ -66,9 +66,10 @@
 		</tr>
 		</c:forEach>
 		</table>
+		<div align="right" id="searchdelete" class="searchdelete">
 		<input type="checkbox" id="checkall" name="checkall" class="checkall">전부선택
-		<input type="submit" id="codeIdSubmit" value="선택 삭제">
-		
+		<input type="submit" id="codeIdSubmit" value="선택 삭제"  class="btn btn-danger">
+		</div>
 	</form>
 	<c:import url="../../layout/adminpaging.jsp"/>
 </div>

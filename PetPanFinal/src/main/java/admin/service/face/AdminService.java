@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import admin.dto.Blacklist;
+import admin.dto.Notice;
 import admin.dto.ReportBoard;
 import admin.dto.ReportComment;
 import board.dto.Board;
@@ -62,6 +63,20 @@ public interface AdminService {
 			String getdoblackres, String getgetblackres);
 
 	public Member getGetMemberComment(int commentNo);
+
+	public List<ReportBoard> getSearchReportBoard(AdminPaging paging);
+
+	public AdminPaging getPage(int curPage, String search);
+
+	public AdminPaging getShopPage(int curPage, String search);
+
+	public List<Shop> getSearchShopBoard(AdminPaging paging);
+
+	public void deleteCheckedShop(List<String> delete);
+
+	public int saveShopGetObjectno(Shop shop);
+	
+	public List<Notice> getNoticeListByType(int theme);
 
 
 
