@@ -50,6 +50,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public Member selectlogin(Member member) {
+		logger.info("member : {}", member);
 		Member member2 = memberDao.selectlogin(member);
 		return member2;
 	}

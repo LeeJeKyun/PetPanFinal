@@ -24,6 +24,7 @@ import board.dao.face.BoardDao;
 import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
+import board.dto.CommentTable;
 import board.dto.Notice;
 import board.dto.ReportBoard;
 import board.service.face.BoardService;
@@ -179,15 +180,32 @@ public class BoardServiceImpl implements BoardService{
 		map.put("userNo", userNo);
 		
 		if( boardDao.selectRecommendCntByBoardNoUserNo(map) > 0) {
+			logger.info("추천이있다.");
 			return true;
 		}
 		
 		return false;
 	}
 	
+	@Override
+	public void inputComment(CommentTable commentTable) {
+		boardDao.insertCommentToCareBoard(commentTable);
+	}
+	
+	@Override
+	public List<Map<String, Object>> getCommentList(int boardno) {
+		
+		return boardDao.selectCommentByBoardno(boardno);
+	}
+	
+	@Override
+	public List<Map<String, Object>> getNoticeListToCare() {
+		return boardDao.selectNoticeToCare();
+	}
+	
+	
 	//-------------------------------제균----------------------------------
 
-	
 
 	@Override
 	public Paging getPaging(Integer curPage, int category, String search) {
