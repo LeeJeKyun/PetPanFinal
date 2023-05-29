@@ -229,7 +229,14 @@ function enterkey(e) {
 function showComCom(commentno){
 	console.log(commentno)
 	$("#ComCom" + commentno).toggleClass("displayNone");
+	$("#Ccontent" + commentno).focus();
 	$("#Ccontent" + commentno).val('');
+}
+function enterkeyPress(e, commentno) {
+	if (e.keyCode == 13) {
+		console.log("1뎁스 대댓글입력")
+		$("#ComComSubmit"+commentno).click();
+	}
 }
 
 </script>

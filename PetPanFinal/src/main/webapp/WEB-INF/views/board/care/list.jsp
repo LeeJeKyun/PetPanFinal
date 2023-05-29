@@ -30,7 +30,7 @@ function searchInit(){
 
 <div style="text-align: left; width: 1100px; margin: 0 auto;">
 	<span style="font-size: 2em; font-weight: bold;">품앗이</span>
-	<select name="boardselect" id="boardselect" onchange="location.href=(this.value);" style="position: relative; height: 30px; font-size: 16px;">
+	<select name="boardselect" id="boardselect" onchange="location.href=(this.value);" style="height: 30px; font-size: 16px;">
 	<option value="" selected="selected">품앗이</option>
 	<option value="">임시보호</option>
 	<option value="" >유기동물</option>
@@ -52,7 +52,7 @@ function searchInit(){
 <c:forEach items="${noticeList }" var="notice">
 	<tr style="height: 40px; border-top: 2px solid #f5cbcb;">
 		<td>${notice.NOTICENO }</td>
-		<td></td>
+		<td style="height: 90px;"><a href="../notice/view?noticeno=${notice.NOTICENO }"><img width="120px" height="90px" alt="공지사항" src="" style="vertical-align: middle;" ></a></td>
 		<td><a href="../notice/view?noticeno=${notice.NOTICENO }">${notice.NOTICETITLE }</a></td>
 		<td>관리자</td>
 		<td><fmt:formatDate value="${notice.NOTICEWRITEDATE }" pattern="yyyy-MM-dd" /></td>
@@ -63,7 +63,7 @@ function searchInit(){
 <c:forEach items="${list }" var="care">
 	<tr style="height: 40px; border-top: 2px solid #f5cbcb;">
 		<td>${care.BOARDNO }</td>
-		<td style="height: 90px;"><img width="120px" height="90px" alt="아가사진" src="<%=request.getContextPath() %>/upload/${care.STOREDNAME}" style="vertical-align: middle;" ></td>
+		<td style="height: 90px;"><a href="../care/view?boardNo=${care.BOARDNO }"><img width="120px" height="90px" alt="아가사진" src="<%=request.getContextPath() %>/upload/${care.STOREDNAME}" style="vertical-align: middle;" ></a></td>
 		<td><a href="../care/view?boardNo=${care.BOARDNO }">${care.BOARDTITLE }</a></td>
 		<td>${care.USERID }</td>
 		<td><fmt:formatDate value="${care.WRITEDATE }" pattern="yyyy-MM-dd" /></td>
