@@ -6,6 +6,7 @@ import java.util.Map;
 import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
+import board.dto.CommentTable;
 import board.dto.Notice;
 import board.dto.ReportBoard;
 import util.Paging;
@@ -111,6 +112,27 @@ public interface BoardDao {
 	 */
 	public int selectRecommendCnt(int boardNo);
 	
+	/**
+	 * 품앗이 게시글의 댓글을 insert하는 메소드
+	 * 
+	 * @param commentTable
+	 */
+	public void insertCommentToCareBoard(CommentTable commentTable);
+
+	/**
+	 * 해당 게시글(boardno)의 댓글을 모두 가져오는 메소드 
+	 * 
+	 * @param boardno
+	 * @return
+	 */
+	public List<Map<String, Object>> selectCommentByBoardno(int boardno);
+	
+	/**
+	 * 품앗이 게시판에 띄울 최신공지사항을 가져오는 메소드
+	 * 
+	 * @return
+	 */
+	public List<Map<String, Object>> selectNoticeToCare();
 	
 	//--------------------------제균--------------------------------
 
@@ -238,4 +260,38 @@ public interface BoardDao {
 	 * @return 추천했으면 1 안했으면 0
 	 */
 	public int selectIsReco(BoardRecommend boardReco);
+
+	/**
+	 * 추천하기 insert 하기
+	 * @param boardReco 추천할 게시글과 유저정보
+	 */
+	public void insertBoardReco(BoardRecommend boardReco);
+
+	/**
+	 * 추천했는지 체크
+	 * @param boardReco
+	 * @return 추천했으면 1안했으면 0
+	 */
+	public int checkReco(BoardRecommend boardReco);
+
+	/**
+	 * 추천취소 delete
+	 * 
+	 * @param boardReco 추천 취소할 게시글 번호와 유저 번호
+	 */
+	public void deleteReco(BoardRecommend boardReco);
+
+	/**
+	 * 추천 개수 가져오기
+	 * @param boardReco 추천 개수 가져올 게시글 번호
+	 * @return 추천 개수
+	 */
+	public int selectCntReco(BoardRecommend boardReco);
+
+	/**
+	 * select 댓글 
+	 * @param boardNo 가져올 댓글의 boardNo
+	 * @return select한 댓글
+	 */
+	public List<Map<String, Object>> selectComments(int boardNo);
 }

@@ -1,5 +1,6 @@
 package member.dao.face;
 
+
 import member.dto.Member;
 
 public interface MemberDao {
@@ -10,14 +11,6 @@ public interface MemberDao {
 	 * @param member
 	 */
 	public int loginProc(Member member);
-
-	/**
-	 * 회원 정보 조회
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public Member selectDetailMember(String userId);
 
 	/**
 	 * 회원가입
@@ -56,18 +49,30 @@ public interface MemberDao {
 	public int selectKakao(Member member);
 
 	/**
-//	 * 카카오 회원 정보 수정(회원가입)
-//	 * 
-//	 * @param member
-//	 */
-//	public void upadatekakaoJoin(Member member);
+	 * userNo로 회원 상세조회
+	 * 
+	 * @param userNo
+	 * @return
+	 */
+	public Member selectDetailMember(Member userNo);
 
-//	/**
-//	 * 
-//	 * @param code
-//	 * @return
-//	 */
-//	public int loginProc(String code);
+	/**
+	 * 회원 정보 수정
+	 * 
+	 * @param member
+	 */
+	public void updateMember(Member member);
+
+	/**
+	 * 소셜 유저 넘버 조회
+	 * 
+	 * @param sosId
+	 * @return
+	 */
+	public Member selectSuser(String sosId);
+
+
+
 
 	
 

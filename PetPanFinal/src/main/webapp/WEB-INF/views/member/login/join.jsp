@@ -98,6 +98,11 @@ $(function() {
       <span id="userPwcheck_error" class="msg"></span>
    </div>
    
+   <div class="select">
+      <label for="userNick">닉네임</label>
+      <input type="text" id="userNick" name="userNick" >
+      <span id="userNick_msg" class="msg"></span>
+   </div>
 
    <div class="select">
       <label for="email">이메일</label>

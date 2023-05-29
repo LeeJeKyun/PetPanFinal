@@ -1,9 +1,9 @@
 package board.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -13,14 +13,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
+import board.dto.CommentTable;
 import board.dto.Notice;
 import board.dto.ReportBoard;
 import board.service.face.BoardService;
@@ -86,12 +88,19 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		Paging paging = boardService.getCarePaging(curPage, search);
 		
 		List<Map<String, Object>> list = boardService.getCareList(paging);
+		List<Map<String, Object>> noticeList = boardService.getNoticeListToCare();
 		
 		//확인해보기
 //		for(Map<String, Object> m : list) {
 //			logger.info("map -> {}", m);
 //		}
+
+//		//확인해보기
+		for(Map<String, Object> m : noticeList) {
+			logger.info("map -> {}", m);
+		}
 		
+		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		
@@ -111,10 +120,10 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 			
 			) {
 		
-		String loginid = (String)session.getAttribute("loginid"); 
+//		String loginid = (String)session.getAttribute("loginid"); 
 		
 		//나중에 세션에 userno추가되면 메소드 지우기
-		board.setUserNo(boardService.getUserno(loginid));
+		board.setUserNo(Integer.parseInt((String)session.getAttribute("userno")));
 		logger.info("board {}", board);
 		logger.info("file {}", file);
 		
@@ -137,20 +146,23 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		
 		List<BoardFile> fileList = boardService.getCareFile(boardNo);
 		logger.info("fileList : {}", fileList);
-		String loginid = null;
+//		String loginid = null;
 		int userNo = 0;
 		boolean isRecommended = false;
+		List<Map<String, Object>> commentList = boardService.getCommentList(boardNo);
 		
 		if(session.getAttribute("login") != null) {
-			loginid = (String)session.getAttribute("loginid");
-			userNo = boardService.getUserno(loginid);
+//			loginid = (String)session.getAttribute("loginid");
+			userNo = Integer.parseInt((String)session.getAttribute("userno"));
 			
 			isRecommended = boardService.isRecommended(boardNo, userNo);
+			logger.info("isRecommended : {} ", isRecommended);
 		}
 		
 		model.addAttribute("map", map);
 		model.addAttribute("fileList", fileList);
-		model.addAttribute("idRecommended", isRecommended);
+		model.addAttribute("isRecommended", isRecommended)	;
+		model.addAttribute("commentList", commentList);
 		
 	}
 	
@@ -183,9 +195,9 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 			) {
 		
 //		logger.info("boardNo : {}", boardNo);
-		String loginid = (String)session.getAttribute("loginid");
+//		String loginid = (String)session.getAttribute("loginid");
 //		logger.info("loginid : {}", loginid);
-		int userNo = boardService.getUserno(loginid);
+		int userNo = Integer.parseInt((String)session.getAttribute("userno"));
 //		logger.info("userNo : {}", userNo);
 		
 		boardService.recommendBoardCare(boardNo, userNo);
@@ -194,6 +206,25 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		logger.info("recommendCnt : {}", recommendCnt);
 		
 		model.addAttribute("recommendCnt", recommendCnt);
+	}
+	
+	@GetMapping("/care/comment")
+	public void care_view_comment(
+			CommentTable commentTable
+			, Model model
+			) {
+//		logger.info("CommentTable : {}", commentTable);
+		commentTable.setDepth(commentTable.getDepth()+1);
+		logger.info("CommentTable : {}", commentTable);
+		boardService.inputComment(commentTable);
+		List<Map<String, Object>> commentList = boardService.getCommentList(commentTable.getBoardno());
+		
+		for(Map<String, Object> m : commentList) {
+			logger.info("map : {}", m);
+			
+		}
+		model.addAttribute("commentList", commentList);
+		
 	}
 	
 	//-----------------------------제균--------------------------------------------
@@ -312,15 +343,43 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	}
 	// detail 페이지 추천 ajax 구현중
 	@GetMapping("/board/recommend")
-	public String recommend(boolean like, BoardRecommend boardReco, Model model) {
-//		model.addAttribute({
-//			"like"
-//		})
+	public ModelAndView recommend(BoardRecommend boardReco, HttpSession session) {
+
+		ModelAndView mv = new ModelAndView();
 		
-		return "jsonView";
+//		boardReco.setUserNo((int) session.getAttribute("userNo"));
+		boardReco.setUserNo(1);
+		
+		logger.info("추천 boardReco : {}",boardReco);
+
+		// 추천했으면 취소 or 추천
+		
+		mv.addObject("like", boardService.Reco(boardReco));
+		mv.addObject("recommend", boardService.getCountReco(boardReco));
+		mv.setViewName("jsonView");
+		
+		return mv;
 	}
 	//댓글 ajax 구현중
 	@GetMapping("/board/comment")
-	public void comment() {
+	public String comment(int boardNo, Model model) {
+		
+		// commentNo, content, writeDate, userNo, depth, refcommentNo
+		List<Map<String, Object>> list =  boardService.getComments(boardNo);
+		
+		model.addAttribute(list);
+		
+		return "./detail_comment";
+	}
+	
+	@GetMapping("/hospital/list")
+	public void hospitalList(Paging paging, Model model) {
+		
+	}
+	@GetMapping("/hospital/detail")
+	public void hospitalDetail(int hospitalNo, Model model) {
+		
+		
+		
 	}
 }

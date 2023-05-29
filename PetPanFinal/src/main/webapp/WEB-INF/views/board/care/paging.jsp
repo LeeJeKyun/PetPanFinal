@@ -6,7 +6,7 @@
     <style>
 .container div{
 	width: 600px;
-	
+	 
 }    
 .ul{
 	width: 474px;

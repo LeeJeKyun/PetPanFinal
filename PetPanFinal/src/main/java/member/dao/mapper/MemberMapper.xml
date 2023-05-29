@@ -11,15 +11,9 @@
   		WHERE userId=#{userId} AND userPw=#{userPw}
   	</select>
   
-    <select id="selectDetailMember" resultType="member.dto.Member" parameterType="String">
-  		SELECT username, userid, email
-  		FROM member
-  		WHERE userId=#{userId}
-  	</select>
-  	
   	<insert id="insertJoin" parameterType="member.dto.Member">
-  		INSERT INTO member( userno, username, userid, userpw, email, address, zipcode, phone, detailaddress, positionno, latitude, longitude )
-  		VALUES(seq_member.nextval, #{userName}, #{userId}, #{userPw}, #{email},  #{address}, #{zipCode}, #{phone}, #{detailaddress}, #{positionNo}, #{latitude}, #{longitude} )
+  		INSERT INTO member( userno, username, userid, userpw, email, address, zipcode, phone, detailaddress, positionno, latitude, longitude, usernick )
+  		VALUES(seq_member.nextval, #{userName}, #{userId}, #{userPw}, #{email},  #{address}, #{zipCode}, #{phone}, #{detailaddress}, #{positionNo}, #{latitude}, #{longitude}, #{userNick} )
   	</insert>
   	
   	
@@ -42,21 +36,28 @@
   	</select>
   	
   	<insert id="kakaoinsert" parameterType="member.dto.Member">
-  		INSERT INTO member( userno, username, userid, userpw, email, address, zipcode, phone, detailaddress, positionno, latitude, longitude, suserno )
-  		VALUES( seq_member.nextval, #{userName}, #{userId}, #{userPw}, #{email},  #{address}, #{zipCode}, #{phone}, #{detailaddress}, #{positionNo}, #{latitude}, #{longitude}, #{suserno}  )
+  		INSERT INTO member( userno, username, userid, userpw, email, address, zipcode, phone, detailaddress, positionno, latitude, longitude, suserno, usernick )
+  		VALUES( seq_member.nextval, #{userName}, #{userId}, #{userPw}, #{email},  #{address}, #{zipCode}, #{phone}, #{detailaddress}, #{positionNo}, #{latitude}, #{longitude}, #{suserno}, #{userNick}  )
   	</insert>
   	
-<!--   	 <update id="upadatekakaoJoin" parameterType="member.dto.Member"> -->
-<!--   		UPDATE member( username, userid, userpw, email, address, zipcode, phone, detailaddress, positionno, latitude, longitude ) -->
-<!--   		SET( #{userName}, #{userId}, #{userPw}, #{email},  #{address}, #{zipCode}, #{phone}, #{detailaddress}, #{positionNo}, #{latitude}, #{longitude}  ) -->
-<!--   		WHERE username = '카카오' -->
-<!--   	</update> -->
+  	
+  	<select id="selectDetailMember" parameterType="int" resultType="member.dto.Member">
+  		SELECT * FROM member
+  		WHERE userNo=#{userNo}
+  	</select>
+  	
+  	<update id="updateMember" parameterType="member.dto.Member">
+  		UPDATE member
+  		SET userpw=#{userPw}, usernick=#{userNick}, email=#{email}, address=#{address}, zipcode=#{zipCode}, detailaddress=#{detailaddress }, latitude=#{latitude}, longitude=#{longitude}, phone=#{phone}
+  		WHERE userno=#{userNo}
+  	</update>
+
+  	<select id="selectSuser" resultType="member.dto.Member" parameterType="String">
+  		SELECT * FROM member
+  		WHERE suserNo = #{suserNo}
+  	</select>
   	
   	
-<!--   	<select id ="loginProc" resultType="int"> -->
-<!--   		SELECT COUNT(*) -->
-<!--   		FROM sociallogin -->
-<!--   		WHERE userId=#{userId} AND userPw=#{userPw} -->
-<!--   	</select> -->
+
   	
   </mapper>

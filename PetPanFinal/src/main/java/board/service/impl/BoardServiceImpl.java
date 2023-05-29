@@ -24,6 +24,7 @@ import board.dao.face.BoardDao;
 import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
+import board.dto.CommentTable;
 import board.dto.Notice;
 import board.dto.ReportBoard;
 import board.service.face.BoardService;
@@ -179,15 +180,32 @@ public class BoardServiceImpl implements BoardService{
 		map.put("userNo", userNo);
 		
 		if( boardDao.selectRecommendCntByBoardNoUserNo(map) > 0) {
+			logger.info("추천이있다.");
 			return true;
 		}
 		
 		return false;
 	}
 	
+	@Override
+	public void inputComment(CommentTable commentTable) {
+		boardDao.insertCommentToCareBoard(commentTable);
+	}
+	
+	@Override
+	public List<Map<String, Object>> getCommentList(int boardno) {
+		
+		return boardDao.selectCommentByBoardno(boardno);
+	}
+	
+	@Override
+	public List<Map<String, Object>> getNoticeListToCare() {
+		return boardDao.selectNoticeToCare();
+	}
+	
+	
 	//-------------------------------제균----------------------------------
 
-	
 
 	@Override
 	public Paging getPaging(Integer curPage, int category, String search) {
@@ -226,7 +244,7 @@ public class BoardServiceImpl implements BoardService{
 			list = boardDao.selectFreeList(paging);
 		}
 		
-		logger.info("{}", list);
+		logger.info(" list {}", list);
 		return list;
 	}
 
@@ -356,7 +374,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public boolean isLike(BoardRecommend boardReco) {
 		
-		if( boardDao.selectIsReco(boardReco) > 0 ) {
+		if( boardDao.checkReco(boardReco) > 0 ) {
 			return true;
 		}
 		return false;
@@ -369,6 +387,32 @@ public class BoardServiceImpl implements BoardService{
 		return boardMap;
 	}
 
+	@Override
+	public boolean Reco(BoardRecommend boardReco) {
+
+		boolean flag = false;
+		
+		if( boardDao.checkReco(boardReco)  > 0) { 
+			boardDao.deleteReco(boardReco); // 추천 취소
+			
+		}else { 
+			boardDao.insertBoardReco(boardReco); //추천하기
+			flag = true;
+		}
+		return flag;
+	}
+
+	@Override
+	public int getCountReco(BoardRecommend boardReco) {
+
+		return boardDao.selectCntReco(boardReco);
+	}
+
+	@Override
+	public List<Map<String, Object>> getComments(int boardNo) {
+
+		return boardDao.selectComments(boardNo);
+	}
 
 	
 }
