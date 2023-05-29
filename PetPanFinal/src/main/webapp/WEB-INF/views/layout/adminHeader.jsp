@@ -18,8 +18,13 @@
 
     <meta name="description" content="" />
 
+<<<<<<< HEAD
     <!-- Favicon  -->
 <!--     <link rel="icon" type="image/x-icon" href="../../../../resources/assets//img/favicon/favicon.ico" /> -->
+=======
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../../resources/assets//img/favicon/favicon.ico" />
+>>>>>>> refs/remotes/origin/master
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -30,27 +35,54 @@
     />
 
     <!-- Icons. Uncomment required icon fonts -->
+<<<<<<< HEAD
     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/fonts/boxicons.css" />
+=======
+    <link rel="stylesheet" href="../../resources/assets//vendor/fonts/boxicons.css" />
+>>>>>>> refs/remotes/origin/master
 
     <!-- Core CSS -->
+<<<<<<< HEAD
     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/css/core.css" class="template-customizer-core-css" />
     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/css/demo.css" />
+=======
+    <link rel="stylesheet" href="../../resources/assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="../../resources/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="../../resources/assets/css/demo.css" />
+>>>>>>> refs/remotes/origin/master
 
     <!-- Vendors CSS -->
+<<<<<<< HEAD
      <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" /> 
+=======
+     <link rel="stylesheet" href="../../resources/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" /> 
+>>>>>>> refs/remotes/origin/master
 
+<<<<<<< HEAD
     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/libs/apex-charts/apex-charts.css" />
+=======
+    <link rel="stylesheet" href="../../resources/assets/vendor/libs/apex-charts/apex-charts.css" />
+>>>>>>> refs/remotes/origin/master
 
     <!-- Page CSS -->
 
     <!-- Helpers -->
+<<<<<<< HEAD
     <script src="<%=request.getContextPath() %>/resources/assets/vendor/js/helpers.js"></script>
+=======
+    <script src="../../resources/assets//vendor/js/helpers.js"></script>
+>>>>>>> refs/remotes/origin/master
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
        <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     
+<<<<<<< HEAD
     <script src="<%=request.getContextPath() %>/resources/assets/js/config.js"></script>
+=======
+    <script src="../../resources/assets/js/config.js"></script>
+    <script src="<%=request.getContextPath() %>../../resources/assets/js/config.js"></script>
+>>>>>>> refs/remotes/origin/master
     
     <script type="text/javascript">
    	 document.addEventListener('DOMContentLoaded', function() {
@@ -111,8 +143,12 @@
      margin-left: 400px; 
      margin-top: 100px; 
 
+<<<<<<< HEAD
 /*   	margin-top: 10px; */
  /* 특정 div의 위쪽 여백 설정 */
+=======
+
+>>>>>>> refs/remotes/origin/master
 	}
 	.logon {
   	position: absolute;

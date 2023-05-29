@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import admin.dto.Blacklist;
+import admin.dto.Notice;
 import admin.dto.ReportBoard;
 import admin.dto.ReportComment;
 import board.dto.Board;
@@ -20,7 +21,7 @@ public interface AdminService {
 
 	public List<ReportBoard> getReportBoard(AdminPaging paging);
 
-	public AdminPaging getPage(int curPage, String search);
+	public AdminPaging getPage(int curPage);
 
 	public ReportBoard getReportView(String boreportNo);
 
@@ -65,7 +66,7 @@ public interface AdminService {
 
 	public List<ReportBoard> getSearchReportBoard(AdminPaging paging);
 
-	public AdminPaging getPage(int curPage);
+	public AdminPaging getPage(int curPage, String search);
 
 	public AdminPaging getShopPage(int curPage, String search);
 
@@ -74,6 +75,8 @@ public interface AdminService {
 	public void deleteCheckedShop(List<String> delete);
 
 	public int saveShopGetObjectno(Shop shop);
+	
+	public List<Notice> getNoticeListByType(int theme);
 
 
 

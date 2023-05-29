@@ -178,4 +178,13 @@
         re WHERE rnum BETWEEN #{startNo} AND #{endNo}
 	</select>
 	
+	<select id = "SelectBytheme" resultType="admin.dto.Notice" parameterType="int">
+	
+		        SELECT noticeno,noticetitle,noticecontent,noticewritedate,userno
+		        FROM notice
+		        WHERE boardtypeno =  ${theme}
+		        ORDER BY noticeno DESC
+	
+	</select>
+	
 </mapper>
