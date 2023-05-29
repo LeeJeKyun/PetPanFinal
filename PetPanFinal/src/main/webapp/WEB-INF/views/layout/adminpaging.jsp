@@ -45,32 +45,32 @@ a{
 	<ul class = "ul">
 		<!-- 처음으로 이동 -->
 		<c:if test="${paging.curPage ne 1 }">
-			<li class = "startPage li"><a href = "./list?curPage=1">처음</a></li>
+			<li class = "startPage li"><a href = "./list?curPage=1&search=${paging.search}">처음</a></li>
 		</c:if>
 		
 		<!-- 왼쪽으로 한 페이지 이동 -->
 		<c:if test="${paging.curPage  gt 1 }">
-			<li class = "li"><a href = "./list?curPage=${paging.curPage-1 }">&#60;</a></li>
+			<li class = "li"><a href = "./list?curPage=${paging.curPage-1 }&search=${paging.search}">&#60;</a></li>
 		</c:if>
 		
 		<c:forEach var = "i"  begin = "${paging.startPage }" end = "${paging.endPage }">
 <%-- 		<c:forEach var = "i" begin = "1" end = "10"> --%>
 			<c:if test="${paging.curPage eq i }">
-				<li class = "colorBox li"><a href = "./list?curPage=${i }">${i }</a></li>
+				<li class = "colorBox li"><a href = "./list?curPage=${i }&search=${paging.search}">${i }</a></li>
 			</c:if>
 			<c:if test="${paging.curPage ne i }">
-				<li class = "li"><a href = "./list?curPage=${i }">${i }</a></li>
+				<li class = "li"><a href = "./list?curPage=${i }&search=${paging.search}">${i }</a></li>
 			</c:if>
 		</c:forEach>
 		<!-- 오른쪽 페이지로 한 페이지 이동 -->
 		<c:if test="${paging.curPage  lt paging.totalPage}">
-			<li class = "li"><a href = "./list?curPage=${paging.curPage+1 }">&#62;</a></li>
+			<li class = "li"><a href = "./list?curPage=${paging.curPage+1 }&search=${paging.search}">&#62;</a></li>
 		</c:if>
 		
 		<!-- 마지막 페이지로 이동 -->
 		<c:if test="${paging.curPage lt paging.totalPage}">
 
-			<li class = "endPage li"><a href = "./list?curPage=${paging.totalPage }">마지막</a></li>
+			<li class = "endPage li"><a href = "./list?curPage=${paging.totalPage }&search=${paging.search}">마지막</a></li>
 		</c:if>
 	</ul>
 </div>
