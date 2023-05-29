@@ -167,11 +167,11 @@ a {
 				<li><a href="<%=request.getContextPath() %>/board/notice/list">공지사항</a></li>
 			</ul>
 		</li>
-		<li><a href="/member/mypage">마이페이지</a>
+		<li><a href="/member/mypage/mypage">마이페이지</a>
 			<ul>
-				<li><a href="/member/join">회원가입</a></li>
-				<li><a href="/member/login">로그인</a></li>
-				<li><a href="/member/mypage">정보수정</a></li>
+				<li><a href="/member/login/join">회원가입</a></li>
+				<li><a href="/member/login/login">로그인</a></li>
+				<li><a href="/member/mypage/myprofile">정보수정</a></li>
 			</ul>
 		</li>
 	</ul>

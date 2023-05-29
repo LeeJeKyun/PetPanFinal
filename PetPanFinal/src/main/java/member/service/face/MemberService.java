@@ -1,10 +1,10 @@
 package member.service.face;
 
-
-
 import java.util.HashMap;
 
 import member.dto.Member;
+import member.dto.Pet;
+import member.dto.PetFile;
 
 
 public interface MemberService {
@@ -17,21 +17,6 @@ public interface MemberService {
 	 */
 	public boolean login(Member member);
 
-//	/**
-//	 * 
-//	 * 
-//	 * @param member
-//	 * @return
-//	 */
-//	public boolean kakao(String code );
-	
-	/**
-	 * 회원정보 조회
-	 * 
-	 * @return
-	 */
-	public Member selectDetail(String userId);
-
 	/**
 	 * 회원가입
 	 * 
@@ -39,7 +24,6 @@ public interface MemberService {
 	 */
 	public void insertJoin(Member member);
 
-	
 	/**
 	 * 주소를 지정하면 위도 경도 뽑기
 	 * 
@@ -56,9 +40,13 @@ public interface MemberService {
 	 */
 	public HashMap<String, String> getXYMapfromJson(String jsonString);
 
-	
+	/**
+	 * 
+	 * 
+	 * @param member
+	 * @return
+	 */
 	public Member selectlogin(Member member);
-
 
 	/**
 	 * 블랙리스트 회원 조회하기
@@ -83,12 +71,42 @@ public interface MemberService {
 	 */
 	public boolean selectKakao(Member member);
 
-//	/**
-//	 * 카카오 회원 가입하기
-//	 * 
-//	 * @param member
-//	 */
-//	public void updatekakaoJoin(Member member);
+
+	/**
+	 * userNo로 조회하여 회원정보 상세보기
+	 * 
+	 * @param userNo
+	 * @return
+	 */
+	public Member userDetail(Member userNo);
+
+	/**
+	 * 회원 정보 수정
+	 * 
+	 * @param member
+	 */
+	public void updateMember(Member member);
+
+	/**
+	 * 펫 정보, 펫 사진을 함게 등록한다.
+	 * 
+	 * @param pet 펫 정보
+	 * @param petFile 펫 파일
+	 */
+	public void petInfo(Pet pet, PetFile petFile);
+
+	/**
+	 * 소셜 회원 세션에 넣어주기 위해 조회한다.
+	 * 
+	 * @param sosId
+	 */
+	public Member selectSuser(String sosId);
+
+
+
+
+
+
 
 
 
