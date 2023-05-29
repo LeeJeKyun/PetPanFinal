@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import admin.dao.face.AdminDao;
 import admin.dto.Blacklist;
+import admin.dto.Notice;
 import admin.dto.ReportBoard;
 import admin.dto.ReportComment;
 import admin.service.face.AdminService;
@@ -339,6 +340,12 @@ public class AdminServiceImpl implements AdminService{
 		Member member = adminDao.selectMember(userno);
 		return member;
 	
+	}
+	
+	@Override
+	public List<Notice> getNoticeListByType(int theme) {
+		List<Notice> list = adminDao.SelectBytheme(theme);
+		return list;
 	}
 
 

@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import admin.dto.Blacklist;
+import admin.dto.Notice;
 import admin.dto.ReportBoard;
 import admin.dto.ReportComment;
 import board.dto.Board;
@@ -62,6 +63,8 @@ public interface AdminService {
 			String getdoblackres, String getgetblackres);
 
 	public Member getGetMemberComment(int commentNo);
+
+	public List<Notice> getNoticeListByType(int theme);
 
 
 
