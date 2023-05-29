@@ -64,10 +64,73 @@ color: #FF5050;
 cursor: pointer;
 	
 }
+#modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: none;
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 25%;
+  height: 17%;
+  border-radius: 10px 10px 10px 10px;
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+#submit, #cancel{
+	width: 101px;
+	height: 30px;
+	font-size: 15px;
+	background-color: #f5cbcb;
+	border-radius: 10px 10px 10px 10px / 10px 10px 10px 9px;
+	border: none;
+	color: #FF5050;
+	cursor: pointer;
+}
 </style>
 
 <script type="text/javascript">
 $(function(){
+	
+	// 모달창 로직
+	const modal = document.getElementById("modal");
+	const openModalBtn = document.getElementById("btnWrite");
+	const submitModalBtn = document.getElementById("submit");
+	const closeModalBtn = document.getElementById("cancel")
+	// 모달창 열기
+	openModalBtn.addEventListener("click", () => {
+	  modal.style.display = "block";
+	  document.body.style.overflow = "hidden"; // 스크롤바 제거
+	});
+	// 모달창 닫기
+	closeModalBtn.addEventListener("click", () => {
+	  modal.style.display = "none";
+	  document.body.style.overflow = "auto"; // 스크롤바 보이기
+	});
+	submitModalBtn.addEventListener("click", () => {
+		$("form").submit();
+	})
+	
+	
 	
 	//작성 버튼 동작
 	$("#btnWrite").click(function(){
@@ -90,7 +153,7 @@ $(function(){
 			alert("required c")
 			return
 		}
-		$("form").submit();
+// 		$("form").submit();
 	})
 	
 	// 파일 삭제, -1로 value 변경
@@ -144,6 +207,19 @@ function updateContents(){
 	oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
 }
 </script>
+
+
+<!-- 모달창 -->
+<div id="modal">
+  <div class="modal-content">
+    <h2>정말 게시글을 작성하시겠습니까?</h2><br>
+    <div style="text-align: center;">
+	    <button id="submit">예</button>
+	    <button id="cancel">아니오</button>
+    </div>
+  </div>
+</div>
+
 
 <div id = "container">
 	<div id = "center-div">

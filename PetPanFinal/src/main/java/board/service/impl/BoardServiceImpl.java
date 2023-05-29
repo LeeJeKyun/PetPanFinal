@@ -198,6 +198,12 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.selectCommentByBoardno(boardno);
 	}
 	
+	@Override
+	public List<Map<String, Object>> getNoticeListToCare() {
+		return boardDao.selectNoticeToCare();
+	}
+	
+	
 	//-------------------------------제균----------------------------------
 
 

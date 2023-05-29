@@ -154,6 +154,36 @@ function commentInput(userno, boardno) {
 		}
 	})
 }
+
+//대댓글 AJAX
+function comcomInput(userno, boardno, refcommentno){
+	console.log('Info : ' + userno + ', ' + boardno + ', ' + refcommentno);
+	console.log($("#Ccontent" + refcommentno).val())
+	console.log($("#Cdepth" + refcommentno).val())
+	
+	$.ajax({
+		type : "get" 
+			, url: "./comment"
+			, data : { 
+				userno : userno,
+				boardno : boardno,
+				refCommentNo : refcommentno, 
+				content : $("#Ccontent" + refcommentno).val(), 
+				depth: $("#Cdepth" + refcommentno).val()
+			}
+			, dataType : "html"
+			, success : function(data){
+				console.log("AJAX 성공")
+// 				console.log(data)
+				
+			}
+			, error : function(){
+				console.log("AJAX 실패")	
+			}
+		})
+	
+}
+
 $(function(){
 	
 // 	// 댓글 길이가 50 넘어가면 길이 추가
@@ -188,25 +218,21 @@ $(function(){
 		})
 	})
 	
-// 	$("#delete-comment").click(function(){
-// 		$.ajax({
-// 			type: ""
-// 			, url: ""
-// 			, data :{
-				
-// 			}
-// 			, dateType: "json"
-// 			, success: function(data){
-// 				console.log("data ", data)
-// 			}
-// 			, error: function(data{
-// 				console.log("ajax error")
-// 			})
-// 		})
-// 	})
-	
 })
+function enterkey(e) {
+	if (e.keyCode == 13) {
+		console.log("댓글입력")
+		$("#commentInput").click();
+	}
+}
+function showComCom(commentno){
+	console.log(commentno)
+	$("#ComCom" + commentno).toggleClass("displayNone");
+	$("#Ccontent" + commentno).val('');
+}
+
 </script>
+
 <div id = "fcontainer">
 	<c:if test="${map.BOARDTYPENO == 1}">
 		<h1>품앗이</h1>
@@ -263,7 +289,7 @@ $(function(){
 	 		<span>추천수 : </span><span id="recommendCnt">${map.RECOMMEND }</span>
 	 	</div>
 	 	<c:choose>
-			<c:when test="${empty isRecommended}">
+			<c:when test="${isRecommended eq false || empty isRecommended}">
 		 		<img src="<%=request.getContextPath() %>/resources/img/emptyheart.png" width="22px"
 		 			id="recommendBtn1" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
 		 		<img src="<%=request.getContextPath() %>/resources/img/pilledheart.png" width="22px" class="displayNone"
@@ -280,7 +306,7 @@ $(function(){
 		 <hr>
 	 <table>
 	 	<tr>
-	 		<td class = "left-side" > 댓글 <input type="text" id="comment"></td>
+	 		<td class = "left-side" > 댓글 <input type="text" id="comment" onkeypress="enterkey(event)"></td>
 	 		<td><button type="button" id="commentInput" onclick="commentInput('${userno}', '${map.BOARDNO }')">입력</button></td>
 	 		<td id = "refresh" class = "cursor">새로고침</td>
 	 	</tr>

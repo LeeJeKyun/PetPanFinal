@@ -53,7 +53,7 @@
                 	B.userno,
                 	B.boardtypeno,
                 	M.userid,
-                	(SELECT count(*) FROM boardrecommend R WHERE B.userno = R.userno) AS recommend,
+                	(SELECT count(*) FROM boardrecommend R WHERE B.boardno = R.boardno) AS recommend,
                 	bf.originname,
                 	bf.storedname
                 FROM Board B, Member M, BoardFile BF
@@ -108,13 +108,25 @@
 	
 	<insert id="insertCommentToCareBoard" parameterType="board.dto.CommentTable" >
 		INSERT INTO commenttable (commentno, content, write_date, boardno, userno, depth, refcommentno)
-		VALUES ( seq_commenttable.nextval, #{content}, sysdate, #{boardno}, #{userno}, 1, 0)
+		VALUES ( seq_commenttable.nextval, #{content}, sysdate, #{boardno}, #{userno}, #{depth}, #{refCommentNo} )
 	</insert>
 	
 	<select id="selectCommentByBoardno" parameterType="int" resultType="hashmap">
 		SELECT ct.*, m.username FROM commenttable ct, member m
 		WHERE boardno = #{boardno} AND ct.userno = m.userno
 		ORDER BY commentno DESC
+	</select>
+	
+	<select id="selectNoticeToCare" resultType="hashmap">
+		SELECT *
+		FROM(
+    		SELECT rownum rnum, n.*
+    		FROM (
+        		SELECT * FROM notice
+        		WHERE boardtypeno = 1
+        		ORDER BY noticeno DESC) n
+		)
+		WHERE rnum BETWEEN 1 AND 3
 	</select>
 	
 	<!-- ===============================제균=============================== -->

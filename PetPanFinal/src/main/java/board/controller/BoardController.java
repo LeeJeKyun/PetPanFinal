@@ -85,12 +85,19 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		Paging paging = boardService.getCarePaging(curPage, search);
 		
 		List<Map<String, Object>> list = boardService.getCareList(paging);
+		List<Map<String, Object>> noticeList = boardService.getNoticeListToCare();
 		
 		//확인해보기
 //		for(Map<String, Object> m : list) {
 //			logger.info("map -> {}", m);
 //		}
+
+//		//확인해보기
+		for(Map<String, Object> m : noticeList) {
+			logger.info("map -> {}", m);
+		}
 		
+		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		
@@ -203,6 +210,8 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 			CommentTable commentTable
 			, Model model
 			) {
+//		logger.info("CommentTable : {}", commentTable);
+		commentTable.setDepth(commentTable.getDepth()+1);
 		logger.info("CommentTable : {}", commentTable);
 		boardService.inputComment(commentTable);
 		List<Map<String, Object>> commentList = boardService.getCommentList(commentTable.getBoardno());

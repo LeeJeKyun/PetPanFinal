@@ -254,6 +254,11 @@ public interface BoardDao {
 	 */
 	public int selectIsReco(BoardRecommend boardReco);
 
+	/**
+	 * 품앗이 게시판에 띄울 최신공지사항을 가져오는 메소드
+	 * 
+	 * @return
+	 */
+	public List<Map<String, Object>> selectNoticeToCare();
 	
-
 }
