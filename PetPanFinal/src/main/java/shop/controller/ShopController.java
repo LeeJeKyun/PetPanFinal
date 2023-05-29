@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import member.dto.Member;
 import shop.dto.Basket;
+import shop.dto.OrderThing;
+import shop.dto.OrderUser;
 import shop.dto.Shop;
 import shop.service.face.ShopService;
 import util.ShopPaging;
@@ -80,13 +82,13 @@ public class ShopController {
 	}
 	
 	@PostMapping("/buy")
-	public void buyPost(Model model, Basket basket) {
-//		basket.setUserno((int)session.getAttribute("userno"));
-		basket.setUserno(100);
+	public void buyPost(Model model, Basket basket, HttpSession session) {
+		basket.setUserno((int)session.getAttribute("userno"));
+//		basket.setUserno(100);
 		System.out.println(basket);
 		
 //		List<Basket> list = shopService.newBasket(basket);
-		List<Map<String, Object>> list = shopService.selectBasket(basket);
+		List<Map<String,Object>> list = shopService.selectBasket(basket);
 		model.addAttribute("list", list);
 		System.out.println("장바구니 리스트 : " + list);
 		
@@ -97,8 +99,14 @@ public class ShopController {
 
 		
 	}
-	@PostMapping("/pay")
-	public void pay() {
+	@GetMapping("/pay")
+	public String pay(OrderUser orderUser, OrderThing orderThing, Member member,Basket basket, HttpSession session) {
 		
+		basket.setUserno((int)session.getAttribute("userno"));
+		List<Map<String,Object>> list = shopService.selectBasket(basket);
+		
+		shopService.insertOrder(list);
+		
+		return "redirect:/shop/main";
 	}
 }
