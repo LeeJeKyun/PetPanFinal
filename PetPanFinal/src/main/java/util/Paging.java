@@ -16,7 +16,7 @@ public class Paging {
 	private int endNo;	//화면에 보여지는 게시글의 끝 번호
 
 	
-	private String search; //검색어 
+	private String search; //검색어
 
 	
 	//디폴트 생성자 - 페이징 로직이 완성되지 않는다 (사용 불가)

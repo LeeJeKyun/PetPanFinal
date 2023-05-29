@@ -35,7 +35,7 @@ public class MemberController {
 	
 	@RequestMapping("/naverLogin")
 	public void naverLogin() {
-				
+		
 	}
 
 	
@@ -83,7 +83,7 @@ public class MemberController {
 		} else {
 			
 //			logger.info("Info {}", userInfo);
-//			logger.info("info {}",userInfo.get("id"));
+			logger.info("info {}",userInfo.get("id"));
 	        session.setAttribute("userId", userInfo.get("id"));
 	        session.setAttribute("access_Token", access_Token);
 			

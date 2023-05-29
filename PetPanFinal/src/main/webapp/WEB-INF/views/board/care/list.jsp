@@ -49,6 +49,17 @@ function searchInit(){
 		<th>조회수</th>
 		<th>추천수</th>
 	</tr>
+<c:forEach items="${noticeList }" var="notice">
+	<tr style="height: 40px; border-top: 2px solid #f5cbcb;">
+		<td>${notice.NOTICENO }</td>
+		<td></td>
+		<td><a href="../notice/view?noticeno=${notice.NOTICENO }">${notice.NOTICETITLE }</a></td>
+		<td>관리자</td>
+		<td><fmt:formatDate value="${notice.NOTICEWRITEDATE }" pattern="yyyy-MM-dd" /></td>
+		<td></td>
+		<td></td>
+	</tr>
+</c:forEach>
 <c:forEach items="${list }" var="care">
 	<tr style="height: 40px; border-top: 2px solid #f5cbcb;">
 		<td>${care.BOARDNO }</td>

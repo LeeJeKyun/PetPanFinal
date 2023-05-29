@@ -42,6 +42,12 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<beans:bean class = "org.springframework.web.servlet.view.BeanNameViewResolver" >
+		<!-- ViewResolver 동작 우선 순위 -->
+		<!-- 낮은 value값이 우선 동작한다. -->
+		<beans:property name="order" value = "0" />
+	</beans:bean>
+	
 	<!-- Json 응답용jsonView를 스프링 빈으로 등록한다. -->
 	<beans:bean id = "jsonView" class = "org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
 	
