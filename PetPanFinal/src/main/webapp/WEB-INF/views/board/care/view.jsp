@@ -174,7 +174,8 @@ function comcomInput(userno, boardno, refcommentno){
 			, dataType : "html"
 			, success : function(data){
 				console.log("AJAX 성공")
-// 				console.log(data)
+				console.log(data)
+				$(".comment-area").html(data)
 				
 			}
 			, error : function(){

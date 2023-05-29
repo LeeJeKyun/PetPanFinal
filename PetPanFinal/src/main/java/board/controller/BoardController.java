@@ -216,7 +216,10 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		boardService.inputComment(commentTable);
 		List<Map<String, Object>> commentList = boardService.getCommentList(commentTable.getBoardno());
 		
-		logger.info("commentList:{}", commentList);
+		for(Map<String, Object> m : commentList) {
+			logger.info("map : {}", m);
+			
+		}
 		model.addAttribute("commentList", commentList);
 		
 	}
