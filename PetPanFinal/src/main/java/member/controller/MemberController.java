@@ -36,7 +36,7 @@ public class MemberController {
 	
 	@RequestMapping("/naverLogin")
 	public void naverLogin() {
-				
+		
 	}
 
 	
@@ -57,6 +57,7 @@ public class MemberController {
 		logger.info("code: {}", code);
 
 		String access_Token = kakaoService.getAccessToken(code);
+		
 		
 		logger.info("Membercontroller access_token : {}" + access_Token);
 		HashMap<String, Object> userInfo = kakaoService.getUserInfo(access_Token);
