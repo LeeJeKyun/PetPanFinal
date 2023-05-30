@@ -5,12 +5,12 @@ public class PetFile {
 	private int fileNo;
 	private String originName;
 	private String storedName;
-	private int fileSize;
+	private long fileSize;
 	private int petNo;
 	
 	public PetFile() {}
 
-	public PetFile(int fileNo, String originName, String storedName, int fileSize, int petNo) {
+	public PetFile(int fileNo, String originName, String storedName, long fileSize, int petNo) {
 		super();
 		this.fileNo = fileNo;
 		this.originName = originName;
@@ -49,11 +49,11 @@ public class PetFile {
 		this.storedName = storedName;
 	}
 
-	public int getFileSize() {
+	public long getFileSize() {
 		return fileSize;
 	}
 
-	public void setFileSize(int fileSize) {
+	public void setFileSize(long fileSize) {
 		this.fileSize = fileSize;
 	}
 

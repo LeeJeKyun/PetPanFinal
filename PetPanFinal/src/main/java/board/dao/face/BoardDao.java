@@ -6,6 +6,7 @@ import java.util.Map;
 import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
+import board.dto.Comment;
 import board.dto.CommentTable;
 import board.dto.Notice;
 import board.dto.ReportBoard;
@@ -118,7 +119,7 @@ public interface BoardDao {
 	 * @param commentTable
 	 */
 	public void insertCommentToCareBoard(CommentTable commentTable);
-
+	
 	/**
 	 * 해당 게시글(boardno)의 댓글을 모두 가져오는 메소드 
 	 * 
@@ -133,6 +134,7 @@ public interface BoardDao {
 	 * @return
 	 */
 	public List<Map<String, Object>> selectNoticeToCare();
+	
 	
 	//--------------------------제균--------------------------------
 
@@ -294,4 +296,36 @@ public interface BoardDao {
 	 * @return select한 댓글
 	 */
 	public List<Map<String, Object>> selectComments(int boardNo);
+
+	/**
+	 * 가장 마지막 dComment 가져오기
+	 * @return 가장 마지막 dComment
+	 */
+	public int selectDcomment();
+
+	/**
+	 * 일반 댓글 삽입 
+	 * @param comment 삽입할 댓글 객체
+	 */
+	public void insertComment(Comment comment);
+
+	/**
+	 * 다음 commentNo 가져오기
+	 * @return 다음 commentNo
+	 */
+	public int selectMaxCommentNo();
+
+	/**
+	 * commentNo으로 삽입한 댓글 가져오기
+	 * @param commentNo 조회할 commentNo
+	 * @return 조회한 댓글 
+	 */
+	public Comment selectCommentByCommentNo(int commentNo);
+
+	/**
+	 * userNo으로 userName 조회
+	 * @param userNo 조회할 userName의 userNo
+	 * @return userName
+	 */
+	public String selectUserNameByUserNo(int userNo);
 }

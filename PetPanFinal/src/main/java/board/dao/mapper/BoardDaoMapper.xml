@@ -116,11 +116,11 @@
 	    FROM (
 	        SELECT commentno myrefno, commentno, content, write_date, boardno, ct.userno, depth, refcommentno, m.username
 	        FROM commenttable ct, member m
-	        WHERE boardno = 22304 AND depth = 1 AND ct.userno = m.userno
+	        WHERE boardno = #{boardno} AND depth = 1 AND ct.userno = m.userno
 	        UNION
 	        SELECT refcommentno myrefno, commentno, content, write_date, boardno, ct.userno, depth, refcommentno, m.username
 	        FROM commenttable ct, member m
-	        WHERE boardno = 22304 AND depth = 2  AND ct.userno = m.userno
+	        WHERE boardno = #{boardno} AND depth = 2  AND ct.userno = m.userno
 	    )
 	    ORDER BY myrefno DESC, depth, commentno
 	</select>
@@ -136,6 +136,7 @@
 		)
 		WHERE rnum BETWEEN 1 AND 3
 	</select>
+	
 	
 	<!-- ===============================제균=============================== -->
 	
@@ -294,5 +295,27 @@
 		select commentno, content, write_date AS writeDate, userNo, depth, refcommentNo
 		from commenttable
 		where boardNo = #{boardNo}
+	</select>
+	<select id="selectDcomment" resultType="int">
+		select max(dcomment) AS dComment
+		from commenttable
+	</select>
+	<insert id="insertComment" parameterType="board.dto.Comment">
+		insert into commenttable (commentNo, content, write_date, boardNo, userNo, depth, refcommentNo, dComment)
+		values(#{commentNo}, #{content},  sysdate, #{boardNo}, #{userNo}, #{depth}, #{refcommentNo}, #{dComment})
+	</insert>
+	<select id="selectMaxCommentNo" resultType="int">
+		select seq_commenttable.nextval
+		from dual
+	</select>
+	<select id="selectCommentByCommentNo" parameterType="int" resultType="board.dto.Comment">
+		select commentNo, content, write_date AS writeDate, boardNo, userNo, depth, refcommentNo, dComment
+		from commenttable
+		where commentNo = #{commentNo}
+	</select>
+	<select id="selectUserNameByUserNo" parameterType="int" resultType="string">
+		select userName
+		from member
+		where userno = #{userNo}
 	</select>
 </mapper>
