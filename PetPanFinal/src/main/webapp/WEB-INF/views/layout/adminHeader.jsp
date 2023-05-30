@@ -18,10 +18,18 @@
 
     <meta name="description" content="" />
 
+<<<<<<< HEAD
 
+=======
+    <!-- Favicon  -->
+<!--     <link rel="icon" type="image/x-icon" href="../../../../resources/assets//img/favicon/favicon.ico" /> -->
+>>>>>>> refs/remotes/origin/master
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../../resources/assets//img/favicon/favicon.ico" />
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/master
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -32,34 +40,74 @@
     />
 
     <!-- Icons. Uncomment required icon fonts -->
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/master
     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/fonts/boxicons.css" />
+<<<<<<< HEAD
+=======
+    <link rel="stylesheet" href="../../resources/assets//vendor/fonts/boxicons.css" />
+>>>>>>> refs/remotes/origin/master
 
     <!-- Core CSS -->
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/master
     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/css/core.css" class="template-customizer-core-css" />
     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/css/demo.css" />
-    <!-- Vendors CSS -->
+<<<<<<< HEAD
+=======
+    <link rel="stylesheet" href="../../resources/assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="../../resources/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="../../resources/assets/css/demo.css" />
 
+>>>>>>> refs/remotes/origin/master
+    <!-- Vendors CSS -->
+<<<<<<< HEAD
+=======
+     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" /> 
+>>>>>>> refs/remotes/origin/master
+
+<<<<<<< HEAD
      <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" /> 
 
+=======
+>>>>>>> refs/remotes/origin/master
     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/libs/apex-charts/apex-charts.css" />
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/master
 
     <!-- Page CSS -->
 
     <!-- Helpers -->
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/master
     <script src="<%=request.getContextPath() %>/resources/assets/vendor/js/helpers.js"></script>
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/master
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
        <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/master
     <script src="<%=request.getContextPath() %>/resources/assets/js/config.js"></script>
+<<<<<<< HEAD
 
+=======
+    <script src="<%=request.getContextPath() %>../../resources/assets/js/config.js"></script>
+>>>>>>> refs/remotes/origin/master
     
     <script type="text/javascript">
    	 document.addEventListener('DOMContentLoaded', function() {
@@ -120,11 +168,14 @@
      margin-left: 400px; 
      margin-top: 100px; 
 
+<<<<<<< HEAD
 
 /*   	margin-top: 10px; */
  /* 특정 div의 위쪽 여백 설정 */
 
 
+=======
+>>>>>>> refs/remotes/origin/master
 	}
 	.logon {
   	position: absolute;
@@ -220,7 +271,8 @@
           </div>
 
           <div class="menu-inner-shadow"></div>
-
+			
+			
           <ul class="menu-inner py-1">
             <!-- Dashboard -->
             <li class="menu-item" id="main">
@@ -234,7 +286,7 @@
               <span class="menu-header-text">User</span>
             </li>
             <li class="menu-item" id="user">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <a href="../member/list" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-id-card"></i>
                 <div data-i18n="Account Settings">User Manage</div>
               </a>
@@ -244,13 +296,18 @@
                 <i class="menu-icon tf-icons bx bx-user-x"></i>
                 <div data-i18n="Authentications">Blacklist</div>
               </a>
+<!-- 	                <ul class="dropdown-menu"> -->
+<!-- 		      <li><a class="dropdown-item" href="#">Action 1</a></li> -->
+<!-- 		      <li><a class="dropdown-item" href="#">Action 2</a></li> -->
+<!-- 		      <li><a class="dropdown-item" href="#">Action 3</a></li> -->
+<!-- 	   				 </ul> -->
             </li>
             
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Notice</span>
             </li>
             <li class="menu-item" id="notice">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <a href="../notice/list" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-volume-full"></i>
                 <div data-i18n="Account Settings">Notice Manage</div>
               </a>

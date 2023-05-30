@@ -12,6 +12,8 @@
       <property name="username" value="ADMIN"/>
       <property name="password" value="Rkdekqlsqkqh123!"/>
    </bean>
+   
+
    <!-- 마이바티스 수행 객체 설정 (SqlSession) -->
    <bean id="SqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
       

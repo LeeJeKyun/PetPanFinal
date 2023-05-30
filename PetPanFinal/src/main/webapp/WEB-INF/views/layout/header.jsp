@@ -12,6 +12,11 @@
 <!-- 스마트에디터2  -->
 <script type="text/javascript" src = "<%=request.getContextPath() %>/resources/se2/js/service/HuskyEZCreator.js"></script>
 
+<!-- 슬라이더 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
+
 <style type="text/css">
 
 body{
@@ -167,11 +172,11 @@ a {
 				<li><a href="<%=request.getContextPath() %>/board/notice/list">공지사항</a></li>
 			</ul>
 		</li>
-			<li><a href="<%=request.getContextPath() %>/member/mypage">마이페이지</a>
+			<li><a href="<%=request.getContextPath() %>/member/mypage/mypage">마이페이지</a>
 			<ul>
-				<li><a href="<%=request.getContextPath() %>/member/join">회원가입</a></li>
-				<li><a href="<%=request.getContextPath() %>/member/login">로그인</a></li>
-				<li><a href="<%=request.getContextPath() %>/member/mypage">정보수정</a></li>
+				<li><a href="<%=request.getContextPath() %>/member/login/join">회원가입</a></li>
+				<li><a href="<%=request.getContextPath() %>/member/login/login">로그인</a></li>
+				<li><a href="<%=request.getContextPath() %>/member/mypage/mypage">정보수정</a></li>
 			</ul>
 		</li>
 	</ul>

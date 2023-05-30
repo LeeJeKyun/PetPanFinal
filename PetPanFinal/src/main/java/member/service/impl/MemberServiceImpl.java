@@ -1,6 +1,7 @@
 package member.service.impl;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -11,11 +12,15 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.ServletContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -33,8 +38,8 @@ public class MemberServiceImpl implements MemberService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MemberService.class);
 
-	
 	@Autowired private  MemberDao memberDao;
+	@Autowired ServletContext context;
 
 	@Override
 	public boolean login(Member member) {
@@ -186,6 +191,13 @@ public class MemberServiceImpl implements MemberService {
 
 
 	@Override
+	public Member selectSuser(String sosId) {
+		
+		return memberDao.selectSuser(sosId);
+		
+	}
+	
+	@Override
 	public Member userDetail(Member userNo) {
 
 		
@@ -201,33 +213,80 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	
-	@Override
-	public void petInfo(Pet pet, PetFile petFile) {
-
-		
-		
-		
-	}
-	
-	
-	
-
-
 	
 	@Override
-	public Member selectSuser(String sosId) {
+	public int pet(Pet pet, MultipartFile petFile) {
+
+//		int petNo = memberDao.selectPetNo();
+//		pet.setPetNo(petNo);
 		
-		return memberDao.selectSuser(sosId);
+		// 파일이 저장될 경로
+		String storedPath = context.getRealPath("petfile");
+		File storedFolder = new File(storedPath);
+		if( !storedFolder.exists() ) {
+			storedFolder.mkdir();
+		}
 		
+		// 파일이 저장될 이름
+		String originName = petFile.getOriginalFilename();
+		
+		
+		// 저장될 파일 정보 객체
+		File dest = null;
+		
+		String storedName = null;
+		
+		//저장된 파일이름 중복을 방지하는 로직임
+		do {
+		
+			storedName = UUID.randomUUID().toString().split("-")[0];
+			
+			dest = new File(storedFolder, storedName);
+			
+		}while(dest.exists());
+		
+		
+		try {
+			petFile.transferTo(dest);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		pet.setPetNo(memberDao.selectPetNo()); 
+		
+		
+		PetFile file = new PetFile();
+		
+		file.setPetNo( pet.getPetNo() );
+		file.setOriginName(originName);
+		file.setStoredName(storedName);
+		file.setFileSize(petFile.getSize());
+	
+		logger.info("pet: {}", pet);
+		memberDao.insertPet(pet);
+		
+		memberDao.insertPetfile(file);
+		
+		return 0;
+	}
+
+
+	@Override
+	public List<Pet> petInfo(Member userNo) {
+		
+		return memberDao.selectPetInfo(userNo);
 	}
 	
-	
+	@Override
+	public List<PetFile> petFile(PetFile petNo) {
+		
+		return memberDao.selectPetFile(petNo);
+	}
 
-	
 
-
-	
-	
 	
 	
 	

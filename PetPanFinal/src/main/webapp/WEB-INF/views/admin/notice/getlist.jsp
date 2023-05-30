@@ -4,7 +4,7 @@
   <%@ taglib  prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
-<table class = "table table-hover">
+<table class = "table table-hover" style = "width : 800px">
 	<tr>
 		<th>공지 번호</th>
 		<th>제목</th>
@@ -13,10 +13,10 @@
 	</tr>
 			<c:forEach var="list" items="${list}">
 	<tr>
-		<td>${list.noticeNo}</td>
-		<td><a href="./view/?noticeNo=${noticeNo }">${list.noticeTitle}</a></td>
-		<td><fmt:formatDate value="${list.noticeWriteDate }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
-		<td>${list.userNo}</td>
+		<td>${list.noticeno}</td>
+		<td><a href="./view/?noticeNo=${noticeno}">${list.noticetitle}</a></td>
+		<td><fmt:formatDate value="${list.noticewritedate }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
+		<td>${list.userno}</td>
 	</tr>
 		</c:forEach>
 

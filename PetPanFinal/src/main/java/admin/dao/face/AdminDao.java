@@ -6,11 +6,12 @@ import java.util.Map;
 import org.springframework.ui.Model;
 
 import admin.dto.Blacklist;
-import admin.dto.Notice;
+import board.dto.Notice;
 import admin.dto.ReportBoard;
 import admin.dto.ReportComment;
 import board.dto.Board;
 import board.dto.CommentTable;
+import board.dto.NoticeFile;
 import member.dto.Member;
 import shop.dto.Shop;
 import shop.dto.ShopFile;
@@ -77,6 +78,10 @@ public interface AdminDao {
 	public int selectTotal();
 
 	public List<Notice> SelectBytheme(int theme);
+
+	public void insertNotice(Notice notice);
+
+	public void insertNoticeFile(NoticeFile noticeFile);
 
 
 }

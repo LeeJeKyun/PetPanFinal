@@ -66,7 +66,7 @@ public class MemberController {
 		sosId = (String)userInfo.get("id");
 		Member sMember = memberService.selectSuser(sosId);
 		
-//		logger.info("sMember: {}", sMember);
+		logger.info("sMember: {}", sMember);
 		
 		boolean kakao = memberService.selectKakao(member);
 		
@@ -171,7 +171,6 @@ public class MemberController {
 		member.setLatitude(XYMap.get("x"));
 		member.setLongitude(XYMap.get("y"));
 		
-
 		memberService.insertJoin( member );
 		
 		
