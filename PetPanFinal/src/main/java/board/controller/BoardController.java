@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
+import board.dto.Comment;
 import board.dto.CommentTable;
 import board.dto.Notice;
 import board.dto.ReportBoard;
@@ -185,12 +186,12 @@ public class BoardController {
 	public String commentWrite(Comment comment, HttpSession session, Model model) {
 		
 		comment.setUserNo((int)session.getAttribute("userno")) ;
-		comment.setRefcommentNo(0);
+		//comment.setRefcommentNo(0);
 		logger.info("comment {}",comment);
 		
 		String userName = boardService.getUsername(comment.getUserNo());
 				
-		comment = boardService.addComment(comment);
+		//comment = boardService.addComment(comment);
 		model.addAttribute("comment", comment);
 		logger.info("삽입한 댓글 {}", comment);
 		

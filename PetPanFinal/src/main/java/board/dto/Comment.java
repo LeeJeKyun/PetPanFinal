@@ -10,20 +10,20 @@ public class Comment {
 	private int boardNo;
 	private int userNo;
 	private int depth;
-	private  int refcommentNo;
-	private int dComment;
+	private int organization;
+	private int sortNo;
 	
 	public Comment() {}
 
 	@Override
 	public String toString() {
 		return "Comment [commentNo=" + commentNo + ", content=" + content + ", writeDate=" + writeDate + ", boardNo="
-				+ boardNo + ", userNo=" + userNo + ", depth=" + depth + ", refcommentNo=" + refcommentNo + ", dComment="
-				+ dComment + "]";
+				+ boardNo + ", userNo=" + userNo + ", depth=" + depth + ", organization=" + organization + ", sortNo="
+				+ sortNo + "]";
 	}
 
-	public Comment(int commentNo, String content, Date writeDate, int boardNo, int userNo, int depth, int refcommentNo,
-			int dComment) {
+	public Comment(int commentNo, String content, Date writeDate, int boardNo, int userNo, int depth, int organization,
+			int sortNo) {
 		super();
 		this.commentNo = commentNo;
 		this.content = content;
@@ -31,8 +31,8 @@ public class Comment {
 		this.boardNo = boardNo;
 		this.userNo = userNo;
 		this.depth = depth;
-		this.refcommentNo = refcommentNo;
-		this.dComment = dComment;
+		this.organization = organization;
+		this.sortNo = sortNo;
 	}
 
 	public int getCommentNo() {
@@ -83,21 +83,20 @@ public class Comment {
 		this.depth = depth;
 	}
 
-	public int getRefcommentNo() {
-		return refcommentNo;
+	public int getOrganization() {
+		return organization;
 	}
 
-	public void setRefcommentNo(int refcommentNo) {
-		this.refcommentNo = refcommentNo;
+	public void setOrganization(int organization) {
+		this.organization = organization;
 	}
 
-	public int getdComment() {
-		return dComment;
+	public int getSortNo() {
+		return sortNo;
 	}
 
-	public void setdComment(int dComment) {
-		this.dComment = dComment;
+	public void setSortNo(int sortNo) {
+		this.sortNo = sortNo;
 	}
-	
 	
 }
