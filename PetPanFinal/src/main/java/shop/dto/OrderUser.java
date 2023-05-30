@@ -7,6 +7,7 @@ public class OrderUser {
 	private int buyno;			
 	private String buyername;	
 	private String buyeradd;	
+	private String buydetailaddress;	
 	private String buyerzip;	
 	private String buyerphone;	
 	private String complete;	
@@ -17,12 +18,13 @@ public class OrderUser {
 		// TODO Auto-generated constructor stub
 	}
 
-	public OrderUser(int buyno, String buyername, String buyeradd, String buyerzip, String buyerphone, String complete,
-			int userno, Date buydate) {
+	public OrderUser(int buyno, String buyername, String buyeradd, String buydetailaddress, String buyerzip,
+			String buyerphone, String complete, int userno, Date buydate) {
 		super();
 		this.buyno = buyno;
 		this.buyername = buyername;
 		this.buyeradd = buyeradd;
+		this.buydetailaddress = buydetailaddress;
 		this.buyerzip = buyerzip;
 		this.buyerphone = buyerphone;
 		this.complete = complete;
@@ -32,9 +34,9 @@ public class OrderUser {
 
 	@Override
 	public String toString() {
-		return "OrderUser [buyno=" + buyno + ", buyername=" + buyername + ", buyeradd=" + buyeradd + ", buyerzip="
-				+ buyerzip + ", buyerphone=" + buyerphone + ", complete=" + complete + ", userno=" + userno
-				+ ", buydate=" + buydate + "]";
+		return "OrderUser [buyno=" + buyno + ", buyername=" + buyername + ", buyeradd=" + buyeradd
+				+ ", buydetailaddress=" + buydetailaddress + ", buyerzip=" + buyerzip + ", buyerphone=" + buyerphone
+				+ ", complete=" + complete + ", userno=" + userno + ", buydate=" + buydate + "]";
 	}
 
 	public int getBuyno() {
@@ -59,6 +61,14 @@ public class OrderUser {
 
 	public void setBuyeradd(String buyeradd) {
 		this.buyeradd = buyeradd;
+	}
+
+	public String getBuydetailaddress() {
+		return buydetailaddress;
+	}
+
+	public void setBuydetailaddress(String buydetailaddress) {
+		this.buydetailaddress = buydetailaddress;
 	}
 
 	public String getBuyerzip() {
@@ -100,5 +110,6 @@ public class OrderUser {
 	public void setBuydate(Date buydate) {
 		this.buydate = buydate;
 	}
+
 	
 }

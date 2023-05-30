@@ -25,6 +25,13 @@ public interface ShopService {
 
 	public Member memberShop(Basket basket);
 
+	public void insertOrder(List<Map<String, Object>> list);
+
+
+		
+	
+
+
 
 
 }
