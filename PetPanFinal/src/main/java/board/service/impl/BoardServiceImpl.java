@@ -423,7 +423,7 @@ public class BoardServiceImpl implements BoardService{
 		// 다음 commentNo 가져오기
 		int commentNo = boardDao.selectMaxCommentNo();
 		
-		comment.setdComment(dComment + 1);
+//		comment.setComment(dComment + 1);
 		comment.setCommentNo(commentNo);
 		
 		logger.info("comment 삽입 전 객체 : {}", comment);
