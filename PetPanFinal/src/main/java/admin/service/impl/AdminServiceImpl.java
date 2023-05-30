@@ -9,29 +9,27 @@ import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
-import org.aspectj.lang.annotation.Around;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import admin.dao.face.AdminDao;
 import admin.dao.face.AdminShopDao;
 import admin.dto.Blacklist;
-import admin.dto.Notice;
+import board.dto.Notice;
 import admin.dto.ReportBoard;
 import admin.dto.ReportComment;
 import admin.service.face.AdminService;
 import board.dto.Board;
 import board.dto.CommentTable;
+import board.dto.NoticeFile;
 import member.dto.Member;
 import shop.dto.Shop;
 import shop.dto.ShopFile;
 import util.AdminPaging;
-import util.Paging;
 
 @Service
 @Transactional
@@ -419,6 +417,76 @@ public class AdminServiceImpl implements AdminService{
 		return objectno;
 	}
 
+	
+	@Override
+	public void writeNotice(List<MultipartFile> fileList, Notice notice) {
+		
+		
+		adminDao.insertNotice(notice);
+		
+		
+		for (MultipartFile M : fileList) {
+			if( M.getSize() <= 0 ) {
+				logger.info("파일의 크기가 0이다, 처리 중단!");
+				
+				//filesave()메소드 중단
+				continue;
+			}
+			
+			//파일이 저장될 경로 - RealPath
+			String storedPath = context.getRealPath("upload");
+			logger.info("storedPath : {}", storedPath);
+			
+			//upload폴더가 존재하지 않으면 생성한다
+			File storedFolder = new File(storedPath);
+			storedFolder.mkdir();
+			
+			File dest = null;
+			String storedName = null;
+			
+			do {
+				//저장할 파일 이름 생성하기
+				storedName = M.getOriginalFilename(); //원본 파일명
+				storedName += UUID.randomUUID().toString().split("-")[0]; //UUID추가
+				logger.info("storedName : {}", storedName);
+				
+				
+				//실제 저장될 파일 객체
+				dest = new File(storedFolder, storedName);
+			
+			} while( dest.exists() );
+			
+			
+			try {
+				
+				//업로드된 파일을 upload폴더에 저장하기
+				M.transferTo(dest);
+				
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			NoticeFile noticeFile = new NoticeFile();
+			
+			noticeFile.setNoticeno(notice.getNoticeno());
+			noticeFile.setOriginName(M.getOriginalFilename());
+			noticeFile.setStoredName(storedName);
+			noticeFile.setFileSize(M.getSize());
+			logger.info("filetest : {}", noticeFile);
+			
+			adminDao.insertNoticeFile( noticeFile );
+			
+		}
+		
+		
+		
+		
+		
+	}
+	
+	
 
 
 }

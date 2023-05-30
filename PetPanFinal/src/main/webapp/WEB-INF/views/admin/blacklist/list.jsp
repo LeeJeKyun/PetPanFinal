@@ -53,7 +53,7 @@
 		<c:forEach var="list" items="${list}">
 		<tr>
 		<td>${list.blackno }</td>
-		<td>${list.userno }</td>
+		<td> <a href = "../member/view?userno=${list.userno}">${list.userno }</a></td>
 		<td><fmt:formatDate value="${list.blackdate }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
 		<td>${list.reason }</td>
 		<td><input type="checkbox" id="delete" name="delete" class="delete" value="${list.blackno }">
@@ -62,14 +62,14 @@
 		</table>
 		<input type="checkbox" id="checkall" name="checkall" class="checkall">전부선택
 		<input type="submit" id="codeIdSubmit" value="선택 삭제" class="btn btn-danger">
-		
+		<a href="./insert"><button type="button" class="btn btn-info">삽입하기</button></a>
 	</form>
 	</div>	
 	<div class = "" style="margin-left: 170px;">	
-	<c:import url="../../layout/paging.jsp"/>
+	<c:import url="../../layout/adminpaging.jsp"/>
 	</div>
 	<div>
-		<a href="./insert"><button class="btn btn-info">삽입하기</button></a>
+		
 	</div>
 </div>
 </body>

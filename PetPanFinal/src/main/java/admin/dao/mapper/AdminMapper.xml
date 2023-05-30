@@ -178,7 +178,7 @@
         re WHERE rnum BETWEEN #{startNo} AND #{endNo}
 	</select>
 	
-	<select id = "SelectBytheme" resultType="admin.dto.Notice" parameterType="int">
+	<select id = "SelectBytheme" resultType="board.dto.Notice" parameterType="int">
 	
 		        SELECT noticeno,noticetitle,noticecontent,noticewritedate,userno
 		        FROM notice
@@ -186,5 +186,18 @@
 		        ORDER BY noticeno DESC
 	
 	</select>
+	
+	<insert id="insertNotice" parameterType="board.dto.Notice">
+		<selectKey keyProperty="noticeno" order="BEFORE" resultType="int"> 
+		select seq_notice.nextval from dual
+		</selectKey>
+		insert into notice(noticeno,noticetitle,noticecontent,noticewritedate,userno)
+		Values (#{noticeno},#{noticetitle},#{noticecontent},#{noticewritedate},#{userno})
+	</insert>
+	
+	<insert id="insertNoticeFile" parameterType="board.dto.Notice">
+		insert into noticeFile(fileno  ,noticeno  , originname , storedname ,filesize )	
+		Values (seq_noticeFile.nextval  ,#{noticeno}  , #{originname} , #{storedname} ,#{filesize} )
+	</insert>
 	
 </mapper>
