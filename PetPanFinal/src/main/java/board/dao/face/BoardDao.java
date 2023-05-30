@@ -119,7 +119,7 @@ public interface BoardDao {
 	 * @param commentTable
 	 */
 	public void insertCommentToCareBoard(CommentTable commentTable);
-
+	
 	/**
 	 * 해당 게시글(boardno)의 댓글을 모두 가져오는 메소드 
 	 * 
@@ -134,6 +134,7 @@ public interface BoardDao {
 	 * @return
 	 */
 	public List<Map<String, Object>> selectNoticeToCare();
+	
 	
 	//--------------------------제균--------------------------------
 

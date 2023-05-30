@@ -22,7 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
-import board.dto.Comment;
 import board.dto.CommentTable;
 import board.dto.Notice;
 import board.dto.ReportBoard;
@@ -34,8 +33,7 @@ import util.Paging;
 @Controller
 @RequestMapping("/board")
 public class BoardController {
-private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired BoardService boardService;
 
 	@GetMapping("/board/write")
