@@ -47,6 +47,15 @@ input{
    height: 35px;
 }
 
+.t{
+   background-color: #FFDAD7;
+   color : #FF5050;
+   border-radius: 7px;
+   border-color: #FFDAD7;
+   width: 80px;
+   height: 35px;
+}
+
 </style>
 
 <c:import url="./mypage_header.jsp" />
@@ -58,6 +67,8 @@ input{
 <h2 style="color: #FF5050; text-align: center;">정보수정</h2>
 
 	
+<form action="./petinfo" method="post" enctype="multipart/form-data">
+	
    <div class="select">
       <label for="petName">이름</label>
       <input type="text"  id="petName" name="petName">
@@ -66,13 +77,19 @@ input{
 
    <div class="select">
       <label for="type">종류</label>
-      <input type="text"  id="type" name="type">
+      <input type="text"  id="type" name="type" placeholder="ex) 강아지, 고양이">
+   </div>
+
+   <div class="select">
+	<input type="file" id="file" name="file"><br><br>
+	  <div id = "input-files"></div>
    </div>
 
    <div class="select">
       <button id="btn">등록하기</button>
    </div>
 
+</form>
 
 
 

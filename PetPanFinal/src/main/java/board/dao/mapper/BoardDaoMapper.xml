@@ -116,11 +116,11 @@
 	    FROM (
 	        SELECT commentno myrefno, commentno, content, write_date, boardno, ct.userno, depth, refcommentno, m.username
 	        FROM commenttable ct, member m
-	        WHERE boardno = 22304 AND depth = 1 AND ct.userno = m.userno
+	        WHERE boardno = #{boardno} AND depth = 1 AND ct.userno = m.userno
 	        UNION
 	        SELECT refcommentno myrefno, commentno, content, write_date, boardno, ct.userno, depth, refcommentno, m.username
 	        FROM commenttable ct, member m
-	        WHERE boardno = 22304 AND depth = 2  AND ct.userno = m.userno
+	        WHERE boardno = #{boardno} AND depth = 2  AND ct.userno = m.userno
 	    )
 	    ORDER BY myrefno DESC, depth, commentno
 	</select>

@@ -123,7 +123,7 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 //		String loginid = (String)session.getAttribute("loginid"); 
 		
 		//나중에 세션에 userno추가되면 메소드 지우기
-		board.setUserNo(Integer.parseInt((String)session.getAttribute("userno")));
+		board.setUserNo((int)session.getAttribute("userno"));
 		logger.info("board {}", board);
 		logger.info("file {}", file);
 		
@@ -153,7 +153,7 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		
 		if(session.getAttribute("login") != null) {
 //			loginid = (String)session.getAttribute("loginid");
-			userNo = Integer.parseInt((String)session.getAttribute("userno"));
+			userNo = (int)session.getAttribute("userno");
 			
 			isRecommended = boardService.isRecommended(boardNo, userNo);
 			logger.info("isRecommended : {} ", isRecommended);
@@ -197,7 +197,7 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 //		logger.info("boardNo : {}", boardNo);
 //		String loginid = (String)session.getAttribute("loginid");
 //		logger.info("loginid : {}", loginid);
-		int userNo = Integer.parseInt((String)session.getAttribute("userno"));
+		int userNo = (int)session.getAttribute("userno");
 //		logger.info("userNo : {}", userNo);
 		
 		boardService.recommendBoardCare(boardNo, userNo);
