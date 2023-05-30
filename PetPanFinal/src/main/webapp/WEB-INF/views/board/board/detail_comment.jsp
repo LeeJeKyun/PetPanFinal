@@ -3,6 +3,31 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 
+<script type="text/javascript">
+$(function(){
+	if( ${i.DEPTH == 1} ){
+		console.log("depth 1");
+		
+		depth1()
+	}else if( ${i.DEPTH == 2} ){
+		console.log("depth 2");
+		
+	}else if( ${i.DEPTH == 3} ){
+		console.log("depth 3");
+		
+	}
+	
+})
+function depth1(){
+	
+}
+function depth2(){
+	
+}
+function depth3(){
+	
+}
+</script>
 
 <!-- ajax html -->
 <%-- 	 <c:forEach var = "i" items = "commentList"> --%>
@@ -51,7 +76,7 @@
 			</div>
 <!-- 		<div class = "comment2 small6 ">답글달기</div> -->
 	</div>
-	 <div class = "comment3-area">
+	 <div class = "comment3-area" data-commentNo = "">
 	 <hr>
 	 	↳ 글쓴이3 <span class = "date">(2020.12.12)</span> 
 	 					<span class  = "comment3 small6"> 답글달기</span>
