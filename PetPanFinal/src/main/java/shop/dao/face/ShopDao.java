@@ -5,6 +5,7 @@ import java.util.Map;
 
 import member.dto.Member;
 import shop.dto.Basket;
+import shop.dto.OrderThing;
 import shop.dto.OrderUser;
 import shop.dto.Shop;
 import util.ShopPaging;
@@ -29,7 +30,19 @@ public interface ShopDao {
 
 	public Member memberShop(Basket basket);
 
-	public void inserOrderUser(OrderUser orderUser);
+	public int buyno();
+	
+	public void insertOrderUser(OrderUser orderUser);
+
+	public void insertOrderThing(OrderThing orderThing);
+
+	public void buyDeleteBasket(int userno);
+
+	public Basket selectDeleteBasket(Basket basket);
+
+	public void deleteBasket(int basketno);
+
+
 
 
 

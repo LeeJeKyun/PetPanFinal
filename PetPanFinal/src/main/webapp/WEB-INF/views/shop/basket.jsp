@@ -1,4 +1,5 @@
 
+<%@page import="member.dto.Member"%>
 <%@page import="java.math.BigDecimal"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.List"%>
@@ -7,10 +8,11 @@
     
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:import url="../layout/header.jsp" />
+
 
 <% int totalQuantity = 0;
 	List<Map<String,Object>> list = (List<Map<String,Object>>)request.getAttribute("list");
+	Member member = (Member)request.getAttribute("member");
 	
 	int totalPrice = 0;
 	
@@ -24,6 +26,11 @@
 		BigDecimal price = (BigDecimal)list.get(i).get("PRICE");
 		totalPrice += quantity.intValue() * price.intValue();
 	}
+	
+	int merchant_uid = 0;
+	for(int i = 0; i <8; i++){
+		merchant_uid += (Math.random()*100000000);
+	}
 %>
 
 
@@ -32,10 +39,6 @@
 .content_top{
 	    width: 80%;
 	    height: 400px;  	
-	    margin-left: 10%;
-	    margin-right: 10%;
-	    margin-top: 8%;
-	    margin-bottom: 3%;
   	}
 	.content_top:after {
 	    clear: both;
@@ -43,7 +46,6 @@
 	    
 	}    	
   	.ct_left_area{
-		float: left;
 	    width: 40%;
 	    height: 100%;
   	}
@@ -63,20 +65,33 @@
 		    width: 100%;
 		    border-top:1px solid #c6c6cf;  		
   		}
- .content_bottom{
+ 	.content_bottom{
 	    width: 80%;
 	    height: 120px;  	
-	    margin-left: 10%;
-	    margin-right: 10%;
-	    margin-top: 8%;
-	    margin-bottom: 3%;
 	    text-align: end;
 	    
   	} 		
-  		
+  	.order_cnt{
+  		width: 20px;
+  		color: #7b8ed1;
+  	}
+  	.order_delete{
+  		color: #7b8ed1;
+  		width: 45px;
+  	}
+  	.table{
+  		text-align: center;
+  		margin: 0 auto;
+  	}
+  	.ajax{
+  		color: #7b8ed1;
+  		height: auto;
+  	}
+  	.total{
+  		text-align: end;
+  	}
 
   	.ct_right_area{
-	    float: left;
 	    width: 40%;
 	    height: 100%;
   	}
@@ -85,10 +100,8 @@
 		    font-size: 17px;
 		    line-height: 110px;
 		    color: #3a60df;
-		    padding-left: 3%;
   		}
-  		.price{
-		    line-height: 30px;
+  		.price{	
 		    padding: 2% 0 2% 3%;  		
   		}
   		.button{
@@ -104,27 +117,6 @@
 				    text-align: center;
 				    font-weight: bold;  			
 	  			}
-		  	  	.button_quantity button{
-					border: 1px solid #aaa;
-				    color: #3a60df;
-				    width: 20px;
-				    height: 20px;
-				    padding: 3px;
-				    background-color: #fff;
-				    font-weight: bold;
-				    font-size: 15px;
-				    line-height: 15px;	  	  	
-		  	  	}
-		  	  		.btn_buy{
-						display: inline-block;
-    					width: 140px;
-					    text-align: center;
-					    height: 50px;
-    					line-height: 50px;
-    					background-color: #7b8ed1;
-    					border: 1px solid #7b8ed1;
-    					color: #fff;			  	  		
-		  	  		}
 		  	  		.btn_list{
 						display: inline-block;
     					width: 140px;
@@ -142,63 +134,31 @@
 
 <div class="line">
 </div>		
-<c:forEach items="${list}" var="list">
-
-<div class="content_top">
-	<div class="ct_left_area">
-		<div class="image_wrap">
-			<img src="/images/download.jpg">
-		</div>
-	</div>
-	<div class="ct_right_area">
-		<div class="title">
-			<h1>
-				${list.NAME}
-			</h1>
-		</div>
-		
-		<div class="line">
-		</div>
-		
-		<div class="price">
-			<div class="sale_price">가격 : <fmt:formatNumber value="${list.PRICE}" pattern="#,### 원" /></div>
-			<div class="sale_price">총 가격 : <fmt:formatNumber value="${list.PRICE * list.QUANTITY}" pattern="#,### 원" /></div>
-		</div>			
-		
-		<div class="line">
-		</div>	
-		
-		<div class="button">						
-			<div class="button_quantity">
-				주문수량
-		        <input type="text"  class="order_cnt" value="${list.QUANTITY }" readonly="readonly" style="text-align:center;"/>
-			<br>
-			</div>
-		</div>
-	</div>
-</div>
-</c:forEach>
-			
-<div class="content_bottom">
-	
+<div class="ajax">
+	<table class="table">
+	  <tr>
+	    <th>상품명</th>
+	    <th>개당 가격</th>
+	    <th>총 가격</th>
+	    <th>주문 수량</th>
+	    <th></th>
+	  </tr>
+	<c:forEach items="${list}" var="list" varStatus="status">
+	  <tr data-objectno="${list.OBJECTNO}" class="tr">
+	    <td>${list.NAME}</td>
+	    <td>가격 : <fmt:formatNumber value="${list.PRICE}" pattern="#,### 원" /></td>
+	    <td>총 가격 : <fmt:formatNumber value="${list.PRICE * list.QUANTITY}" pattern="#,### 원" /></td>
+	    <td><input type="text"  class="order_cnt" value="${list.QUANTITY }" readonly="readonly" style="text-align:center;"/></td>
+	    <td><button class="order_delete">삭제</button>
+	  </tr>
+	</c:forEach>	
+	</table>
 	<div class="total">
 		<div class="price_total">총 가격 : <fmt:formatNumber value="<%=totalPrice %>" pattern="#,### 원" /></div>
 		<div class="price_count">총 개수 : <fmt:formatNumber value="<%=totalQuantity %>" pattern="#,### " /></div>
 	</div>
-	
-	<form action="./buy" method="post">
-		<button class="btn_buy" type="submit">구매</button>
-		<input type="hidden" class = "quantity" name = "quantity" value = "1">
-		<input type = "hidden" id = "objectno" name = "objectno" value = ${view.objectno }>
-	</form>
-	<div>
-		<a href="./main">
-			<button class="btn_list">목록으로</button>
-		</a>
-	</div>
 </div>
-
-<c:import url="../layout/footer.jsp" />
+	
 
 
 

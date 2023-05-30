@@ -46,12 +46,31 @@ public class ShopController {
 	}
 	
 	@GetMapping("/view")
-	public void view(Shop shop, Model model, Shop view) {
+	public void view(Shop shop, Model model, Shop view, HttpSession session, Basket basket) {
 
+		System.out.println(shop);
 		//shop 상세페이지
 		view = shopService.view(shop);
+		System.out.println("뷰뷰ㅠ뷰뷰뷰뷰ㅠ뷰뷰 : " + view);
 		
 		model.addAttribute("view", view);
+		
+		basket.setUserno((int)session.getAttribute("userno"));
+		
+		//장바구니 담기
+		shopService.insertBasket(basket);
+		
+		//장바구니 보여주기
+		List<Map<String, Object>> list = shopService.selectBasket(basket);
+		
+		Member member = shopService.memberShop(basket);
+		
+		System.out.println("리스트 : " + list);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("member", member);
+		
+		
 	}
 	@GetMapping("/basket")
 	public void basket() {
@@ -61,18 +80,22 @@ public class ShopController {
 	public void basketPost(Basket basket, HttpSession session, Model model) {
 		logger.info("/basket [POST]");
 		
-//		basket.setUserno((int)session.getAttribute("userno"));
-		basket.setUserno(100);
+		basket.setUserno((int)session.getAttribute("userno"));
+//		basket.setUserno(100);
 		
 		//장바구니 담기
+		System.out.println("insert" + basket);
 		shopService.insertBasket(basket);
 		
 		//장바구니 보여주기
 		List<Map<String, Object>> list = shopService.selectBasket(basket);
 		
+		Member member = shopService.memberShop(basket);
+		
+		System.out.println("리스트 : " + list);
 		
 		model.addAttribute("list", list);
-		
+		model.addAttribute("member", member);	
 	}
 	
 	
@@ -83,30 +106,54 @@ public class ShopController {
 	
 	@PostMapping("/buy")
 	public void buyPost(Model model, Basket basket, HttpSession session) {
-		basket.setUserno((int)session.getAttribute("userno"));
-//		basket.setUserno(100);
-		System.out.println(basket);
 		
-//		List<Basket> list = shopService.newBasket(basket);
+		basket.setUserno((int)session.getAttribute("userno"));
+		
+		shopService.insertBasket(basket);
+		
 		List<Map<String,Object>> list = shopService.selectBasket(basket);
 		model.addAttribute("list", list);
-		System.out.println("장바구니 리스트 : " + list);
+		
+		System.out.println("리스트 : " + list);
 		
 		Member member = shopService.memberShop(basket);
 		
-		System.out.println("멤버 : " + member);
 		model.addAttribute("member", member);		
-
 		
 	}
+	
+	
 	@GetMapping("/pay")
 	public String pay(OrderUser orderUser, OrderThing orderThing, Member member,Basket basket, HttpSession session) {
 		
+		int userno = (int)session.getAttribute("userno");
 		basket.setUserno((int)session.getAttribute("userno"));
 		List<Map<String,Object>> list = shopService.selectBasket(basket);
 		
+		System.out.println(list);
 		shopService.insertOrder(list);
+		shopService.buyDeleteBasket(userno);
 		
 		return "redirect:/shop/main";
+	}
+	
+	@GetMapping("/delete")
+	public String deletePost(Basket basket, HttpSession session, Model model) {
+		
+		basket.setUserno((int)session.getAttribute("userno"));
+		
+		shopService.deleteBasket(basket);
+		System.out.println("asdfasdfadf" + basket);
+		
+		List<Map<String, Object>> list = shopService.selectBasket(basket);
+
+		Member member = shopService.memberShop(basket);
+		
+		System.out.println("리스트 : " + list);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("member", member);
+		
+		return "forward:basket";
 	}
 }

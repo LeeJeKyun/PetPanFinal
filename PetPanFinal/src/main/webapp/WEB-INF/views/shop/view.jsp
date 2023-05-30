@@ -1,4 +1,8 @@
 
+<%@page import="java.math.BigDecimal"%>
+<%@page import="member.dto.Member"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
@@ -6,45 +10,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="../layout/header.jsp" />
 
-<script type="text/javascript">
-$(function(){
+<% int totalQuantity = 0;
+	List<Map<String,Object>> list = (List<Map<String,Object>>)request.getAttribute("list");
+	Member member = (Member)request.getAttribute("member");
 	
-	$('#plus').click(function(){
-		
-		var cnt = $(".order_cnt").val()
-		
-		cnt = parseInt(cnt)
-		
-		cnt++
-		
-		$(".order_cnt").val(cnt);
-		$(".quantity").val(cnt);
-		
-	})
-		
-	$("#minus").click(function () {
-		
-		var cnt = $(".order_cnt").val()
-		
-		cnt = parseInt(cnt)
-		
-		cnt--
-		
-		if(cnt<1){
-			alert("더이상 줄일수 없습니다");
-			cnt = 1;
-		}
-		$(".order_cnt").val(cnt);
-		$(".quantity").val(cnt);
-	})
-		
-})
+	int totalPrice = 0;
 	
+	for( int i=0; i<list.size(); i++){
+		BigDecimal bd = (BigDecimal)list.get(i).get("QUANTITY");
+		totalQuantity += bd.intValue();
+	}
 
-</script>
-
-<style>
-
+	for( int i=0; i<list.size(); i++){
+		BigDecimal quantity = (BigDecimal)list.get(i).get("QUANTITY");
+		BigDecimal price = (BigDecimal)list.get(i).get("PRICE");
+		totalPrice += quantity.intValue() * price.intValue();
+	}
+%>
+<style type="text/css">
 .content_top{
 	    width: 80%;
 	    height: 600px;  	
@@ -111,6 +94,7 @@ $(function(){
   			}
   		.button{
   			padding: 2% 0 2% 3%;
+  			width: 364px;
   		}
   			.button_quantity{
   				margin-bottom: 2%;
@@ -135,7 +119,7 @@ $(function(){
 		  	  	}
 		  	  		.btn_basket{
 						display: inline-block;
-    					width: 140px;
+    					width: 120px;
 					    text-align: center;
 					    height: 50px;
     					line-height: 50px;
@@ -147,13 +131,24 @@ $(function(){
 		  	  		}
 		  	  		.btn_buy{
 						display: inline-block;
-    					width: 140px;
+    					width: 120px;
 					    text-align: center;
 					    height: 50px;
     					line-height: 50px;
     					background-color: #7b8ed1;
     					border: 1px solid #7b8ed1;
     					color: #fff;			  	  		
+		  	  		}
+		  	  		.btn_main{
+						display: inline-block;
+    					width: 120px;
+					    text-align: center;
+					    height: 50px;
+    					line-height: 50px;
+    					background-color: darkcyan;
+    					border: 1px solid darkcyan;
+    					color: #fff;			  	  	
+    					float: right;	
 		  	  		}
   	
   	.content_middle{
@@ -207,22 +202,20 @@ $(function(){
 							<br>
 						</div>
 						<div class="button_set">
-							<form action="./basket" method="post">
-								<button class="btn_basket">장바구니 담기</button>
-								<input type="hidden" class = "quantity" name = "quantity" value = "1">
-								<input type = "hidden" id = "objectno" name = "objectno" value = ${view.objectno }>
-							</form>
-<%-- 							<form action="./buy?objectno=${view.objectno }" method="post"> --%>
+							<button class="btn_basket">장바구니 담기</button>
+							<input type="hidden" class = "quantity" name ="quantity" value = "1">
+							<input type = "hidden" id ="basketInsert" name ="objectno" value = "${view.objectno }">
+							<a href="./main"><button class="btn_main">목록으로</button></a>
 							<form action="./buy" method="post">
-<%-- 								<a class="btn_buy" href="./buy?objectno=${view.objectno }">바로구매</a> --%>
 								<button class="btn_buy">바로구매</button>
 								<input type="hidden" class = "quantity" name = "quantity" value = "1">
-								<input type = "hidden" id = "objectno" name = "objectno" value = ${view.objectno }>
+								<input type = "hidden" id = "buy" name ="objectno" value = "${view.objectno }">
 							</form>
 						</div>
 					</div>
 				</div>
 			</div>
+			<div id="result"></div>	
 			<div class="line">
 			</div>				
 			<div class="content_middle">
@@ -230,16 +223,118 @@ $(function(){
 					${view.shopcontent }
 				</div>
 			</div>
-			<div>
-				<a href="./main"> <button>상품 목록</button> </a>
-			</div>
 			<div class="line">
 			</div>				
 			<div class="content_bottom">
 				리뷰
 			</div>
 
+<script type="text/javascript">
 
+
+$(function(){
+	
+	$('#plus').click(function(){
+		
+		console.log("plus click")
+		var cnt = $(".order_cnt").val()
+		
+		cnt = parseInt(cnt)
+		
+		cnt++
+		
+		$(".order_cnt").val(cnt);
+		$(".quantity").val(cnt);
+		
+	})
+		
+	$("#minus").click(function () {
+		
+		console.log("minus click")
+		var cnt = $(".order_cnt").val()
+		
+		cnt = parseInt(cnt)
+		
+		cnt--
+		
+		if(cnt<1){
+			alert("더이상 줄일수 없습니다");
+			cnt = 1;
+		}
+		$(".order_cnt").val(cnt);
+		$(".quantity").val(cnt);
+	})
+		
+})
+
+$(function() {
+	
+	$(".btn_basket").click(function() {
+		console.log("#ajax click")
+		
+		var objectno = $("#basketInsert").val();
+    	var quantity = $(".quantity").val();
+		
+		$.ajax({
+			
+			type: "post"
+			, url: "./basket"
+			, data:{
+				objectno: objectno,
+       			quantity: quantity
+			} 
+			, dataType: "html"
+			, success: function( res ) {
+				console.log("AJAX 성공")
+				
+				$("#result").html(res)
+				
+			}
+			, error: function() {
+				console.log("AJAX 실패")	
+			}
+			
+		})
+		
+		
+	})
+	
+	$(document).on('click', '.order_delete', function() {
+		
+		console.log("click")
+		
+		console.log($(this).closest('tr').attr("data-objectno"))
+		
+		var objectno = $(this).closest('tr').attr("data-objectno")
+		
+		console.log(objectno)
+    	console.log($(this).closest($(".tr")))
+		
+		$.ajax({
+		    url: './delete',
+		    type: 'GET',
+		    data: {objectno:objectno },
+		    dataType: "html",
+		    success: function(res) {
+				
+// 		    	console.log(res)
+				$("#result").html(res)
+		    	
+		    },
+		    error: function(error) {
+		    	
+		    	console.log("delete 실패")
+		    	
+		    	
+		    }
+		})
+		
+    	
+		
+	})	
+
+})
+</script>
 <c:import url="../layout/footer.jsp" />
 
 
