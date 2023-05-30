@@ -18,10 +18,18 @@
 
     <meta name="description" content="" />
 
+<<<<<<< HEAD
+
+=======
     <!-- Favicon  -->
 <!--     <link rel="icon" type="image/x-icon" href="../../../../resources/assets//img/favicon/favicon.ico" /> -->
+>>>>>>> refs/remotes/origin/master
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../../resources/assets//img/favicon/favicon.ico" />
+<<<<<<< HEAD
+
+=======
+>>>>>>> refs/remotes/origin/master
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -32,38 +40,80 @@
     />
 
     <!-- Icons. Uncomment required icon fonts -->
+<<<<<<< HEAD
+
+=======
+>>>>>>> refs/remotes/origin/master
     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/fonts/boxicons.css" />
+<<<<<<< HEAD
+=======
     <link rel="stylesheet" href="../../resources/assets//vendor/fonts/boxicons.css" />
+>>>>>>> refs/remotes/origin/master
 
     <!-- Core CSS -->
+<<<<<<< HEAD
+
+=======
+>>>>>>> refs/remotes/origin/master
     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/css/core.css" class="template-customizer-core-css" />
     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/css/demo.css" />
+<<<<<<< HEAD
+=======
     <link rel="stylesheet" href="../../resources/assets/vendor/css/core.css" class="template-customizer-core-css" />
     <link rel="stylesheet" href="../../resources/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="../../resources/assets/css/demo.css" />
 
+>>>>>>> refs/remotes/origin/master
     <!-- Vendors CSS -->
+<<<<<<< HEAD
+=======
+     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" /> 
+>>>>>>> refs/remotes/origin/master
+
+<<<<<<< HEAD
      <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" /> 
 
+=======
+>>>>>>> refs/remotes/origin/master
     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/libs/apex-charts/apex-charts.css" />
+<<<<<<< HEAD
+
+=======
+>>>>>>> refs/remotes/origin/master
 
     <!-- Page CSS -->
 
     <!-- Helpers -->
+<<<<<<< HEAD
+
+=======
+>>>>>>> refs/remotes/origin/master
     <script src="<%=request.getContextPath() %>/resources/assets/vendor/js/helpers.js"></script>
+<<<<<<< HEAD
+
+=======
+>>>>>>> refs/remotes/origin/master
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
        <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     
+<<<<<<< HEAD
+
+=======
+>>>>>>> refs/remotes/origin/master
     <script src="<%=request.getContextPath() %>/resources/assets/js/config.js"></script>
+<<<<<<< HEAD
+
+=======
     <script src="<%=request.getContextPath() %>../../resources/assets/js/config.js"></script>
+>>>>>>> refs/remotes/origin/master
     
     <script type="text/javascript">
    	 document.addEventListener('DOMContentLoaded', function() {
         var currentUrl = window.location.href;
         
-        if (currentUrl.includes("/main/")) {
+        if (currentUrl.includes("/main")) {
         	document.getElementById('main').className = 'menu-item active';
         }else{
         	document.getElementById('main').className = 'menu-item';
@@ -118,6 +168,14 @@
      margin-left: 400px; 
      margin-top: 100px; 
 
+<<<<<<< HEAD
+
+/*   	margin-top: 10px; */
+ /* 특정 div의 위쪽 여백 설정 */
+
+
+=======
+>>>>>>> refs/remotes/origin/master
 	}
 	.logon {
   	position: absolute;
@@ -148,7 +206,7 @@
 <body>
 <div id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" style = "float: left; position: fixed; top:0; left:0;  display: flex;">
           <div class="app-brand demo">
-            <a href="../main/main" class="app-brand-link">
+            <a href="<%=request.getContextPath() %>/admin" class="app-brand-link">
               <span class="app-brand-logo demo">
                 <svg
                   width="25"
@@ -218,7 +276,7 @@
           <ul class="menu-inner py-1">
             <!-- Dashboard -->
             <li class="menu-item" id="main">
-              <a href="../main/main" class="menu-link">
+              <a href="<%=request.getContextPath() %>/admin" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Admin Main</div>
               </a>
@@ -234,7 +292,7 @@
               </a>
             </li>
             <li class="menu-item" id="black">
-              <a href="../blacklist/list" class="menu-link menu-toggle">
+              <a href="<%=request.getContextPath() %>/admin/blacklist/list" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-user-x"></i>
                 <div data-i18n="Authentications">Blacklist</div>
               </a>
@@ -259,13 +317,13 @@
               <span class="menu-header-text">Reports</span>
             </li>
             <li class="menu-item" id="reportboard">
-              <a href="../reportboard/list" class="menu-link menu-toggle">
+              <a href="<%=request.getContextPath() %>/admin/reportboard/list" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-task-x"></i>
                 <div data-i18n="Account Settings">Report Board</div>
               </a>
             </li>
             <li class="menu-item" id="reportcomment">
-              <a href="../reportcomment/list" class="menu-link menu-toggle">
+              <a href="<%=request.getContextPath() %>/admin/reportcomment/list" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-message-alt-x"></i>
                 <div data-i18n="Authentications">Report Comment</div>
               </a>
@@ -275,13 +333,13 @@
               <span class="menu-header-text">Shop</span>
             </li>
             <li class="menu-item" id="shop">
-              <a href="../shop/list" class="menu-link menu-toggle">
+              <a href="<%=request.getContextPath() %>/admin/shop/list" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-basket"></i>
                 <div data-i18n="Account Settings">Shop Manage</div>
               </a>
             </li>
             <li class="menu-item" id="reportshop">
-              <a href="../reportshop/list" class="menu-link menu-toggle">
+              <a href="<%=request.getContextPath() %>/admin/reportshop/list" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-phone"></i>
                 <div data-i18n="Authentications">Shop Report</div>
               </a>

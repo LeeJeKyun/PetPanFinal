@@ -28,6 +28,7 @@ public class AdminBlacklistController {
 	public String goMain1() {
 		
 		return "redirect:/admin/main/main";
+		
 	}
 	
 	@GetMapping("/main")
