@@ -22,6 +22,53 @@ function searchInit(){
 	$("#search").val('');
 	$("#searchBtn").click();
 }
+function closeLayer( obj ) {
+	$(obj).parent().parent().hide();
+	$('.messageLayer').css({
+		"top": 0,
+		"left": 0,
+		"position": "fixed"
+	})
+}
+$(function() {
+	//JQuery DOM 영역
+	
+	
+})
+function message(e, userid){
+
+// 	console.log(e);
+// 	console.log(userid);
+	
+	var sWidth = window.innerWidth;
+	var sHeight = window.innerHeight;
+
+	var oWidth = $('.messageLayer').width();
+	var oHeight = $('.messageLayer').height();
+
+	// 레이어가 나타날 위치를 셋팅한다.
+	var divLeft = e.clientX + 10;
+	var divTop = e.clientY + 5;
+
+	// 레이어가 화면 크기를 벗어나면 위치를 바꾸어 배치한다.
+	if( divLeft + oWidth > sWidth ) divLeft -= oWidth;
+	if( divTop + oHeight > sHeight ) divTop -= oHeight;
+
+	// 레이어 위치를 바꾸었더니 상단기준점(0,0) 밖으로 벗어난다면 상단기준점(0,0)에 배치하자.
+	if( divLeft < 0 ) divLeft = 0;
+	if( divTop < 0 ) divTop = 0;
+
+	$('.messageLayer').css({
+		"top": divTop,
+		"left": divLeft,
+		"position": "fixed"
+	}).attr({"userid" : userid});
+	$('.messageLayer').show();
+}
+function sendMessage(userid){
+	console.log(userid)
+	location.href='<%=request.getContextPath() %>/message/message/send?userid=' + userid;
+}
 </script>
 
 <br>
@@ -65,7 +112,7 @@ function searchInit(){
 		<td>${care.BOARDNO }</td>
 		<td style="height: 90px;"><a href="../care/view?boardNo=${care.BOARDNO }"><img width="120px" height="90px" alt="아가사진" src="<%=request.getContextPath() %>/upload/${care.STOREDNAME}" style="vertical-align: middle;" ></a></td>
 		<td><a href="../care/view?boardNo=${care.BOARDNO }">${care.BOARDTITLE }</a></td>
-		<td>${care.USERID }</td>
+		<td><span class="message" onclick="message(event, '${care.USERID}')" style="cursor: pointer;">${care.USERID }</span></td>
 		<td><fmt:formatDate value="${care.WRITEDATE }" pattern="yyyy-MM-dd" /></td>
 		<td>${care.HIT }</td>
 		<td>${care.RECOMMEND }</td>
@@ -109,6 +156,14 @@ function searchInit(){
 	</form>
 	<br>
 </div>
+
+<div class="messageLayer" style="display: none; background: #FFDAD7; color: #FF5050; border: solid 2px #d0d0d0; width: 143px; height: 33px;	padding: 10px;">
+	<div>
+		<span onclick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</span>
+		<span style="cursor:pointer;font-size:1.5em" onclick="sendMessage($('.messageLayer').attr('userid'))">쪽지보내기</span>
+	</div>
+</div>
+<!-- //폼 레이어  -->
 
 <c:import url="./paging.jsp" />
 

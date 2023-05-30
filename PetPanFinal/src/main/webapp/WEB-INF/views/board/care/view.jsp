@@ -6,13 +6,15 @@
 
 <c:import url = "../../layout/header.jsp" />
 
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <style>
 #fcontainer{
 	width: 800px;
 	margin: 0 auto;
 	margin-top: 200px;
  	margin-bottom: 200px; 
-}	
+}
 #main{
 	widht: 800px;
 	height: 500px;
@@ -197,27 +199,28 @@ $(function(){
 		var height = 100 + Number( $("#content").css('height').split('px')[0])
 		$("#main").css('height', height);
 	}
+   
 	
-	$("#refresh").click(function(){
-		console.log("#refresh click");
+// 	$("#refresh").click(function(){
+// 		console.log("#refresh click");
 		
-		$.ajax({
-			type : "get" 
-				, url: "./comment"
-				, data : { 
+// 		$.ajax({
+// 			type : "get" 
+// 				, url: "./comment"
+// 				, data : { 
 					
-				}
-				, dataType : "html"
-				, success : function(data){
-					console.log("AJAX 성공")
+// 				}
+// 				, dataType : "html"
+// 				, success : function(data){
+// 					console.log("AJAX 성공")
 					
-					console.log("data", data);
-				}
-				, error : function(){
-					console.log("AJAX 실패")	
-				}
-		})
-	})
+// 					console.log("data", data);
+// 				}
+// 				, error : function(){
+// 					console.log("AJAX 실패")	
+// 				}
+// 		})
+// 	})
 	
 })
 function enterkey(e) {
