@@ -2,6 +2,7 @@ package admin.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -419,6 +420,129 @@ public class AdminServiceImpl implements AdminService{
 		return objectno;
 	}
 
+	@Override
+	public void saveShopFiles(List<MultipartFile> fileList, int objectno, List<Integer> no) {
+		
+		for(int i = 0; i < fileList.size(); i++) {
+			if( no!=null && no.get(i) == -1) continue;  // -1 이면 올리지 않는 취소한 파일
+			
+			if(fileList.get(i).getSize() <= 0)  continue;  // 파일의 크기가 0이면  
+			
+			// 파일이 저장될 경로
+			String storedPath = context.getRealPath("upload");
+			logger.info(" storedPath : {}", storedPath);
+			
+			// upload폴더가 없으면 생성
+			File storedFolder = new File(storedPath);
+			storedFolder.mkdir();
+			
+			File dest = null;
+			String storedName = null;
+			
+			do {
+				//저장할 파일 이름 생성
+				storedName = fileList.get(i).getOriginalFilename(); //원본 파일명
+				
+				storedName += UUID.randomUUID().toString().split("-")[0]; //
+				logger.info("storedName : {}", storedName);
+
+				//실제 저장될 파일 객체
+				dest = new File(storedFolder, storedName);
+				
+			}while(dest.exists());
+			
+			try {
+				// 업로드된 파일을 upload 폴더에 저장
+				fileList.get(i).transferTo(dest);
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			//DB에 저장할 객체
+			ShopFile shopfile = new ShopFile();
+			
+			shopfile.setObjectno(objectno);
+			shopfile.setOriginname(fileList.get(i).getOriginalFilename());
+			shopfile.setStoredname(storedName);
+			shopfile.setFilesize(fileList.get(i).getSize());
+			
+			
+			logger.info("shopfile: {} ",shopfile);
+			
+			//DB insert
+			adminShopDao.insertShopFile(shopfile);
+			
+		}
+		
+	}
+
+	@Override
+	public Shop getShopDetailByobjectno(Integer objectno) {
+		Shop shop = adminShopDao.selectShop(objectno);
+		return shop;
+	}
+
+	@Override
+	public List<ShopFile> getshopFileByobjectno(Integer objectno) {
+		
+		List<ShopFile> list = adminShopDao.selectShopFile(objectno);
+				
+			for(ShopFile e : list) {
+					System.out.println(e);
+			}		
+				
+				
+		return list;
+	}
+
+	@Override
+	public void changeAndDeleteFile(List<Integer> delete, List<Integer> save) {
+		if(save!=null) {
+			for(int i=save.size()-1; i>=0 ;i--) {
+				int remove = save.get(i);
+				delete.remove(remove);
+			}
+			
+				
+				
+			for(int e : delete) {
+				ShopFile deletefile = adminShopDao.selectShopFileByFileno(e);
+				String storedPath = context.getRealPath("upload");
+				String storedName = "\\";
+				storedName += deletefile.getStoredname();
+				storedPath += storedName;
+				System.out.println(storedName);
+				System.out.println(storedPath);
+				
+				File file = new File(storedPath);
+				
+				if( file.exists() ){
+		    		if(file.delete()){
+		    			System.out.println("파일삭제 성공");
+		    		}else{
+		    			System.out.println("파일삭제 실패");
+		    		}
+		    	}else{
+		    		System.out.println("파일이 존재하지 않습니다.");
+		    	}
+				adminShopDao.deleteChangeFileOnDb(e);	
+			}
+				
+				
+			}
+		
+		}
+
+	@Override
+	public void changeShop(Shop shop, Integer objectno) {
+		shop.setObjectno(objectno);
+		
+		adminShopDao.updateShopDetail(shop);
+		
+	}
 
 
-}
+	}
+	
+

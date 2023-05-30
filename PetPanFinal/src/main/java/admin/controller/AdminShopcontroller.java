@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import admin.service.face.AdminService;
 import shop.dto.Shop;
+import shop.dto.ShopFile;
 import util.AdminPaging;
 
 @RequestMapping("/admin/shop")
@@ -55,10 +56,13 @@ public class AdminShopcontroller {
 		return "redirect:/admin/shop/list";
 		
 	}
+	
 	@GetMapping("/write")
 	public void addShopObject() {
 		
 	}
+	
+	
 	@PostMapping("/write")
 	public String addShopObjectProc(
 			@RequestParam(value = "file", required = false)List<MultipartFile> fileList //올릴 파일 리스트
@@ -76,10 +80,58 @@ public class AdminShopcontroller {
 		
 		int objectno = adminService.saveShopGetObjectno(shop);
 		
+		adminService.saveShopFiles(fileList, objectno, no);
+		
 
 		
 		
 		return "redirect:/admin/shop/list";
 	}
+	
+	@GetMapping("/view")
+	public void viewShopDetail(Integer objectno, Model model) {
+		Shop shop = adminService.getShopDetailByobjectno(objectno);
+		List<ShopFile> shopFile = adminService.getshopFileByobjectno(objectno);
+		
+		model.addAttribute("shop", shop);
+		model.addAttribute("shopFile", shopFile);
+	}
+	
+	@GetMapping("/change")
+	public void changeShopDetail(Integer objectno, Model model) {
+		Shop shop = adminService.getShopDetailByobjectno(objectno);
+		List<ShopFile> shopFile = adminService.getshopFileByobjectno(objectno);
+		
+		model.addAttribute("shop", shop);
+		model.addAttribute("shopFile", shopFile);
+	}
+	
+	@PostMapping("/change")
+	public String postChangeShopDetail(Integer objectno,
+			@RequestParam(value = "file", required = false)List<MultipartFile> fileList //올릴 파일 리스트
+			, Shop shop
+			, @RequestParam(required = false) List<Integer> no // 취소된 파일 -1
+			, @RequestParam(required = false) List<Integer> delete
+			, @RequestParam(required = false) List<Integer> save
+			) {
+		
+			adminService.changeAndDeleteFile(delete,save);
+			
+			if(shop.getShopcontent() == null || shop.getName() == null )
+				return "redirect:/admin/shop/list";
+			adminService.changeShop(shop,objectno);
+			
+			adminService.saveShopFiles(fileList, objectno, no);
+			
+			
+			
+			return "redirect:/admin/shop/list";
+	
+			
+		}
+		
+	}
+	
+	
 
-}
+

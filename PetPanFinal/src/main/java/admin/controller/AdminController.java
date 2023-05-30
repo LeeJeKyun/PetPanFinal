@@ -39,20 +39,14 @@ public class AdminController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired AdminService adminService;
 	
-	@GetMapping("/")
+	@GetMapping("")
 	public String goMain1() {
 		
-		return "redirect:/admin/main/main";
+		return "redirect:/admin/main";
 	}
 	
 	@GetMapping("/main")
-	public String goMain2() {
-		
-		return "redirect:/admin/main/main";
-	}
-	
-	@GetMapping("/main/main")
-	public void goMain3() {
+	public void goMain2() {
 		
 	}
 

@@ -78,6 +78,16 @@ public interface AdminService {
 	
 	public List<Notice> getNoticeListByType(int theme);
 
+	public void saveShopFiles(List<MultipartFile> fileList, int objectno, List<Integer> no);
+
+	public Shop getShopDetailByobjectno(Integer objectno);
+
+	public List<ShopFile> getshopFileByobjectno(Integer objectno);
+
+	public void changeAndDeleteFile(List<Integer> delete, List<Integer> save);
+
+	public void changeShop(Shop shop, Integer objectno);
+
 
 
 	
