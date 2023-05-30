@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import member.dto.Member;
 import shop.dao.face.ShopDao;
 import shop.dto.Basket;
+import shop.dto.OrderThing;
 import shop.dto.OrderUser;
 import shop.dto.Shop;
 import shop.service.face.ShopService;
@@ -90,22 +91,32 @@ public class ShopServiceImpl implements ShopService{
 	public void insertOrder(List<Map<String, Object>> list) {
 		
 		OrderUser orderUser = new OrderUser();
+		OrderThing orderThing = new OrderThing();
+		
 		
 		for(int i=0; i<list.size(); i++) {
 			
+			int buyno = shopDao.buyno();
+			
 //			int userno =  (int)list.get(i).get("USERNO");
 			int userno = ((BigDecimal)list.get(i).get("USERNO")).intValue();
+			int objectno = ((BigDecimal)list.get(i).get("OBJECTNO")).intValue();
+			int quantity = ((BigDecimal)list.get(i).get("QUANTITY")).intValue();
 			
 			Basket basket = new Basket(); 
+			
 			basket.setUserno(userno);
-			shopDao.memberShop(basket);
+			Member member = shopDao.memberShop(basket);
 			
-			String buyername =  shopDao.memberShop(basket).getUserName();
-			String buyeradd = shopDao.memberShop(basket).getAddress();
-			String buydetailaddress = shopDao.memberShop(basket).getDetailaddress();
-			String buyerzip = shopDao.memberShop(basket).getZipCode();
-			String buyerphone = shopDao.memberShop(basket).getPhone();
+			System.out.println("이거임 " + member);
+
+			String buyername =  member.getUserName();
+			String buyeradd = member.getAddress();
+			String buydetailaddress = member.getDetailaddress();
+			String buyerzip = member.getZipCode();
+			String buyerphone = member.getPhone();
 			
+			orderUser.setBuyno(buyno);
 			orderUser.setBuyeradd(buyeradd);
 			orderUser.setBuydetailaddress(buydetailaddress);
 			orderUser.setBuyername(buyername);
@@ -113,11 +124,36 @@ public class ShopServiceImpl implements ShopService{
 			orderUser.setBuyerzip(buyerzip);
 			orderUser.setUserno(userno);
 			
-			shopDao.inserOrderUser(orderUser);
+			orderThing.setBuyno(buyno);
+			orderThing.setQuantity(quantity);
+			orderThing.setObjectno(objectno);
+			
+			System.out.println(orderUser);
+			System.out.println(orderThing);
+			
+			shopDao.insertOrderUser(orderUser);
+			shopDao.insertOrderThing(orderThing);
+			
 		}
-		
-		
 		
 	}
 	
+	@Override
+	public void buyDeleteBasket(int userno) {
+		
+		shopDao.buyDeleteBasket(userno);
+		
+	}
+	
+	@Override
+	public void deleteBasket(Basket basket) {
+	
+		Basket selectBasket = shopDao.selectDeleteBasket(basket);
+		
+		System.out.println("asdfasdfasdfasdf" +selectBasket);
+		
+		int basketno = selectBasket.getBasketno();
+		
+		shopDao.deleteBasket(basketno);
+	}
 }

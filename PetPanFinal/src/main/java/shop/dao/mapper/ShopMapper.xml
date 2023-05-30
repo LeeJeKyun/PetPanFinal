@@ -58,12 +58,34 @@
 		where userno = #{userno}
 	</select>
 	
-	<insert id="inserOrderUser" parameterType="shop.dto.OrderUser">
+	<select id="buyno" resultType="int">
+		select SEQ_ORDERUSER.nextval from dual
+	</select>
+	
+	<insert id="insertOrderUser" parameterType="shop.dto.OrderUser">
 		insert into orderuser(buyno, buyername, buyeradd, buyerzip, buyerphone, complete, userno, buydate, buydetailaddress)
-		values(SEQ_ORDERUSER.nextval, #{buyername}, #{buyeradd}, #{buyerzip}, #{buyerphone}, 'n', #{userno}, current_date, #{detailaddress})
+		values(#{buyno}, #{buyername}, #{buyeradd}, #{buyerzip}, #{buyerphone}, 'n', #{userno}, current_date, #{buydetailaddress})
 	</insert>
 	
+	<insert id="insertOrderThing" parameterType="shop.dto.OrderThing">
+		insert into OrderThing(buylistno, quantity, objectno, buyno)
+		values(SEQ_ORDERTHING.nextval, #{quantity}, #{objectno}, #{buyno})
+	</insert>
 	
+	<delete id="buyDeleteBasket" parameterType="shop.dto.Basket">
+		delete from basket
+		where userno = #{userno}
+	</delete>
+	
+	<select id="selectDeleteBasket" resultType="shop.dto.Basket">
+		select * from basket
+		where userno = #{userno} and objectno = #{objectno}
+	</select>
+	
+	<delete id="deleteBasket" parameterType="int">
+		delete from basket
+		where basketno = #{basketno}
+	</delete>
 	
 	
 	

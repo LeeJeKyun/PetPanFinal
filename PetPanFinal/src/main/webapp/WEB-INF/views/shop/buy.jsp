@@ -39,7 +39,7 @@
 <style>
 .content_top{
     width: 80%;
-    height: 400px; 
+    height: auto; 
     margin: 10%;
     margin-bottom: 0%;
     background: aliceblue;
@@ -88,7 +88,7 @@
 	text-align: center;
 
 }
-	.pay{
+	.button{
 	    height: 80px;
 	    width: 200px;
 	    font-size: xx-large;
@@ -218,7 +218,8 @@ function requestPay() {
 
 
 <div class="content_bottom">
-	<button type="submit" class="pay" name="pay" onclick="requestPay()">결제하기</button>
+	<button type="submit" class="button" name="pay" onclick="requestPay()">결제하기</button>
+	<a href="./main"><button class="button" name="list" >목록으로</button></a>
 </div>
 <c:import url="../layout/footer.jsp" />
 

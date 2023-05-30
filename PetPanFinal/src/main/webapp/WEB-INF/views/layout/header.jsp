@@ -155,7 +155,7 @@ a {
 		</li>
 		<li><a href="#">쇼핑</a>
 			<ul>
-				<li><a href="#">쇼핑</a></li>
+				<li><a href="<%=request.getContextPath() %>/shop/main">쇼핑</a></li>
 				<li><a href="#">상품검색</a></li>
 				<li><a href="#">장바구니</a></li>
 			</ul>
