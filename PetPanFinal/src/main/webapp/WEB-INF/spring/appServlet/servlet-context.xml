@@ -14,12 +14,12 @@
 <!-- 	인터셉터 설정 -->
 <!-- 	<interceptors> -->
 <!-- 		<interceptor> -->
- 		<!-- mapping path는 url --> 
-<!-- 			<mapping path="/HelloSpring"/> -->
-			<!-- 인터셉터가 적용되지 않도록 제외할 예외 페이지 -->
-<!-- 			<exclude-mapping path="/HelloSpring"/> -->
- 			<!-- 인터셉터 클래스 지정 --> 
-<!-- 			<beans:bean class="controller.BasicController"/> -->
+<!--  		mapping path는 url  -->
+<!-- 			<mapping path="/admin/**"/> -->
+<!-- 			인터셉터가 적용되지 않도록 제외할 예외 페이지 -->
+<!-- 			<exclude-mapping path="/admin/error"/> -->
+<!--  			인터셉터 클래스 지정  -->
+<!-- 			<beans:bean class="admin.controller.AdminController"/> -->
 <!-- 		</interceptor> -->
 <!-- 	</interceptors> -->
 
@@ -35,6 +35,7 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/images/**" location="/WEB-INF/classes/images/" />
 	<resources mapping = "/upload/**" location = "/upload/" />
+	<resources mapping = "/petfile/**" location = "/petfile/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

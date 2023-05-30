@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import admin.dto.Blacklist;
-import admin.dto.Notice;
+import board.dto.Notice;
 import admin.dto.ReportBoard;
 import admin.dto.ReportComment;
 import board.dto.Board;
@@ -77,6 +77,18 @@ public interface AdminService {
 	public int saveShopGetObjectno(Shop shop);
 	
 	public List<Notice> getNoticeListByType(int theme);
+
+	public void saveShopFiles(List<MultipartFile> fileList, int objectno, List<Integer> no);
+
+	public Shop getShopDetailByobjectno(Integer objectno);
+
+	public List<ShopFile> getshopFileByobjectno(Integer objectno);
+
+	public void changeAndDeleteFile(List<Integer> delete, List<Integer> save);
+
+	public void changeShop(Shop shop, Integer objectno);
+
+	public void writeNotice(List<MultipartFile> fileList, Notice notice);
 
 
 

@@ -57,7 +57,37 @@
   		WHERE suserNo = #{suserNo}
   	</select>
   	
+  	<select id="selectPetNo" resultType="int">
+  		SELECT seq_pet.nextval FROM dual	
+  	</select>
   	
+  	<insert id="insertPet" parameterType="member.dto.Pet">
+  		INSERT INTO pet(petno, petname, type, userno)
+  		VALUES( #{petNo}, #{petName}, #{type}, #{userNo})
+  	</insert>
+  	
+  	<insert id="insertPetfile" parameterType="member.dto.PetFile">
+  		INSERT INTO petfile( fileno, originname, storedname, filesize, petno)
+  		VALUES(seq_petfile.nextval, #{originName}, #{storedName}, #{fileSize}, #{petNo})
+  	</insert>
+
+	<select id="selectPetInfo" parameterType="int" resultType="member.dto.Pet">
+		SELECT * FROM pet
+		WHERE userNo=#{userNo}
+	</select>
+	
+
+	<select id="selectPetFile" parameterType="int" resultType="member.dto.PetFile">
+		SELECT * FROM petfile
+		WHERE petNo=#{petNo}
+ 
+	</select>
+
+
+
+
+
+
 
   	
   </mapper>

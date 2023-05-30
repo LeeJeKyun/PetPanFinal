@@ -24,5 +24,34 @@
 		INSERT INTO SHOP (objectno, name, price, remain, shopcontent, deleteobj)
 		VALUES(#{objectno} ,#{name}, #{price}, #{remain}, #{shopcontent}, 1 )
 	</insert>
+	
+	<insert id="insertShopFile" parameterType="shop.dto.ShopFile">
+		INSERT INTO SHOPFILE (fileno, originname, storedname, filesize, objectno)
+		VALUES(seq_shopfile.nextval, #{originname}, #{storedname}, #{filesize}, #{objectno} )
+	</insert>
+	
+	<select id="selectShop" parameterType="int" resultType="shop.dto.Shop">
+		SELECT * FROM SHOP WHERE OBJECTNO = #{objectno}
+	</select>
+	
+	<select id="selectShopFile" parameterType="int" resultType="shop.dto.ShopFile">
+		SELECT * FROM SHOPFILE WHERE OBJECTNO = #{objectno} ORDER BY FILENO
+	</select>
+	
+	<select id="selectShopFileByFileno" resultType="shop.dto.ShopFile">
+		SELECT * FROM SHOPFILE WHERE FILENO = #{e}
+	</select>
+	
+	<delete id="deleteChangeFileOnDb" parameterType="int">
+		DELETE FROM SHOPFILE WHERE FILENO = #{e}
+	</delete>
+	
+	<update id="updateShopDetail" parameterType="shop.dto.Shop">
+		UPDATE SHOP SET NAME = #{name}, 
+		PRICE = #{price}, 
+		REMAIN = #{remain}, 
+		SHOPCONTENT = #{shopcontent} 
+		WHERE OBJECTNO = #{objectno}
+	</update>
   
   </mapper>

@@ -1,6 +1,9 @@
 package member.service.face;
 
 import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import member.dto.Member;
 import member.dto.Pet;
@@ -71,6 +74,12 @@ public interface MemberService {
 	 */
 	public boolean selectKakao(Member member);
 
+	/**
+	 * 소셜 회원 세션에 넣어주기 위해 조회
+	 * 
+	 * @param sosId
+	 */
+	public Member selectSuser(String sosId);
 
 	/**
 	 * userNo로 조회하여 회원정보 상세보기
@@ -88,21 +97,37 @@ public interface MemberService {
 	public void updateMember(Member member);
 
 	/**
-	 * 펫 정보, 펫 사진을 함게 등록한다.
+	 * 펫No 가져오기
 	 * 
-	 * @param pet 펫 정보
-	 * @param petFile 펫 파일
+	 * @param pet
+	 * @param petFile 
+	 * @return
 	 */
-	public void petInfo(Pet pet, PetFile petFile);
-
+	public int pet(Pet pet, MultipartFile petFile);
+	
 	/**
-	 * 소셜 회원 세션에 넣어주기 위해 조회한다.
+	 * 펫 정보 가져오기
 	 * 
-	 * @param sosId
+	 * @param pet
+	 * @return
 	 */
-	public Member selectSuser(String sosId);
+	public List<Pet> petInfo(Member userNo);
+	
+	/**
+	 * 펫 사진 정보 가져오기
+	 * 
+	 * @param petFile
+	 * @return
+	 */
+	public List<PetFile> petFile(PetFile petNo);
 
 
+
+
+
+
+
+	
 
 
 

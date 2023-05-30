@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
+import board.dto.Comment;
 import board.dto.CommentTable;
 import board.dto.Notice;
 import board.dto.ReportBoard;
@@ -238,6 +239,20 @@ public interface BoardService {
 	 * @return boardNo에 맞는 댓글
 	 */
 	public List<Map<String, Object>> getComments(int boardNo);
+
+	/**
+	 * 일반 댓글 작성
+	 * @param comment DB에 저장할 일반 댓글 객체
+	 * @return 삽입한 댓글 가져오기
+	 */
+	public Comment addComment(Comment comment);
+
+	/**
+	 * userNo으로 userName 가져오기
+	 * @param userNo 가져올 userName의 userNo
+	 * @return userName
+	 */
+	public String getUsername(int userNo);
 
 	
 

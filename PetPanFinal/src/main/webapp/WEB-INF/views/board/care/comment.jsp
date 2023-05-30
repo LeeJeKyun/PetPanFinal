@@ -19,9 +19,9 @@
 			</tr>
 			<tr id="ComCom${comment.COMMENTNO }" class="displayNone">
 				<td colspan="2">
-				 └> <input type="text" name="content" id="Ccontent${comment.COMMENTNO }" onkeypress="enterkeyPress(event)"> 
-					<button id="ComComSubmit" onclick="comcomInput(${userno}, ${comment.BOARDNO }, ${comment.COMMENTNO })" >입력</button>
-				 </td>	
+				 └> <input type="text" name="content" id="Ccontent${comment.COMMENTNO }" onkeypress="enterkeyPress(event, ${comment.COMMENTNO})"> 
+					<button id="ComComSubmit${comment.COMMENTNO }" onclick="comcomInput(${userno}, ${comment.BOARDNO }, ${comment.COMMENTNO })" >입력</button>
+				 </td>
 			</tr>
 		</table>
 	</c:if>

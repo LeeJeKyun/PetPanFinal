@@ -16,6 +16,11 @@ public class MainController {
 	public String main() {
 //		logger.info("메인");
 		
+		
+		
+		
+		
+		
 		return "/main";
 	}
 
