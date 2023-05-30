@@ -1,6 +1,7 @@
 package member.controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import member.dto.Member;
 import member.dto.Pet;
@@ -28,24 +30,43 @@ public class MyPageController {
 
 	@Autowired private MemberService memberService;
 	
+	
 	@GetMapping("/mypage/mypage")
 	public void mypage(
 			HttpSession session
 			, Member member
 			, Model model
+			, Pet pet
+			, PetFile petFile
 			) {
 		
 		
 		member.setUserNo((int)session.getAttribute("userno"));
 		
-//		Member detail = memberService.userDetail(member);
-//		model.addAttribute("info", member);
-		
 		Member detail = memberService.userDetail(member);
 		model.addAttribute("detail", detail);
+//		logger.info("detail : {}" , detail);
 		
-		logger.info("detail : {}" , detail);
+		// userno로 펫 정보 조회하기
+		List<Pet> petInfo = memberService.petInfo(member);
+		model.addAttribute("petInfo", petInfo);
+		logger.info("petInfo : {}", petInfo);
 		
+			
+		
+		
+		for (Pet p : petInfo) {
+			petFile.setPetNo(p.getPetNo());
+			
+		
+		logger.info("petFile: {}", petFile);
+		
+		// petno로 펫 사진 불러오기
+		List<PetFile> petDetail = memberService.petFile(petFile);
+		model.addAttribute("petDetail", petDetail);
+		logger.info("petDetail : {}" , petDetail);
+		
+		}
 	}
 
 	@GetMapping("/mypage/myprofile")
@@ -88,22 +109,32 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/mypage/petinfo")
-	public void petinfo(			
-			HttpSession session
-			, PetFile petFile
-			, Pet pet
-			, Member member
-			) {
-		member.setUserNo((int)session.getAttribute("userno"));
-		
-		memberService.petInfo(pet, petFile);
-		
+	public void petinfo() {
 
 	}
 	
-	
-	
-	
+	@PostMapping("/mypage/petinfo")
+	public String petinfo(			
+			HttpSession session
+			, Member member
+			, @RequestParam("file") MultipartFile petFile
+			, Pet pet
+			) {
+		
+		logger.info("userno {}", session.getAttribute("userno"));
+
+		pet.setUserNo((int)session.getAttribute("userno"));
+		
+		
+		
+		// 펫 번호
+		int petNo = memberService.pet(pet, petFile);
+		
+		return "redirect:./petinfo";
+		
+		
+	}
+
 	
 	@GetMapping("/mypage/content")
 	public void content(
@@ -120,6 +151,20 @@ public class MyPageController {
 		model.addAttribute("detail", detail);
 	}
 	
+	@GetMapping("/mypage/comment")
+	public void comment(
+			HttpSession session
+			, Member member
+			, Model model
+			
+			) {
+		
+		member.setUserNo((int)session.getAttribute("userno"));
+		
+		
+		Member detail = memberService.userDetail(member);
+		model.addAttribute("detail", detail);
+	}
 	
 	
 }

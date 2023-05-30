@@ -36,7 +36,7 @@ import util.Paging;
 public class BoardController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired BoardService boardService;
-
+	
 	@GetMapping("/board/write")
 	public String write(HttpSession session) {
 		

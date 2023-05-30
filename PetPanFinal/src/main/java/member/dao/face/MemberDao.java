@@ -1,7 +1,11 @@
 package member.dao.face;
 
 
+import java.util.List;
+
 import member.dto.Member;
+import member.dto.Pet;
+import member.dto.PetFile;
 
 public interface MemberDao {
 
@@ -70,6 +74,52 @@ public interface MemberDao {
 	 * @return
 	 */
 	public Member selectSuser(String sosId);
+
+
+	/**
+	 * petNo 가져오기
+	 * 
+	 * @return
+	 */
+	public int selectPetNo();
+
+	/**
+	 * pet 저장
+	 * 
+	 * @param pet
+	 */
+	public void insertPet(Pet pet);
+
+	/**
+	 * 펫 사진 삽입
+	 * 
+	 * @param petFile
+	 */
+	public void insertPetfile(PetFile petFile);
+
+	/**
+	 * userNo로 펫 정보 조회
+	 * 
+	 * @param userNo
+	 * @return
+	 */
+	public List<Pet> selectPetInfo(Member userNo);
+	
+	/**
+	 * petNo로 사진 조회
+	 * 
+	 * @param petNo
+	 * @return
+	 */
+	public List<PetFile> selectPetFile(PetFile petNo);
+
+
+
+
+
+
+
+
 
 
 

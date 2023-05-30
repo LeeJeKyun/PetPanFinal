@@ -11,6 +11,8 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
 
+
+
 <style type="text/css">
 #header {
 	text-align: left;
@@ -94,7 +96,7 @@ li {
 
 <ul class="pan">
 	<li>
-	<a href="./myprofile" >내 프로필</a>
+	<a href="./myprofile" >정보 수정</a>
 	<em></em>
 	</li>
 
@@ -105,6 +107,11 @@ li {
 
 	<li>
 	<a href="./content">내가 쓴 글</a>
+	<em></em>
+	</li>
+
+	<li>
+	<a href="./content">내가 쓴 댓글</a>
 	<em></em>
 	</li>
 </ul>
