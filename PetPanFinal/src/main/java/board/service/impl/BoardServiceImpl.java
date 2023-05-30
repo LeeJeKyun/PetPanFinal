@@ -24,6 +24,7 @@ import board.dao.face.BoardDao;
 import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
+import board.dto.Comment;
 import board.dto.CommentTable;
 import board.dto.Notice;
 import board.dto.ReportBoard;
@@ -412,6 +413,36 @@ public class BoardServiceImpl implements BoardService{
 	public List<Map<String, Object>> getComments(int boardNo) {
 
 		return boardDao.selectComments(boardNo);
+	}
+
+	@Override
+	public Comment addComment(Comment comment) {
+		// 가장 마지막 dComment 가져오기
+		int dComment = boardDao.selectDcomment();
+		
+		// 다음 commentNo 가져오기
+		int commentNo = boardDao.selectMaxCommentNo();
+		
+		comment.setdComment(dComment + 1);
+		comment.setCommentNo(commentNo);
+		
+		logger.info("comment 삽입 전 객체 : {}", comment);
+		
+		//일반 댓글 삽입
+		boardDao.insertComment(comment);
+		
+		//삽입한 댓글 가져오기
+		comment = boardDao.selectCommentByCommentNo(commentNo);
+		
+		logger.info("comment 객체 : {}", comment);
+		
+		return comment;
+	}
+
+	@Override
+	public String getUsername(int userNo) {
+		
+		return boardDao.selectUserNameByUserNo(userNo);
 	}
 
 	

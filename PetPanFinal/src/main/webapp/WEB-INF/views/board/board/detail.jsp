@@ -15,7 +15,7 @@
 }	
 #main{
 	widht: 800px;
-	height: 500px;
+/* 	height: 500px; */
 	padding: 20px;
 }
 .font-options{
@@ -131,15 +131,31 @@ table{
 </style>
 <script type="text/javascript">
 $(function(){
+	// 본문 길이가 450 넘어가면 길이 추가
+	if($("#content").css('height').split('px')[0] > 450){
+		var height = 100 + Number( $("#content").css('height').split('px')[0])
+		$("#main").css('height', height);
+	};
 	
 	// 게시글 신고 버튼 클릭시
 	$("#reportBtn").click(function(){
+		var userno = '<%=session.getAttribute("userno")%>';
+        if(userno=="null"){ 
+        	alert("로그인을 해주세요.")
+			return;
+		}
 		console.log("#reportBtn click")
 		window.open("./reportPopup?boardNo="+${map.BOARDNO }, "신고", "width=400, height=500, resizable=no");
-	})
+	});
+	
 	$("#like-area").on("click", ".like", function(){
 		console.log("heart clicked");
-		
+		var userno = '<%=session.getAttribute("userno")%>';
+
+        if(userno=="null"){ 
+        	alert("로그인을 해주세요.")
+			return;
+		}
 		$.ajax({
 			type : "get" 
 				, url: "./recommend"
@@ -160,9 +176,11 @@ $(function(){
 					console.log("AJAX 실패")	
 				}
 		})
-	})
+	});
 	// 새로고침
 	$("#refresh").click(function(){
+		console.log("refresh clicked");
+		
 		$.ajax({
 			type: "get"
 			, url: "./comment"
@@ -177,31 +195,42 @@ $(function(){
 				console.log("댓글 ajax 실패");
 			}
 		})
-	})
-	//  댓글 작성
+	});
+	//  일반 댓글 작성
 	$("#writeBtn").click(function(){
+		var userno = '<%=session.getAttribute("userno")%>';
+
+        if(userno=="null"){ 
+        	alert("로그인을 해주세요.")
+			return;
+		}
+        if(  "" == $("#write").val() ){
+        	alert("입력을 해주세요");
+        	return;
+        }
 		$.ajax({
 			type: "get"
-			, url: "./comment"
+			, url: "./comment/write"
 			, data: {
 				"boardNo": ${map.BOARDNO }
-				, "depth": 
+				, "depth": "1"
+				, "content": $("#write").val()
 			}
 			, dataType : "html"
-			, success: function(res){
-				$("#commentsBox").html(res);
+			, success: function(data){
+						$("#write").val("");
+						console.log(data)
+						console.log(data.content)
+						console.log(data.userNo);
+						
+						updateComment(data);
 			}
 			, error: function(){
 				console.log("댓글 ajax 실패");
 			}
 		})
-	})
+	});
 	
-	// 본문 길이가 450 넘어가면 길이 추가
-	if($("#content").css('height').split('px')[0] > 450){
-		var height = 100 + Number( $("#content").css('height').split('px')[0])
-		$("#main").css('height', height);
-	}
 })
 function likeChange(like, count){
 	console.log("likeChange() 호출됨");
@@ -226,6 +255,33 @@ function likeChange(like, count){
 		$("#like-area").html(html);
 	}
 	
+};
+function updateComment(c){
+	
+	var html = "<div class = 'comment-area'>";
+		html += "	<div class = 'f comment'>"; 
+		html += "		<div class = 'info-space'>"; 
+		html += "			<table>" 
+		html += "			<tr>" 
+		html += "				<td class = 'left-side name-space'>글쓴이"   
+		html += "					<span class = 'date'>(2020.12.13)" + ${c.writeDate } + "</span>"				 
+		html += "					<span class  = 'comment1 small6'>답글달기</span>"				 
+		html += "				</td>"				 
+		html += "				<td class = 'right-side' data-boardNo = " + ${c.boardNo} +">"				 
+		html += "						<span class = 'delete-comment'>삭제</span></td>"				 
+		html += "			</tr>	"			 
+		html += "		</table>"				 
+		html += "	</div>"				 
+		html += "	<div class = 'main-comment'>"				 
+		html += "			<br>"				 
+		html += 			 + c.content				 
+		html += "			<br>"				 
+		html += "			<br>"				 
+		html += "			</div>"
+		html += "		</div>"				 
+		html += "</div>"				 
+		
+	$("#commentsBox").append(html);
 }
 </script>
 <div id = "fcontainer">
@@ -272,7 +328,7 @@ function likeChange(like, count){
 			${map.CONTENT }
 		 <br>
 		 <c:forEach var = "i" items = "${list }">
-		 	<div ">
+		 	<div>
 		 		<img alt="no img" src="<%=request.getContextPath() %>/upload/${i.storedName}" style = "width: 400px; height: 300px;">
 		 	</div>
 		 </c:forEach>
