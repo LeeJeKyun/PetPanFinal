@@ -118,7 +118,7 @@ public interface BoardDao {
 	 * 
 	 * @param commentTable
 	 */
-	public void insertCommentToCareBoard(CommentTable commentTable);
+	public void insertCommentToCareBoard(Comment comment);
 	
 	/**
 	 * 해당 게시글(boardno)의 댓글을 모두 가져오는 메소드 
@@ -135,6 +135,29 @@ public interface BoardDao {
 	 */
 	public List<Map<String, Object>> selectNoticeToCare();
 	
+	/**
+	 * 참조댓글의 sortno을 가져오는 메소드
+	 * 
+	 * @param refCommentNo
+	 * @return
+	 */
+	public int selectSortNoByRef(int refCommentNo);
+	
+	/**
+	 * refcommentno을 이용해서 해당 댓글보다 뒷순번인 댓글의 sortno을 1씩 더하는 메소드
+	 * 
+	 * @param refCommentNo
+	 */
+	public void updateAfterSortnoUpper(Map<String, Object> map);
+	
+	/**
+	 * refcommentno을 이용하여 organ값을 가져오는 메소드
+	 * 
+	 * @param refcommentno
+	 * @return
+	 */
+	public int selectRefOrgan(int refcommentno);
+
 	
 	//--------------------------제균--------------------------------
 
@@ -328,4 +351,6 @@ public interface BoardDao {
 	 * @return userName
 	 */
 	public String selectUserNameByUserNo(int userNo);
+
+
 }

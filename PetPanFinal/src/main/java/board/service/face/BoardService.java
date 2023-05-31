@@ -105,7 +105,7 @@ public interface BoardService {
 	 * 
 	 * @param commentTable
 	 */
-	public void inputComment(CommentTable commentTable);
+	public void inputComment(Comment comment);
 
 	/**
 	 * 댓글 리스트를 모두 가져오는 메소드

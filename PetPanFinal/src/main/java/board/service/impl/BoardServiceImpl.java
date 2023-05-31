@@ -189,8 +189,35 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	@Override
-	public void inputComment(CommentTable commentTable) {
-		boardDao.insertCommentToCareBoard(commentTable);
+	public void inputComment(Comment comment) {
+		int refcommentno = comment.getRefCommentNo();
+		comment.setDepth(comment.getDepth()+1);
+		
+		logger.info("{}", comment);
+		
+		if(refcommentno == 0 ) {
+			comment.setCommentNo(boardDao.selectMaxCommentNo());
+			comment.setOrganization(comment.getCommentNo());
+			comment.setSortNo(1);
+		} else {	//depth가 2이상일때의 처리
+			//commentno은 시퀀스에서 가져오기
+			comment.setCommentNo(boardDao.selectMaxCommentNo());
+			
+			//organ은 refcommentno의 organ
+			comment.setOrganization(boardDao.selectRefOrgan(refcommentno));
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("organization", comment.getOrganization());
+			map.put("refcommentno", comment.getRefCommentNo());
+			
+			//sortno을 1씩 올리기
+			boardDao.updateAfterSortnoUpper(map);
+			comment.setSortNo(boardDao.selectSortNoByRef(refcommentno)+1);
+		}
+		
+		logger.info("{}", comment);
+		
+		boardDao.insertCommentToCareBoard(comment);
 	}
 	
 	@Override
