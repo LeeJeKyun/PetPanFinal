@@ -241,8 +241,9 @@ public interface BoardService {
 	public List<Map<String, Object>> getComments(int boardNo);
 
 	/**
-	 * 일반 댓글 작성
-	 * @param comment DB에 저장할 일반 댓글 객체
+	 *  댓글 작성
+	 *  commentNo과 content, boardNo, userNo이 담긴 comment 객체
+	 * @param comment DB에 저장할  댓글 객체
 	 * @return 삽입한 댓글 가져오기
 	 */
 	public Comment addComment(Comment comment);

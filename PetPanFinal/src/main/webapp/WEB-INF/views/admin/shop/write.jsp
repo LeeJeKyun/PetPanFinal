@@ -187,7 +187,7 @@ function updateContents(){
 <div id = "container">
 	<div id = "center-div">
 		<h2 style = "margin-top: 20px; margin-bottom: 20px; margin-left: 30px;">상품 등록</h2>
-		<form action = "./write" method = "post" id = "content-form" enctype="multipart/form-data">
+		<form action = "<%=request.getContextPath() %>/admin/shop/write" method = "post" id = "content-form" enctype="multipart/form-data">
 			<div align="right">
 				<a href = "../shop/list" class="btn btn-danger">상품 등록 취소</a>
 			</div>

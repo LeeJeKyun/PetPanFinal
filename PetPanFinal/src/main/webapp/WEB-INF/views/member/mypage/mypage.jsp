@@ -55,6 +55,69 @@
 
 <c:import url="./mypage_header.jsp" />
 
+<c:choose>
+<c:when test="${empty hospital }">
+<div id="menu">
+
+<ul class="pan">
+	<li>
+	<a href="./myprofile" >정보 수정</a>
+	<em></em>
+	</li>
+
+	<li>
+	<a href="./petinfo">동물 등록</a>
+	<em></em>
+	</li>
+
+	<li>
+	<a href="./content">내가 쓴 글</a>
+	<em></em>
+	</li>
+
+	<li>
+	<a href="./content">내가 쓴 댓글</a>
+	<em></em>
+	</li>
+</ul>
+</div>
+</c:when>
+
+<c:when test="${not empty hospital and hospital }">
+
+<div id="menu">
+
+<ul class="pan">
+	<li>
+	<a href="./myprofile" >정보 수정</a>
+	<em></em>
+	</li>
+
+	<li>
+	<a href="./hospital">병원 등록</a>
+	<em></em>
+	</li>
+
+	<li>
+	<a href="./content">내가 쓴 글</a>
+	<em></em>
+	</li>
+
+	<li>
+	<a href="./content">내가 쓴 댓글</a>
+	<em></em>
+	</li>
+</ul>
+</div>
+
+
+</c:when>
+
+
+</c:choose>
+
+
+
 <div class="text">
 
 <br><br>
@@ -92,13 +155,18 @@
 </div> <!-- pe -->
 
 
-
-
 <div class="r">
 
 <a href="./unregister" class="ur">회원탈퇴</a>
 
 </div>
+
+
+
+
+
+
+
 
 
 
