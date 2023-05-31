@@ -18,7 +18,34 @@
 
 #slick div img {
 	width: 100%;
-	height: 500px;
+	height: 300px;
+	margin: auto;
+}
+
+#H{
+	text-align: center;
+	margin-top: 50px;
+	color: #FF5050;
+}
+
+#Hdiv{
+	text-align: center;
+/* 	margin-top: 50px; */
+}
+
+
+
+#search {
+	border-radius: 5px;
+	border: 1.5px solid #FF5050;
+}
+
+#field{
+ 	border: none;
+	width: 250px;
+	height: 50px;
+	text-align: center;
+	margin: 0px 42%;
 }
 
 
@@ -69,13 +96,17 @@ $(function(){
 
 
 
-<div id="H">
-병원 검색  <input type="text">
-</div>
+<h1 id="H">병원 검색</h1>
+<form action=".list/" method="post" >
 
+<fieldset id="field">
+	<div id="Hdiv">
+	<input type="text" id="search">
+	<img src="<%=request.getContextPath()%>/resources/member/img/검색.png"  width="20px" height="20px" class="img">
+	</div>
+</fieldset>
 
-
-
+</form>
 
 
 

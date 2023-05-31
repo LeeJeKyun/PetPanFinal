@@ -22,6 +22,13 @@ function searchInit(){
 	$("#search").val('');
 	$("#searchBtn").click();
 }
+$(function() {
+	//JQuery DOM 영역
+	
+	
+})
+
+//쪽지모달창
 function closeLayer( obj ) {
 	$(obj).parent().parent().hide();
 	$('.messageLayer').css({
@@ -30,11 +37,6 @@ function closeLayer( obj ) {
 		"position": "fixed"
 	})
 }
-$(function() {
-	//JQuery DOM 영역
-	
-	
-})
 function message(e, userid){
 
 // 	console.log(e);
@@ -97,9 +99,9 @@ function sendMessage(userid){
 		<th>추천수</th>
 	</tr>
 <c:forEach items="${noticeList }" var="notice">
-	<tr style="height: 40px; border-top: 2px solid #f5cbcb;">
+	<tr style="height: 40px; border-top: 2px solid #ff9494; background-color: #f5cbcb;">
 		<td>${notice.NOTICENO }</td>
-		<td style="height: 90px;"><a href="../notice/view?noticeno=${notice.NOTICENO }"><img width="120px" height="90px" alt="공지사항" src="" style="vertical-align: middle;" ></a></td>
+		<td style="height: 90px;"><a href="../notice/view?noticeno=${notice.NOTICENO }"><img width="120px" height="90px" alt="공지사항" src="/resources/img/noticedefault.png" style="vertical-align: middle;" ></a></td>
 		<td><a href="../notice/view?noticeno=${notice.NOTICENO }">${notice.NOTICETITLE }</a></td>
 		<td>관리자</td>
 		<td><fmt:formatDate value="${notice.NOTICEWRITEDATE }" pattern="yyyy-MM-dd" /></td>
@@ -111,7 +113,7 @@ function sendMessage(userid){
 	<tr style="height: 40px; border-top: 2px solid #f5cbcb;">
 		<td>${care.BOARDNO }</td>
 		<td style="height: 90px;"><a href="../care/view?boardNo=${care.BOARDNO }"><img width="120px" height="90px" alt="아가사진" src="<%=request.getContextPath() %>/upload/${care.STOREDNAME}" style="vertical-align: middle;" ></a></td>
-		<td><a href="../care/view?boardNo=${care.BOARDNO }">${care.BOARDTITLE }</a></td>
+		<td><a href="../care/view?boardNo=${care.BOARDNO }">${care.BOARDTITLE }</a><small style="color: #555;"> [${care.COMMENTNO }]</small></td>
 		<td><span class="message" onclick="message(event, '${care.USERID}')" style="cursor: pointer;">${care.USERID }</span></td>
 		<td><fmt:formatDate value="${care.WRITEDATE }" pattern="yyyy-MM-dd" /></td>
 		<td>${care.HIT }</td>
@@ -157,7 +159,7 @@ function sendMessage(userid){
 	<br>
 </div>
 
-<div class="messageLayer" style="display: none; background: #FFDAD7; color: #FF5050; border: solid 2px #d0d0d0; width: 143px; height: 33px;	padding: 10px;">
+<div class="messageLayer" style="display: none; background: #FFDAD7; color: #FF5050; width: 143px; height: 33px; padding: 10px;">
 	<div>
 		<span onclick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</span>
 		<span style="cursor:pointer;font-size:1.5em" onclick="sendMessage($('.messageLayer').attr('userid'))">쪽지보내기</span>

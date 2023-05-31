@@ -83,7 +83,10 @@
  
 	</select>
 
-
+	<select id ="selectHospital" resultType="int" parameterType="member.dto.Member">
+  		SELECT positionNo FROM member
+  		WHERE userNo=#{userNo}
+  	</select>
 
 
 

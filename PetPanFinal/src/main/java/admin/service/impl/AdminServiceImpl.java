@@ -19,12 +19,12 @@ import org.springframework.web.multipart.MultipartFile;
 import admin.dao.face.AdminDao;
 import admin.dao.face.AdminShopDao;
 import admin.dto.Blacklist;
-import board.dto.Notice;
 import admin.dto.ReportBoard;
 import admin.dto.ReportComment;
 import admin.service.face.AdminService;
 import board.dto.Board;
-import board.dto.CommentTable;
+import board.dto.Comment;
+import board.dto.Notice;
 import board.dto.NoticeFile;
 import member.dto.Member;
 import shop.dto.Shop;
@@ -313,9 +313,9 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public CommentTable getComment(int commentNo) {
+	public Comment getComment(int commentNo) {
 		
-		CommentTable comment = adminDao.selectCommentDetail(commentNo);
+		Comment comment = adminDao.selectCommentDetail(commentNo);
 		return comment;
 	}
 
@@ -495,12 +495,15 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public void changeAndDeleteFile(List<Integer> delete, List<Integer> save) {
+		
+		
 		if(save!=null) {
 			for(int i=save.size()-1; i>=0 ;i--) {
 				int remove = save.get(i);
 				delete.remove(remove);
+				System.out.println(remove);
 			}
-			
+		}	
 				
 				
 			for(int e : delete) {
@@ -526,10 +529,11 @@ public class AdminServiceImpl implements AdminService{
 				adminShopDao.deleteChangeFileOnDb(e);	
 			}
 				
-				
-			}
+	}			
+			
 		
-		}
+		
+
 
 	@Override
 	public void changeShop(Shop shop, Integer objectno) {

@@ -115,21 +115,32 @@ public class MemberController {
 		if( memberService.login( member ) ) {
 			
 			Member member2 = memberService.selectlogin(member);
-			
 			boolean black = memberService.selcetBlack(member2);
+			boolean hospital = memberService.selectHospital(member2);
+
 			
+			// 블랙리스트 로그인 실패
 			if( black ) {
 				
 				logger.info("로그인 실패");
 				session.invalidate();
 				
-			} if( !black ){	
+			}
 			
+			// 로그인 성공
+			if( !black ){
+			
+				// 일반회원 로그인 성공
 				session.setAttribute("login", true );
 				session.setAttribute("userno", member2.getUserNo());
-				
+
+				// 병원 관계자 로그인
+				if( hospital ) {
+					session.setAttribute("hospital", true);
 				}
+			}
 			
+			logger.info("hospital : {}", hospital);
 			Member detail = memberService.userDetail(member2);
 			model.addAttribute("info", member);
 

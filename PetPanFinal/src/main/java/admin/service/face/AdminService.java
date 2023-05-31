@@ -2,20 +2,18 @@ package admin.service.face;
 
 import java.util.List;
 
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import admin.dto.Blacklist;
-import board.dto.Notice;
 import admin.dto.ReportBoard;
 import admin.dto.ReportComment;
 import board.dto.Board;
-import board.dto.CommentTable;
+import board.dto.Comment;
+import board.dto.Notice;
 import member.dto.Member;
 import shop.dto.Shop;
 import shop.dto.ShopFile;
 import util.AdminPaging;
-import util.Paging;
 
 public interface AdminService {
 
@@ -57,7 +55,7 @@ public interface AdminService {
 
 	public ReportComment getReportViewComment(String coreportNo);
 
-	public CommentTable getComment(int commentNo);
+	public Comment getComment(int commentNo);
 
 	public void changeReportComment(Integer coreportNo, Integer docommentNo, Integer getdoblack, Integer getgetblack,
 			String getdoblackres, String getgetblackres);
