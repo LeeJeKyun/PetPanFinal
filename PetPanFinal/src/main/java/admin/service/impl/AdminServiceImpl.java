@@ -500,7 +500,7 @@ public class AdminServiceImpl implements AdminService{
 				int remove = save.get(i);
 				delete.remove(remove);
 			}
-			
+		}	
 				
 				
 			for(int e : delete) {
@@ -527,7 +527,7 @@ public class AdminServiceImpl implements AdminService{
 			}
 				
 				
-			}
+			
 		
 		}
 

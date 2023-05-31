@@ -46,7 +46,7 @@
 <body>
 <div class="container2">
 <div align="center">
-	<form action="/petpan/admin/reportboard/delete" method="get">
+	<form action="<%=request.getContextPath() %>/admin/reportboard/delete" method="get">
 		<table class = "table table-striped" style="width:800px">
 		<tr>
 		<th>신고번호</th>
@@ -64,7 +64,7 @@
 		<td>${list.boreportNo }</td>
 		<td>${list.userNo }</td>
 		<td>${list.userId }</td>
-		<td><a href ="/petpan/admin/reportboard/view/?boreportNo=${list.boreportNo}">${list.boardTitle }</a></td>
+		<td><a href ="<%=request.getContextPath() %>/admin/reportboard/view/?boreportNo=${list.boreportNo}">${list.boardTitle }</a></td>
 		<td>${list.reportDetail }</td>
 		<td><fmt:formatDate value="${list.reportDate }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
 		<td>${list.complete }</td>
@@ -78,7 +78,7 @@
 		</div>
 	</form>
 	<div align="center" id="searchbottom" class="searchbottom">
-	<form action="/petpan/admin/reportboard/list" method="get">
+	<form action="<%=request.getContextPath() %>/admin/reportboard/list" method="get">
 		<input type="text" name="search" value="${search }">
 		<input type="submit" id="codeIdSubmit" value="검색" class="btn btn-info">
 	</form>
