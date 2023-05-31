@@ -107,7 +107,7 @@
 		WHERE boardno=#{boardNo}
 	</select>
 	
-	<insert id="insertCommentToCareBoard" parameterType="board.dto.CommentTable" >
+	<insert id="insertCommentToCareBoard" parameterType="board.dto.Comment" >
 		INSERT INTO commenttable (commentno, content, write_date, boardno, userno, depth, organization, sortno, refcommentno)
 		VALUES ( #{commentNo}, #{content}, sysdate, #{boardNo}, #{userNo}, #{depth}, #{organization}, #{sortNo}, 0 )
 	</insert>
@@ -131,7 +131,7 @@
 	</select>
 	
 	<select id="selectSortNoByRef" parameterType="int" resultType="int">
-		SELECT sortno FROM commenttable
+		SELECT sortNo FROM commenttable
 		WHERE commentno = #{refCommentNo}
 	</select>
 	

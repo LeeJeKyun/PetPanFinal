@@ -23,7 +23,6 @@ import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
 import board.dto.Comment;
-import board.dto.CommentTable;
 import board.dto.Notice;
 import board.dto.ReportBoard;
 import board.service.face.BoardService;

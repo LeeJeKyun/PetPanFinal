@@ -158,7 +158,7 @@
         AND coreportno = #{coreportNo}
 	</select>
 	
-	<select id="selectCommentDetail" resultType="board.dto.CommentTable">
+	<select id="selectCommentDetail" resultType="board.dto.Comment">
 		SELECT commentno, content, write_date AS writedate, userno, refcommentno FROM COMMENTTABLE WHERE commentno = #{commentNo}
 	</select>
 	
