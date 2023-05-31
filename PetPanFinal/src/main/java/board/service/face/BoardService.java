@@ -9,7 +9,6 @@ import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
 import board.dto.Comment;
-import board.dto.CommentTable;
 import board.dto.Notice;
 import board.dto.ReportBoard;
 import util.Paging;
@@ -105,7 +104,7 @@ public interface BoardService {
 	 * 
 	 * @param commentTable
 	 */
-	public void inputComment(CommentTable commentTable);
+	public void inputComment(Comment comment);
 
 	/**
 	 * 댓글 리스트를 모두 가져오는 메소드

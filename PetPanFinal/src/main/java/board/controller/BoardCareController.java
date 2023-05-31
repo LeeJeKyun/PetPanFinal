@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import board.dto.Board;
 import board.dto.BoardFile;
-import board.dto.CommentTable;
+import board.dto.Comment;
 import board.service.face.BoardService;
 import util.Paging;
 
@@ -44,14 +44,14 @@ public class BoardCareController {
 		List<Map<String, Object>> noticeList = boardService.getNoticeListToCare();
 		
 		//확인해보기
-//		for(Map<String, Object> m : list) {
-//			logger.info("map -> {}", m);
-//		}
-
-//		//확인해보기
-		for(Map<String, Object> m : noticeList) {
+		for(Map<String, Object> m : list) {
 			logger.info("map -> {}", m);
 		}
+
+//		//확인해보기
+//		for(Map<String, Object> m : noticeList) {
+//			logger.info("map -> {}", m);
+//		}
 		
 		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("paging", paging);
@@ -103,13 +103,17 @@ public class BoardCareController {
 		int userNo = 0;
 		boolean isRecommended = false;
 		List<Map<String, Object>> commentList = boardService.getCommentList(boardNo);
+
+		for(Map<String,Object> m : commentList) {
+			logger.info("{}", m);
+		}
 		
 		if(session.getAttribute("login") != null) {
 //			loginid = (String)session.getAttribute("loginid");
 			userNo = (int)session.getAttribute("userno");
 			
 			isRecommended = boardService.isRecommended(boardNo, userNo);
-			logger.info("isRecommended : {} ", isRecommended);
+//			logger.info("isRecommended : {} ", isRecommended);
 		}
 		
 		model.addAttribute("map", map);
@@ -163,19 +167,18 @@ public class BoardCareController {
 	
 	@GetMapping("/comment")
 	public void care_view_comment(
-			CommentTable commentTable
+			Comment comment
 			, Model model
 			) {
-//		logger.info("CommentTable : {}", commentTable);
-		commentTable.setDepth(commentTable.getDepth()+1);
-		logger.info("CommentTable : {}", commentTable);
-		boardService.inputComment(commentTable);
-		List<Map<String, Object>> commentList = boardService.getCommentList(commentTable.getBoardno());
+		logger.info("Comment : {}", comment);
+		
+		boardService.inputComment(comment);
+		List<Map<String, Object>> commentList = boardService.getCommentList(comment.getBoardNo());
 		
 		for(Map<String, Object> m : commentList) {
 			logger.info("map : {}", m);
-			
 		}
+		
 		model.addAttribute("commentList", commentList);
 		
 	}

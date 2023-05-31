@@ -54,6 +54,7 @@
                 	B.boardtypeno,
                 	M.userid,
                 	(SELECT count(*) FROM boardrecommend R WHERE B.boardno = R.boardno) AS recommend,
+                	(SELECT count(*) FROM commenttable C WHERE C.boardno = B.boardno ) AS commentno,
                 	bf.originname,
                 	bf.storedname
                 FROM Board B, Member M, BoardFile BF
@@ -106,23 +107,15 @@
 		WHERE boardno=#{boardNo}
 	</select>
 	
-	<insert id="insertCommentToCareBoard" parameterType="board.dto.CommentTable" >
-		INSERT INTO commenttable (commentno, content, write_date, boardno, userno, depth, refcommentno)
-		VALUES ( seq_commenttable.nextval, #{content}, sysdate, #{boardno}, #{userno}, #{depth}, #{refCommentNo} )
+	<insert id="insertCommentToCareBoard" parameterType="board.dto.Comment" >
+		INSERT INTO commenttable (commentno, content, write_date, boardno, userno, depth, organization, sortno, refcommentno)
+		VALUES ( #{commentNo}, #{content}, sysdate, #{boardNo}, #{userNo}, #{depth}, #{organization}, #{sortNo}, 0 )
 	</insert>
 	
 	<select id="selectCommentByBoardno" parameterType="int" resultType="hashmap">
-	    SELECT * 
-	    FROM (
-	        SELECT commentno myrefno, commentno, content, write_date, boardno, ct.userno, depth, refcommentno, m.username
-	        FROM commenttable ct, member m
-	        WHERE boardno = #{boardno} AND depth = 1 AND ct.userno = m.userno
-	        UNION
-	        SELECT refcommentno myrefno, commentno, content, write_date, boardno, ct.userno, depth, refcommentno, m.username
-	        FROM commenttable ct, member m
-	        WHERE boardno = #{boardno} AND depth = 2  AND ct.userno = m.userno
-	    )
-	    ORDER BY myrefno DESC, depth, commentno
+		SELECT * FROM commenttable
+		WHERE boardno = #{boardno}
+		ORDER BY organization DESC, sortno
 	</select>
 	
 	<select id="selectNoticeToCare" resultType="hashmap">
@@ -137,6 +130,21 @@
 		WHERE rnum BETWEEN 1 AND 3
 	</select>
 	
+	<select id="selectSortNoByRef" parameterType="int" resultType="int">
+		SELECT sortNo FROM commenttable
+		WHERE commentno = #{refCommentNo}
+	</select>
+	
+	<update id="updateAfterSortnoUpper" parameterType="hashmap">
+		UPDATE commenttable set sortno = sortno + 1
+		WHERE organization = #{organization}
+		 AND sortno > (SELECT sortno FROM commenttable WHERE commentno = #{refcommentno})
+	</update>
+	
+	<select id="selectRefOrgan" parameterType="int" resultType="int">
+		SELECT organization FROM commenttable
+		WHERE commentno = #{refcommentno}
+	</select>
 	
 	<!-- ===============================제균=============================== -->
 	
@@ -230,7 +238,7 @@
 		values(seq_boardfile.nextval, #{originName}, #{storedName}, #{fileSize}, #{boardNo})
 	</insert>
 	<select id="selectBoardOne" parameterType="int" resultType="map">
-		select boardno, boardtitle, content, hit, boardtypeno, member.userno, username
+		select boardno, boardtitle, content, hit, boardtypeno, member.userno, username, userid
 																, write_date AS writeDate 
 																, (select count(*) 
                                                                 from boardrecommend R, board 

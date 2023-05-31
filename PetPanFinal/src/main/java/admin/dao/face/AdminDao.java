@@ -3,20 +3,17 @@ package admin.dao.face;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.ui.Model;
-
 import admin.dto.Blacklist;
-import board.dto.Notice;
 import admin.dto.ReportBoard;
 import admin.dto.ReportComment;
 import board.dto.Board;
-import board.dto.CommentTable;
+import board.dto.Comment;
+import board.dto.Notice;
 import board.dto.NoticeFile;
 import member.dto.Member;
 import shop.dto.Shop;
 import shop.dto.ShopFile;
 import util.AdminPaging;
-import util.Paging;
 
 public interface AdminDao {
 
@@ -69,7 +66,7 @@ public interface AdminDao {
 
 	public ReportComment selectReportInfoComment(String coreportNo);
 
-	public CommentTable selectCommentDetail(int commentNo);
+	public Comment selectCommentDetail(int commentNo);
 
 	public int selectCommentuser(int commentNo);
 

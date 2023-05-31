@@ -139,8 +139,8 @@ function commentInput(userno, boardno) {
 	type : "get" 
 		, url: "./comment"
 		, data : { 
-			userno : userno,
-			boardno : boardno,
+			userNo : userno,
+			boardNo : boardno,
 			content : $("#comment").val()
 		}
 		, dataType : "html"
@@ -158,8 +158,9 @@ function commentInput(userno, boardno) {
 }
 
 //대댓글 AJAX
-function comcomInput(userno, boardno, refcommentno){
+function comcomInput(userno, boardno, refcommentno, organization){
 	console.log('Info : ' + userno + ', ' + boardno + ', ' + refcommentno);
+	console.log('organization : ' + organization)
 	console.log($("#Ccontent" + refcommentno).val())
 	console.log($("#Cdepth" + refcommentno).val())
 	
@@ -167,9 +168,10 @@ function comcomInput(userno, boardno, refcommentno){
 		type : "get" 
 			, url: "./comment"
 			, data : { 
-				userno : userno,
-				boardno : boardno,
-				refCommentNo : refcommentno, 
+				userNo : userno,
+				boardNo : boardno,
+				refCommentNo : refcommentno,
+				organization : organization,
 				content : $("#Ccontent" + refcommentno).val(), 
 				depth: $("#Cdepth" + refcommentno).val()
 			}
@@ -223,24 +225,74 @@ $(function(){
 // 	})
 	
 })
-function enterkey(e) {
-	if (e.keyCode == 13) {
-		console.log("댓글입력")
-		$("#commentInput").click();
-	}
-}
+<%-- 댓글 입력시 해당 댓글에 대한 대댓글 입력창 띄우기 --%>
 function showComCom(commentno){
 	console.log(commentno)
 	$("#ComCom" + commentno).toggleClass("displayNone");
 	$("#Ccontent" + commentno).focus();
 	$("#Ccontent" + commentno).val('');
 }
+
+<%-- 댓글 입력창에서 엔터키 입력시 실행 함수 --%>
+function enterkey(e) {
+	if (e.keyCode == 13) {
+		console.log("댓글입력")
+		$("#commentInput").click();
+	}
+}
+<%-- 대댓글 입력창에서 엔터키입력시 실행 함수 --%>
 function enterkeyPress(e, commentno) {
 	if (e.keyCode == 13) {
 		console.log("1뎁스 대댓글입력")
 		$("#ComComSubmit"+commentno).click();
 	}
 }
+
+<%----------------------------쪽지보내기 모달창 띄우는 JS ---------- --%>
+function closeLayer( obj ) {
+	$(obj).parent().parent().hide();
+	$('.messageLayer').css({
+		"top": 0,
+		"left": 0,
+		"position": "fixed"
+	})
+}
+function message(e, userid){
+
+// 	console.log(e);
+// 	console.log(userid);
+	
+	var sWidth = window.innerWidth;
+	var sHeight = window.innerHeight;
+
+	var oWidth = $('.messageLayer').width();
+	var oHeight = $('.messageLayer').height();
+
+	// 레이어가 나타날 위치를 셋팅한다.
+	var divLeft = e.clientX + 10;
+	var divTop = e.clientY + 5;
+
+	// 레이어가 화면 크기를 벗어나면 위치를 바꾸어 배치한다.
+	if( divLeft + oWidth > sWidth ) divLeft -= oWidth;
+	if( divTop + oHeight > sHeight ) divTop -= oHeight;
+
+	// 레이어 위치를 바꾸었더니 상단기준점(0,0) 밖으로 벗어난다면 상단기준점(0,0)에 배치하자.
+	if( divLeft < 0 ) divLeft = 0;
+	if( divTop < 0 ) divTop = 0;
+
+	$('.messageLayer').css({
+		"top": divTop,
+		"left": divLeft,
+		"position": "fixed"
+	}).attr({"userid" : userid});
+	$('.messageLayer').show();
+}
+
+function sendMessage(userid){
+	console.log(userid)
+	location.href='<%=request.getContextPath() %>/message/message/send?userid=' + userid;
+}
+<%-----------------------------쪽지모달창 끝 -----------------%>
 
 </script>
 
@@ -279,7 +331,7 @@ function enterkeyPress(e, commentno) {
 	</div>
 	<hr>
 	<div id = "main">
-		<div>작성자 : ${map.USERNAME }</div>
+		<div>작성자 : <span class="message" onclick="message(event, '${map.USERID}')" style="cursor: pointer;">${map.USERID }</span></div>
 		<div id = "title">
 			<h3>${map.BOARDTITLE }</h3>
 		 </div>
@@ -299,6 +351,7 @@ function enterkeyPress(e, commentno) {
 	 	<div id="recommend_count">
 	 		<span>추천수 : </span><span id="recommendCnt">${map.RECOMMEND }</span>
 	 	</div>
+	 	<c:if test="${login eq true }">
 	 	<c:choose>
 			<c:when test="${isRecommended eq false || empty isRecommended}">
 		 		<img src="<%=request.getContextPath() %>/resources/img/emptyheart.png" width="22px"
@@ -313,6 +366,7 @@ function enterkeyPress(e, commentno) {
 		 			id="recommendBtn2" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
 			 </c:otherwise>
 		 </c:choose>
+		 </c:if>
 	 </div>
 		 <hr>
 	 <table>
@@ -322,6 +376,14 @@ function enterkeyPress(e, commentno) {
 	 		<td id = "refresh" class = "cursor">새로고침</td>
 	 	</tr>
 	 </table>
+	 
+	<div class="messageLayer" style="display: none; background: #FFDAD7; color: #FF5050; width: 143px; height: 33px; padding: 10px;">
+		<div>
+			<span onclick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</span>
+			<span style="cursor:pointer;font-size:1.5em" onclick="sendMessage($('.messageLayer').attr('userid'))">쪽지보내기</span>
+		</div>
+	</div>
+	 
 	 <!-- ajax html -->
 	 <div class = "comment-area">
 		<c:import url="./comment.jsp"/>

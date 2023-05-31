@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import admin.dto.ReportComment;
 import admin.service.face.AdminService;
-import board.dto.CommentTable;
+import board.dto.Comment;
 import member.dto.Member;
 import util.AdminPaging;
 
@@ -57,7 +57,7 @@ public class AdminReportCommentController {
 			Member domember, 
 			//피신고자
 			Member getmember,
-			CommentTable comment
+			Comment comment
 			) {
 		
 		reportComment = adminService.getReportViewComment(coreportNo);
@@ -76,7 +76,7 @@ public class AdminReportCommentController {
 	}
 	
 	@GetMapping("/commentdetail")
-	public void viewRefComment(String commentno, CommentTable comment, Model model) {
+	public void viewRefComment(String commentno, Comment comment, Model model) {
 		comment = adminService.getComment(Integer.valueOf(commentno));
 		model.addAttribute("comment", comment);
 	}
