@@ -288,7 +288,16 @@ public class MemberServiceImpl implements MemberService {
 
 
 	
-	
+	@Override
+	public boolean selectHospital(Member member) {
+
+		if( memberDao.selectHospital(member) == 2) {
+			
+			return true;
+		}
+		
+		return false;
+	}
 	
 	
 	

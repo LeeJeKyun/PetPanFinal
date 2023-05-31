@@ -495,10 +495,13 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public void changeAndDeleteFile(List<Integer> delete, List<Integer> save) {
+		
+		
 		if(save!=null) {
 			for(int i=save.size()-1; i>=0 ;i--) {
 				int remove = save.get(i);
 				delete.remove(remove);
+				System.out.println(remove);
 			}
 		}	
 				
@@ -526,10 +529,11 @@ public class AdminServiceImpl implements AdminService{
 				adminShopDao.deleteChangeFileOnDb(e);	
 			}
 				
-				
+	}			
 			
 		
-		}
+		
+
 
 	@Override
 	public void changeShop(Shop shop, Integer objectno) {

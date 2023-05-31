@@ -52,8 +52,6 @@ public class MyPageController {
 		model.addAttribute("petInfo", petInfo);
 		logger.info("petInfo : {}", petInfo);
 		
-			
-		
 		
 		for (Pet p : petInfo) {
 			petFile.setPetNo(p.getPetNo());
@@ -165,6 +163,13 @@ public class MyPageController {
 		Member detail = memberService.userDetail(member);
 		model.addAttribute("detail", detail);
 	}
+	
+	
+	@GetMapping("/mypage/hospital")
+	public void hospital() {
+	}
+	
+	
 	
 	
 }
