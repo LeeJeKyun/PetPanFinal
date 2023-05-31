@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import admin.dto.ReportBoard;
 import admin.service.face.AdminService;
 import shop.dto.Shop;
 import shop.dto.ShopFile;
@@ -114,14 +115,17 @@ public class AdminShopcontroller {
 			, @RequestParam(required = false) List<Integer> delete
 			, @RequestParam(required = false) List<Integer> save
 			) {
-		
-			adminService.changeAndDeleteFile(delete,save);
 			
 			if(shop.getShopcontent() == null || shop.getName() == null )
-				return "redirect:/admin/shop/list";
+			return "redirect:/admin/shop/list";
+			
+			adminService.changeAndDeleteFile(delete,save);
+	
 			adminService.changeShop(shop,objectno);
 			
 			adminService.saveShopFiles(fileList, objectno, no);
+			
+
 			
 			
 			
