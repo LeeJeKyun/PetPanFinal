@@ -93,7 +93,7 @@ table{
 	text-align: right;
 	cursor: pointer;
 }
-#write{
+.write{
 	width: 99%;
 	resize: vertical;
 }
@@ -122,14 +122,15 @@ table{
 	padding-left: 20px;
 }
 .comment3-area{
-	width: 760px;
-	padding-left: 40px;
+	width: 740px;
+	padding-left: 60px;
 }
 #refresh{
 	cursor: pointer;
 }
 </style>
 <script type="text/javascript">
+
 $(function(){
 	// 본문 길이가 450 넘어가면 길이 추가
 	if($("#content").css('height').split('px')[0] > 450){
@@ -177,12 +178,13 @@ $(function(){
 				}
 		})
 	});
+	$("#refresh").trigger("click");
 	// 새로고침
 	$("#refresh").click(function(){
 		console.log("refresh clicked");
 		
 		$.ajax({
-			type: "get"
+			type: "post"
 			, url: "./comment"
 			, data: {
 				"boardNo": ${map.BOARDNO }
@@ -196,29 +198,37 @@ $(function(){
 			}
 		})
 	});
-	//  일반 댓글 작성
-	$("#writeBtn").click(function(){
+	//   댓글 작성
+	$(".writeBtn").click(function(){
 		var userno = '<%=session.getAttribute("userno")%>';
+		var  index = $(".writeBtn").index(this);
 
+		console.log("index " +  index );
+		console.log( $(".write").eq(index).attr("data-commentNo") );
+		
         if(userno=="null"){ 
         	alert("로그인을 해주세요.")
 			return;
 		}
-        if(  "" == $("#write").val() ){
+        if(  "" == $(".write").eq(index).val() ){
         	alert("입력을 해주세요");
         	return;
         }
+        console.log("boardNo " + ${map.BOARDNO })
+        console.log("commentNo " + $(".write").eq(index).attr("data-commentNo"))
+        console.log("content " + $(".write").eq(index).val())
+        
 		$.ajax({
 			type: "get"
 			, url: "./comment/write"
 			, data: {
 				"boardNo": ${map.BOARDNO }
-				, "depth": "1"
-				, "content": $("#write").val()
+				, "commentNo": $(".write").eq(index).attr("data-commentNo") 
+				, "content": $(".write").eq(index).val()
 			}
-			, dataType : "html"
+			, dataType : "json"
 			, success: function(data){
-						$("#write").val("");
+						$(".write").eq(index).val("");
 						console.log(data)
 						console.log(data.content)
 						console.log(data.userNo);
@@ -354,9 +364,11 @@ function updateComment(c){
 		 <div id = "report-area">
 			<a href = "#"  id = "reportBtn" class = "font-options">게시글 신고</a>
 		</div>
-	 		<div id = "write-comment" >댓글 <textarea id = "write"  placeholder = "댓글을 작성하세요."></textarea>
-	 		<button type = "button" id = "writeBtn">작성</button>	
+	 		<div class = "write-comment" >댓글 <textarea class = "write" data-commentNo = "0" placeholder = "댓글을 작성하세요."></textarea>
+	 		<button type = "button" class = "writeBtn" data-commentNo = "0">작성</button>	
 	 		</div>
+	 		
+	 		
 	 		<div class = "right-side"><span id = "refresh">새로고침</span></div>
 	 <!-- ajax html -->
 	 <!-- 댓글 -->

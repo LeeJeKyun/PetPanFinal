@@ -291,25 +291,27 @@
 		select count(*) from boardrecommend
 		where boardNo = #{boardNo}
 	</select>
-	<select id="selectComments" parameterType="int" resultType="map">
-		select commentno, content, write_date AS writeDate, userNo, depth, refcommentNo
-		from commenttable
-		where boardNo = #{boardNo}
+	<select id="selectComments" parameterType="map" resultType="map">
+		select * from(
+   			select * from(
+        		select DENSE_RANK() OVER(order by organization) AS cnt
+                    ,commentno, content, write_date AS writeDate, member.userNo, depth, member.username
+                    , organization
+                    , sortno
+        		from commenttable, member
+        		where boardNo = #{boardNo} and member.userno = commenttable.userno
+        		order by organization, sortno
+    			)
+    		order by cnt desc, sortno
+		)    
+		where cnt between #{min} and #{max}
 	</select>
-	<select id="selectDcomment" resultType="int">
-		select max(dcomment) AS dComment
-		from commenttable
-	</select>
-	<insert id="insertComment" parameterType="board.dto.Comment">
-		insert into commenttable (commentNo, content, write_date, boardNo, userNo, depth, refcommentNo, dComment)
-		values(#{commentNo}, #{content},  sysdate, #{boardNo}, #{userNo}, #{depth}, #{refcommentNo}, #{dComment})
-	</insert>
 	<select id="selectMaxCommentNo" resultType="int">
 		select seq_commenttable.nextval
 		from dual
 	</select>
 	<select id="selectCommentByCommentNo" parameterType="int" resultType="board.dto.Comment">
-		select commentNo, content, write_date AS writeDate, boardNo, userNo, depth, refcommentNo, dComment
+		select commentNo, content, write_date AS writeDate, boardNo, userNo, depth
 		from commenttable
 		where commentNo = #{commentNo}
 	</select>
@@ -317,5 +319,34 @@
 		select userName
 		from member
 		where userno = #{userNo}
+	</select>
+	<insert id="insertComment" parameterType="board.dto.Comment">
+		insert into commenttable(commentNo, content, write_date, boardNo, userNo, depth, organization, sortNo, REFCOMMENTNO)
+		values (#{commentNo}, #{content}, sysdate, #{boardNo}, #{userNo}, #{depth}, #{organization}, #{sortNo}, 0)
+	</insert>
+	<select id="selectDepthAndSortNo" parameterType="int" resultType="map">
+		select sortNo, depth, organization
+		from commenttable
+		where commentNo = #{commentNo}
+	</select>
+	<update id="updatePlueSortNo" parameterType="map">
+		update commenttable 
+		set sortno = sortNo + 1 
+		where organization = #{organization} and sortno > #{sortNo}  
+	</update>
+	<select id="selectMaxCommentCnt" resultType="int" parameterType="int">
+		select max(cnt)
+		from(
+		select * from(
+		        select DENSE_RANK() OVER(order by organization) AS cnt
+		                    ,commentno, content, write_date AS writeDate, member.userNo, depth, member.username
+		                    , organization
+		                    , sortno
+		        from commenttable, member
+		        where boardNo = #{boardNo} and member.userno = commenttable.userno
+		        order by organization, sortno
+		    )
+		    order by cnt desc, sortno
+		)
 	</select>
 </mapper>

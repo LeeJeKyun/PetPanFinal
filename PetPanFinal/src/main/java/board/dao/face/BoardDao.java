@@ -292,19 +292,19 @@ public interface BoardDao {
 
 	/**
 	 * select 댓글 
-	 * @param boardNo 가져올 댓글의 boardNo
+	 * @param map 가져올 댓글의 boardNo
 	 * @return select한 댓글
 	 */
-	public List<Map<String, Object>> selectComments(int boardNo);
+	public List<Map<String, Object>> selectComments(Map<String, Integer> map);
 
 	/**
-	 * 가장 마지막 dComment 가져오기
-	 * @return 가장 마지막 dComment
+	 * 댓글을 달 commetNo의  sortNo 과 depth가져오기
+	 * @return 댓글을 달 댓글의 sortNo, depth
 	 */
-	public int selectDcomment();
+	public Map<String, Integer> selectDepthAndSortNo(int commentNo);
 
 	/**
-	 * 일반 댓글 삽입 
+	 *  댓글 삽입 
 	 * @param comment 삽입할 댓글 객체
 	 */
 	public void insertComment(Comment comment);
@@ -328,4 +328,23 @@ public interface BoardDao {
 	 * @return userName
 	 */
 	public String selectUserNameByUserNo(int userNo);
+
+	/**
+	 * 가장 마지막 sortNo 가져오기
+	 * @return 가장 마지막 sortNo
+	 */
+	public int selectMaxSortNo(int organization);
+
+	/**
+	 * 	organization 중에서 map.get(sortNo)보다 큰 것들 다 +1
+	 * @param map - organization, sortNo
+	 */
+	public void updatePlueSortNo(Map<String, Integer> map);
+
+	/**
+	 * commenttable에서 가장 최근 게시글 가져오기
+	 */
+	public int selectMaxCommentCnt(int boardNo);
+
+	
 }

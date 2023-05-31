@@ -412,29 +412,63 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<Map<String, Object>> getComments(int boardNo) {
 
-		return boardDao.selectComments(boardNo);
+		Map<String, Integer> map = new HashMap<>();
+		map.put("boardNo", boardNo);
+		
+		//가장 큰 cnt가져오기 , 가장 최근 댓글
+		int cnt = boardDao.selectMaxCommentCnt(boardNo);
+		
+		map.put("max", cnt);
+		map.put("min", 1);
+		return boardDao.selectComments(map);
 	}
 
 	@Override
 	public Comment addComment(Comment comment) {
-		// 가장 마지막 dComment 가져오기
-		int dComment = boardDao.selectDcomment();
+		int commentNo;
+		//commentNo이 0일 때 일반 댓글
+		if(comment.getCommentNo() == 0) {
+			//dept 1
+			//organaization은 자신의 commentNo
+			commentNo = boardDao.selectMaxCommentNo();
+			comment.setCommentNo( commentNo );
+			comment.setOrganization( commentNo );
+			comment.setDepth(1);
+			
+			logger.info("comment {}" , comment);
+			//  depth가 1인 댓글은 sortNo이 0 ;   가장 마지막 sortNo 가져와서 +1 하고 넣기
+			comment.setSortNo(0);
+			
+			// 댓글 삽입
+			boardDao.insertComment(comment);
+			
+		}else {
+		// 댓글을 달 commentNo의 depth와 sortNo, organization 가져오기
+		Map<String, Integer> map = boardDao.selectDepthAndSortNo( comment.getCommentNo() );
+		map.get("depth");
+		map.get("sortNo");
+		map.get("organization");
+		
+		comment.setSortNo(map.get("sortNo") + 1);
+		comment.setDepth(map.get("depth") +1 );
+		comment.setOrganization(map.get("organization") );
+		
+		//organization 중에서 map.get(sortNo)보다 큰 것들 다 +1
+		boardDao.updatePlueSortNo(map);
 		
 		// 다음 commentNo 가져오기
-		int commentNo = boardDao.selectMaxCommentNo();
+		commentNo = boardDao.selectMaxCommentNo();
+		comment.setCommentNo(commentNo); 
 		
-//		comment.setComment(dComment + 1);
-		comment.setCommentNo(commentNo);
+		//댓글 삽입
+		logger.info(" 대댓 삽입 comment  : {}",comment);
 		
-		logger.info("comment 삽입 전 객체 : {}", comment);
-		
-		//일반 댓글 삽입
 		boardDao.insertComment(comment);
+		
+		}
 		
 		//삽입한 댓글 가져오기
 		comment = boardDao.selectCommentByCommentNo(commentNo);
-		
-		logger.info("comment 객체 : {}", comment);
 		
 		return comment;
 	}
