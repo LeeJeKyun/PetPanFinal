@@ -41,12 +41,11 @@ public class BoardController {
 	public String write(HttpSession session) {
 		
 		// 로그인 안돼있을 때 메인으로 redirect
-//		if((boolean)session.getAttribute("login")) {
-//			return "redirect:/board/board/write";
-//		}else {
-//			//return "redirect:/main";      
-//		}
-		return "/board/board/write";
+		if(null != session.getAttribute("userno")) {
+			return "/board/board/write";
+		}else {
+			return "redirect:/main";      
+		}
 	}
 	
 	@PostMapping("/board/write")
@@ -152,7 +151,6 @@ public class BoardController {
 		return "redirect:/board/board";
 	}
 	
-	// detail 페이지 추천 ajax 구현중
 	@GetMapping("/board/recommend")
 	public ModelAndView recommend(BoardRecommend boardReco, HttpSession session) {
 
@@ -172,30 +170,34 @@ public class BoardController {
 		return mv;
 	}
 	//댓글 ajax 구현중
-	@GetMapping("/board/comment")
-	public String comment(int boardNo, Model model) {
+	@PostMapping("/board/comment")
+	public ModelAndView comment(int boardNo) {
+		
+		ModelAndView mav = new ModelAndView();
 		
 		// commentNo, content, writeDate, userNo, depth, refcommentNo
 		List<Map<String, Object>> list =  boardService.getComments(boardNo);
+		logger.info("comments list : {}",list);
 		
-		model.addAttribute(list);
+		mav.addObject("list", list);
+		mav.setViewName("./board/board/detail_comment");
 		
-		return "./detail_comment";
+		return mav;
 	}
 	@GetMapping("/board/comment/write")
 	public String commentWrite(Comment comment, HttpSession session, Model model) {
 		
 		comment.setUserNo((int)session.getAttribute("userno")) ;
-		//comment.setRefcommentNo(0);
+//		comment.addComment(comment);
 		logger.info("comment {}",comment);
 		
 		String userName = boardService.getUsername(comment.getUserNo());
 				
-		//comment = boardService.addComment(comment);
+		comment = boardService.addComment(comment);
 		model.addAttribute("comment", comment);
 		logger.info("삽입한 댓글 {}", comment);
 		
-		return "./board/comment";
+		return "jsonView";
 	}
 	
 }
