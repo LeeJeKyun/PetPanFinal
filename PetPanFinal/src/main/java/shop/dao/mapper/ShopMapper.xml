@@ -87,6 +87,16 @@
 		where basketno = #{basketno}
 	</delete>
 	
+	<select id="countReview" resultType="int">
+		select count(*) from review
+	</select>
+	
+	<select id="reviewList" resultType="hashmap" parameterType="shop.dto.Review" >
+		SELECT R.*, M.* from review R
+		INNER JOIN member M
+		ON R.userno = M.userno
+		where objectno = #{objectno}
+	</select>
 	
 	
 	

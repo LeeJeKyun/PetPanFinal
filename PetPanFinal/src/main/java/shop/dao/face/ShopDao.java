@@ -3,11 +3,15 @@ package shop.dao.face;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import member.dto.Member;
 import shop.dto.Basket;
 import shop.dto.OrderThing;
 import shop.dto.OrderUser;
+import shop.dto.Review;
 import shop.dto.Shop;
+import util.ReviewPaging;
 import util.ShopPaging;
 
 public interface ShopDao {
@@ -41,6 +45,11 @@ public interface ShopDao {
 	public Basket selectDeleteBasket(Basket basket);
 
 	public void deleteBasket(int basketno);
+
+	public int countReview();
+
+	public List<Map<String, Object>> reviewList(Review review);
+
 
 
 
