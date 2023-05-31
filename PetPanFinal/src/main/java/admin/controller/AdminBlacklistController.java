@@ -27,20 +27,15 @@ public class AdminBlacklistController {
 	@GetMapping("/")
 	public String goMain1() {
 		
-		return "redirect:/admin/main/main";
+		return "redirect:/admin/main";
 		
 	}
 	
 	@GetMapping("/main")
-	public String goMain2() {
-		
-		return "redirect:/admin/main/main";
-	}
+	public void goMain2() {
 	
-	@GetMapping("/main/main")
-	public void goMain3() {
-		
-	} 
+	}
+
 
 	//blacklist 수정
 	@GetMapping("/blacklist/list")

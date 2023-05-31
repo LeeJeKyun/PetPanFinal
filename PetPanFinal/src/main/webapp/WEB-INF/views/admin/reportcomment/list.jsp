@@ -40,7 +40,7 @@
 <body>
 <div class="container2">
 <div align="center">
-	<form action="/petpan/admin/reportcomment/delete" method="get">
+	<form action="<%=request.getContextPath() %>/admin/reportcomment/delete" method="get">
 		<table class = "table table-striped" style="width:800px">
 		<tr>
 		<th>신고번호</th>
@@ -58,7 +58,7 @@
 		<td>${list.coreportNo }</td>
 		<td>${list.userNo }</td>
 		<td>${list.userId }</td>
-		<td><a href ="/petpan/admin/reportcomment/view/?coreportNo=${list.coreportNo}">${list.content }</a></td>
+		<td><a href ="<%=request.getContextPath() %>/admin/reportcomment/view/?coreportNo=${list.coreportNo}">${list.content }</a></td>
 		<td>${list.reportDetail }</td>
 		<td><fmt:formatDate value="${list.reportDate }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
 		<td>${list.complete }</td>
