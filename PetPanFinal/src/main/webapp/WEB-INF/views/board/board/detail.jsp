@@ -41,9 +41,6 @@
 	font-size: 0.8em;
 	text-align: center;
 }
-.small6{
-	font-size: 0.6em;
-}
 table{
 	width: 800px;
 }
@@ -87,11 +84,15 @@ table{
 	text-align:right;
 	margin-right: 20px;
 	cursor: pointer;
+		font-size: 0.6em;
+	
 }
 .comment3{
 	width: 780px;
 	text-align: right;
 	cursor: pointer;
+	font-size: 0.6em;
+	
 }
 .write{
 	width: 99%;
@@ -130,7 +131,6 @@ table{
 }
 </style>
 <script type="text/javascript">
-
 $(function(){
 	// 본문 길이가 450 넘어가면 길이 추가
 	if($("#content").css('height').split('px')[0] > 450){
@@ -178,6 +178,7 @@ $(function(){
 				}
 		})
 	});
+	
 	$("#refresh").trigger("click");
 	// 새로고침
 	$("#refresh").click(function(){
@@ -241,6 +242,7 @@ $(function(){
 		})
 	});
 	
+	
 })
 function likeChange(like, count){
 	console.log("likeChange() 호출됨");
@@ -292,6 +294,19 @@ function updateComment(c){
 		html += "</div>"				 
 		
 	$("#commentsBox").append(html);
+}
+//대댓글 달기
+function commentShow(commentNo) {
+	console.log(commentNo)
+	console.log( $("div[data-commentNo='"+ commentNo +"']") )
+	
+	var html = ""
+	html += "<div class = 'write-comment'>"
+	html += "	댓글 <textarea class = 'write' placeholder = '댓글을 작성하세요.' />"
+	html +=	"	<button type = 'button' class = 'writeBtn'>작성</button>"		
+	html +=	"</div>"		
+				
+	$("div[data-commentNo='"+ commentNo +"']").append(html)
 }
 </script>
 <div id = "fcontainer">
