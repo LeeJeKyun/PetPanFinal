@@ -20,10 +20,9 @@
 
 
 
-
-
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../../resources/assets//img/favicon/favicon.ico" />
+
 
 
 
@@ -38,11 +37,8 @@
 
     <!-- Icons. Uncomment required icon fonts -->
 
-
     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/fonts/boxicons.css" />
 
-
-    <!-- Core CSS -->
 
 
 
@@ -57,6 +53,7 @@
      <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" /> 
 
 
+
     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/libs/apex-charts/apex-charts.css" />
 
 
@@ -64,81 +61,85 @@
 
     <!-- Helpers -->
 
+
     <script src="<%=request.getContextPath() %>/resources/assets/vendor/js/helpers.js"></script>
 
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
        <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
 
+
     <script src="<%=request.getContextPath() %>/resources/assets/js/config.js"></script>
 
 
 
     <script type="text/javascript">
-   	 document.addEventListener('DOMContentLoaded', function() {
+       document.addEventListener('DOMContentLoaded', function() {
         var currentUrl = window.location.href;
         
         if (currentUrl.includes("/main")) {
-        	document.getElementById('main').className = 'menu-item active';
+           document.getElementById('main').className = 'menu-item active';
         }else{
-        	document.getElementById('main').className = 'menu-item';
+           document.getElementById('main').className = 'menu-item';
         }
 
         if (currentUrl.includes("/blacklist/")) {
-        	document.getElementById('black').className = 'menu-item active';
+           document.getElementById('black').className = 'menu-item active';
         }else{
-        	document.getElementById('black').className = 'menu-item';
+           document.getElementById('black').className = 'menu-item';
         }
         
         if (currentUrl.includes("/user/")){
-        	document.getElementById('user').className = 'menu-item active';
+           document.getElementById('user').className = 'menu-item active';
         }else{
-        	document.getElementById('user').className = 'menu-item';
+           document.getElementById('user').className = 'menu-item';
         }
         if (currentUrl.includes("/reportboard/")){
-        	document.getElementById('reportboard').className = 'menu-item active';
+           document.getElementById('reportboard').className = 'menu-item active';
         }else{
-        	document.getElementById('reportboard').className = 'menu-item';
+           document.getElementById('reportboard').className = 'menu-item';
         }
         if (currentUrl.includes("/reportcomment/")){
-        	document.getElementById('reportcomment').className = 'menu-item active';
+           document.getElementById('reportcomment').className = 'menu-item active';
         }else{
-        	document.getElementById('reportcomment').className = 'menu-item';
+           document.getElementById('reportcomment').className = 'menu-item';
         }
         if (currentUrl.includes("/shop/")){
-        	document.getElementById('shop').className = 'menu-item active';
+           document.getElementById('shop').className = 'menu-item active';
         }else{
-        	document.getElementById('shop').className = 'menu-item';
+           document.getElementById('shop').className = 'menu-item';
         }
         if (currentUrl.includes("/reportshop/")){
-        	document.getElementById('reportshop').className = 'menu-item active';
+           document.getElementById('reportshop').className = 'menu-item active';
         }else{
-        	document.getElementById('reportshop').className = 'menu-item';
+           document.getElementById('reportshop').className = 'menu-item';
         }
       });
     
     </script>
     
-	<style type="text/css">
-	html{
-	position:relative;
+   <style type="text/css">
+   html{
+   position:relative;
 
-	}
-	.menu:not(.menu-no-animation) .menu-icon {
+   }
+   .menu:not(.menu-no-animation) .menu-icon {
     transition: margin-right 0.3s ease;
-	}
-	
-	.container2 {
-  	position: absolute;
+   }
+   
+   .container2 {
+     position: absolute;
      margin-left: 400px; 
      margin-top: 100px; 
 
 
 
-/*   	margin-top: 10px; */
+/*      margin-top: 10px; */
  /* 특정 div의 위쪽 여백 설정 */
 
-	}
+
+   }
+	
 	.logon {
   	position: absolute;
      top : 10px;
@@ -147,21 +148,21 @@
      height: 30px;
     
 
-/*   	margin-top: 10px; */
+/*      margin-top: 10px; */
  /* 특정 div의 위쪽 여백 설정 */
-	}
-	.welcome{
-	position: absolute;
-	top : 10px;
+   }
+   .welcome{
+   position: absolute;
+   top : 10px;
     right : 500px;
     width: 270px;
     height: 30px;
-	}
-	
+   }
+   
 
-	
-	
-	</style>
+   
+   
+   </style>
   </head>
 
 </head>
@@ -233,8 +234,8 @@
           </div>
 
           <div class="menu-inner-shadow"></div>
-			
-			
+         
+         
           <ul class="menu-inner py-1">
             <!-- Dashboard -->
             <li class="menu-item" id="main">
@@ -258,11 +259,11 @@
                 <i class="menu-icon tf-icons bx bx-user-x"></i>
                 <div data-i18n="Authentications">Blacklist</div>
               </a>
-<!-- 	                <ul class="dropdown-menu"> -->
-<!-- 		      <li><a class="dropdown-item" href="#">Action 1</a></li> -->
-<!-- 		      <li><a class="dropdown-item" href="#">Action 2</a></li> -->
-<!-- 		      <li><a class="dropdown-item" href="#">Action 3</a></li> -->
-<!-- 	   				 </ul> -->
+<!--                    <ul class="dropdown-menu"> -->
+<!--             <li><a class="dropdown-item" href="#">Action 1</a></li> -->
+<!--             <li><a class="dropdown-item" href="#">Action 2</a></li> -->
+<!--             <li><a class="dropdown-item" href="#">Action 3</a></li> -->
+<!--                    </ul> -->
             </li>
             
             <li class="menu-header small text-uppercase">
@@ -311,10 +312,9 @@
         </div>
         
         <div class = welcome>
-        	<h3>PetPan 관리자 페이지</h3>
+           <h3>PetPan 관리자 페이지</h3>
         </div>
         
         <div class = logon>
-        	<h3>${userName} 님 환영합니다</h3>
+           <h3>${userName} 님 환영합니다</h3>
         </div>
-

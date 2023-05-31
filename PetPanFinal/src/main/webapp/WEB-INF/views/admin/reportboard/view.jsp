@@ -22,7 +22,7 @@
 		  <p>처리 여부: ${list.complete}</p>
 		</div>
 		<hr>
-		<form action="/petpan/admin/reportboard/view/delete" method="post">
+		<form action="<%=request.getContextPath() %>/admin/reportboard/view/delete" method="post">
 		<input type = "hidden" name="boreportNo" value="${list.boreportNo}">
 		<div class="boardinfo">
 		  <h3>신고글 정보</h3>

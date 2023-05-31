@@ -503,7 +503,8 @@ public class AdminServiceImpl implements AdminService{
 				delete.remove(remove);
 				System.out.println(remove);
 			}
-		}
+		}	
+				
 				
 			for(int e : delete) {
 				ShopFile deletefile = adminShopDao.selectShopFileByFileno(e);
@@ -528,11 +529,11 @@ public class AdminServiceImpl implements AdminService{
 				adminShopDao.deleteChangeFileOnDb(e);	
 			}
 				
-				
-			}
+	}			
+			
 		
 		
-		
+
 
 	@Override
 	public void changeShop(Shop shop, Integer objectno) {
