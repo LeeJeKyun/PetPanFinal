@@ -50,6 +50,10 @@ public interface ShopDao {
 
 	public List<Map<String, Object>> reviewList(Review review);
 
+	public List<Map<String, Object>> orderList(OrderUser orderUser);
+
+	public void writeReview(Review review);
+
 
 
 

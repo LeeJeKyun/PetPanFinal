@@ -98,8 +98,19 @@
 		where objectno = #{objectno}
 	</select>
 	
+	<select id="orderList" resultType="hashmap" parameterType="shop.dto.OrderUser">
+		select a.buyno, a.buyername, a.buyeradd, a.buyerzip, a.buyerphone, a.complete, a.userno, a.buydetailaddress		
+		, b.*, c.name, c.price, to_char(a.buydate,'yyyy/MM/DD HH:MI') as buydate
+		from orderuser a , shop c, orderthing b
+		WHERE a.buyno = b.buyno
+		AND userno = #{userno}
+		AND c.objectno = b.objectno
+	</select>
 	
-	
+	<insert id="writeReview" parameterType="shop.dto.Review">
+		insert into review
+		values(SEQ_REVIEW.nextval, #{reviewtitle}, #{reviewcontent}, #{reviewstar}, #{image1}, #{objectno}, #{userno})
+	</insert>
 	
 	
 	

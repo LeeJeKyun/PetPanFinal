@@ -56,15 +56,18 @@ public class ShopServiceImpl implements ShopService{
 	@Override
 	public void insertBasket(Basket basket) {
 		
-		int cnt = shopDao.checkBasket(basket);
-		
-		if(cnt <= 0) {
-			shopDao.insertBasket(basket);
-		}else {
-			shopDao.updateBasket(basket);
+		if(basket.getQuantity() <= 0) {
+			return;
+		} else {
+			
+			int cnt = shopDao.checkBasket(basket);
+			
+			if(cnt <= 0) {
+				shopDao.insertBasket(basket);
+			}else {
+				shopDao.updateBasket(basket);
+			}
 		}
-		
-		
 	}
 	
 	@Override
@@ -177,6 +180,19 @@ public class ShopServiceImpl implements ShopService{
 		return list;
 	}
 
+	@Override
+	public List<Map<String, Object>> orderList(OrderUser orderUser) {
+		
+		List<Map<String, Object>> list = shopDao.orderList(orderUser);
+		
+		return list;
+	}
+	@Override
+	public void writeReview(Review review) {
+		
+		shopDao.writeReview(review);
+		
+	}
 	
 	
 }

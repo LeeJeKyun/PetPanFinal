@@ -5,6 +5,7 @@ import java.util.Map;
 
 import member.dto.Member;
 import shop.dto.Basket;
+import shop.dto.OrderUser;
 import shop.dto.Review;
 import shop.dto.Shop;
 import util.Paging;
@@ -60,6 +61,10 @@ public interface ShopService {
 	public ReviewPaging reviewPaging(int curPage);
 
 	public List<Map<String, Object>> reviewList(Review review);
+
+	public List<Map<String, Object>> orderList(OrderUser orderUser);
+
+	public void writeReview(Review review);
 
 
 

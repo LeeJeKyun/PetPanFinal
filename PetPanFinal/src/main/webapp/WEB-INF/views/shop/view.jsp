@@ -163,13 +163,25 @@
   	
   	.content_bottom{
 		width: 80%;
+		height: auto;
 	    min-height: 600px;  	
 	    margin-left: 10%;
 	    margin-right: 10%;
 	    margin-top: 5%;
 	    margin-bottom: 5%;
   	}
+  	.review_img{
+  		float: left;
+  	}
   	
+  	.table{
+  		margin: 0 auto;
+  		text-align: center;
+  		height: 200px;
+  	}
+  	.table_th{
+  		width: 200px
+  	}
 
 </style>
 <div class="line">
@@ -237,15 +249,37 @@
 	</div>
 	<c:forEach items="${reviewList}" var="review">
 	<div class="review_img">
-		${review.IMAGE1 }
+		<img src="/images/download.jpg">
 	</div>
 		
-	<table>
-		<th>상품명</th>
-		<th>회원이름</th>
+	<table class="table">
+		<th class="table_th">상품명</th>
+		<th class="table_th">닉네임</th>
+		<th>평점</th>
 		<tr>
 		    <td>${view.name }</td>
-		    <td>${review.USERNAME }</td>
+		    <td>${review.USERNICK }</td>
+		    <td>
+		    <c:set var="star" value="${review.REVIEWSTAR }" />
+				<c:if test="${star eq '1'}">
+				    <img src="./../../resources/img/1star.jpg">
+				</c:if>
+				<c:if test="${star eq '2'}">
+				    <img src="./../../resources/img/2star.jpg">
+				</c:if>
+				<c:if test="${star eq '3'}">
+				    <img src="./../../resources/img/3star.jpg">
+				</c:if>
+				<c:if test="${star eq '4'}">
+				    <img src="./../../resources/img/4star.jpg">
+				</c:if>
+				<c:if test="${star eq '5'}">
+				    <img src="./../../resources/img/5star.jpg">
+				</c:if>
+		    </td>
+		</tr>
+		<tr>
+			<td colspan="">${review.REVIEWCONTENT }</td>
 		</tr>
 	</table>
 	</c:forEach>
