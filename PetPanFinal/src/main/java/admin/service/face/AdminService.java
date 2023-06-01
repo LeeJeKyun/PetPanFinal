@@ -1,5 +1,6 @@
 package admin.service.face;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -87,6 +88,14 @@ public interface AdminService {
 	public void changeShop(Shop shop, Integer objectno);
 
 	public void writeNotice(List<MultipartFile> fileList, Notice notice);
+
+	public void stopShop(Integer objectno);
+
+	public List<HashMap<String, Object>> getBuyerList(AdminPaging adminPaging);
+
+	public AdminPaging getPageBuyer(int curPage, String search);
+
+	public void completeCheckedBuyer(List<String> delete);
 
 
 

@@ -200,7 +200,7 @@ $(document).on('click', '.deleteReturn', function() {
 		<form action = "<%=request.getContextPath() %>/admin/shop/change" method = "post" id = "content-form" enctype="multipart/form-data">
 			<input type = "hidden" value="${shop.objectno }" name="objectno">
 			<div style="float: right">
-			<a href = "../shop/list" class="btn btn-danger">상품 등록 취소</a>
+			<a href = "../shop/list" class="btn btn-danger">상품 수정 취소</a>
 			</div>
 			<div style="float: left">
 			<button type = "button"  id = "btnWrite" class="btn btn-info">작성</button>

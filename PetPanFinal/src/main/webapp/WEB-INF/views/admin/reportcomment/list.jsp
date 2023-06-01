@@ -41,7 +41,7 @@
 <div class="container2">
 <div align="center">
 	<form action="<%=request.getContextPath() %>/admin/reportcomment/delete" method="get">
-		<table class = "table table-striped" style="width:800px">
+		<table class = "table table-striped" style="width:1400px">
 		<tr>
 		<th>신고번호</th>
 		<th>신고자번호</th>
@@ -62,7 +62,10 @@
 		<td>${list.reportDetail }</td>
 		<td><fmt:formatDate value="${list.reportDate }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
 		<td>${list.complete }</td>
-		<td><input type="checkbox" id="delete" name="delete" class="delete" value="${list.coreportNo }"></td>
+		<td>
+			<c:if test="${list.complete eq 'N' }"><input type="checkbox" id="delete" name="delete" class="delete" value="${list.boreportNo }"></c:if>
+			<c:if test="${list.complete eq 'Y' }"><input type="checkbox" disabled="disabled"></c:if>
+		</td>
 		</tr>
 		</c:forEach>
 		</table>

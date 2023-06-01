@@ -1,5 +1,6 @@
 package admin.dao.face;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,6 +80,20 @@ public interface AdminDao {
 	public void insertNotice(Notice notice);
 
 	public void insertNoticeFile(NoticeFile noticeFile);
+
+	public void updateBoardtypeAndReportComplete(HashMap<String, Integer> map);
+
+	public void updateBoardtypelist(List<HashMap> boardnoMaplist);
+
+	public void updateReportCompletelist(List<HashMap> deleteNoMaplist);
+
+	public void updateCommentTypelist(List<HashMap> commentnoMaplist);
+
+	public void updateReportCompleteCommentlist(List<HashMap> deleteNoMaplist);
+
+
+
+	
 
 
 }
