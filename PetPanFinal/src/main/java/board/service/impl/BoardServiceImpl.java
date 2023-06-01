@@ -27,6 +27,7 @@ import board.dto.BoardRecommend;
 import board.dto.Comment;
 import board.dto.Notice;
 import board.dto.ReportBoard;
+import board.dto.ReportComment;
 import board.service.face.BoardService;
 import util.Paging;
 
@@ -305,7 +306,8 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public void saveFiles(List<MultipartFile> fileList, int boardNo, List<Integer> no) {
 		for(int i = 0; i < fileList.size(); i++) {
-			if(no.get(i) == -1) continue;  // -1 이면 올리지 않는 취소한 파일
+			
+			if(null == no || no.get(i) == -1) continue;  // -1 이면 올리지 않는 취소한 파일
 			
 			if(fileList.get(i).getSize() <= 0)  continue;  // 파일의 크기가 0이면  
 			
@@ -461,9 +463,9 @@ public class BoardServiceImpl implements BoardService{
 			comment.setOrganization( commentNo );
 			comment.setDepth(1);
 			
+			//  depth가 1인 댓글은 sortNo이 1 ;   가장 마지막 sortNo 가져와서 +1 하고 넣기
+			comment.setSortNo(1);
 			logger.info("comment {}" , comment);
-			//  depth가 1인 댓글은 sortNo이 0 ;   가장 마지막 sortNo 가져와서 +1 하고 넣기
-			comment.setSortNo(0);
 			
 			// 댓글 삽입
 			boardDao.insertComment(comment);
@@ -471,13 +473,19 @@ public class BoardServiceImpl implements BoardService{
 		}else {
 		// 댓글을 달 commentNo의 depth와 sortNo, organization 가져오기
 		Map<String, Integer> map = boardDao.selectDepthAndSortNo( comment.getCommentNo() );
-		map.get("depth");
-		map.get("sortNo");
-		map.get("organization");
 		
-		comment.setSortNo(map.get("sortNo") + 1);
-		comment.setDepth(map.get("depth") +1 );
-		comment.setOrganization(map.get("organization") );
+		logger.info("댓글 map {}", map);
+		logger.info("댓글 sortno {}", map.get("SORTNO"));
+		logger.info("댓글 orga {}", map.get("ORGANIZATION"));
+		logger.info("댓글 depth {}", map.get("DEPTH"));
+		
+		int sortno = Integer.parseInt(String.valueOf(map.get("SORTNO")));
+		int depth = Integer.parseInt(String.valueOf(map.get("DEPTH")));
+		int organization = Integer.parseInt(String.valueOf(map.get("ORGANIZATION")));
+		
+		comment.setSortNo(sortno + 1);
+		comment.setDepth(depth +1 );
+		comment.setOrganization(organization );
 		
 		//organization 중에서 map.get(sortNo)보다 큰 것들 다 +1
 		boardDao.updatePlueSortNo(map);
@@ -503,6 +511,19 @@ public class BoardServiceImpl implements BoardService{
 	public String getUsername(int userNo) {
 		
 		return boardDao.selectUserNameByUserNo(userNo);
+	}
+
+	@Override
+	public void deleteComment(int commentNo) {
+
+		//댓글의 내용을 작성자가 삭제한 댓글이라고 바꾼다.
+		boardDao.updateComment(commentNo);
+	}
+
+	@Override
+	public void reportComment(ReportComment rc) {
+		
+		//boardDao.insertCommentNo(rc);
 	}
 
 	
