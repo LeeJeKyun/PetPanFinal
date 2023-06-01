@@ -15,7 +15,7 @@
 }	
 #main{
 	widht: 800px;
-/* 	height: 500px; */
+ 	height: 500px; 
 	padding: 20px;
 }
 .font-options{
@@ -48,6 +48,7 @@ table{
 	width: 800px;
 	margin-top: 20px;
 	background-color: #ccc;
+	padding-bottom: 20px;
 }
 .left-side{
 	width: 50%;
@@ -108,7 +109,7 @@ table{
 	text-align: center;
 	padding-top: 10px;
 }
-#delete-area{
+#set-area{
 	text-align: right;
 	margin-bottom: 10px;
 	margin-right: 20px;
@@ -121,20 +122,43 @@ table{
 .comment2-area{
 	width: 780px;
 	padding-left: 20px;
+/* 	background-color: #ff50602e; */
+	padding-bottom: 20px;
 }
 .comment3-area{
-	width: 740px;
-	padding-left: 60px;
+	width: 720px;
+	padding-left: 80px;
+	padding-bottom: 20px;
 }
 #refresh{
 	cursor: pointer;
 }
+#writeCommentStyle{
+	font-size: 0.8em;
+	text-decoration: underline;
+	cursor: pointer;
+}
+.report-comment{
+	cursor: pointer;
+	font-size: 0.6em;
+	text-decoration: underline; 
+	color: black;
+}
 </style>
 <script type="text/javascript">
+var reportBoard;
+var reportcomment;
+window.onunload = function(){
+	reportBoard.close();
+	reportComment.close();	
+}
+window.onload = function(){
+	$("#refresh").trigger("click");
+}
 $(function(){
 	// 본문 길이가 450 넘어가면 길이 추가
 	if($("#content").css('height').split('px')[0] > 450){
-		var height = 100 + Number( $("#content").css('height').split('px')[0])
+		var height = 120 + Number( $("#content").css('height').split('px')[0])
 		$("#main").css('height', height);
 	};
 	
@@ -146,7 +170,7 @@ $(function(){
 			return;
 		}
 		console.log("#reportBtn click")
-		window.open("./reportPopup?boardNo="+${map.BOARDNO }, "신고", "width=400, height=500, resizable=no");
+		reportBoard = window.open("./reportPopup?boardNo="+${map.BOARDNO }, "신고", "width=400, height=500, resizable=no");
 	});
 	
 	$("#like-area").on("click", ".like", function(){
@@ -179,7 +203,7 @@ $(function(){
 		})
 	});
 	
-	$("#refresh").trigger("click");
+	
 	// 새로고침
 	$("#refresh").click(function(){
 		console.log("refresh clicked");
@@ -199,51 +223,84 @@ $(function(){
 			}
 		})
 	});
-	//   댓글 작성
-	$(".writeBtn").click(function(){
-		var userno = '<%=session.getAttribute("userno")%>';
-		var  index = $(".writeBtn").index(this);
-
-		console.log("index " +  index );
-		console.log( $(".write").eq(index).attr("data-commentNo") );
-		
-        if(userno=="null"){ 
-        	alert("로그인을 해주세요.")
-			return;
-		}
-        if(  "" == $(".write").eq(index).val() ){
-        	alert("입력을 해주세요");
-        	return;
-        }
-        console.log("boardNo " + ${map.BOARDNO })
-        console.log("commentNo " + $(".write").eq(index).attr("data-commentNo"))
-        console.log("content " + $(".write").eq(index).val())
-        
-		$.ajax({
-			type: "get"
-			, url: "./comment/write"
-			, data: {
-				"boardNo": ${map.BOARDNO }
-				, "commentNo": $(".write").eq(index).attr("data-commentNo") 
-				, "content": $(".write").eq(index).val()
-			}
-			, dataType : "json"
-			, success: function(data){
-						$(".write").eq(index).val("");
-						console.log(data)
-						console.log(data.content)
-						console.log(data.userNo);
-						
-						updateComment(data);
-			}
-			, error: function(){
-				console.log("댓글 ajax 실패");
-			}
-		})
-	});
-	
-	
 })
+//댓글 신고
+function reportComment(commentNo){
+	console.log("reportComment clicked")
+	
+	var userno = '<%=session.getAttribute("userno")%>';
+    if(userno=="null"){ 
+    	alert("로그인을 해주세요.")
+		return;
+	}
+	reportComment = window.open("./reportComment?commentNo=" + commentNo, "신고", "width=400, height=500, resizable=no");
+}
+//   댓글 작성
+function writeComment(commentNo){
+	var userno = '<%=session.getAttribute("userno")%>';
+	
+	console.log(commentNo)
+	console.log("textarea val" + $("textarea[data-commentNo='" + commentNo +"']").val() );
+	
+	var comment = $("textarea[data-commentNo='" + commentNo +"']").val();
+	
+    if(userno=="null"){ 
+    	alert("로그인을 해주세요.")
+		return;
+	}
+    if("" == $("textarea[data-commentNo='" + commentNo +"']").val() ){
+    	alert("입력을 해주세요");
+    	return;
+    }
+    console.log("boardNo " + ${map.BOARDNO })
+    console.log("commentNo " + commentNo)
+    console.log("content " + $("textarea[data-commentNo='" + commentNo +"']").val())
+    
+	$.ajax({
+		type: "get"
+		, url: "./comment/write"
+		, data: {
+			"boardNo": ${map.BOARDNO }
+			, "commentNo": commentNo 
+			, "content": $("textarea[data-commentNo='" + commentNo +"']").val()
+		}
+		, dataType : "json"
+		, success: function(data){
+					$("textarea[data-commentNo='" + commentNo +"']").val()
+					console.log(data)
+					console.log(data.content)
+					console.log(data.userNo);
+					
+					$("#writeArea").remove();
+					
+					$("#refresh").trigger("click");
+		}
+		, error: function(){
+			console.log("댓글 ajax 실패");
+		}
+	})
+}
+//댓글 삭제
+function deleteComment(commentNo){
+	
+	$.ajax({
+		type: "get"
+		, url: "./comment/delete"
+		, data :{
+			commentNo: commentNo
+		}
+		,	success : function(){
+	
+			console.log("ajax 댓글 삭제 성공")
+			$(".main-comment[data-commentNo='" + commentNo +"']").html("작성자가 삭제한 댓글입니다.");	
+			
+		}
+		,	error : function(){
+			console.log("댓글 삭제 실패")	
+		}
+	})
+}
+
 function likeChange(like, count){
 	console.log("likeChange() 호출됨");
 
@@ -268,46 +325,30 @@ function likeChange(like, count){
 	}
 	
 };
-function updateComment(c){
-	
-	var html = "<div class = 'comment-area'>";
-		html += "	<div class = 'f comment'>"; 
-		html += "		<div class = 'info-space'>"; 
-		html += "			<table>" 
-		html += "			<tr>" 
-		html += "				<td class = 'left-side name-space'>글쓴이"   
-		html += "					<span class = 'date'>(2020.12.13)" + ${c.writeDate } + "</span>"				 
-		html += "					<span class  = 'comment1 small6'>답글달기</span>"				 
-		html += "				</td>"				 
-		html += "				<td class = 'right-side' data-boardNo = " + ${c.boardNo} +">"				 
-		html += "						<span class = 'delete-comment'>삭제</span></td>"				 
-		html += "			</tr>	"			 
-		html += "		</table>"				 
-		html += "	</div>"				 
-		html += "	<div class = 'main-comment'>"				 
-		html += "			<br>"				 
-		html += 			 + c.content				 
-		html += "			<br>"				 
-		html += "			<br>"				 
-		html += "			</div>"
-		html += "		</div>"				 
-		html += "</div>"				 
-		
-	$("#commentsBox").append(html);
-}
-//대댓글 달기
+//댓글 쓰기창 띄우기
 function commentShow(commentNo) {
 	console.log(commentNo)
-	console.log( $("div[data-commentNo='"+ commentNo +"']") )
 	
-	var html = ""
-	html += "<div class = 'write-comment'>"
-	html += "	댓글 <textarea class = 'write' placeholder = '댓글을 작성하세요.' />"
-	html +=	"	<button type = 'button' class = 'writeBtn'>작성</button>"		
-	html +=	"</div>"		
-				
-	$("div[data-commentNo='"+ commentNo +"']").append(html)
+	if( document.getElementById("writeArea") ){
+		$("#writeArea").remove();
+	}else{
+		var html = ""
+		
+		html +=	"<div id = writeArea>"
+		html += "	댓글 <textarea class = 'write' placeholder = '댓글을 작성하세요.' data-commentNo='" + commentNo + "'/>"
+		html +=	"	<button type = 'button' onclick = 'writeComment("+ commentNo +")' id = 'writeBtn'>작성</button>"
+		html +=	"</div>"
+			
+		if( commentNo != 0){
+		console.log( $("div[data-commentNo='"+ commentNo +"']") )
+			
+		$("div[data-commentNo='"+ commentNo +"']").next().html(html)
+		}else{
+			$(".write-comment").html(html)
+		}
+	}
 }
+
 </script>
 <div id = "fcontainer">
 	<c:if test="${map.BOARDTYPENO == 2}">
@@ -317,12 +358,14 @@ function commentShow(commentNo) {
 		<h1><a href = "../board?category=3">중고거래</a></h1>
 	</c:if>
 	
-	<!-- 게시글의 userno과 session의 userno이 같으면 -->
-<%-- 	<c:if test="${map.USERNO == userno }"> --%>
-		<div id = "delete-area">
+		<div id = "set-area" style ="displya: inline-block">
+			<a href = "<%= request.getContextPath()%>/board/board">목록으로</a>
+		<!-- 게시글의 userno과 session의 userno이 같으면 -->
+		<c:if test="${map.USERNO == userno }">
 			<a href = "./delete/board?boardNo=${map.BOARDNO }"  id = "delete-board">게시글 삭제</a>
+		</c:if>
 		</div>
-<%-- 	</c:if> --%>
+		
 	<div id = "line-gray" style = "background-color: gray; width: 100%; height:2px;"></div>
 	
 	<div id = "info">
@@ -359,7 +402,8 @@ function commentShow(commentNo) {
 		 </c:forEach>
 		 <br>
 		 
-			 <div id = "like-area"> 
+		 </div>
+		 <div id = "like-area"> 
 			 <c:if test="${like }">
 			 	<div style = "padding-left: 16px;"><img alt="like"  class = "like" src="<%=request.getContextPath() %>/resources/img/fillheart.png" ></div>
 				 <div>추천수 : ${map.RECOMMEND}</div>
@@ -371,18 +415,14 @@ function commentShow(commentNo) {
 			 </c:if>
 			 </div>
 		 
-		 </div>
-		 
-		 
 	 </div>
 		 <hr>
 		 <div id = "report-area">
 			<a href = "#"  id = "reportBtn" class = "font-options">게시글 신고</a>
 		</div>
-	 		<div class = "write-comment" >댓글 <textarea class = "write" data-commentNo = "0" placeholder = "댓글을 작성하세요."></textarea>
-	 		<button type = "button" class = "writeBtn" data-commentNo = "0">작성</button>	
+			<span id = "writeCommentStyle" onclick = "commentShow(0)">댓글쓰기</span>
+	 		<div class = "write-comment">	
 	 		</div>
-	 		
 	 		
 	 		<div class = "right-side"><span id = "refresh">새로고침</span></div>
 	 <!-- ajax html -->

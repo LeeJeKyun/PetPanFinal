@@ -11,6 +11,7 @@ import board.dto.BoardRecommend;
 import board.dto.Comment;
 import board.dto.Notice;
 import board.dto.ReportBoard;
+import board.dto.ReportComment;
 import util.Paging;
 
 public interface BoardService {
@@ -137,7 +138,6 @@ public interface BoardService {
 	 * @return 반환된 게시글
 	 */
 	public List<Map<String ,Object>> getBoard(Paging paging, int category);
-//	public List<Map<String ,Object>> getBoard(Paging paging, int category, String search);
 
 	/**
 	 * 카테고리 타입에 맞는 공지사항 게시글 3개 가져오기
@@ -253,6 +253,18 @@ public interface BoardService {
 	 * @return userName
 	 */
 	public String getUsername(int userNo);
+
+	/**
+	 * 댓글 삭제
+	 * @param commentNo 삭제할 댓글 번호
+	 */
+	public void deleteComment(int commentNo);
+
+	/**
+	 * 댓글 신고
+	 * @param 신고할 정보 객체
+	 */
+	public void reportComment(ReportComment rc);
 
 	
 

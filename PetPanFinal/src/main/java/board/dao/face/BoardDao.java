@@ -370,5 +370,18 @@ public interface BoardDao {
 	 */
 	public int selectMaxCommentCnt(int boardNo);
 
+	/**
+	 * 작성자가 삭제할 댓글의 내용을 작성자가 삭제한 댓글이라고 바꾼다.
+	 * @param commentNo - update할 댓글의 commentNo
+	 */
+	public void updateComment(int commentNo);
+
+	/**
+	 * 댓글 신고 신고 테이블에 insert
+	 * @param commentNo
+	 * @param userNo
+	 */
+	public void insertCommentNo(int commentNo, int userNo);
+
 	
 }
