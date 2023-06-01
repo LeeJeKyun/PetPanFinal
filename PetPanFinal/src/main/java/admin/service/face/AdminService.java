@@ -90,8 +90,15 @@ public interface AdminService {
 
 	public void writeNotice(List<MultipartFile> fileList, Notice notice);
 
-	public void updateMember(Member member);
+	public void stopShop(Integer objectno);
 
+	public List<HashMap<String, Object>> getBuyerList(AdminPaging adminPaging);
+
+	public AdminPaging getPageBuyer(int curPage, String search);
+
+	public void completeCheckedBuyer(List<String> delete);
+
+	public void updateMember(Member member);
 
 
 	

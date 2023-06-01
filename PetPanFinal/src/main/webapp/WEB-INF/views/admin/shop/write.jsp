@@ -43,15 +43,7 @@ tr:hover{
 	width:790px;
 	display:  inline-block;
 }
-#btnWrite{
-	width: 790px;
-	height: 40px;
-	border:none;
-	background-color: #ffdad7;
-	border-radius: 10px 10px 10px 10px;
-	margin-top: 20px;
-	cursor: pointer;
-}
+
 #input-files{
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -188,8 +180,11 @@ function updateContents(){
 	<div id = "center-div">
 		<h2 style = "margin-top: 20px; margin-bottom: 20px; margin-left: 30px;">상품 등록</h2>
 		<form action = "<%=request.getContextPath() %>/admin/shop/write" method = "post" id = "content-form" enctype="multipart/form-data">
-			<div align="right">
-				<a href = "../shop/list" class="btn btn-danger">상품 등록 취소</a>
+			<div style="float: right">
+				<a href = "../shop/list" class="btn btn-danger">상품 수정 취소</a>
+			</div>
+			<div style="float: left">
+				<button type = "button"  id = "btnWrite" class="btn btn-info">작성</button>
 			</div>
 			<input type = "text" name = "name" id = "title" placeholder = " 제목을 입력하세요" required = "required">
 			<div align="left" style= "float:left;">
@@ -215,9 +210,6 @@ function updateContents(){
 			<input type = "hidden" name = "userNo" value = "1">
 			
 <!-- 			<button type = "submit"  id = "btnWrite" onclick = "updateContents()">작성</button> -->
-			<div align="center">
-			<button type = "button"  id = "btnWrite" class="btn btn-info">작성</button>
-			</div>
 		</form>
 	</div>
 </div>

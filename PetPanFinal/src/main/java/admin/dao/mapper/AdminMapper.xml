@@ -18,12 +18,18 @@
 	</select>
   
 	<select id="ReportBoardtselectAll" resultType="admin.dto.ReportBoard" parameterType="util.AdminPaging">
-		SELECT re.* FROM (SELECT rownum rnum, B.* FROM (
-		(SELECT boreportno, reportdetail, report_date AS reportDate, complete, r.userNo, m.userid, r.boardno, b.boardtitle
-		FROM reportboard r, board b, member m
-		WHERE r.boardno = b.boardno
-		AND b.userno = m.userno
-		ORDER BY boreportno DESC) B)) re WHERE rnum BETWEEN #{startNo} AND #{endNo}
+		SELECT re.*
+		FROM (
+		    SELECT rownum rnum, B.*
+		    FROM (
+		        SELECT boreportno, reportdetail, report_date AS reportDate, complete, r.userNo, m.userid, r.boardno, b.boardtitle
+		        FROM reportboard r, board b, member m
+		        WHERE r.boardno = b.boardno
+		        AND b.userno = m.userno
+		        ORDER BY UPPER(complete) ASC, boreportno DESC
+		    ) B
+		) re
+		WHERE rnum BETWEEN #{startNo} AND #{endNo}
 	</select>
 	
 	
@@ -135,7 +141,7 @@
 		FROM reportcomment c, commenttable ct, member m
 		WHERE c.commentno = ct.commentno
 		AND ct.userno = m.userno
-		ORDER BY coreportno DESC) B)) re WHERE rnum BETWEEN #{startNo} AND #{endNo}
+		ORDER BY complete ASC, coreportno DESC) B)) re WHERE rnum BETWEEN #{startNo} AND #{endNo}
 	</select>
 	
 	<select id="selectCommentNo" resultType="int">
@@ -173,7 +179,7 @@
 		FROM reportboard r, board b, member m
 		WHERE r.boardno = b.boardno
 		AND b.userno = m.userno
-		ORDER BY boreportno DESC) C
+		ORDER BY complete ASC,boreportno DESC) C
         WHERE reportdetail LIKE ('%${search}%') ) B)
         re WHERE rnum BETWEEN #{startNo} AND #{endNo}
 	</select>
@@ -199,6 +205,34 @@
 		insert into noticeFile(fileno  ,noticeno  , originname , storedname ,filesize )	
 		Values (seq_noticeFile.nextval  ,#{noticeno}  , #{originname} , #{storedname} ,#{filesize} )
 	</insert>
+	
+	<update id="updateBoardtypelist" parameterType="java.util.List">
+		UPDATE BOARD SET BOARDTYPENO = 5 WHERE BOARDNO IN 
+		<foreach collection="list" item="boardno" open="(" close=")" separator=",">
+ 			#{boardno.boardno}
+		</foreach>
+	</update>
+	
+	<update id="updateReportCompletelist" parameterType="java.util.List">
+		UPDATE reportboard SET COMPLETE = 'Y' WHERE BOREPORTNO IN 
+		<foreach collection="list" item="boreportno" open="(" close=")" separator=",">
+ 			#{boreportno.boreportno}
+		</foreach>
+	</update>
+	
+	<update id="updateCommentTypelist" parameterType="java.util.List">
+		UPDATE COMMENTTABLE SET CONTENT='관리자에 의해 삭제된 게시글입니다.' WHERE COMMENTNO IN 
+		<foreach collection="list" item="commentNo" open="(" close=")" separator=",">
+ 			#{commentNo.commentNo}
+		</foreach>
+	</update>
+	
+	<update id="updateReportCompleteCommentlist" parameterType="java.util.List">
+		UPDATE reportcomment SET COMPLETE = 'Y' WHERE COREPORTNO IN 
+		<foreach collection="list" item="coreportNo" open="(" close=")" separator=",">
+ 			#{coreportNo.coreportNo}
+		</foreach>
+	</update>
 	
 	<update id="updateMember" parameterType="member.dto.Member">
 		UPDATE member
