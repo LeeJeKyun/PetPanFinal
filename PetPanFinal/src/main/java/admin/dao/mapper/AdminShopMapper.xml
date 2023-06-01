@@ -53,5 +53,44 @@
 		SHOPCONTENT = #{shopcontent} 
 		WHERE OBJECTNO = #{objectno}
 	</update>
-  
+	
+	<update id="changeShopDeleteobj" parameterType="int">
+		UPDATE SHOP SET DELETEOBJ = 0 WHERE OBJECTNO = #{objectno}
+	</update>
+	
+	<select id="selectAllBuyer" resultType="hashmap" parameterType="util.AdminPaging">
+		SELECT re.* FROM (SELECT rownum rnum, B.* FROM (
+		(SELECT o.buyno, buyername, buydate, buyerphone, o.complete, t.quantity, t.objectno, s.name , o.userno
+		FROM ORDERUSER o, ORDERTHING t, SHOP s
+		WHERE o.buyno = t.buyno
+		AND t.objectno = s.objectno
+		ORDER BY o.buyno DESC) B)) re WHERE rnum BETWEEN #{startNo} AND #{endNo}
+	</select>
+	
+	<select id="selectTotalSearchBuyer" resultType="int">
+		SELECT count(*) FROM ORDERUSER WHERE BUYERNAME LIKE ('%${search}%') OR BUYERPHONE LIKE ('%${search}%')
+	</select>
+	
+	<select id="selectObjectno" resultType="shop.dto.OrderThing">
+		SELECT objectno, quantity FROM ORDERTHING WHERE buyno = #{buyno}
+	</select>
+	
+	<update id="updateObjectReamin" parameterType="shop.dto.OrderThing">
+		UPDATE SHOP SET REMAIN = REMAIN - #{quantity} WHERE objectno = #{objectno}
+	</update>
+	
+	<update id="updateShopDeleteObj" parameterType="java.util.List">
+		UPDATE SHOP SET DELETEOBJ = 0 WHERE OBJECTNO IN
+		<foreach collection="list" item="objectNo" open="(" close=")" separator=",">
+ 			#{objectNo.objectNo}
+		</foreach>
+	</update>
+	
+	<update id="updateOrderUserComplete" parameterType="java.util.List">
+		UPDATE ORDERUSER SET COMPLETE = 'y' WHERE buyno IN
+		<foreach collection="list" item="buyNo" open="(" close=")" separator=",">
+ 			#{buyNo.buyNo}
+		</foreach>
+	</update>
+	
   </mapper>

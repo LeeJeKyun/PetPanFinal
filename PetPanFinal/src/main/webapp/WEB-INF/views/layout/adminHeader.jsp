@@ -109,6 +109,11 @@
         }else{
            document.getElementById('shop').className = 'menu-item';
         }
+        if (currentUrl.includes("/buyer/")){
+            document.getElementById('buyer').className = 'menu-item active';
+        }else{
+            document.getElementById('buyer').className = 'menu-item';
+        }
         if (currentUrl.includes("/reportshop/")){
            document.getElementById('reportshop').className = 'menu-item active';
         }else{
@@ -121,7 +126,6 @@
    <style type="text/css">
    html{
    position:relative;
-
    }
    .menu:not(.menu-no-animation) .menu-icon {
     transition: margin-right 0.3s ease;
@@ -249,7 +253,7 @@
               <span class="menu-header-text">User</span>
             </li>
             <li class="menu-item" id="user">
-              <a href="../member/list" class="menu-link menu-toggle">
+              <a href="<%=request.getContextPath() %>/member/list" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-id-card"></i>
                 <div data-i18n="Account Settings">User Manage</div>
               </a>
@@ -270,7 +274,7 @@
               <span class="menu-header-text">Notice</span>
             </li>
             <li class="menu-item" id="notice">
-              <a href="../notice/list" class="menu-link menu-toggle">
+              <a href="<%=request.getContextPath() %>/notice/list" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-volume-full"></i>
                 <div data-i18n="Account Settings">Notice Manage</div>
               </a>
@@ -299,6 +303,12 @@
               <a href="<%=request.getContextPath() %>/admin/shop/list" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-basket"></i>
                 <div data-i18n="Account Settings">Shop Manage</div>
+              </a>
+            </li>
+            <li class="menu-item" id="buyer">
+              <a href="<%=request.getContextPath() %>/admin/buyer/list" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-archive-out"></i>
+                 <div data-i18n="Account Settings">Buyer Manage</div>
               </a>
             </li>
             <li class="menu-item" id="reportshop">

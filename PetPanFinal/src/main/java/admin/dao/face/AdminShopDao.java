@@ -1,7 +1,9 @@
 package admin.dao.face;
 
+import java.util.HashMap;
 import java.util.List;
 
+import shop.dto.OrderThing;
 import shop.dto.Shop;
 import shop.dto.ShopFile;
 import util.AdminPaging;
@@ -30,6 +32,19 @@ public interface AdminShopDao {
 
 	public void updateShopDetail(Shop shop);
 
+	public void changeShopDeleteobj(Integer objectno);
+
+	public List<HashMap<String, Object>> selectAllBuyer(AdminPaging adminPaging);
 	
+	public int selectTotalSearchBuyer(String search);
+
+	public OrderThing selectObjectno(int buyno);
+
+	public void updateObjectReamin(OrderThing orderThing);
+
+	public void updateShopDeleteObj(List<HashMap> deleteNoMaplist);
+
+	public void updateOrderUserComplete(List<HashMap> deleteNoMaplist);
+
 
 }

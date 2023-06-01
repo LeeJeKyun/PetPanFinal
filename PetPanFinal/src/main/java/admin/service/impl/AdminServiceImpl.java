@@ -2,6 +2,7 @@ package admin.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,9 @@ import board.dto.Board;
 import board.dto.Comment;
 import board.dto.Notice;
 import board.dto.NoticeFile;
+import member.dao.face.MemberDao;
 import member.dto.Member;
+import shop.dto.OrderThing;
 import shop.dto.Shop;
 import shop.dto.ShopFile;
 import util.AdminPaging;
@@ -40,7 +43,7 @@ public class AdminServiceImpl implements AdminService{
 	@Autowired AdminDao adminDao;
 	@Autowired ServletContext context;
 	@Autowired AdminShopDao adminShopDao;
-
+	@Autowired MemberDao memberDao;
 	@Override
 	public List<ReportBoard> getReportBoard(AdminPaging paging) {
 		
@@ -102,32 +105,64 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public void deleteChecked(List<String> delete) {
+		if (delete == null) {
+			return;
+		}
+		
 	    List<String> deleteNoList = delete;
 	    int boardno = 0;
+        List<HashMap> boardnoMaplist = new ArrayList<HashMap>();
+        List<HashMap> deleteNoMaplist = new ArrayList<HashMap>();
 
 	    for (int i = 0; i < deleteNoList.size(); i++) {
 	        int deleteNo = Integer.valueOf(deleteNoList.get(i));
 	        //update할 BoardNo를 받아오는 메소드
 	        boardno = adminDao.selectBoardNo(deleteNo);
-	        //boardno의 타입을 5로 바꾸는 메소드
-	        adminDao.updateBoardtype(boardno);
-	        //Report의 complete를 N->Y로 바꾸는 메소드
-	        adminDao.updateReportComplete(deleteNo);
 	        
+	        //boardno의 타입을 5로 바꾸는 메소드
+//	        adminDao.updateBoardtype(boardno);
+	        //Report의 complete를 N->Y로 바꾸는 메소드
+//	        adminDao.updateReportComplete(deleteNo);
+	        
+	        HashMap<String, Integer> boardnoMap = new HashMap<String, Integer>();
+	        HashMap<String, Integer> deleteNoMap = new HashMap<String, Integer>();
+	        // 받아온 boardno를 Map에 저장하게 하는 코드
+	        boardnoMap.put("boardno", boardno);
+	        // deleteNo로 받아온 것을 boreportno를 Map에 저장하게 하는 코드
+	        deleteNoMap.put("boreportno", deleteNo);
+	        
+//	        System.out.println(boardnoMap);
+//	        System.out.println(deleteNoMap);
+	        // MAP 값을 리스트에 저장한다.
+	        boardnoMaplist.add(i, boardnoMap);
+	        deleteNoMaplist.add(i, deleteNoMap);
 	    }
-
+	    
+//	    System.out.println(boardnoMaplist);
+//	    System.out.println(deleteNoMaplist);
+	    
+//		for(HashMap e : boardnoMaplist) {
+//			System.out.println(e);
+//		}
+//		for(HashMap e : deleteNoMaplist) {
+//			System.out.println(e);
+//		}
+	    //저장된 리스트들을 한번에 작동시킨다.
+	    adminDao.updateBoardtypelist(boardnoMaplist);
+	    adminDao.updateReportCompletelist(deleteNoMaplist);
 		
 	}
 	
 	
 	@Override
-	public List<Blacklist> getBlacklistBoard(AdminPaging paging) {
+	public List<Map<String, Object>> getBlacklistBoard(AdminPaging paging) {
 		System.out.println(paging);
 		
-		List<Blacklist> list = adminDao.BlacklistselectAll(paging);
+		List<Map<String, Object>> list = adminDao.BlacklistselectAll(paging);
 		
-		for(Blacklist b : list) {
-			System.out.println(b);
+		for(Map<String, Object> m : list) {
+			
+			System.out.println(m);
 		}
 		
 		return list;
@@ -135,6 +170,9 @@ public class AdminServiceImpl implements AdminService{
 		
 	@Override
 	public void deleteblacklist(List<String> delete) {
+		if (delete == null) {
+			return;
+		}
 	
 		
 		int rownum = 0;
@@ -289,19 +327,42 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public void deleteCheckedComment(List<String> delete) {
+		if (delete == null) {
+			return;
+		}
 	    List<String> deleteNoList = delete;
 	    int commentno = 0;
+	    
+        List<HashMap> commentnoMaplist = new ArrayList<HashMap>();
+        List<HashMap> deleteNoMaplist = new ArrayList<HashMap>();
 
 	    for (int i = 0; i < deleteNoList.size(); i++) {
 	        int deleteNo = Integer.valueOf(deleteNoList.get(i));
 	        //update할 BoardNo를 받아오는 메소드
 	        commentno = adminDao.selectCommentNo(deleteNo);
-	        //boardno의 타입을 5로 바꾸는 메소드
-	        adminDao.updateReportComment(commentno);
+	        //Comment를 수정하는 메소드
+//	        adminDao.updateReportComment(commentno);
 	        //Report의 complete를 N->Y로 바꾸는 메소드
-	        adminDao.updateReportCompleteComment(deleteNo);
+//	        adminDao.updateReportCompleteComment(deleteNo);
+	        
+	        HashMap<String, Integer> commentNoMap = new HashMap<String, Integer>();
+	        HashMap<String, Integer> deleteNoMap = new HashMap<String, Integer>();
+	        
+	        // 받아온 commentno를 Map에 저장하게 하는 코드
+	        commentNoMap.put("commentNo", commentno);
+	        // deleteNo로 받아온 것을 coreportno를 Map에 저장하게 하는 코드
+	        deleteNoMap.put("coreportNo", deleteNo);
+	        
+//	        System.out.println(boardnoMap);
+//	        System.out.println(deleteNoMap);
+	        // MAP 값을 리스트에 저장한다.
+	        commentnoMaplist.add(i, commentNoMap);
+	        deleteNoMaplist.add(i, deleteNoMap);
 	        
 	    }
+	    
+	    adminDao.updateCommentTypelist(commentnoMaplist);
+	    adminDao.updateReportCompleteCommentlist(deleteNoMaplist);
 		
 	}
 
@@ -399,11 +460,15 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public void deleteCheckedShop(List<String> delete) {
 	    List<String> deleteNoList = delete;
+	    List<HashMap> deleteNoMaplist = new ArrayList<HashMap>();
 	    
 	    for (int i = 0; i < deleteNoList.size(); i++) {
 	        int deleteNo = Integer.valueOf(deleteNoList.get(i));
-	        adminShopDao.updateShop(deleteNo); 
+	        HashMap<String, Integer> deleteNoMap = new HashMap<String, Integer>();
+	        deleteNoMap.put("objectNo", deleteNo);
+	        deleteNoMaplist.add(i, deleteNoMap);
 	    }
+	    adminShopDao.updateShopDeleteObj(deleteNoMaplist);
 		
 	}
 
@@ -608,6 +673,83 @@ public class AdminServiceImpl implements AdminService{
 		
 		
 		
+		
+	}
+
+	@Override
+	public void stopShop(Integer objectno) {
+		adminShopDao.changeShopDeleteobj(objectno);
+		
+	}
+
+	@Override
+	public List<HashMap<String, Object>> getBuyerList(AdminPaging adminPaging) {
+		
+		
+		
+		List<HashMap<String, Object>> list = adminShopDao.selectAllBuyer(adminPaging);
+		
+		for(HashMap<String, Object> e : list) {
+			System.out.println(e);
+		}
+		
+		return list;
+	}
+
+	@Override
+	public AdminPaging getPageBuyer(int curPage, String search) {
+		int totalpage = adminShopDao.selectTotalSearchBuyer(search);
+		AdminPaging paging = new AdminPaging(totalpage, curPage);
+		paging.setSearch(search);
+
+		return paging;
+	}
+
+	@Override
+	public void completeCheckedBuyer(List<String> delete) {
+		
+	    List<String> completeNoList = delete;
+	    OrderThing orderThing = new OrderThing();
+	    
+        List<HashMap> deleteNoMaplist = new ArrayList<HashMap>();
+
+	    for (int i = 0; i < completeNoList.size(); i++) {
+	        int completno = Integer.valueOf(completeNoList.get(i));
+	        //update할 objectno를 받아오는 메소드
+	        orderThing = adminShopDao.selectObjectno(completno);
+	        adminShopDao.updateObjectReamin(orderThing);
+	        HashMap<String, Integer> deleteNoMap = new HashMap<String, Integer>();
+	        deleteNoMap.put("buyNo", completno);
+	        
+//	        System.out.println(boardnoMap);
+//	        System.out.println(deleteNoMap);
+	        // MAP 값을 리스트에 저장한다.
+	       
+	        deleteNoMaplist.add(i, deleteNoMap);
+	    }
+	    
+	    System.out.println(deleteNoMaplist);
+//		for(HashMap e : boardnoMaplist) {
+//			System.out.println(e);
+//		}
+//		for(HashMap e : deleteNoMaplist) {
+//			System.out.println(e);
+//		}
+	    //저장된 리스트들을 한번에 작동시킨다.
+	    
+	    adminShopDao.updateOrderUserComplete(deleteNoMaplist);
+		
+		
+		
+	}
+	
+	
+	@Override
+	public void updateMember(Member member) {
+		
+		int res =  adminDao.updateMember(member);
+		
+		logger.info("{}",res);
 		
 	}
 	

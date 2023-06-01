@@ -10,7 +10,7 @@
 <div class="container2">
 <div align="center">
 	<form action="/petpan/admin/reportboard/delete" method="get">
-		<table class = "table table-striped" style="width:800px">
+		<table class = "table table-striped" style="width:1400px">
 		<tr>
 		<th>신고번호</th>
 		<th>신고자번호</th>

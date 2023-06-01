@@ -40,14 +40,14 @@
 <div class="container2">
 <div align="center">
 	<form action="<%=request.getContextPath() %>/admin/shop/delete" method="get">
-		<table class = "table table-striped" style="width:800px">
+		<table class = "table table-striped" style="width:1400px">
 		<tr>
 		<th>상품번호</th>
 		<th>상품이름</th>
 		<th>상품가격</th>
 		<th>남은수량</th>
 		<th>판매 여부</th>
-		<th>삭제</th>
+		<th>판매 중단 체크</th>
 		
 		</tr>
 		<c:forEach var="list" items="${list}">
@@ -60,14 +60,17 @@
 			<c:if test="${list.deleteobj eq 1 }">판매중</c:if>
 			<c:if test="${list.deleteobj ne 1 }">판매중단</c:if>
 		</td>
-		<td><input type="checkbox" id="delete" name="delete" class="delete" value="${list.objectno }"></td>
+		<td>
+			<c:if test="${list.deleteobj eq 1 }"><input type="checkbox" id="delete" name="delete" class="delete" value="${list.objectno }"></c:if>
+			<c:if test="${list.deleteobj ne 1 }"><input type="checkbox" disabled="disabled"></c:if>
+		</td>
 		</tr>
 		</c:forEach>
 		</table>
 		
 		<div align="right" id="searchdelete" class="searchdelete"  style= "float:right;">
 			<input type="checkbox" id="checkall" name="checkall" class="checkall">전부선택
-			<input type="submit" id="codeIdSubmit" value="선택 삭제"  class="btn btn-danger">
+			<input type="submit" id="codeIdSubmit" value="판매중단"  class="btn btn-danger">
 		</div>
 	</form>
 	<div align="left" id="searchbottom" class="searchbottom">

@@ -130,9 +130,15 @@ public class AdminShopcontroller {
 			
 			
 			return "redirect:/admin/shop/list";
-	
-			
 		}
+	
+	@GetMapping("/view/delete")
+	public String deleteShop(Integer objectno) {
+		
+		adminService.stopShop(objectno);
+		
+		return"redirect:/admin/shop/list";
+	}
 		
 	}
 	
