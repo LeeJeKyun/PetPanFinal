@@ -2,6 +2,7 @@ package admin.service.face;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,7 +33,7 @@ public interface AdminService {
 
 	public void deleteChecked(List<String> delete);
 
-	public List<Blacklist> getBlacklistBoard(AdminPaging paging);
+	public List<Map<String, Object>> getBlacklistBoard(AdminPaging paging);
 
 	public void deleteblacklist(List<String> delete);
 
@@ -97,6 +98,7 @@ public interface AdminService {
 
 	public void completeCheckedBuyer(List<String> delete);
 
+	public void updateMember(Member member);
 
 
 	

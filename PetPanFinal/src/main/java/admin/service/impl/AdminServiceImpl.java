@@ -27,6 +27,7 @@ import board.dto.Board;
 import board.dto.Comment;
 import board.dto.Notice;
 import board.dto.NoticeFile;
+import member.dao.face.MemberDao;
 import member.dto.Member;
 import shop.dto.OrderThing;
 import shop.dto.Shop;
@@ -42,7 +43,7 @@ public class AdminServiceImpl implements AdminService{
 	@Autowired AdminDao adminDao;
 	@Autowired ServletContext context;
 	@Autowired AdminShopDao adminShopDao;
-
+	@Autowired MemberDao memberDao;
 	@Override
 	public List<ReportBoard> getReportBoard(AdminPaging paging) {
 		
@@ -154,13 +155,14 @@ public class AdminServiceImpl implements AdminService{
 	
 	
 	@Override
-	public List<Blacklist> getBlacklistBoard(AdminPaging paging) {
+	public List<Map<String, Object>> getBlacklistBoard(AdminPaging paging) {
 		System.out.println(paging);
 		
-		List<Blacklist> list = adminDao.BlacklistselectAll(paging);
+		List<Map<String, Object>> list = adminDao.BlacklistselectAll(paging);
 		
-		for(Blacklist b : list) {
-			System.out.println(b);
+		for(Map<String, Object> m : list) {
+			
+			System.out.println(m);
 		}
 		
 		return list;
@@ -738,6 +740,16 @@ public class AdminServiceImpl implements AdminService{
 	    adminShopDao.updateOrderUserComplete(deleteNoMaplist);
 		
 		
+		
+	}
+	
+	
+	@Override
+	public void updateMember(Member member) {
+		
+		int res =  adminDao.updateMember(member);
+		
+		logger.info("{}",res);
 		
 	}
 	

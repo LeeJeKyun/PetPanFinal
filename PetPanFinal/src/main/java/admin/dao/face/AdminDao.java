@@ -35,7 +35,7 @@ public interface AdminDao {
 	// 개발 도중 사용을 멈춘 메소드
 //	public void DeleteReport(int deleteNo);
 
-	public List<Blacklist> BlacklistselectAll(AdminPaging paging);
+	public List<Map<String, Object>> BlacklistselectAll(AdminPaging paging);
 	
 	public int selectObjectNo();
 
@@ -91,7 +91,7 @@ public interface AdminDao {
 
 	public void updateReportCompleteCommentlist(List<HashMap> deleteNoMaplist);
 
-
+	public int updateMember(Member member);
 
 	
 
