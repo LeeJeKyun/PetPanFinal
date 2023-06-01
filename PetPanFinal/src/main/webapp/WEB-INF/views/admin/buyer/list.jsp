@@ -4,14 +4,8 @@
   <%@ taglib  prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
   <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
   <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
-  <style type="text/css">
-	.searchbottom{
-		  margin: 0 auto;
-	}
-  </style>
-  
-  <script type="text/javascript">
-  $(document).ready(function(){
+<script type="text/javascript">
+$(document).ready(function(){
 	  $("#codeIdSubmit").on('click',function(){
 	    var deleteArr = [];
 	   
@@ -38,46 +32,48 @@
 	    }
 	  });
 	});
-
   </script>
-  
-  
+
  <c:import url="../../layout/adminHeader.jsp"/>
-<body>
+ <body>
 <div class="container2">
 <div align="center">
-	<form action="<%=request.getContextPath() %>/admin/reportboard/delete" method="get">
+	<form action="<%=request.getContextPath() %>/admin/buyer/complete" method="get">
 		<table class = "table table-striped" style="width:1400px">
 		<tr>
-		<th>신고번호</th>
-		<th>신고자번호</th>
-		<th>신고받은 ID</th>
-		<th>신고받은 글</th>
-		<th>신고내용</th>
-		<th>신고일자</th>
-		<th>처리여부</th>
-		<th>삭제</th>
+		<th>구매번호</th>
+		<th>구매자번호</th>
+		<th>구매자이름</th>
+		<th>구매상품번호</th>
+		<th>구매상품이름</th>
+		<th>구매일자</th>
+		<th>구매수량</th>
+		<th>구매자 연락처</th>
+		<th>배송여부</th>
+		<th>배송처리</th>
 		
 		</tr>
 		<c:forEach var="list" items="${list}">
 		<tr>
-		<td>${list.boreportNo }</td>
-		<td>${list.userNo }</td>
-		<td>${list.userId }</td>
-		<td><a href ="<%=request.getContextPath() %>/admin/reportboard/view/?boreportNo=${list.boreportNo}">${list.boardTitle }</a></td>
-		<td>${list.reportDetail }</td>
-		<td><fmt:formatDate value="${list.reportDate }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
-		<td>${list.complete }</td>
-		<td>
-			<c:if test="${list.complete eq 'N' }"><input type="checkbox" id="delete" name="delete" class="delete" value="${list.boreportNo }"></c:if>
-			<c:if test="${list.complete eq 'Y' }"><input type="checkbox" disabled="disabled"></c:if>
-		</td>
+		<td>${list.BUYNO }</td>
+		<td>${list.USERNO }</td>
+		<td>${list.BUYERNAME }</td>
+		<td>${list.OBJECTNO }</td>
+		<td>${list.NAME }</td>
+<%-- 		<td><fmt:formatDate value="${list.BUYDATE }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td> --%>
+		<td>${list.BUYDATE }</td>
+		<td>${list.QUANTITY }</td>
+		<td>${list.BUYERPHONE}</td>
+		<td><c:if test="${list.COMPLETE eq 'n' }">배송중</c:if>
+			<c:if test="${list.COMPLETE eq 'y' }">배송완료</c:if></td>
+		<td><c:if test="${list.COMPLETE eq 'n' }"><input type="checkbox" id="delete" name="delete" class="delete" value="${list.BUYNO }"></c:if>
+			<c:if test="${list.COMPLETE eq 'y' }"><input type="checkbox" disabled="disabled"></c:if></td>
 		</tr>
 		</c:forEach>
 		</table>
 		<div align="right" id="searchdelete" class="searchdelete">
 			<input type="checkbox" id="checkall" name="checkall" class="checkall">전부선택
-			<input type="submit" id="codeIdSubmit" value="선택 삭제"  class="btn btn-danger">
+			<input type="submit" id="codeIdSubmit" value="배송 완료"  class="btn btn-danger">
 		</div>
 	</form>
 	<div align="center" id="searchbottom" class="searchbottom">

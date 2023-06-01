@@ -161,8 +161,8 @@ a {
 		<li><a href="<%=request.getContextPath() %>/shop/main">쇼핑</a>
 			<ul>
 				<li><a href="<%=request.getContextPath() %>/shop/main">쇼핑</a></li>
-				<li><a href="#">상품검색</a></li>
-				<li><a href="#">장바구니</a></li>
+				<li><a href="<%=request.getContextPath() %>/shop/headBasket">장바구니</a></li>
+				<li><a href="<%=request.getContextPath() %>/shop/orderList">주문현황</a></li>
 			</ul>
 		</li>
 		<li><a href="<%=request.getContextPath() %>/board/board">게시판</a>
