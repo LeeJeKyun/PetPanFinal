@@ -55,68 +55,6 @@
 
 <c:import url="./mypage_header.jsp" />
 
-<c:choose>
-<c:when test="${empty hospital }">
-<div id="menu">
-
-<ul class="pan">
-	<li>
-	<a href="./myprofile" >정보 수정</a>
-	<em></em>
-	</li>
-
-	<li>
-	<a href="./petinfo">동물 등록</a>
-	<em></em>
-	</li>
-
-	<li>
-	<a href="./content">내가 쓴 글</a>
-	<em></em>
-	</li>
-
-	<li>
-	<a href="./content">내가 쓴 댓글</a>
-	<em></em>
-	</li>
-</ul>
-</div>
-</c:when>
-
-<c:when test="${not empty hospital and hospital }">
-
-<div id="menu">
-
-<ul class="pan">
-	<li>
-	<a href="./myprofile" >정보 수정</a>
-	<em></em>
-	</li>
-
-	<li>
-	<a href="./hospital">병원 등록</a>
-	<em></em>
-	</li>
-
-	<li>
-	<a href="./content">내가 쓴 글</a>
-	<em></em>
-	</li>
-
-	<li>
-	<a href="./content">내가 쓴 댓글</a>
-	<em></em>
-	</li>
-</ul>
-</div>
-
-
-</c:when>
-
-
-</c:choose>
-
-
 
 <div class="text">
 
@@ -134,6 +72,11 @@
 <h4 style="color: #52616a;">Phone : ${detail.phone }</h4>
 
 </div> <!-- m -->
+
+
+
+<c:choose>
+<c:when test="${empty hospital }">
 
 <div class="myp">
 <h3>펫 정보</h3>
@@ -153,6 +96,12 @@
 
 
 </div> <!-- pe -->
+
+
+</c:when>
+
+</c:choose>
+
 
 
 <div class="r">

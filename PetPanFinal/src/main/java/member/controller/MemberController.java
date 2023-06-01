@@ -2,6 +2,7 @@ package member.controller;
 
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,12 +17,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.JsonObject;
 
 import member.dto.Member;
-import member.dto.Pet;
-import member.dto.PetFile;
-import member.service.face.KakaoService;
 import member.service.face.MemberService;
+import member.service.face.socialService;
 
 @Controller
 @RequestMapping("/member")
@@ -29,15 +31,11 @@ public class MemberController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@Autowired private KakaoService kakaoService;
+	@Autowired private socialService socialService;
 	@Autowired private MemberService memberService;
 	
-	
-	@RequestMapping("/naverLogin")
-	public void naverLogin() {
-		
-	}
 
+	
 	
 	@GetMapping("/login/login")
 	public void login() {
@@ -53,13 +51,11 @@ public class MemberController {
 			, String sosId
 			) {
 		
-//		logger.info("/kakaoLogin ");
-//		logger.info("code: {}", code);
 
-		String access_Token = kakaoService.getAccessToken(code);
+		String access_Token = socialService.getAccessToken(code);
 		
 //		logger.info("Membercontroller access_token : {}" + access_Token);
-		HashMap<String, Object> userInfo = kakaoService.getUserInfo(access_Token);
+		HashMap<String, Object> userInfo = socialService.getUserInfo(access_Token);
 		
 		member.setSuserno((String)userInfo.get("id"));
 
@@ -71,6 +67,7 @@ public class MemberController {
 		boolean kakao = memberService.selectKakao(member);
 		
 		
+		// 소셜no가 있으면 메인화면으로 이동
 		if( kakao ) {
 			
 	    	session.setAttribute("login", true);
@@ -80,9 +77,10 @@ public class MemberController {
 			
 			return "./main";
 			
+			
+		// 소셜 no가 없으면 회원가입 창으로 이동
 		} else {
 			
-//			logger.info("Info {}", userInfo);
 			logger.info("info {}",userInfo.get("id"));
 	        session.setAttribute("userId", userInfo.get("id"));
 	        session.setAttribute("access_Token", access_Token);
@@ -99,6 +97,103 @@ public class MemberController {
 	    return "redirect:./login/socialjoin";
 
 	}
+	
+	
+	// 네이버
+	
+	@RequestMapping("/naverLogin")
+	public ModelAndView naverLogin(
+			HttpSession session ) {
+		
+		
+		Map<String, Object> map = socialService.getStateApiUrl();
+		
+	    String apiURL = (String) map.get("apiURL");
+	    String state = (String) map.get("state");
+	    logger.debug("apiURL : {}",apiURL);
+	    logger.info("state : {}", state);
+
+	    // 세션 또는 별도의 저장 공간에 상태 토큰을 저장
+	    session.setAttribute("state", state);
+		
+		
+	    // 외부 URL로 retrun
+	    return new ModelAndView("redirect:" + apiURL);
+		
+	}
+	
+	
+	
+	@GetMapping("/login/navercallback")
+	public String naverCallback(
+			
+			HttpServletRequest request, HttpSession session, Model model
+			, Member member, String naverId) {
+		logger.debug("/login/callback [GET]");
+
+		String code = request.getParameter("code");
+		String state = (String)session.getAttribute("state");
+
+//		session.invalidate();
+
+		String apiURL = socialService.getApiURL(code, state);
+		JsonObject Token = socialService.getTokenNaver(apiURL);
+		
+		HashMap<String, Object> naverInfo = socialService.getNaverInfo(Token);
+		
+		logger.info("Naver에서 읽어온 User정보 : {}", naverInfo);
+		
+		member.setSuserno((String)naverInfo.get("id"));
+		naverId = (String)naverInfo.get("id");
+		Member sMember = memberService.selectSuser(naverId);
+		
+		boolean social = memberService.selectKakao(member);
+
+
+		
+		// 소셜no가 있으면 메인화면으로 이동
+		if( social ) {
+			
+	    	session.setAttribute("login", true);
+			session.setAttribute("naverId", naverId);
+
+	        session.setAttribute("userno", sMember.getUserNo());
+			
+			return "./main";
+			
+			
+		// 소셜 no가 없으면 회원가입 창으로 이동
+		} else {
+			
+			session.setAttribute("naverId", naverId);
+
+			
+		}
+		
+	    return "redirect:./login/socialjoin";
+
+		
+		
+//		if ( social ) {
+//			logger.debug("회원 가입내역 없음");
+//			
+//			session.setAttribute("naverId", naverId);
+//			
+//			
+//		    return "redirect:./socialjoin";
+//			
+//		} else {
+//			
+//			logger.debug("회원 가입내역 존재");
+//			session.setAttribute("login", true); 
+//			session.setAttribute("naverId", naverId);
+//			
+//			return "./main";
+//		}
+		
+		
+	}
+	
 	
 	@PostMapping("/login/login")
 	public String loginProc( 
@@ -127,6 +222,7 @@ public class MemberController {
 				
 			}
 			
+			
 			// 로그인 성공
 			if( !black ){
 			
@@ -138,9 +234,12 @@ public class MemberController {
 				if( hospital ) {
 					session.setAttribute("hospital", true);
 				}
+				
+				// 관리자 로그인
+				
 			}
 			
-			logger.info("hospital : {}", hospital);
+//			logger.info("hospital : {}", hospital);
 			Member detail = memberService.userDetail(member2);
 			model.addAttribute("info", member);
 
@@ -169,16 +268,18 @@ public class MemberController {
 	@PostMapping("/login/join")
 	public String joinProc(
 			 Member member
-//			String zipCode
 			, @RequestParam("address") String jibunAddress
 			) {
 		
 		logger.info("/login/join");
 		
+		// 지번 주소
 		memberService.getKakaoApiFromAddress( jibunAddress);
 		
+		// 지번 주소로 위도 경도를 반환해준다.
 		HashMap<String, String> XYMap = memberService.getXYMapfromJson( memberService.getKakaoApiFromAddress( jibunAddress) );
 		
+		// x는 위도 y는 경도
 		member.setLatitude(XYMap.get("x"));
 		member.setLongitude(XYMap.get("y"));
 		
@@ -192,10 +293,14 @@ public class MemberController {
 
 	
 	@GetMapping("/login/socialjoin")
-	public void socialjoin(String sosId, HttpSession session) {
+	public void socialjoin(String sosId, HttpSession session, String naverId) {
 		logger.info("/login/socialjoin");
-		sosId = (String) session.getAttribute("userId");
 		
+		sosId = (String) session.getAttribute("userId");
+		naverId = (String) session.getAttribute("naverId");
+		
+		System.out.println(sosId);
+		System.out.println(naverId);
 	}
 	
 	
@@ -204,13 +309,20 @@ public class MemberController {
 			Member member
 			, @RequestParam("address") String jibunAddress
 			, HttpSession session
-			, String sosId
+			, String sosId, String naverId
 			) {
 		
+		// 카카오토큰중 id를 sosId로 저장
 		sosId = (String) session.getAttribute("userId");
+		naverId = (String) session.getAttribute("naverId");
+		
+		System.out.println(sosId);
+		System.out.println(naverId);
+		
 		
 		// 세션 카카오아이디만 해제하기
 		session.removeAttribute("sosId");
+		session.removeAttribute("naverId");
 		
 		logger.info("/login/socialjoin");
 		
@@ -222,20 +334,17 @@ public class MemberController {
 		member.setLatitude(XYMap.get("x"));
 		member.setLongitude(XYMap.get("y"));
 		
-		
+		if(sosId!=null) {
 		memberService.insertkakaoJoin( member, sosId );
+		}else if (naverId!=null) {
+		memberService.insertkakaoJoin( member, naverId );
+		}
+		
 		
 		return "/main";
 		
 	}
 	
-	
-	
-	
-	
-	
-
-
 	
 	
 }

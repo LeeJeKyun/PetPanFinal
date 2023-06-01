@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import member.dto.Hospital;
 import member.dto.Member;
 import member.dto.Pet;
 import member.dto.PetFile;
@@ -13,7 +14,7 @@ import member.dto.PetFile;
 public interface MemberService {
 
 	/**
-	 * 
+	 * 로그인 성공 여부
 	 * 
 	 * @param member
 	 * @return
@@ -21,14 +22,14 @@ public interface MemberService {
 	public boolean login(Member member);
 
 	/**
-	 * 회원가입
+	 * 회원가입 새로운 회원 정보를 등록한다.
 	 * 
 	 * @param member
 	 */
 	public void insertJoin(Member member);
 
 	/**
-	 * 주소를 지정하면 위도 경도 뽑기
+	 * 주소를 지정하면 위도 경도를 반환해 준다.
 	 * 
 	 * @param roadFullAddr
 	 * @return
@@ -122,11 +123,19 @@ public interface MemberService {
 	public List<PetFile> petFile(PetFile petNo);
 
 	/**
-	 * 병원 관계자인지,,
+	 * 병원 관계자인지 일반 회원인지!!
 	 * 
 	 * @param member
 	 */
 	public boolean selectHospital(Member member);
+
+	/**
+	 * 병원 정보 입력하기
+	 * 
+	 * @param hospital
+	 */
+	public void insertHospital(Hospital hospital);
+
 
 
 
