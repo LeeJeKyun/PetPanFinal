@@ -5,7 +5,10 @@ import java.util.Map;
 
 import member.dto.Member;
 import shop.dto.Basket;
+import shop.dto.Review;
 import shop.dto.Shop;
+import util.Paging;
+import util.ReviewPaging;
 import util.ShopPaging;
 
 public interface ShopService {
@@ -26,14 +29,22 @@ public interface ShopService {
 
 	/**
 	 * 쇼핑 상세페이지
-	 * @param shop objectno
+	 * @param shop - objectno
 	 * @return
 	 */
 	public Shop view(Shop shop);
 
-	
+	/**
+	 * 장바구니 담기
+	 * @param basket - userno, objectno
+	 */
 	public void insertBasket(Basket basket);
 
+	/**
+	 * 장바구니 보여주기
+	 * @param basket - userno, objectno
+	 * @return
+	 */
 	public List<Map<String, Object>> selectBasket(Basket basket);
 
 	public List<Basket> newBasket(Basket basket);
@@ -45,6 +56,11 @@ public interface ShopService {
 	public void buyDeleteBasket(int userno);
 
 	public void deleteBasket(Basket basket);
+
+	public ReviewPaging reviewPaging(int curPage);
+
+	public List<Map<String, Object>> reviewList(Review review);
+
 
 
 		

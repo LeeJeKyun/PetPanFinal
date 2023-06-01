@@ -9,7 +9,6 @@ import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
 import board.dto.Comment;
-import board.dto.CommentTable;
 import board.dto.Notice;
 import board.dto.ReportBoard;
 import util.Paging;
@@ -105,7 +104,7 @@ public interface BoardService {
 	 * 
 	 * @param commentTable
 	 */
-	public void inputComment(CommentTable commentTable);
+	public void inputComment(Comment comment);
 
 	/**
 	 * 댓글 리스트를 모두 가져오는 메소드
@@ -241,8 +240,9 @@ public interface BoardService {
 	public List<Map<String, Object>> getComments(int boardNo);
 
 	/**
-	 * 일반 댓글 작성
-	 * @param comment DB에 저장할 일반 댓글 객체
+	 *  댓글 작성
+	 *  commentNo과 content, boardNo, userNo이 담긴 comment 객체
+	 * @param comment DB에 저장할  댓글 객체
 	 * @return 삽입한 댓글 가져오기
 	 */
 	public Comment addComment(Comment comment);

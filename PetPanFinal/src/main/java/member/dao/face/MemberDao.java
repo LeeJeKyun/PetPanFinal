@@ -113,6 +113,14 @@ public interface MemberDao {
 	 */
 	public List<PetFile> selectPetFile(PetFile petNo);
 
+	/**
+	 * 포지션넘버 조회해서 병원관계자인지 일반회원인지,,
+	 * 
+	 * @param member
+	 * @return
+	 */
+	public int selectHospital(Member member);
+
 
 
 

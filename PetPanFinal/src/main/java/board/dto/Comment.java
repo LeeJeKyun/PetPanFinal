@@ -12,19 +12,19 @@ public class Comment {
 	private int depth;
 	private int organization;
 	private int sortNo;
+	private int refCommentNo;
 	
 	public Comment() {}
-
+	
 	@Override
 	public String toString() {
 		return "Comment [commentNo=" + commentNo + ", content=" + content + ", writeDate=" + writeDate + ", boardNo="
 				+ boardNo + ", userNo=" + userNo + ", depth=" + depth + ", organization=" + organization + ", sortNo="
-				+ sortNo + "]";
+				+ sortNo + ", refCommentNo=" + refCommentNo + "]";
 	}
 
 	public Comment(int commentNo, String content, Date writeDate, int boardNo, int userNo, int depth, int organization,
-			int sortNo) {
-		super();
+			int sortNo, int refCommentNo) {
 		this.commentNo = commentNo;
 		this.content = content;
 		this.writeDate = writeDate;
@@ -33,6 +33,7 @@ public class Comment {
 		this.depth = depth;
 		this.organization = organization;
 		this.sortNo = sortNo;
+		this.refCommentNo = refCommentNo;
 	}
 
 	public int getCommentNo() {
@@ -97,6 +98,14 @@ public class Comment {
 
 	public void setSortNo(int sortNo) {
 		this.sortNo = sortNo;
+	}
+
+	public int getRefCommentNo() {
+		return refCommentNo;
+	}
+
+	public void setRefCommentNo(int refCommentNo) {
+		this.refCommentNo = refCommentNo;
 	}
 	
 }

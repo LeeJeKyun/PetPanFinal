@@ -121,6 +121,13 @@ public interface MemberService {
 	 */
 	public List<PetFile> petFile(PetFile petNo);
 
+	/**
+	 * 병원 관계자인지,,
+	 * 
+	 * @param member
+	 */
+	public boolean selectHospital(Member member);
+
 
 
 

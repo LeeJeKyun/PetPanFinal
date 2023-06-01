@@ -168,66 +168,89 @@
 	    margin-right: 10%;
 	    margin-top: 5%;
 	    margin-bottom: 5%;
-	    background-color: #e7dbdb;  	
   	}
+  	
 
 </style>
 <div class="line">
-			</div>			
-			<div class="content_top">
-				<div class="ct_left_area">
-					<div class="image_wrap">
-						<img src="/images/download.jpg">
-					</div>
-				</div>
-				<div class="ct_right_area">
-					<div class="title">
-						<h1>
-							${view.name}
-						</h1>
-					</div>
-					<div class="line">
-					</div>
-					<div class="price">
-						<div class="sale_price">가격 : <fmt:formatNumber value="${view.price}" pattern="#,### 원" /></div>
-					</div>			
-					<div class="line">
-					</div>	
-					<div class="button">						
-						<div class="button_quantity">
-							주문수량
-							    <button type ="button" style="cursor: pointer;" id="plus">+</button>
-						        <input type="text"  class="order_cnt" value="1" readonly="readonly" style="text-align:center;"/>
-						        <button type="button" style="cursor: pointer;" id="minus">-</button>
-							<br>
-						</div>
-						<div class="button_set">
-							<button class="btn_basket">장바구니 담기</button>
-							<input type="hidden" class = "quantity" name ="quantity" value = "1">
-							<input type = "hidden" id ="basketInsert" name ="objectno" value = "${view.objectno }">
-							<a href="./main"><button class="btn_main">목록으로</button></a>
-							<form action="./buy" method="post">
-								<button class="btn_buy">바로구매</button>
-								<input type="hidden" class = "quantity" name = "quantity" value = "1">
-								<input type = "hidden" id = "buy" name ="objectno" value = "${view.objectno }">
-							</form>
-						</div>
-					</div>
-				</div>
+</div>			
+
+<div class="content_top">
+	<div class="ct_left_area">
+		<div class="image_wrap">
+			<img src="/images/download.jpg">
+		</div>
+	</div>
+	<div class="ct_right_area">
+		<div class="title">
+			<h1>
+				${view.name}
+			</h1>
+		</div>
+		<div class="line">
+		</div>
+		<div class="price">
+			<div class="sale_price">가격 : <fmt:formatNumber value="${view.price}" pattern="#,### 원" /></div>
+		</div>			
+		<div class="line">
+		</div>	
+		<div class="button">						
+			<div class="button_quantity">
+				주문수량
+				    <button type ="button" style="cursor: pointer;" id="plus">+</button>
+			        <input type="text"  class="order_cnt" value="1" readonly="readonly" style="text-align:center;"/>
+			        <button type="button" style="cursor: pointer;" id="minus">-</button>
+				<br>
 			</div>
-			<div id="result"></div>	
-			<div class="line">
-			</div>				
-			<div class="content_middle">
-				<div class="shop_content">
-					${view.shopcontent }
-				</div>
+			<div class="button_set">
+				<button class="btn_basket">장바구니 담기</button>
+				<input type="hidden" class = "quantity" name ="quantity" value = "1">
+				<input type = "hidden" id ="basketInsert" name ="objectno" value = "${view.objectno }">
+				<a href="./main"><button class="btn_main">목록으로</button></a>
+				<form action="./buy" method="post">
+					<button class="btn_buy">바로구매</button>
+					<input type="hidden" class = "quantity" name = "quantity" value = "1">
+					<input type = "hidden" id = "buy" name ="objectno" value = "${view.objectno }">
+				</form>
 			</div>
-			<div class="line">
-			</div>				
-			<div class="content_bottom">
-				리뷰
-			</div>
+		</div>
+	</div>
+</div>
+
+<div id="result"></div>	
+
+<div class="line">
+</div>				
+
+<div class="content_middle">
+	<div class="shop_content">
+		${view.shopcontent }
+	</div>
+</div>
+
+<div class="line">
+</div>				
+
+<div class="content_bottom">
+	<div class="review_title">
+		<h3>상품평</h3>
+	</div>
+	<c:forEach items="${reviewList}" var="review">
+	<div class="review_img">
+		${review.IMAGE1 }
+	</div>
+		
+	<table>
+		<th>상품명</th>
+		<th>회원이름</th>
+		<tr>
+		    <td>${view.name }</td>
+		    <td>${review.USERNAME }</td>
+		</tr>
+	</table>
+	</c:forEach>
+	
+</div>
 
 <script type="text/javascript">
 

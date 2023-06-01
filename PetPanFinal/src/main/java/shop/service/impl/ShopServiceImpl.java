@@ -12,8 +12,10 @@ import shop.dao.face.ShopDao;
 import shop.dto.Basket;
 import shop.dto.OrderThing;
 import shop.dto.OrderUser;
+import shop.dto.Review;
 import shop.dto.Shop;
 import shop.service.face.ShopService;
+import util.ReviewPaging;
 import util.ShopPaging;
 
 @Service
@@ -156,4 +158,25 @@ public class ShopServiceImpl implements ShopService{
 		
 		shopDao.deleteBasket(basketno);
 	}
+	
+	@Override
+	public ReviewPaging reviewPaging(int curPage) {
+		
+		int total = shopDao.countReview();
+		
+		ReviewPaging paging = new ReviewPaging(total, curPage);
+		
+		return paging;
+	}
+
+	@Override
+	public List<Map<String, Object>> reviewList(Review review) {
+		
+		List<Map<String,Object>> list = shopDao.reviewList(review);
+			
+		return list;
+	}
+
+	
+	
 }

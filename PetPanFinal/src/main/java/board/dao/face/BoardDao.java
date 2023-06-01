@@ -7,7 +7,6 @@ import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
 import board.dto.Comment;
-import board.dto.CommentTable;
 import board.dto.Notice;
 import board.dto.ReportBoard;
 import util.Paging;
@@ -118,7 +117,7 @@ public interface BoardDao {
 	 * 
 	 * @param commentTable
 	 */
-	public void insertCommentToCareBoard(CommentTable commentTable);
+	public void insertCommentToCareBoard(Comment comment);
 	
 	/**
 	 * 해당 게시글(boardno)의 댓글을 모두 가져오는 메소드 
@@ -135,6 +134,29 @@ public interface BoardDao {
 	 */
 	public List<Map<String, Object>> selectNoticeToCare();
 	
+	/**
+	 * 참조댓글의 sortno을 가져오는 메소드
+	 * 
+	 * @param refCommentNo
+	 * @return
+	 */
+	public int selectSortNoByRef(int refCommentNo);
+	
+	/**
+	 * refcommentno을 이용해서 해당 댓글보다 뒷순번인 댓글의 sortno을 1씩 더하는 메소드
+	 * 
+	 * @param refCommentNo
+	 */
+	public void updateAfterSortnoUpper(Map<String, Object> map);
+	
+	/**
+	 * refcommentno을 이용하여 organ값을 가져오는 메소드
+	 * 
+	 * @param refcommentno
+	 * @return
+	 */
+	public int selectRefOrgan(int refcommentno);
+
 	
 	//--------------------------제균--------------------------------
 
@@ -292,19 +314,19 @@ public interface BoardDao {
 
 	/**
 	 * select 댓글 
-	 * @param boardNo 가져올 댓글의 boardNo
+	 * @param map 가져올 댓글의 boardNo
 	 * @return select한 댓글
 	 */
-	public List<Map<String, Object>> selectComments(int boardNo);
+	public List<Map<String, Object>> selectComments(Map<String, Integer> map);
 
 	/**
-	 * 가장 마지막 dComment 가져오기
-	 * @return 가장 마지막 dComment
+	 * 댓글을 달 commetNo의  sortNo 과 depth가져오기
+	 * @return 댓글을 달 댓글의 sortNo, depth
 	 */
-	public int selectDcomment();
+	public Map<String, Integer> selectDepthAndSortNo(int commentNo);
 
 	/**
-	 * 일반 댓글 삽입 
+	 *  댓글 삽입 
 	 * @param comment 삽입할 댓글 객체
 	 */
 	public void insertComment(Comment comment);
@@ -328,4 +350,25 @@ public interface BoardDao {
 	 * @return userName
 	 */
 	public String selectUserNameByUserNo(int userNo);
+
+
+
+	/**
+	 * 가장 마지막 sortNo 가져오기
+	 * @return 가장 마지막 sortNo
+	 */
+	public int selectMaxSortNo(int organization);
+
+	/**
+	 * 	organization 중에서 map.get(sortNo)보다 큰 것들 다 +1
+	 * @param map - organization, sortNo
+	 */
+	public void updatePlueSortNo(Map<String, Integer> map);
+
+	/**
+	 * commenttable에서 가장 최근 게시글 가져오기
+	 */
+	public int selectMaxCommentCnt(int boardNo);
+
+	
 }

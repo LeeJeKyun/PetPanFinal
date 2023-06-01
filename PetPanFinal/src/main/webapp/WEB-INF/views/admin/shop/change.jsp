@@ -197,7 +197,7 @@ $(document).on('click', '.deleteReturn', function() {
 <div id = "container">
 	<div id = "center-div">
 		<h4 style = "margin-top: 20px; margin-bottom: 20px; margin-left: 30px;">상품 등록</h4>
-		<form action = "./change" method = "post" id = "content-form" enctype="multipart/form-data">
+		<form action = "<%=request.getContextPath() %>/admin/shop/change" method = "post" id = "content-form" enctype="multipart/form-data">
 			<input type = "hidden" value="${shop.objectno }" name="objectno">
 			<div style="float: right">
 			<a href = "../shop/list" class="btn btn-danger">상품 등록 취소</a>

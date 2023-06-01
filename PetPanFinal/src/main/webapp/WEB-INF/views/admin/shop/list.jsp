@@ -39,7 +39,7 @@
  <c:import url="../../layout/adminHeader.jsp"/>
 <div class="container2">
 <div align="center">
-	<form action="/petpan/admin/shop/delete" method="get">
+	<form action="<%=request.getContextPath() %>/admin/shop/delete" method="get">
 		<table class = "table table-striped" style="width:800px">
 		<tr>
 		<th>상품번호</th>
@@ -53,7 +53,7 @@
 		<c:forEach var="list" items="${list}">
 		<tr>
 		<td>${list.objectno }</td>
-		<td><a href ="/petpan/admin/shop/view/?objectno=${list.objectno}">${list.name }</a></td>
+		<td><a href ="<%=request.getContextPath() %>/admin/shop/view/?objectno=${list.objectno}">${list.name }</a></td>
 		<td>${list.price }</td>
 		<td>${list.remain }</td>
 		<td>
@@ -71,12 +71,12 @@
 		</div>
 	</form>
 	<div align="left" id="searchbottom" class="searchbottom">
-	<form action="/petpan/admin/shop/write" method="get">
+	<form action="<%=request.getContextPath() %>/admin/shop/write" method="get">
 		<input type="submit" id="codeIdSubmit" value="상품등록" class="btn btn-info">
 	</form>
 	</div>
 	<div align="center" id="searchbottom" class="searchbottom">
-	<form action="/petpan/admin/shop/list" method="get">
+	<form action="<%=request.getContextPath() %>/admin/shop/list" method="get">
 		<input type="text" name="search" value="${search }">
 		<input type="submit" id="codeIdSubmit" value="검색" class="btn btn-info">
 	</form>

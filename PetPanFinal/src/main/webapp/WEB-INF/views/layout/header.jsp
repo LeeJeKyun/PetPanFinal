@@ -158,7 +158,7 @@ a {
 				<li><a href="#">병원리뷰</a></li>
 			</ul>
 		</li>
-		<li><a href="#">쇼핑</a>
+		<li><a href="<%=request.getContextPath() %>/shop/main">쇼핑</a>
 			<ul>
 				<li><a href="<%=request.getContextPath() %>/shop/main">쇼핑</a></li>
 				<li><a href="#">상품검색</a></li>

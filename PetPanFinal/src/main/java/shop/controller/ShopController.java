@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,8 +19,10 @@ import member.dto.Member;
 import shop.dto.Basket;
 import shop.dto.OrderThing;
 import shop.dto.OrderUser;
+import shop.dto.Review;
 import shop.dto.Shop;
 import shop.service.face.ShopService;
+import util.ReviewPaging;
 import util.ShopPaging;
 
 @Controller
@@ -46,12 +47,11 @@ public class ShopController {
 	}
 	
 	@GetMapping("/view")
-	public void view(Shop shop, Model model, Shop view, HttpSession session, Basket basket) {
+	public void view(Shop shop, Model model, Shop view, HttpSession session, Basket basket, Review review, ReviewPaging paging
+			, @RequestParam(value="curPage", required=false, defaultValue = "1")int curPage){
 
-		System.out.println(shop);
 		//shop 상세페이지
 		view = shopService.view(shop);
-		System.out.println("뷰뷰ㅠ뷰뷰뷰뷰ㅠ뷰뷰 : " + view);
 		
 		model.addAttribute("view", view);
 		
@@ -63,13 +63,22 @@ public class ShopController {
 		//장바구니 보여주기
 		List<Map<String, Object>> list = shopService.selectBasket(basket);
 		
-		Member member = shopService.memberShop(basket);
-		
 		System.out.println("리스트 : " + list);
+		Member member = shopService.memberShop(basket);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("member", member);
+
+		//---- 리뷰 ----
+		paging = shopService.reviewPaging(curPage);
+		review.setObjectno(shop.getObjectno());
+
+		System.out.println(review);
 		
+		List<Map<String, Object>> reviewList= shopService.reviewList(review);
+		
+		System.out.println(reviewList);
+		model.addAttribute("reviewList", reviewList);
 		
 	}
 	@GetMapping("/basket")
@@ -156,4 +165,11 @@ public class ShopController {
 		
 		return "forward:basket";
 	}
+	
+	
+	
+	
+	
+	
+	
 }
