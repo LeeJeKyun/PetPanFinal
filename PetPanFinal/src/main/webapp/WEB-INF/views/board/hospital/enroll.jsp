@@ -56,7 +56,7 @@ table{
 }
 #cancelBtn{
 	display: inline-block;
-	margin-left: 60%;
+	margin-left: 80%;
 	background-color:#ffdad7;
 	width: 101px;
 	height: 30px;
@@ -64,7 +64,14 @@ table{
 	text-align: center;
 	padding-top: 9px;
 }
-
+#contentBox{
+	width: 730px;
+	height: 500px;
+}
+input[type=number]{
+	width: 40px;
+	border: none;
+}
 /* ------ 모달 css  */
 #modal{
 	position: relative;
@@ -84,32 +91,17 @@ table{
 </style>
 
 <script type="text/javascript">
+$(document).ready(function () {
+	$('input.timepicker').timepicker({
+            timeFormat: 'HH:mm',
+            interval: 30,
+            startTime: '00:00',
+            dynamic: false,
+            dropdown: true,
+            scrollbar: true
+    });
+}
 $(function(){
-	
-	//작성 버튼 동작
-	$("#btnWrite").click(function(){
-		console.log("btnWrite click");
-		
-		console.log($("#smart_editor2"))
-		
-// 		if($("#title").val() == '') {
-// 			alert("required")
-			
-// 			return
-// 		}
-		oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
-		
-		if(!$("form")[0].checkValidity()) {
-			alert("입력해주세요.")
-			return
-		}
-		if($(content.value).text() == '') {
-			alert("required c")
-			return
-		}
-		$("form").submit();
-	})
-	
 	// 파일 삭제, -1로 value 변경
 	$(document).on("click", ".xFile", function(){ 
 		console.log("xFile clicked")
@@ -137,11 +129,6 @@ $(function(){
 		for(var i = 0; i < file.length; i++){
 			console.log( file[i].name );
 			$(".file-line").eq(i).remove();
-//			$("#input-files").append("<div class = 'file-line' data-no = "+ i + ">"
-//													+ "<input type = 'hidden' data-no = " + i +" name = 'no' value = " + i +">"
-//													+ file[i].name 
-//													+ "<span class = 'xFile' data-no = " + i + " style = 'cursor: pointer;'> x </span>" 
-//													+ "</div>")
 			$("#input-files").append("<tr class = 'file-line' data-no = " + i + ">"
 										+ "<td><input type = 'hidden' data-no = " + i +" name = 'no' value = " + i +"></td"
 										+ "<td><span class = 'file-name'>" + file[i].name + "</span></td>" 
@@ -155,60 +142,36 @@ $(function(){
 	$("#fileBtn").click(function(){
 		$("#file").click();
 	})
-// 	$("#btnWrite").click(function(){
-// 		console.log("updateContents() 호출")
-// 		updateContents();
-// 	})
 })
 
-function updateContents(){
-	//스마트 에디터에 작성된 내용을 textarea#content에 반영한다.
-	oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
-}
 </script>
 
 <div id = "container">
 	<div id = "center-div">
-		<h2 style = "margin-top: 20px; margin-bottom: 20px; margin-left: 30px;">글 작성중</h2>
-		<form action = "./write" method = "post" id = "content-form" enctype="multipart/form-data">
+		<h2 style = "margin-top: 20px; margin-bottom: 20px; margin-left: 30px;">병원 등록</h2>
+		<form action = "./enroll" method = "post" id = "content-form" enctype="multipart/form-data">
 			<div>
-				<label>자유게시판<input type = "radio" name = boardTypeNo value = "2"></label>
-				<label>중고거래<input type = "radio" name = "boardTypeNo" value = "3"></label>
-				<a href = "../board" id = "cancelBtn">글쓰기 취소</a>
+				<a href = "./list" id = "cancelBtn">등록 취소</a>
 			</div>
-			<input type = "text" name = "boardTitle" id = "title" placeholder = "제목을 입력하세요" required = "required">	
+			<div id = contentBox>
+				<label>오픈 시간: <input type = "time" name = "open"></label><br>
+				<label>닫는 시간: <input type = "time" name = "close"></label>
+			</div>
 			
-			<textarea id = "content" name = "content" required = "required"></textarea>
+			<div>진료가능한 특수 동물 선택</div>
+			<label><input type = "checkbox" name = "spe" value = "1">포유류</label>
+			<label><input type = "checkbox" name = "spe" value = "2">파충류</label>
+			<label><input type = "checkbox" name = "spe" value = "3">설치류</label>
+			<label><input type = "checkbox" name = "spe" value = "4">조류</label>
+			<br>
 			<input type ="file" name ="file" id = "file" multiple = "multiple" accept = ".gif, .jpg, .png, .jpeg" style = "display: none"><br>
 			<button type = "button" id ="fileBtn" >첨부파일</button>
 			<!-- <div id = "input-files"></div> -->
 			<table id = "input-files"></table>
 			
-<!-- 			<button type = "submit"  id = "btnWrite" onclick = "updateContents()">작성</button> -->
-			<button type = "button"  id = "btnWrite" >작성</button>
+			<button type = "submit"  id = "btnWrite" >등록</button>
 			
-<!-- 			<div id = "modal"> -->
-<!-- 				<div class = "modal_content">  -->
-<!-- 					모달 창 -->
-<!-- 					<div class = "modal_layer"> -->
-<!-- 						모달차앛아 -->
-<!-- 						<button id = "yesBtn">확인</button> -->
-<!-- 						<button id = "noBtn">취소</button> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
 		</form>
 	</div>
 </div>
-
-<script type="text/javascript">
-var oEditors = [];
-nhn.husky.EZCreator.createInIFrame({
-	oAppRef: oEditors,
-	elPlaceHolder: "content", //에디터가 적용될 <textarea>의 id 속성값
-	sSkinURI: "<%=request.getContextPath() %>/resources/se2/SmartEditor2Skin.html",
-	fCreator: "createSEditor2"
-});
-
-</script>
 <c:import url = "../../layout/footer.jsp" />

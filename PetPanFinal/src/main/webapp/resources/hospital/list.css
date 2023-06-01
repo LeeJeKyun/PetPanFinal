@@ -17,3 +17,20 @@ h4{
 	margin-right: 29px;
 	margin-bottom: 33px;
 }
+#enroll-area{
+	text-align: right;
+}
+#enroll-area a{
+	display:inline-block;
+	text-align:center;
+	width: 100px;
+	height: 30px;
+	background-color: #ffdad7;
+	border-radius: 10px 10px 10px 10px;
+	padding-top: 10px;
+}
+.name{
+	font-size: 0.8em;
+	color: #6d6db6;
+	text-decoration: underline;
+}

@@ -6,18 +6,18 @@
 <c:import url="../../layout/adminHeader.jsp"/>
 <body>
 
-<div class="container2">
+<div class="container2" style="margin-left: 500px">
 <div>
 	<div>
 		  <h3>신고 정보</h3>
 		  <p>상품 번호: ${shop.objectno}</p>
 		  <p>상품 이름: ${shop.name}</p>
 		  <p>대표 사진 : <c:forEach items="${shopFile }" var="shopFile"  begin="0" end="0">
-			<img alt=".." src="<%=request.getContextPath()%>/upload/${shopFile.storedname}" width="90px" height="90px" class="img">
+			<img alt=".." src="<%=request.getContextPath()%>/upload/${shopFile.storedname}" width="800px" height="auto" class="img">
 			</c:forEach>
 		  <p>상품 내용: ${shop.shopcontent}</p>
 		  <p><c:forEach items="${shopFile }" var="shopFile"  begin="1">
-			<img alt=".." src="<%=request.getContextPath()%>/upload/${shopFile.storedname}" width="90px" height="90px" class="img">
+			<img alt=".." src="<%=request.getContextPath()%>/upload/${shopFile.storedname}" width="800px" height="auto"  class="img">
 			<br>
 			</c:forEach></p>
 		  <p>현재 가격: <fmt:formatNumber value="${shop.price}" pattern="#,###원" /></p>
@@ -29,12 +29,13 @@
 		</div>
 		<hr>
 	</div>
+	<div align="right">
+  		<button onclick="location.href='<%=request.getContextPath() %>/admin/shop/change?objectno=${shop.objectno }'" class="btn btn-info">수정</button>
+  		<button onclick="location.href='<%=request.getContextPath() %>/admin/shop/view/delete?objectno=${shop.objectno }'" class="btn btn-danger">삭제</button>
+	</div>
 </div>
 		
-<div align="center">
-  <button onclick="location.href='<%=request.getContextPath() %>/admin/shop/change?objectno=${shop.objectno }'">수정</button>
-  <button onclick="location.href='<%=request.getContextPath() %>/admin/shop/delete?objectno=${shop.objectno }'">삭제</button>
-</div>
+
 
 </body>
 </html>

@@ -154,14 +154,14 @@
 		FROM board
 		WHERE boardtypeno = 2
 					 AND content LIKE '%'||#{search}||'%' 
-					 OR boardtitle LIKE '%'||#{search}||'%' 
+					 OR boardtypeno = 2 AND boardtitle LIKE '%'||#{search}||'%' 
 	</select>
 	<select id = "selectMarketBoardCnt"  parameterType="string" resultType = "int">
 		SELECT count(*)
 		FROM board
 		WHERE boardtypeno = 3 
 					AND content LIKE '%'||#{search}||'%'
-					OR boardtitle LIKE '%'||#{search}||'%'
+					OR boardtypeno = 3 AND boardtitle LIKE '%'||#{search}||'%'
 	</select>
 	
 	<select id = "selectMarketList" parameterType="util.Paging" resultType = "map">
@@ -180,7 +180,8 @@
                         , member.userno, boardtypeno
 				FROM board, member
 				
-				WHERE board.userno = member.userno AND boardtypeno = 3 AND content like '%'||#{search}||'%'
+				WHERE board.userno = member.userno AND boardtypeno = 3 AND content like '%'||#{search}||'%' OR
+						board.userno = member.userno AND boardtypeno = 3 AND boardtitle like '%'||#{search}||'%'
 				ORDER BY boardno desc
 			)B
 		)
@@ -202,7 +203,8 @@
                         , member.userno, boardtypeno
 				FROM board, member
 				
-				WHERE board.userno = member.userno AND boardtypeno = 2 AND content like '%'||#{search}||'%'
+				WHERE board.userno = member.userno AND boardtypeno = 2 AND content like '%'||#{search}||'%' OR
+						board.userno = member.userno AND boardtypeno = 2 AND boardtitle like '%'||#{search}||'%'
 				ORDER BY boardno desc
 			)B
 		)
@@ -340,7 +342,7 @@
 	<update id="updatePlueSortNo" parameterType="map">
 		update commenttable 
 		set sortno = sortNo + 1 
-		where organization = #{organization} and sortno > #{sortNo}  
+		where organization = #{ORGANIZATION} and sortno > #{SORTNO}  
 	</update>
 	<select id="selectMaxCommentCnt" resultType="int" parameterType="int">
 		select max(cnt)
@@ -357,4 +359,9 @@
 		    order by cnt desc, sortno
 		)
 	</select>
+	<update id="updateComment" parameterType="int">
+		update commenttable
+		set content = '작성자가 삭제한 댓글입니다.'
+		where commentNo = #{commentNo}
+	</update>
 </mapper>

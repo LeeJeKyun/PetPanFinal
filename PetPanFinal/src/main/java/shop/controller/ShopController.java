@@ -53,6 +53,7 @@ public class ShopController {
 		//shop 상세페이지
 		view = shopService.view(shop);
 		
+		System.out.println("asdfasdfa    " + view);
 		model.addAttribute("view", view);
 		
 		basket.setUserno((int)session.getAttribute("userno"));
@@ -110,7 +111,7 @@ public class ShopController {
 	
 	@GetMapping("/buy")
 	public void buy(Model model, Basket basket) {
-
+		
 	}
 	
 	@PostMapping("/buy")
@@ -165,9 +166,72 @@ public class ShopController {
 		
 		return "forward:basket";
 	}
+	@GetMapping("/deleteBasket")
+	public String deleteBasket(Basket basket, HttpSession session, Model model) {
+		
+		basket.setUserno((int)session.getAttribute("userno"));
+		
+		shopService.deleteBasket(basket);
+		System.out.println("asdfasdfadf" + basket);
+		
+		List<Map<String, Object>> list = shopService.selectBasket(basket);
+		
+		Member member = shopService.memberShop(basket);
+		
+		System.out.println("리스트 : " + list);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("member", member);
+		
+		return "forward:headBasket";
+	}
 	
+	@GetMapping("/headBasket")
+	public void headBasket(Basket basket, HttpSession session, Model model) {
+		basket.setUserno((int)session.getAttribute("userno"));
+		
+		//장바구니 담기
+		shopService.insertBasket(basket);
+		
+		//장바구니 보여주기
+		List<Map<String, Object>> list = shopService.selectBasket(basket);
+		
+		Member member = shopService.memberShop(basket);
+		
+		System.out.println("리스트 : " + list);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("member", member);	
+	}
 	
+	@GetMapping("/orderList")
+	public void orderList(OrderUser orderUser, HttpSession session, Model model) {
+		
+		orderUser.setUserno((int)session.getAttribute("userno"));
+		
+		List<Map<String, Object>> list = shopService.orderList(orderUser);
+
+		System.out.println(list);
+		
+		model.addAttribute("list", list);
+		
+	}
 	
+	@GetMapping("/writeReview")
+	public void writeReview(){
+		
+	}
+		
+	@PostMapping("/writeReview")
+	public void writeReview(OrderUser orderUser, OrderThing orderThing, HttpSession session, Review review) {
+		
+		review.setUserno((int)session.getAttribute("userno"));
+		review.setObjectno(orderThing.getObjectno());
+
+		shopService.writeReview(review);
+		
+		
+	}
 	
 	
 	
