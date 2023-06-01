@@ -1,6 +1,9 @@
 package admin.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import admin.dto.Blacklist;
 import admin.service.face.AdminService;
+import member.dto.Member;
+import member.service.face.MemberService;
 import util.AdminPaging;
 
 @RequestMapping("/admin")
@@ -23,6 +28,7 @@ public class AdminBlacklistController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired AdminService adminService;
+	@Autowired MemberService memberService;
 	
 	@GetMapping("/")
 	public String goMain1() {
@@ -47,8 +53,11 @@ public class AdminBlacklistController {
 		paging = adminService.getPage(curPage);
 		
 //		logger.info("paging = {}", paging);
+		List<Map<String,Object>> list = adminService.getBlacklistBoard(paging);
 		
-		List<Blacklist> list = adminService.getBlacklistBoard(paging);
+	
+		
+		logger.info("paging = {}", list);
 		
 		model.addAttribute("list",list);
 		model.addAttribute("paging",paging);
