@@ -91,6 +91,8 @@ $(function(){
 <div><img src="<%=request.getContextPath()%>/resources/member/img/써니.jpg"></div>
 <div><img src="<%=request.getContextPath()%>/resources/member/img/갱얼쥐.jpg"></div>
 <div><img src="<%=request.getContextPath()%>/resources/member/img/사슴.jpg"></div>
+<div><img src="<%=request.getContextPath()%>/resources/member/img/아라.jpg"></div>
+<div><img src="<%=request.getContextPath()%>/resources/member/img/토토.jpg"></div>
 
 </div>
 

@@ -176,7 +176,7 @@ input:focus {
    </div>
    
    <div class="naver">
-   <c:import url="../login/naverLogin.jsp" />
+   <c:import url="./naverLogin.jsp" />
    </div>
       
    <div class="kakao">

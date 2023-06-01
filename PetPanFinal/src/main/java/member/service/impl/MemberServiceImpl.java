@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import member.dao.face.MemberDao;
+import member.dto.Hospital;
 import member.dto.Member;
 import member.dto.Pet;
 import member.dto.PetFile;
@@ -286,8 +287,6 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.selectPetFile(petNo);
 	}
 
-
-	
 	@Override
 	public boolean selectHospital(Member member) {
 
@@ -298,6 +297,14 @@ public class MemberServiceImpl implements MemberService {
 		
 		return false;
 	}
+	
+	@Override
+	public void insertHospital(Hospital hospital) {
+
+		memberDao.insertHospital(hospital);
+		
+	}
+	
 	
 	
 	

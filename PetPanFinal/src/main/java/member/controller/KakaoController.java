@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import member.service.face.KakaoService;
+import member.service.face.socialService;
 
 
 
@@ -21,7 +21,7 @@ import member.service.face.KakaoService;
 public class KakaoController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(KakaoController.class);
-	@Autowired KakaoService kakaoService;
+	@Autowired socialService kakaoService;
 	
 	@RequestMapping("/")
 	public String index() {
@@ -31,7 +31,6 @@ public class KakaoController {
 	
 	@RequestMapping("/login")
 	public String login(@RequestParam("code")String code, HttpSession session) {
-		logger.info("/login/login ���Ӽ���");
 		
 		logger.info("code: {}", code);
 		String access_Token = kakaoService.getAccessToken(code);
@@ -49,12 +48,16 @@ public class KakaoController {
 		return "/login/login";
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
-
-//	@RequestMapping("/login")
-//	public String KakaoLogin() {
-//		logger.info("/login/login ���Ӽ���");
-//		
-//		return "/login/login";
-//	}
 }
+
+

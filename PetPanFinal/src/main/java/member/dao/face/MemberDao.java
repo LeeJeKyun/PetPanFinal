@@ -3,6 +3,7 @@ package member.dao.face;
 
 import java.util.List;
 
+import member.dto.Hospital;
 import member.dto.Member;
 import member.dto.Pet;
 import member.dto.PetFile;
@@ -23,11 +24,6 @@ public interface MemberDao {
 	 */
 	public void insertJoin(Member member);
 
-	/**
-	 * 
-	 * 
-	 * @param member
-	 */
 	public Member selectlogin(Member member);
 
 	/**
@@ -38,11 +34,6 @@ public interface MemberDao {
 	 */
 	public int selcetBlack(Member member);
 
-	/**
-	 * 
-	 * 
-	 * @param sns
-	 */
 	public void kakaoinsert(Member member);
 
 	/**
@@ -120,6 +111,15 @@ public interface MemberDao {
 	 * @return
 	 */
 	public int selectHospital(Member member);
+
+	/**
+	 * 병원정보 입력하기
+	 * 
+	 * @param hospital
+	 */
+	public void insertHospital(Hospital hospital);
+
+
 
 
 

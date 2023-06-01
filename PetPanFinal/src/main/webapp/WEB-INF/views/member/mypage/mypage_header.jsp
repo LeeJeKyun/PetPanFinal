@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -90,15 +92,76 @@ li {
 
 
 <p><a href="/" class="pet">PET PAN&nbsp;</a>  <a href="./mypage" class="my"> 마이 페이지 </a></p>
+
+</div>
+
+<div>
+<c:choose>
+<c:when test="${empty hospital }">
+<div id="menu">
+
+<ul class="pan">
+	<li>
+	<a href="./myprofile" >정보 수정</a>
+	<em></em>
+	</li>
+
+	<li>
+	<a href="./petinfo">동물 등록</a>
+	<em></em>
+	</li>
+
+	<li>
+	<a href="./content">내가 쓴 글</a>
+	<em></em>
+	</li>
+
+	<li>
+	<a href="./content">내가 쓴 댓글</a>
+	<em></em>
+	</li>
+</ul>
+</div>
+</c:when>
+
+<c:when test="${not empty hospital and hospital }">
+
+<div id="menu">
+
+<ul class="pan">
+	<li>
+	<a href="./myprofile" >정보 수정</a>
+	<em></em>
+	</li>
+
+	<li>
+	<a href="./hospital">병원 등록</a>
+	<em></em>
+	</li>
+
+	<li>
+	<a href="./content">내가 쓴 글</a>
+	<em></em>
+	</li>
+
+	<li>
+	<a href="./content">내가 쓴 댓글</a>
+	<em></em>
+	</li>
+</ul>
+</div>
+
+
+</c:when>
+
+</c:choose>
+
+
+
+
+
+
 </div><!-- header -->
-
- <!-- menu -->
-
-
-
-
-
-
 
 
 
