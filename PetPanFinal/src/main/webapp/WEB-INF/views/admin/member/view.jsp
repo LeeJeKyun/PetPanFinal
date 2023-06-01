@@ -18,53 +18,23 @@
 <c:import url="../../layout/adminHeader.jsp"/>
 
  
-<form action="./search" method="get">
-<div >
-	<table id = "search">
-		<tr>
-			<td>검색</td><td><input type="text" name = "keyword"></td>
-			<td></td>
-		</tr>
-	</table>
-</div>
-</form>
 
 <div class="container2">
-	<div>
+	
 		<table class = "table table-striped" style="width:1300px">
-				<tr>
-		<th>유저번호</th>
-		<th>유저이름</th>
-		<th>유저아이디</th>
-		<th>유저비밀번호</th>
-		<th>유저이메일</th>
-		<th>유저주소</th>
-		<th>유저핸드폰번호</th>
-		<th>유저 포지션</th>
-		
-		
-		
-
-		</tr>
-		<c:forEach var="list" items="${list}">
-
-		<tr>
-		<td>${list.userNo }</td>
-		<td>${list.userName }</td>
-		<td>${list.userId}</td>
-		<td>${list.userPw}</td>
-		<td>${list.email}</td>
-		<td>${list.address}</td>
-		<td>${list.phone}</td>
-		<td>${list.positionNo}</td>
-		</tr>
-		</c:forEach>
+		<tr><th>유저번호</th> <td>${member.userNo }</td></tr>
+		<tr> <th>유저이름</th><td>${member.userName }</td></tr>
+		<tr> <th>유저닉네임</th><td>${member.userNick }</td></tr>
+		<tr><th>유저아이디</th> <td>${member.userId}</td></tr>
+		<tr><th>유저비밀번호</th><td>${member.userPw}</td></tr>
+		<tr><th>유저이메일</th><td>${member.email}</td>	</tr>
+		<tr><th>유저주소</th><td>${member.address}</td></tr>
+		<tr><th>유저핸드폰번호</th><td>${member.phone}</td></tr>
+		<tr><th>유저 포지션</th><td>${member.positionNo}</td></tr>
 		</table>
+		<a href = "./update?userno=${member.userNo}"><button class = "btn btn-primary">정보 수정</button></a>
+		<a href = "./list"><button class = "btn btn-primary">멤버 리스트</button></a>
 		
-	</div>	
-	<div class = "" style="margin-left: 170px;">	
-	<c:import url="../../layout/paging.jsp"/>
-	</div>
 </div>
 </body>
 </html>

@@ -2,6 +2,7 @@ package admin.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import board.dto.Board;
 import board.dto.Comment;
 import board.dto.Notice;
 import board.dto.NoticeFile;
+import member.dao.face.MemberDao;
 import member.dto.Member;
 import shop.dto.Shop;
 import shop.dto.ShopFile;
@@ -40,7 +42,7 @@ public class AdminServiceImpl implements AdminService{
 	@Autowired AdminDao adminDao;
 	@Autowired ServletContext context;
 	@Autowired AdminShopDao adminShopDao;
-
+	@Autowired MemberDao memberDao;
 	@Override
 	public List<ReportBoard> getReportBoard(AdminPaging paging) {
 		
@@ -121,13 +123,14 @@ public class AdminServiceImpl implements AdminService{
 	
 	
 	@Override
-	public List<Blacklist> getBlacklistBoard(AdminPaging paging) {
+	public List<Map<String, Object>> getBlacklistBoard(AdminPaging paging) {
 		System.out.println(paging);
 		
-		List<Blacklist> list = adminDao.BlacklistselectAll(paging);
+		List<Map<String, Object>> list = adminDao.BlacklistselectAll(paging);
 		
-		for(Blacklist b : list) {
-			System.out.println(b);
+		for(Map<String, Object> m : list) {
+			
+			System.out.println(m);
 		}
 		
 		return list;
@@ -608,6 +611,16 @@ public class AdminServiceImpl implements AdminService{
 		
 		
 		
+		
+	}
+	
+	
+	@Override
+	public void updateMember(Member member) {
+		
+		int res =  adminDao.updateMember(member);
+		
+		logger.info("{}",res);
 		
 	}
 	

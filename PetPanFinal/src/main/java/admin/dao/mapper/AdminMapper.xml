@@ -52,17 +52,17 @@
 <!-- 	</delete> -->
 	
 
-	<select id="BlacklistselectAll" resultType="admin.dto.Blacklist" parameterType="util.Paging">
+	<select id="BlacklistselectAll" resultType="hashmap" parameterType="util.Paging">
 		SELECT *
 		FROM (
-		    SELECT rownum rnum, B.*
+		    SELECT rownum rnum, c.*
 		    FROM (
-		        SELECT blackno, blackdate, reason, userno
-		        FROM blacklist
-		        ORDER BY blackno DESC
-		    ) B
-		) 
-		WHERE rnum BETWEEN #{startNo} AND #{endNo}
+		       SELECT b.blackno, b.blackdate, b.reason, b.userno, m.username
+		       FROM blacklist b
+		       INNER JOIN member m ON b.userno = m.userno
+		       ORDER BY b.blackno DESC
+		    ) c
+		) WHERE rnum BETWEEN #{startNo} AND #{endNo}
 	</select>
 
 	
@@ -192,7 +192,7 @@
 		select seq_notice.nextval from dual
 		</selectKey>
 		insert into notice(noticeno,noticetitle,noticecontent,noticewritedate,userno)
-		Values (#{noticeno},#{noticetitle},#{noticecontent},#{noticewritedate},#{userno})
+		Values #{noticeno},#{noticetitle},#{noticecontent},#{noticewritedate},#{userno})
 	</insert>
 	
 	<insert id="insertNoticeFile" parameterType="board.dto.Notice">
@@ -200,4 +200,10 @@
 		Values (seq_noticeFile.nextval  ,#{noticeno}  , #{originname} , #{storedname} ,#{filesize} )
 	</insert>
 	
+	<update id="updateMember" parameterType="member.dto.Member">
+		UPDATE member
+  		SET userpw=#{userPw}, usernick=#{userNick}, email=#{email}, address=#{address}, zipcode=#{zipCode}, detailaddress=#{detailaddress }, latitude=#{latitude}, longitude=#{longitude}, phone=#{phone}
+  		WHERE userno=#{userNo}
+	
+	</update>
 </mapper>

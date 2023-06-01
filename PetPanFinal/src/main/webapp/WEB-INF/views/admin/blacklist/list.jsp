@@ -6,6 +6,7 @@
 <%--  <%@ include file="../../layout/adminHeader.jsp" %> --%>
 
 <c:import url="../../layout/adminHeader.jsp"/>
+
  <script type="text/javascript">
   $(document).ready(function(){
 	  $("#codeIdSubmit").on('click',function(){
@@ -45,18 +46,22 @@
 		<tr>
 		<th>블랙번호</th>
 		<th>유저 번호</th>
+		<th>유저 이름</th>
 		<th>블랙된 날짜</th>
 		<th>블랙 이유</th>
 		<th>체크</th>
 		
 		</tr>
+
+
 		<c:forEach var="list" items="${list}">
 		<tr>
-		<td>${list.blackno }</td>
-		<td> <a href = "../member/view?userno=${list.userno}">${list.userno }</a></td>
-		<td><fmt:formatDate value="${list.blackdate }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
-		<td>${list.reason }</td>
-		<td><input type="checkbox" id="delete" name="delete" class="delete" value="${list.blackno }">
+		<td>${list.BLACKNO }</td>
+		<td> <a href = "../member/view?userno=${list.USERNO}">${list.USERNO}</a></td>
+		<td>${list.USERNAME }</td>
+		<td><fmt:formatDate value="${list.BLACKDATE }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
+		<td>${list.REASON }</td>
+		<td><input type="checkbox" id="delete" name="delete" class="delete" value="${list.BLACKNO }">
 		</tr>
 		</c:forEach>
 		</table>
