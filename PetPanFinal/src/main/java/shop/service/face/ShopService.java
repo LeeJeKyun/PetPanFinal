@@ -3,6 +3,8 @@ package shop.service.face;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import member.dto.Member;
 import shop.dto.Basket;
 import shop.dto.OrderUser;
@@ -64,7 +66,7 @@ public interface ShopService {
 
 	public List<Map<String, Object>> orderList(OrderUser orderUser);
 
-	public void writeReview(Review review);
+	public void writeReview(List<MultipartFile> fileList, Review review, List<Integer> no);
 
 
 

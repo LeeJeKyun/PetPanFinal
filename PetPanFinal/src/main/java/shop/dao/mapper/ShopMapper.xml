@@ -107,12 +107,20 @@
 		AND c.objectno = b.objectno
 	</select>
 	
+	<select id="selectNextval" resultType="int">
+		select seq_review.nextval from dual
+	</select>
+	
+	
 	<insert id="writeReview" parameterType="shop.dto.Review">
-		insert into review
-		values(SEQ_REVIEW.nextval, #{reviewtitle}, #{reviewcontent}, #{reviewstar}, #{image1}, #{objectno}, #{userno})
+		insert into review(reviewno, reviewtitle, reviewcontent, reviewstar, image1, objectno, userno)
+		values(#{reviewno}, #{reviewtitle}, #{reviewcontent}, #{reviewstar},#{image1}, #{objectno}, #{userno})
 	</insert>
 	
-	
+	<insert id="insertShopFile" parameterType="shop.dto.ReviewFile">
+		INSERT INTO ReviewFile (fileno, originname, storedname, filesize, reviewno)
+		VALUES(SEQ_REVIEWFILE.nextval, #{originname}, #{storedname}, #{filesize}, #{reviewno} )
+	</insert>
 	
 	
 	

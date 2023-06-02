@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import member.dto.Member;
 import shop.dto.Basket;
@@ -218,19 +219,27 @@ public class ShopController {
 	}
 	
 	@GetMapping("/writeReview")
-	public void writeReview(){
+	public void writeReview(int objectno, Model model){
+		
+		model.addAttribute("objectno",objectno);
 		
 	}
 		
 	@PostMapping("/writeReview")
-	public void writeReview(OrderUser orderUser, OrderThing orderThing, HttpSession session, Review review) {
+	public String writeReviewPost(HttpSession session, Review review
+								,@RequestParam(value = "file", required = false)List<MultipartFile> fileList
+								,@RequestParam(required = false) List<Integer> no) {
 		
 		review.setUserno((int)session.getAttribute("userno"));
-		review.setObjectno(orderThing.getObjectno());
+		
+		System.out.println("ㅇㅇㅇ " + review);
 
-		shopService.writeReview(review);
+		if(review.getReviewcontent() == null || review.getReviewtitle() == null )
+		return "redirect:/shop/main";
 		
+		shopService.writeReview(fileList, review, no);
 		
+		return "redirect:/shop/main";
 	}
 	
 	
