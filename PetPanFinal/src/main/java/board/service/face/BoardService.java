@@ -12,6 +12,7 @@ import board.dto.Comment;
 import board.dto.Notice;
 import board.dto.ReportBoard;
 import board.dto.ReportComment;
+import member.dto.Member;
 import util.Paging;
 
 public interface BoardService {
@@ -121,8 +122,21 @@ public interface BoardService {
 	 * @return
 	 */
 	public List<Map<String, Object>> getNoticeListToCare();
+	
+	/**
+	 * 게시글을 지우는 메소드
+	 * 
+	 * @param board
+	 */
+	public void deleteBoardByBoardObj(Board board);
 
-
+	/**
+	 * 게시글을 올린 사람의 위,경도를 가져오는 메소드
+	 * 
+	 * @param map
+	 * @return
+	 */
+	public Member getMemberByBoard(Map<String, Object> map);
 	
 	//---------------------------제균------------------------------------
 
@@ -265,7 +279,5 @@ public interface BoardService {
 	 * @param 신고할 정보 객체
 	 */
 	public void reportComment(ReportComment rc);
-
-	
 
 }
