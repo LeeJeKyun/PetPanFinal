@@ -13,7 +13,7 @@
 #enroll-area a{
 	display:inline-block;
 	text-align:center;
-	width: 100px;
+	width: 114px;
 	height: 30px;
 	background-color: #ffdad7;
 	border-radius: 10px 10px 10px 10px;
@@ -35,7 +35,7 @@ $(function(){
 	<h2>병원</h2>
 	<c:if test="${user.positionNo == 2}">
 	<div id = "enroll-area">
-		<a href = "./enroll">병원 등록</a>
+		<a href = "./enroll">병원 사진 등록</a>
 	</div>
 	</c:if>
 	<div class = "block">

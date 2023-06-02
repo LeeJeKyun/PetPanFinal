@@ -404,7 +404,7 @@ public interface BoardDao {
 	 * @param userNo 가져올 회원 번호
 	 * @return 입력했던 병원번호, hospitalNo
 	 */
-	public int selectHospitalInfo(int userNo);
+	public int selectHospitalNo(int userNo);
 
 	/**
 	 * 병원 사진 저장

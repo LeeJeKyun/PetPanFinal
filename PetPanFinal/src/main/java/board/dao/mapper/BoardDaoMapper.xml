@@ -378,7 +378,7 @@
 		insert into reportcomment(coreportno, reportdetail, report_Date, complete, userNo, commentNo)
 		values (seq_reportcomment.nextval, #{reportDetail}, sysdate, 'N', #{userNo}, #{commentNo})
 	</insert>
-	<select id="selectHospitalInfo" parameterType="int" resultType="int">
+	<select id="selectHospitalNo" parameterType="int" resultType="int">
 		select hospitalNo 
 		from hospital
 		where userNo = #{userNo}

@@ -533,14 +533,15 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public void enrollHospital(List<MultipartFile> fileList, List<Integer> no, Hospital hospital) {
+	public void enrollHospital(List<MultipartFile> fileList, List<Integer> no, member.dto.Hospital hospital) {
 
 		//회원가입할 때 입력했던 병원번호 no 가져오기
-		int hospitalNo = boardDao.selectHospitalInfo(hospital.getUserNo());
+		int hospitalNo = boardDao.selectHospitalNo(hospital.getUserNo());
 		logger.info("병원 정보 NO {}", hospitalNo);
-		
+		logger.info("no no 병원파일{}", no);
+		logger.info("fileList 병원파일{}", fileList);
 		for(int i = 0; i < no.size(); i++) {
-			if(no.get(i) != null && no.get(i) != -1) {
+			if(null != no.get(i) && no.get(i) != -1) {
 				if(fileList.get(i).getSize() <= 0)  continue;  // 파일의 크기가 0이면  
 				
 				// 파일이 저장될 경로

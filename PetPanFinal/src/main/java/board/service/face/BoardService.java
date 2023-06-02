@@ -9,11 +9,11 @@ import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
 import board.dto.Comment;
-import board.dto.Hospital;
 import board.dto.HospitalFile;
 import board.dto.Notice;
 import board.dto.ReportBoard;
 import board.dto.ReportComment;
+import member.dto.Hospital;
 import member.dto.Member;
 import util.Paging;
 

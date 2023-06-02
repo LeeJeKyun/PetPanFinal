@@ -61,7 +61,7 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		logger.info("hospital {}", hospital);
 		logger.info("hospital files {}", fileList);
 		
-		boardService.enrollHospital(fileList, no, hospital);
+		//boardService.enrollHospital(fileList, no, hospital);
 		
 		
 		return "redirect:./list";
