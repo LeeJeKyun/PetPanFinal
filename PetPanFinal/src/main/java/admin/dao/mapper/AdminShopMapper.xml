@@ -93,4 +93,36 @@
 		</foreach>
 	</update>
 	
+	 <select id="countTotalReportShop" resultType="int" parameterType="String">
+		SELECT count(*) FROM REPORTOBJECT WHERE REPORTDETAIL LIKE ('%${search}%')
+	</select>
+	
+	<select id="ReportShopselectAll" resultType="admin.dto.ReportObject" parameterType="util.AdminPaging">
+	SELECT re.*
+		FROM (
+		    SELECT rownum rnum, B.*
+		    FROM (
+		        SELECT OBJREPORTNO, R.OBJECTNO, S.NAME, REPORTDETAIL ,REPORT_DATE AS REPORTDATE, COMPLETE, R.USERNO, M.USERNAME
+		        FROM REPORTOBJECT R, SHOP S, MEMBER M
+		        WHERE R.OBJECTNO = S.OBJECTNO
+		        AND R.USERNO = M.USERNO
+		        ORDER BY UPPER(complete) ASC, OBJREPORTNO DESC
+		    ) B
+		) re
+    WHERE rnum BETWEEN #{startNo} AND #{endNo}
+  	</select>
+  	
+  	<select id="selectReportObject" parameterType="int" resultType="admin.dto.ReportObject">
+  		SELECT OBJREPORTNO, R.OBJECTNO, S.NAME, REPORTDETAIL ,REPORT_DATE AS REPORTDATE, COMPLETE, R.USERNO, M.USERNAME
+		FROM REPORTOBJECT R, SHOP S, MEMBER M
+		WHERE OBJREPORTNO = #{objreportno}
+		AND R.OBJECTNO = S.OBJECTNO
+        AND R.USERNO = M.USERNO
+  	</select>
+  	
+  	<select id="selectReportMember" parameterType="admin.dto.ReportObject" resultType="member.dto.Member">
+  		SELECT * FROM MEMBER
+  		WHERE USERNO = #{userNo}
+  	</select>
+	
   </mapper>
