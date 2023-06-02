@@ -123,23 +123,23 @@ public class BoardController {
 		model.addAttribute("map", map);
 		logger.info("map {}", map);
 	}
-	// 게시글 신고 구현중
 	@PostMapping("/board/reportPopup")
-	public void reportBoard( HttpSession session, ReportBoard reportBoard, String writeDetail) {
+	public void reportBoard(Model model, HttpSession session, ReportBoard reportBoard, String writeDetail) {
 		int userNo = (int) session.getAttribute("userno");
 		
 		reportBoard.setUserNo(userNo);
 		
 		logger.info("reportBoard {}", reportBoard);
 		logger.info("writeDetail {}", writeDetail);
-		boardService.boardReport(reportBoard, writeDetail);  
-			
 		
-		//return "redirect:/board/board/detail?boardNo="+ reportBoard.getBoardNo();
+		boardService.boardReport(reportBoard, writeDetail);
+		model.addAttribute("flag", true);
 	}
 	@GetMapping("/board/reportPopup")
-	public void reportPopup(int boardNo, Model model) {
+	public void reportPopup(@RequestParam(defaultValue = "false", required = false) boolean flag, 
+										int boardNo, Model model) {
 		model.addAttribute("boardNo", boardNo);
+		model.addAttribute("flag", flag);
 	}
 	
 	@GetMapping("/board/delete/board")
@@ -208,19 +208,24 @@ public class BoardController {
 	}
 	
 	@GetMapping("/board/reportComment")
-	public void reportCommentPopup(int commentNo, Model model) {
+	public void reportCommentPopup(@RequestParam(defaultValue = "false") boolean flag
+						, int commentNo, Model model) {
 		model.addAttribute("commentNo", commentNo);
+		model.addAttribute("flag", flag);
 	}
 	
 	
-	@PostMapping("/board/comment/report")
-	public void reportComment(ReportComment rc, HttpSession session ,Model model) {
+	@PostMapping("/board/reportComment")
+	public void reportComment(ReportComment rc, HttpSession session,
+								@RequestParam(required = false) String writeDetail
+								,Model model) {
 		rc.setUserNo((int)session.getAttribute("userno"));
 		
 		logger.info(" rc 댓글 신고 {}",rc);
-		
-		boardService.reportComment(rc);
+		logger.info("기타 사유 {}", writeDetail);
+		boardService.reportComment(rc, writeDetail);
 		
 		model.addAttribute("data", true);
+		model.addAttribute("flag", true);
 	}
 }

@@ -9,6 +9,8 @@ import board.dto.BoardRecommend;
 import board.dto.Comment;
 import board.dto.Notice;
 import board.dto.ReportBoard;
+import board.dto.ReportComment;
+import member.dto.Member;
 import util.Paging;
 
 public interface BoardDao {
@@ -157,6 +159,21 @@ public interface BoardDao {
 	 */
 	public int selectRefOrgan(int refcommentno);
 
+	/**
+	 * boardtypeno을 5로 바꿈으로써 게시글을 지우는 시늉을 하는 메소드
+	 * 
+	 * @param board
+	 */
+	public int deleteByUpdateBoardType(Board board);
+	
+	/**
+	 * map에 담긴 userno을 통해서 member의 정보를 가져오는 메소드
+	 * 
+	 * @param map
+	 * @return
+	 */
+	public Member getMemberByBoardMap(Map<String, Object> map);
+	
 	
 	//--------------------------제균--------------------------------
 
@@ -378,10 +395,32 @@ public interface BoardDao {
 
 	/**
 	 * 댓글 신고 신고 테이블에 insert
-	 * @param commentNo
-	 * @param userNo
+	 * @param 댓글 신고할 정보 객체
 	 */
-	public void insertCommentNo(int commentNo, int userNo);
+	public void insertCommentNo(ReportComment rc);
+
+	/**
+	 * 마이페이지에서 입력했던 병원 번호 가져오기
+	 * @param userNo 가져올 회원 번호
+	 * @return 입력했던 병원번호, hospitalNo
+	 */
+	public int selectHospitalInfo(int userNo);
+
+	/**
+	 * 병원 사진 저장
+	 * @param mapFile 병원 사진 파일 객체
+	 */
+	public void insertHospitalFile(Map<String, Object> mapFile);
+
+	/**
+	 * userNo 으로 member 테이블 조회 
+	 * @param userNo 조회할 userNo
+	 * @return user 정보
+	 */
+	public Member selectUserInfo(int userNo);
+
+
+
 
 	
 }

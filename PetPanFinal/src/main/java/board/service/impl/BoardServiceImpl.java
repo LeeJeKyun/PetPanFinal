@@ -25,10 +25,13 @@ import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
 import board.dto.Comment;
+import board.dto.Hospital;
+import board.dto.HospitalFile;
 import board.dto.Notice;
 import board.dto.ReportBoard;
 import board.dto.ReportComment;
 import board.service.face.BoardService;
+import member.dto.Member;
 import util.Paging;
 
 @Service
@@ -231,10 +234,22 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.selectNoticeToCare();
 	}
 	
+	@Override
+	public void deleteBoardByBoardObj(Board board) {
+		int res  = boardDao.deleteByUpdateBoardType(board);
+		
+		logger.info("{}", res);
+	}
+	
+	@Override
+	public Member getMemberByBoard(Map<String, Object> map) {
+		return boardDao.getMemberByBoardMap(map);
+	}
+
 	
 	//-------------------------------제균----------------------------------
 
-
+	
 	@Override
 	public Paging getPaging(Integer curPage, int category, String search) {
 		Paging paging = null;
@@ -370,20 +385,8 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public void deleteBoard(int boardNo) {
 
-		// 신고 테이블이 있는 게시글인지 검사
-		if(boardDao.selectReportBoard(boardNo) > 0) {
-			// 있으면 boardTypeNo을 5로 변경
-			boardDao.updateBoard(boardNo);
-		}else {
-			//없으면 게시글 삭제
-			//게시글 파일 삭제
-			boardDao.deleteBoardFile(boardNo);
-			//게시글 삭제
-			boardDao.deleteBoard(boardNo);
-			
-		}
-		
-		// 없으면 게시글 삭제
+		// 게시글 타입 5번으로 변경
+		boardDao.updateBoard(boardNo);
 	}
 
 	@Override
@@ -397,6 +400,7 @@ public class BoardServiceImpl implements BoardService{
 				reportBoard.setReportDetail(writeDetail);
 			}
 			boardDao.insertReport(reportBoard);
+			logger.info(" 최종 신고 {}", reportBoard);
 		}
 	}
 
@@ -444,10 +448,10 @@ public class BoardServiceImpl implements BoardService{
 		map.put("boardNo", boardNo);
 		
 		//가장 큰 cnt가져오기 , 가장 최근 댓글
-		int cnt = boardDao.selectMaxCommentCnt(boardNo);
-		
-		map.put("max", cnt);
-		map.put("min", 1);
+//		Integer cnt = boardDao.selectMaxCommentCnt(boardNo);
+//		
+//		map.put("max", cnt);
+//		map.put("min", 1);
 		return boardDao.selectComments(map);
 	}
 
@@ -521,10 +525,76 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public void reportComment(ReportComment rc) {
-		
-		//boardDao.insertCommentNo(rc);
+	public void reportComment(ReportComment rc, String writeDetail) {
+		if("기타".equals(rc.getReportdetail()) ) {
+			rc.setReportdetail(writeDetail);
+		}
+		boardDao.insertCommentNo(rc);
 	}
+
+	@Override
+	public void enrollHospital(List<MultipartFile> fileList, List<Integer> no, Hospital hospital) {
+
+		//회원가입할 때 입력했던 병원번호 no 가져오기
+		int hospitalNo = boardDao.selectHospitalInfo(hospital.getUserNo());
+		logger.info("병원 정보 NO {}", hospitalNo);
+		
+		for(int i = 0; i < no.size(); i++) {
+			if(no.get(i) != null && no.get(i) != -1) {
+				if(fileList.get(i).getSize() <= 0)  continue;  // 파일의 크기가 0이면  
+				
+				// 파일이 저장될 경로
+				String storedPath = context.getRealPath("upload");
+				logger.info(" storedPath : {}", storedPath);
+				
+				// upload폴더가 없으면 생성
+				File storedFolder = new File(storedPath);
+				storedFolder.mkdir();
+				
+				File dest = null;
+				String storedName = null;
+				
+				do {
+					//저장할 파일 이름 생성
+					storedName = fileList.get(i).getOriginalFilename(); //원본 파일명
+					
+					storedName += UUID.randomUUID().toString().split("-")[0]; //
+					logger.info("storedName : {}", storedName);
+
+					//실제 저장될 파일 객체
+					dest = new File(storedFolder, storedName);
+					
+				}while(dest.exists());
+				
+				try {
+					// 업로드된 파일을 upload 폴더에 저장
+					fileList.get(i).transferTo(dest);
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				//DB에 저장할 객체
+				Map<String, Object> mapFile  = new HashMap<>();
+				
+				mapFile.put("storedName", storedName);
+				mapFile.put("originName", fileList.get(i).getOriginalFilename());
+				mapFile.put("fileSize", fileList.get(i).getSize());
+				mapFile.put("hospitalNo", hospitalNo);
+				
+				//병원 사진 저장
+				boardDao.insertHospitalFile(mapFile);
+				
+				logger.info("mapFile 병원 {}", mapFile);
+			}
+		}
+	}
+
+	@Override
+	public Member getUserInfo(int userNo) {
+		return boardDao.selectUserInfo(userNo);
+	}
+
 
 	
 }

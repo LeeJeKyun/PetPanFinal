@@ -107,7 +107,11 @@ $(function(){
 			alert("required c")
 			return
 		}
-		$("form").submit();
+		var confirmV;
+		confirmV = confirm("게시글을 작성하시겠습니까?");
+		if(confirmV){
+			$("form").submit();
+		}
 	})
 	
 	// 파일 삭제, -1로 value 변경

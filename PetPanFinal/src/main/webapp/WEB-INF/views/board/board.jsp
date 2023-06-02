@@ -11,6 +11,7 @@
 	width: 800px;
 	height: 1000px;
 	margin: 0 auto;
+	margin-top: 200px;
 }
 .th-border{
 	border-top: solid #ccc 3px ; 
@@ -92,7 +93,7 @@
 		<c:forEach var = "e" items = "${listNotice }">
 	    <tr class = "td-style items">
 	    	<td>${e.NOTICENO }</td>
-			<td><a href ="./board/noticeDetail?boardNo=${e.NOTICENO }">${e.NOTICETITLE}</a></td>
+			<td><a href ="./notice/view?noticeno=${e.NOTICENO }">${e.NOTICETITLE}</a></td>
 			<td>관리자</td>
 			<td></td>
 			<td></td>

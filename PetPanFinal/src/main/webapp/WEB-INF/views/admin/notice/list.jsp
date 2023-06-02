@@ -32,12 +32,18 @@
 
 <div class="container2">
   <h1>테마별 게시판</h1>
+  <div align="right">
+    <a href = "./write"><button type="button" class="btn btn-success" data-theme="1" >공지 등록</button></a>
+   </div>
+    
   <div class="btn-group" role="group" aria-label="Themes" >
   	<span style = "margin : 0 auto;">
-    <button type="button" class="btn btn-primary theme-button active-theme" data-theme="1" >품앗이</button>
-    <button type="button" class="btn btn-primary theme-button" data-theme="2">자유</button>
-    <button type="button" class="btn btn-primary theme-button" data-theme="3">중고거래</button>
-    <button type="button" class="btn btn-primary theme-button" data-theme="4">병원</button>
+ 
+	    <button type="button" class="btn btn-primary theme-button active-theme" data-theme="1" >품앗이</button>
+	    <button type="button" class="btn btn-primary theme-button" data-theme="2">자유</button>
+	    <button type="button" class="btn btn-primary theme-button" data-theme="3">중고거래</button>
+	    <button type="button" class="btn btn-primary theme-button" data-theme="4">병원</button>
+
     </span>
   </div>
   <hr>

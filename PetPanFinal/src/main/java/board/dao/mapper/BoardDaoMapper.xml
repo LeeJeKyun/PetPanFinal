@@ -146,6 +146,16 @@
 		WHERE commentno = #{refcommentno}
 	</select>
 	
+	<update id="deleteByUpdateBoardType" parameterType="board.dto.Board">
+		UPDATE board SET boardtypeno = 5
+		WHERE boardno = #{boardNo}
+	</update>
+	
+	<select id="getMemberByBoardMap" parameterType="hashmap" resultType="member.dto.Member">
+		SELECT userno, username, address, detailaddress, zipcode, latitude, longitude FROM member
+		WHERE userno = #{USERNO}
+	</select>
+	
 	<!-- ===============================제균=============================== -->
 	
 	
@@ -314,7 +324,7 @@
     			)
     		order by cnt desc, sortno
 		)    
-		where cnt between #{min} and #{max}
+<!-- 		where cnt between #{min} and #{max} -->
 	</select>
 	<select id="selectMaxCommentNo" resultType="int">
 		select seq_commenttable.nextval
@@ -344,7 +354,7 @@
 		set sortno = sortNo + 1 
 		where organization = #{ORGANIZATION} and sortno > #{SORTNO}  
 	</update>
-	<select id="selectMaxCommentCnt" resultType="int" parameterType="int">
+	<select id="selectMaxCommentCnt" resultType="Integer" parameterType="int">
 		select max(cnt)
 		from(
 		select * from(
@@ -364,4 +374,22 @@
 		set content = '작성자가 삭제한 댓글입니다.'
 		where commentNo = #{commentNo}
 	</update>
+	<insert id="insertCommentNo" parameterType="board.dto.ReportComment">
+		insert into reportcomment(coreportno, reportdetail, report_Date, complete, userNo, commentNo)
+		values (seq_reportcomment.nextval, #{reportDetail}, sysdate, 'N', #{userNo}, #{commentNo})
+	</insert>
+	<select id="selectHospitalInfo" parameterType="int" resultType="int">
+		select hospitalNo 
+		from hospital
+		where userNo = #{userNo}
+	</select>
+	<insert id="insertHospitalFile" parameterType="map" >
+		insert into hospitalFile(fileNo, originName, storedName, fileSize, hospitalNo)
+		values(seq_hospitalFile.nextval, #{originName}, #{storedName}, #{fileSize}, #{hospitalNo})
+	</insert>
+	<select id="selectUserInfo" parameterType="int" resultType="member.dto.Member">
+		select userName, zipCode, latitude, longitude, positionNo
+		from member
+		where userNo = #{userNo}
+	</select>
 </mapper>

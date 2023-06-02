@@ -68,8 +68,16 @@ function message(e, userid){
 	$('.messageLayer').show();
 }
 function sendMessage(userid){
+	var login = '<%=session.getAttribute("login") %>';
+	console.log(login)
+	if(login != 'true'){
+		alert("로그인을 해주세요.")
+		$('.messageLayer').hide();
+		return;
+	}
 	console.log(userid)
-	location.href='<%=request.getContextPath() %>/message/message/send?userid=' + userid;
+	window.open("<%=request.getContextPath() %>/message/message/send?receiveuserid=" + userid, '쪽지', "width=400, height=500, resizable=no");
+	$('.messageLayer').hide();
 }
 </script>
 
