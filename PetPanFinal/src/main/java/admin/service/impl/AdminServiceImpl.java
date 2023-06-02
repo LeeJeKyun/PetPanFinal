@@ -22,6 +22,7 @@ import admin.dao.face.AdminShopDao;
 import admin.dto.Blacklist;
 import admin.dto.ReportBoard;
 import admin.dto.ReportComment;
+import admin.dto.ReportObject;
 import admin.service.face.AdminService;
 import board.dto.Board;
 import board.dto.Comment;
@@ -751,6 +752,41 @@ public class AdminServiceImpl implements AdminService{
 		
 		logger.info("{}",res);
 		
+	}
+
+	@Override
+	public AdminPaging getPagereportShop(int curPage, String search) {
+		int totalcount = adminShopDao.countTotalReportShop(search);
+		AdminPaging paging = new AdminPaging(totalcount, curPage);
+		paging.setCurPage(curPage);
+		
+		return paging;
+	}
+
+	@Override
+	public List<ReportObject> getReportShopList(AdminPaging paging) {
+		
+		List<ReportObject> list = adminShopDao.ReportShopselectAll(paging);
+		
+		for(ReportObject e : list) {
+			System.out.println(e);
+		}
+		
+		return list;
+	}
+
+	@Override
+	public ReportObject getReportObject(Integer objreportNo) {
+		ReportObject reportObject = adminShopDao.selectReportObject(objreportNo);
+				
+				
+		return reportObject;
+	}
+
+	@Override
+	public Member getShopReportMember(ReportObject reportObject) {
+		Member member = adminShopDao.selectReportMember(reportObject);
+		return member;
 	}
 	
 	

@@ -89,11 +89,16 @@
            document.getElementById('black').className = 'menu-item';
         }
         
-        if (currentUrl.includes("/user/")){
-           document.getElementById('user').className = 'menu-item active';
+        if (currentUrl.includes("/member/")){
+           document.getElementById('member').className = 'menu-item active';
         }else{
-           document.getElementById('user').className = 'menu-item';
+           document.getElementById('member').className = 'menu-item';
         }
+        if (currentUrl.includes("/notice/")){
+            document.getElementById('notice').className = 'menu-item active';
+         }else{
+            document.getElementById('notice').className = 'menu-item';
+         }
         if (currentUrl.includes("/reportboard/")){
            document.getElementById('reportboard').className = 'menu-item active';
         }else{
@@ -252,8 +257,8 @@
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">User</span>
             </li>
-            <li class="menu-item" id="user">
-              <a href="<%=request.getContextPath() %>/member/list" class="menu-link menu-toggle">
+            <li class="menu-item" id="member">
+              <a href="<%=request.getContextPath() %>/admin/member/list" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-id-card"></i>
                 <div data-i18n="Account Settings">User Manage</div>
               </a>
@@ -274,7 +279,7 @@
               <span class="menu-header-text">Notice</span>
             </li>
             <li class="menu-item" id="notice">
-              <a href="<%=request.getContextPath() %>/notice/list" class="menu-link menu-toggle">
+              <a href="<%=request.getContextPath() %>/admin/notice/list" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-volume-full"></i>
                 <div data-i18n="Account Settings">Notice Manage</div>
               </a>

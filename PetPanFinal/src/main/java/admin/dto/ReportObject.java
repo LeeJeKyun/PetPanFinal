@@ -3,6 +3,7 @@ package admin.dto;
 import java.util.Date;
 
 public class ReportObject {
+	
 	private int objreportNo;
 	private int objectNo;
 	private String name;
@@ -10,27 +11,8 @@ public class ReportObject {
 	private Date reportDate;
 	private String complete;
 	private int userNo;
-	public ReportObject() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	public ReportObject(int objreportNo, int objectNo, String name, String reportdetail, Date reportDate,
-			String complete, int userNo) {
-		super();
-		this.objreportNo = objreportNo;
-		this.objectNo = objectNo;
-		this.name = name;
-		this.reportdetail = reportdetail;
-		this.reportDate = reportDate;
-		this.complete = complete;
-		this.userNo = userNo;
-	}
-	@Override
-	public String toString() {
-		return "ReportObject [objreportNo=" + objreportNo + ", objectNo=" + objectNo + ", name=" + name
-				+ ", reportdetail=" + reportdetail + ", reportDate=" + reportDate + ", complete=" + complete
-				+ ", userNo=" + userNo + "]";
-	}
+	private String userName;
+	
 	public int getObjreportNo() {
 		return objreportNo;
 	}
@@ -72,6 +54,34 @@ public class ReportObject {
 	}
 	public void setUserNo(int userNo) {
 		this.userNo = userNo;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	@Override
+	public String toString() {
+		return "ReportObject [objreportNo=" + objreportNo + ", objectNo=" + objectNo + ", name=" + name
+				+ ", reportdetail=" + reportdetail + ", reportDate=" + reportDate + ", complete=" + complete
+				+ ", userNo=" + userNo + ", userName=" + userName + "]";
+	}
+	public ReportObject(int objreportNo, int objectNo, String name, String reportdetail, Date reportDate,
+			String complete, int userNo, String userName) {
+		super();
+		this.objreportNo = objreportNo;
+		this.objectNo = objectNo;
+		this.name = name;
+		this.reportdetail = reportdetail;
+		this.reportDate = reportDate;
+		this.complete = complete;
+		this.userNo = userNo;
+		this.userName = userName;
+	}
+	public ReportObject() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 }
