@@ -206,14 +206,7 @@ public class socialServiceImpl implements socialService{
 	}
 	   
 	   
-	   
-	   
-	   
-//	   네이버
-	   
-	   
-	   
-	   
+//	   -------------------네이버
 	   
 		@Override
 		public JsonObject getTokenNaver(String apiURL) {
@@ -263,14 +256,8 @@ public class socialServiceImpl implements socialService{
 		}
 	   
 	   
-	   
-	   
-	   
-	   
-	   
 	   @Override
 	public String getState(String code) {
-	
 				
 		// 네이버 로그인
 		// CSRF 방지를 위한 상태 토큰 생성 코드
@@ -311,19 +298,14 @@ public class socialServiceImpl implements socialService{
 			return map;
 		}
 		
-		
-		   
-	   
 	   @Override
 	public HashMap<String, Object> getNaverInfo(JsonObject token) {
 		   
 			
 //		    요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
 		   HashMap<String, Object> naverInfo = new HashMap<>();
-			
 
 			  String host = "https://openapi.naver.com/v1/nid/me";
-	          
 			  Member naver = new Member();
 	          
 	          try {
@@ -361,16 +343,8 @@ public class socialServiceImpl implements socialService{
 	              String email = response.get("email").getAsString().trim();
 	              String id = response.get("id").getAsString().trim();
 	              String name = response.get("name").getAsString().trim();
-//	              String nickname = response.get("nickname").getAsString().trim();
-//	              String phone = response.get("mobile").getAsString().replaceAll("[^0-9]", "").trim();
-
-//	              naver.setUserEmail(email);
-//	              naverInfo.setSuserno(id); 
-//	              naverInfo.setUserName(name);
 			        
 	              naverInfo.put("id", id);
-			        
-	              
 	              br.close();
 
 	          } catch (IOException e) {
@@ -382,8 +356,6 @@ public class socialServiceImpl implements socialService{
 	          return naverInfo;
 			
 		}
-
-
 
 	@Override
 	public String getApiURL(String code, String state) {

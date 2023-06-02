@@ -136,6 +136,14 @@ public interface MemberService {
 	 */
 	public void insertHospital(Hospital hospital);
 
+	/**
+	 * 
+	 * 
+	 * @param email
+	 * @return
+	 */
+	public String joinEmail(String email);
+
 
 
 

@@ -33,8 +33,26 @@
 	    <version>2.9.8</version> 
 	</dependency>
 	
-	
+		<!-- 메일 인증 -->
+	<dependency>
+	    <groupId>javax.mail</groupId>
+	    <artifactId>mail</artifactId>
+	    <version>1.4.7</version>
+	</dependency>
 
+
+	<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-context-support</artifactId>
+	    <version>5.3.27</version>
+	</dependency>
+
+<!-- 	<dependency> -->
+<!-- 	    <groupId>org.springframework</groupId> -->
+<!-- 	    <artifactId>spring-context-support</artifactId> -->
+<!-- 	    <version>5.3.9</version> -->
+<!-- 	</dependency> -->
 	<!-- 위도 경도 라이브러리 -->
 	<dependency>
 	  <groupId>com.google.code.geocoder-java</groupId>
