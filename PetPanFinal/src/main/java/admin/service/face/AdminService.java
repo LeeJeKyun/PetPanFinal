@@ -4,11 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import admin.dto.Blacklist;
 import admin.dto.ReportBoard;
 import admin.dto.ReportComment;
+import admin.dto.ReportObject;
 import board.dto.Board;
 import board.dto.Comment;
 import board.dto.Notice;
@@ -88,7 +91,7 @@ public interface AdminService {
 
 	public void changeShop(Shop shop, Integer objectno);
 
-	public void writeNotice(List<MultipartFile> fileList, Notice notice);
+	public void writeNotice(List<MultipartFile> fileList, Notice notice, List<Integer> no, HttpSession session);
 
 	public void stopShop(Integer objectno);
 
@@ -99,6 +102,15 @@ public interface AdminService {
 	public void completeCheckedBuyer(List<String> delete);
 
 	public void updateMember(Member member);
+
+	public AdminPaging getPagereportShop(int curPage, String search);
+
+	public List<ReportObject> getReportShopList(AdminPaging paging);
+
+	public ReportObject getReportObject(Integer objreportNo);
+
+	public Member getShopReportMember(ReportObject reportObject);
+
 
 
 	

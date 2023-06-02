@@ -62,7 +62,7 @@ public class AdminNoticeController {
 //	
 //	
 	@GetMapping("/notice/write")
-	public void write(HttpSession session) {
+	public void write() {
 		
 	}
 //	
@@ -73,21 +73,24 @@ public class AdminNoticeController {
 			, HttpSession session
 			, @RequestParam(required = false) List<Integer> no // 취소된 파일 -1 
 			) {
+		 
+		
+		
 		
 		if(notice.getNoticecontent() == null || notice.getNoticecontent() == null)
 			return "redirect:./list";
+		// 
+
 		
-		
-		adminService.writeNotice(fileList, notice);
+		logger.info("notice : {}", notice);
+		adminService.writeNotice(fileList, notice, no,session);
 		
 		logger.info("write post");
 		
 		logger.info("no : {}", no);
 		logger.info("fileList : {}", fileList);
-		logger.info("board : {}", notice);
+		logger.info("notice : {}", notice);
 		
-//		int boardNo = adminService.writeBoard(notice);  //올라간 게시글의 번호 받기
-//		adminService.saveFiles(fileList, boardNo, no);
 		
 		return "redirect:./list";
 	}

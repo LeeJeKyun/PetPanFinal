@@ -63,7 +63,7 @@
 		<td><fmt:formatDate value="${list.reportDate }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
 		<td>${list.complete }</td>
 		<td>
-			<c:if test="${list.complete eq 'N' }"><input type="checkbox" id="delete" name="delete" class="delete" value="${list.boreportNo }"></c:if>
+			<c:if test="${list.complete eq 'N' }"><input type="checkbox" id="delete" name="delete" class="delete" value="${list.coreportNo }"></c:if>
 			<c:if test="${list.complete eq 'Y' }"><input type="checkbox" disabled="disabled"></c:if>
 		</td>
 		</tr>
