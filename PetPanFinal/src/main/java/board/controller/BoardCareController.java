@@ -21,6 +21,7 @@ import board.dto.BoardFile;
 import board.dto.Comment;
 import board.service.face.BoardService;
 import member.dto.Member;
+import member.service.face.MemberService;
 import util.Paging;
 
 @Controller
@@ -117,8 +118,11 @@ public class BoardCareController {
 //			loginid = (String)session.getAttribute("loginid");
 			userNo = (int)session.getAttribute("userno");
 			
+			Member loginMember = boardService.getUserInfo(userNo);
+			logger.info("loginMember : {}", loginMember);
 			isRecommended = boardService.isRecommended(boardNo, userNo);
 //			logger.info("isRecommended : {} ", isRecommended);
+			model.addAttribute("loginMember", loginMember);
 		}
 		
 		model.addAttribute("map", map);
