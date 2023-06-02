@@ -5,7 +5,7 @@ import java.util.Date;
 public class ReportComment {
 
 	private int coreportNo;
-	private String reportdetail;
+	private String reportDetail;
 	private Date reportDate;
 	private char complete;
 	private int userNo;
@@ -15,15 +15,15 @@ public class ReportComment {
 
 	@Override
 	public String toString() {
-		return "ReportComment [coreportNo=" + coreportNo + ", reportdetail=" + reportdetail + ", reportDate="
+		return "ReportComment [coreportNo=" + coreportNo + ", reportDetail=" + reportDetail + ", reportDate="
 				+ reportDate + ", complete=" + complete + ", userNo=" + userNo + ", commentNo=" + commentNo + "]";
 	}
 
-	public ReportComment(int coreportNo, String reportdetail, Date reportDate, char complete, int userNo,
+	public ReportComment(int coreportNo, String reportDetail, Date reportDate, char complete, int userNo,
 			int commentNo) {
 		super();
 		this.coreportNo = coreportNo;
-		this.reportdetail = reportdetail;
+		this.reportDetail = reportDetail;
 		this.reportDate = reportDate;
 		this.complete = complete;
 		this.userNo = userNo;
@@ -39,11 +39,11 @@ public class ReportComment {
 	}
 
 	public String getReportdetail() {
-		return reportdetail;
+		return reportDetail;
 	}
 
-	public void setReportdetail(String reportdetail) {
-		this.reportdetail = reportdetail;
+	public void setReportdetail(String reportDetail) {
+		this.reportDetail = reportDetail;
 	}
 
 	public Date getReportDate() {

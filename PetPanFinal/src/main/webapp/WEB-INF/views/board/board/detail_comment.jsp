@@ -71,7 +71,7 @@ $(function(){
 				${i.CONTENT }
 			</div>
 	</div>
-	 
+	 <div class = "writeBox"></div>
 	 </c:if>
 	 <c:if test="${i.DEPTH == 3 }">
 	 <div class = "comment3-area" data-commentNo = "${i.COMMENTNO }">
