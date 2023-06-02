@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="message.dao.face.MessageDao">
+	
+	<select id="selectUsernoByUserid" resultType="int" parameterType="string">
+		SELECT userno FROM member
+		WHERE userid = #{receiveuserid}
+	</select>
+	
+	<select id="selectUseridByUserno" resultType="string" parameterType="int">
+		SELECT userid FROM member
+		WHERE userno = #{sendUserNo}
+	</select>
+	
+	<insert id="insertMessage" parameterType="message.dto.Message">
+		INSERT INTO message(messageno, content, send_date, doread, savemessage, receiveuserno, senduserno)
+		VALUES (seq_message.nextval, #{content}, sysdate, 'N', 'N', #{receiveUserNo}, #{sendUserNo})
+	</insert>
+	
+</mapper>

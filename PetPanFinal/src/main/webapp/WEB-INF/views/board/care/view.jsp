@@ -8,6 +8,8 @@
 
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f020491197bfb81f37566adfe6725a03"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f020491197bfb81f37566adfe6725a03&libraries=clusterer"></script>
 <style>
 #fcontainer{
 	width: 800px;
@@ -101,6 +103,26 @@ table{
 	height: 22px;
 	font-size: 17px;
 }
+#modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: none;
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 25%;
+  height: 17%;
+  border-radius: 10px 10px 10px 10px;
+}
 </style>
 <script type="text/javascript">
 function recommendAjax(boardNo){
@@ -191,38 +213,24 @@ function comcomInput(userno, boardno, refcommentno, organization){
 
 $(function(){
 	
-// 	// 댓글 길이가 50 넘어가면 길이 추가
-// 	if( $(".main-comment").css('height').split('px')[0] > 50 ){
-// 		var height = 60 + Number($(".main-comment").css('height').split('px')[0]);
-// 		$(".comment").css('height', height);
-// 	}
-	// 본문 길이가 450 넘어가면 길이 추가
-	if($("#content").css('height').split('px')[0] > 450){
-		var height = 100 + Number( $("#content").css('height').split('px')[0])
-		$("#main").css('height', height);
-	}
-   
-	
-// 	$("#refresh").click(function(){
-// 		console.log("#refresh click");
-		
-// 		$.ajax({
-// 			type : "get" 
-// 				, url: "./comment"
-// 				, data : { 
-					
-// 				}
-// 				, dataType : "html"
-// 				, success : function(data){
-// 					console.log("AJAX 성공")
-					
-// 					console.log("data", data);
-// 				}
-// 				, error : function(){
-// 					console.log("AJAX 실패")	
-// 				}
-// 		})
-// 	})
+	// 모달창 로직
+	const modal = document.getElementById("modal");
+	const btnDelete = document.getElementById("btnDelete");
+	const submitModalBtn = document.getElementById("submit");
+	const closeModalBtn = document.getElementById("cancel")
+	// 모달창 열기
+	btnDelete.addEventListener("click", () => {
+	  modal.style.display = "block";
+	  document.body.style.overflow = "hidden"; // 스크롤바 제거
+	});
+	// 모달창 닫기
+	closeModalBtn.addEventListener("click", () => {
+	  modal.style.display = "none";
+	  document.body.style.overflow = "auto"; // 스크롤바 보이기
+	});
+	submitModalBtn.addEventListener("click", () => {
+		location.href="./delete?boardNo=" + ${map.BOARDNO}
+	})
 	
 })
 <%-- 댓글 입력시 해당 댓글에 대한 대댓글 입력창 띄우기 --%>
@@ -289,14 +297,22 @@ function message(e, userid){
 }
 
 function sendMessage(userid){
+	var login = '<%=session.getAttribute("login") %>';
+	console.log(login)
+	if(login != 'true'){
+		alert("로그인을 해주세요.")
+		$('.messageLayer').hide();
+		return;
+	}
 	console.log(userid)
-	location.href='<%=request.getContextPath() %>/message/message/send?userid=' + userid;
+	window.open("<%=request.getContextPath() %>/message/message/send?receiveuserid=" + userid, '쪽지', "width=400, height=500, resizable=no");
+	$('.messageLayer').hide();
 }
 <%-----------------------------쪽지모달창 끝 -----------------%>
 
 </script>
 
-<div id = "fcontainer">
+<div id = "fcontainer" >
 	<c:if test="${map.BOARDTYPENO == 1}">
 		<h1>품앗이</h1>
 	</c:if>
@@ -307,8 +323,18 @@ function sendMessage(userid){
 		<h1>중고거래</h1>
 	</c:if>
 	<div id = "report-area">
-		<a href = ""  class = "font-options">게시글 신고</a>
+		<a href="./list">
+			<button type="button" style="width: 85px; height: 33px; font-size: 17px; font-weight: bold; background-color: #f5cbcb; border-radius: 10px 10px 10px 10px / 10px 10px 10px 9px; border: none; color: #FF5050; cursor: pointer;">
+				목록으로
+			</button>
+		</a>
+	<c:if test="${userno eq map.USERNO }">
+		<button id="btnDelete" type="button" style="width: 120px; height: 33px; font-size: 17px; font-weight: bold; background-color: #f5cbcb; border-radius: 10px 10px 10px 10px / 10px 10px 10px 9px; border: none; color: #FF5050; cursor: pointer;">
+			게시글 삭제
+		</button>
+	</c:if>
 	</div>
+	<br>
 	<div id = "line-gray" style = "background-color: gray; width: 100%; height:2px;"></div>
 	
 	<div id = "info">
@@ -368,13 +394,34 @@ function sendMessage(userid){
 		 </c:choose>
 		 </c:if>
 	 </div>
-		 <hr>
+		 <div id="map" style="width:757px;height:266px;"></div>
+		 <script type="text/javascript">
+			 var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+			 var options = { //지도를 생성할 때 필요한 기본 옵션
+			 	center: new kakao.maps.LatLng(${writerMember.longitude}, ${writerMember.latitude}), //지도의 중심좌표.
+			 	level: 7 //지도의 레벨(확대, 축소 정도)
+			 };
+			
+				
+	
+			 var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+			 
+			 var marker = new kakao.maps.Marker({
+				 	map: map,
+				    position: new kakao.maps.LatLng( ${writerMember.longitude}, ${writerMember.latitude} )
+				});
+			 
+				
+		 </script>
+		<hr>
 	 <table>
+	 <c:if test="${login eq true }">
 	 	<tr>
 	 		<td class = "left-side" > 댓글 <input type="text" id="comment" onkeypress="enterkey(event)"></td>
 	 		<td><button type="button" id="commentInput" onclick="commentInput('${userno}', '${map.BOARDNO }')">입력</button></td>
 	 		<td id = "refresh" class = "cursor">새로고침</td>
 	 	</tr>
+ 	</c:if>
 	 </table>
 	 
 	<div class="messageLayer" style="display: none; background: #FFDAD7; color: #FF5050; width: 143px; height: 33px; padding: 10px;">
@@ -382,6 +429,17 @@ function sendMessage(userid){
 			<span onclick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</span>
 			<span style="cursor:pointer;font-size:1.5em" onclick="sendMessage($('.messageLayer').attr('userid'))">쪽지보내기</span>
 		</div>
+	</div>
+	
+	<!-- 게시글 삭제 모달창 -->
+	<div id="modal">
+	  <div class="modal-content">
+	    <h2>정말 게시글을 삭제하시겠습니까?</h2><br>
+	    <div style="text-align: center;">
+		    <button id="submit">예</button>
+		    <button id="cancel">아니오</button>
+	    </div>
+	  </div>
 	</div>
 	 
 	 <!-- ajax html -->

@@ -234,10 +234,22 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.selectNoticeToCare();
 	}
 	
+	@Override
+	public void deleteBoardByBoardObj(Board board) {
+		int res  = boardDao.deleteByUpdateBoardType(board);
+		
+		logger.info("{}", res);
+	}
+	
+	@Override
+	public Member getMemberByBoard(Map<String, Object> map) {
+		return boardDao.getMemberByBoardMap(map);
+	}
+
 	
 	//-------------------------------제균----------------------------------
 
-
+	
 	@Override
 	public Paging getPaging(Integer curPage, int category, String search) {
 		Paging paging = null;

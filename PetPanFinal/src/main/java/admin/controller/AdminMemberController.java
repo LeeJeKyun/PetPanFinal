@@ -91,7 +91,7 @@ public class AdminMemberController {
 	public String updateMemberPost(Member member, @RequestParam("address") String jibunAddress) {
 		
 		
-		memberService.getKakaoApiFromAddress( jibunAddress);
+		memberService.getKakaoApiFromAddress(jibunAddress);
 		HashMap<String, String> XYMap = memberService.getXYMapfromJson( memberService.getKakaoApiFromAddress( jibunAddress) );
 		
 		

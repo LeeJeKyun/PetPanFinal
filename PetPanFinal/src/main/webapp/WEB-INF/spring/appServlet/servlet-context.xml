@@ -61,6 +61,6 @@
 		<beans:property name="maxUploadSizePerFile" value="5242880"></beans:property>
 	</beans:bean>
 	
-	<context:component-scan base-package="admin.controller, board.controller, main.controller, member.controller, shop.controller, admin.service, board.service, main.service, member.service, shop.service, aop " />
+	<context:component-scan base-package="admin.controller, board.controller, main.controller, member.controller, shop.controller, admin.service, board.service, main.service, member.service, shop.service, message.controller, message.service, aop " />
 	
 </beans:beans>

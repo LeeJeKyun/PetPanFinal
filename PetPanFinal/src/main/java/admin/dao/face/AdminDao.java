@@ -7,6 +7,7 @@ import java.util.Map;
 import admin.dto.Blacklist;
 import admin.dto.ReportBoard;
 import admin.dto.ReportComment;
+import admin.dto.ReportObject;
 import board.dto.Board;
 import board.dto.Comment;
 import board.dto.Notice;
