@@ -8,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import member.service.face.KakaoService;
+import member.service.face.socialService;
 
 @Controller
 @RequestMapping("/login")
 public class LogoutController {
 
 	private static final Logger logger = LoggerFactory.getLogger(KakaoController.class);
-	@Autowired KakaoService kakaoService;
+	@Autowired socialService kakaoService;
 	
 	
 	@RequestMapping("/logout")

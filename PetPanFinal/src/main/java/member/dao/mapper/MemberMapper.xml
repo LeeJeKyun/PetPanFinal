@@ -46,6 +46,12 @@
   		WHERE userNo=#{userNo}
   	</select>
   	
+  	<update id="updateMember" parameterType="member.dto.Member">
+  		UPDATE member
+  		SET userpw=#{userPw}, usernick=#{userNick}, email=#{email}, address=#{address}, zipcode=#{zipCode}, detailaddress=#{detailaddress }, latitude=#{latitude}, longitude=#{longitude}, phone=#{phone}
+  		WHERE userno=#{userNo}
+  	</update>
+  	
   	<select id="selectSuser" resultType="member.dto.Member" parameterType="String">
   		SELECT * FROM member
   		WHERE suserNo = #{suserNo}
@@ -82,9 +88,46 @@
   		WHERE userNo=#{userNo}
   	</select>
 
+	<insert id="insertHospital" parameterType="member.dto.Hospital">
+  		INSERT INTO hospital(hospitalNo, hospitalName, hospitalCode, userNo, 
+  		<if test="mammalia != null and !mammalia.equals('')">
+  			mammalia,
+  		</if>
+  		<if test="reptile != null and !reptile.equals('')">
+  			 reptile,
+  		</if>
+  		<if test="rodent != null and !rodent.equals('')">
+  			rodent,
+  		</if>  		
+  		<if test="birds != null and !birds.equals('')">
+  			birds,
+  		</if>
+  		    open, close )
+  		
+  		VALUES( seq_hospital.nextval, #{hospitalName}, #{hospitalCode}, #{userNo},
+  		<if test="mammalia != null and !mammalia.equals('')">
+  			#{mammalia},
+  		</if>
+  		<if test="reptile != null and !reptile.equals('')">
+  			 #{reptile},
+  		</if>
+  		<if test="rodent != null and !rodent.equals('')">
+  			 #{rodent},
+  		</if>  		
+  		<if test="birds != null and !birds.equals('')">
+  			 #{birds},
+  		</if>
+  		     #{open}, #{close})
+  	</insert>
 
-
-
-
+	
+	
+	
+	
+	
+	
+	
+	
+  	
   	
   </mapper>

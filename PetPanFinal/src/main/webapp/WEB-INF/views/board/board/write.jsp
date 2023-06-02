@@ -107,7 +107,11 @@ $(function(){
 			alert("required c")
 			return
 		}
-		$("form").submit();
+		var confirmV;
+		confirmV = confirm("게시글을 작성하시겠습니까?");
+		if(confirmV){
+			$("form").submit();
+		}
 	})
 	
 	// 파일 삭제, -1로 value 변경
@@ -183,9 +187,6 @@ function updateContents(){
 			<button type = "button" id ="fileBtn" >첨부파일</button>
 			<!-- <div id = "input-files"></div> -->
 			<table id = "input-files"></table>
-			
-<!-- 			<input type = "hidden" name = "userNo" value = "${userno}"> -->
-			<input type = "hidden" name = "userNo" value = "1">
 			
 <!-- 			<button type = "submit"  id = "btnWrite" onclick = "updateContents()">작성</button> -->
 			<button type = "button"  id = "btnWrite" >작성</button>

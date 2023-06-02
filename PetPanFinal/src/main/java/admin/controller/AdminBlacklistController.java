@@ -83,11 +83,13 @@ public class AdminBlacklistController {
 	
 	
 	@PostMapping("/blacklist/insert")
-	public void blacklistdeleteproc(Blacklist blacklist) {
+	public String blacklistdeleteproc(Blacklist blacklist) {
 		
 		
 		logger.info("blacklist = {}", blacklist);
 		adminService.insertblacklist(blacklist);
+		
+		return "redirect:./list";
 
 	}
 	

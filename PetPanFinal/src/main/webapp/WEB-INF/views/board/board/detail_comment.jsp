@@ -18,47 +18,82 @@ $(function(){
 	 					<tr>
 	 						<td class = "left-side name-space">${i.USERNAME}
 	 							<span class = "date">(<fmt:formatDate value="${i.WRITEDATE }" pattern = "yyyy.MM.dd"/>)</span>
-	 							<span onclick="commentShow(${i.COMMENTNO})" class = "comment3">답글달기</span>
+	 							<c:if test="${not empty userno }">
+	 								<span onclick="commentShow(${i.COMMENTNO})" class = "comment3">답글달기</span>
+	 							</c:if>
 	 						</td>
 	 						
-	 						<c:if test="${i.USERNO == session.userno }">
-	 						<td class = "right-side" data-commentNo = "${i.COMMENTNO }">
-	 								<span class = "delete-comment">삭제</span></td>
+	 						<c:if test="${i.USERNO == userno }">
+	 						<td class = "right-side" >
+	 								<span class = "delete-comment" onclick = "deleteComment(${i.COMMENTNO })">삭제</span></td>
 	 						</c:if>
+	 						<!-- 신고 -->
+	 						<c:if test="${i.USERNO != userno }">
+	 						<td class = "right-side" >
+	 							<span class = "report-comment" onclick = "reportComment(${i.COMMENTNO })">신고하기</span>
+	 						</td>
+	 						</c:if>
+	 						<!-- 신고 -->
 	 					</tr>
 	 				</table>
 	 			</div>
-	 			<div class = "main-comment">
+	 			<div class = "main-comment" data-commentNo = "${i.COMMENTNO }">
 	 			<br>
 	 				${i.CONTENT }
-	 			<br>
-	 			<br>
 	 			</div>
 	 		</div>
 	 </div>
-	 
+	 <div class = "writeBox"></div>
 	 </c:if>
 	 <c:if test="${i.DEPTH == 2 }">
 	 
 	<div class = "comment2-area" data-commentNo = "${i.COMMENTNO }">
 	<hr>
+	<c:if test="${i.USERNO == userno }">
+	<div class = "right-side" >
+	 	<span class = "delete-comment" onclick = "deleteComment(${i.COMMENTNO })">삭제</span>
+	</div>
+	</c:if>
+	<!-- 신고 -->
+	 <c:if test="${i.USERNO != userno }">
+	 <div class = "right-side" >
+	 	<span class = "report-comment" onclick = "reportComment(${i.COMMENTNO })">신고하기</span>
+	 </div>
+	 </c:if>
+	 <!-- 신고 -->
 		↳ ${i.USERNAME} <span class = "date">(<fmt:formatDate value="${i.WRITEDATE }" pattern = "yyyy.MM.dd"/>)</span>
-						<span class  = "comment3" onclick="commentShow(${i.COMMENTNO})"> 답글달기</span>
-			<div class = "main-comment">
+						<c:if test="${not empty userno }">
+							<span class  = "comment3" onclick="commentShow(${i.COMMENTNO})"> 답글달기</span>
+						</c:if>
+						
+			<div class = "main-comment" data-commentNo = "${i.COMMENTNO }">
 			<br>
 				${i.CONTENT }
 			</div>
 	</div>
-	 
+	 <div class = "writeBox"></div>
 	 </c:if>
 	 <c:if test="${i.DEPTH == 3 }">
 	 <div class = "comment3-area" data-commentNo = "${i.COMMENTNO }">
 	 <hr>
+	 <c:if test="${i.USERNO == userno }">
+	 <div class = "right-side" >
+	 	<span class = "delete-comment" onclick = "deleteComment(${i.COMMENTNO })">삭제</span>
+	 </div>
+	 </c:if>
+	 <!-- 신고 -->
+	 <c:if test="${i.USERNO != userno }">
+	 <div class = "right-side" >
+	 	<span class = "report-comment" onclick = "reportComment(${i.COMMENTNO })">신고하기</span>
+	 </div>
+	 </c:if>
+	 <!-- 신고 -->
 	 	↳ ${i.USERNAME} <span class = "date">(<fmt:formatDate value="${i.WRITEDATE }" pattern = "yyyy.MM.dd"/>)</span> 
-	 		<div class = "main-comment">
+	 		<div class = "main-comment" data-commentNo = "${i.COMMENTNO }">
 	 		<br>
 	 			${i.CONTENT }
 	 		</div>
 	 </div>
+	 
 	 </c:if>
 	 </c:forEach>

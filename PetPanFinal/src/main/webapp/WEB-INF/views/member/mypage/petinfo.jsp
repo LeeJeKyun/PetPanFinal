@@ -64,7 +64,7 @@ input{
 
 <br>
 
-<h2 style="color: #FF5050; text-align: center;">정보수정</h2>
+<h2 style="color: #FF5050; text-align: center;">동물 정보</h2>
 
 	
 <form action="./petinfo" method="post" enctype="multipart/form-data">

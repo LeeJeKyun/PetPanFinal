@@ -7,23 +7,50 @@
 <c:import url="../../layout/header_plain.jsp" />
 <script type="text/javascript">
 
-function login(){
+$(function(){
+	   
+	   //유효성 검사 -- 버튼 눌렀을때 push 알람 띄우기
+	   $("form").submit(function(){
+	      
+	      //validate가 틀렸을경우 리턴값 false
+	      //validate - 아이디,비밀번호 : 정규화 
+	      if(validate()){
+	         console.log("click") 
+	         return false
+	      }
+	      return true
+	   })
+	   
+	   
+	   //아이디 입력란 클릭시 밑에 메시지 없애기
+	   $("#userId").focus(function(){
+	      $("#userId_msg").html("")   
+	   })
+	   //비밀번호 입력란 클릭시 밑에 메시지 없애기
+	   $("#userPw").focus(function(){
+	      $("#userPw_msg").html("")   
+	   })
+	})
 
-   if($("#login_form").$("#userId").value()==""){
-      $("#userid_msg").html("아이디를 입력하세요!")
-      $("#userid").focus()
-//       return
-   }else if($("#login_form").$("#userPw").value()==""){
-      $("#userpw_msg").html("비밀번호를 입력하세요!")
-      $("#userpw").focus()
-//       return
-   }
-   $("#login_form").submit()
-//    return true
-}
+	//아이디,비밀번호 정규화가 틀렸을 경우 버튼푸시 실패
+	function validate(){
+
+	   //가입하기버튼 눌렀을 때 아이디 유효성검사
+	   if($('#userId').val()==''){
+	      $('#userId_msg').html("아이디를 입력해주세요")
+	      return true;
+	   }
+	   
+	   //가입하기버튼 눌렀을 때 비밀번호 유효성검사
+	   if($('#userPw').val()==''){
+	      $('#userPw_msg').html("비밀번호를 입력해주세요")
+	      return true;
+	   }
+	   return false;
+	}
+
 
 // 아이디 저장하기 (쿠키)
-
 $(document).ready(function(){
 	  
     var key = getCookie("key");
@@ -149,7 +176,6 @@ input:focus {
    <h3 style="text-align:center; font-size:30px; color:#FF5060;">로그인 화면</h3><br>
    
    
-   
    <div class="select">
 <%--    <c:if test="${not empty cookie.user_check}"> --%>
 <%--    		<c:set value="checked" var="checked"/> --%>
@@ -157,13 +183,13 @@ input:focus {
    	
       <label for="userId" ></label>
       <input type="text" class="boxcolor" id="userId" name="userId" placeholder="아이디">
-      <span id="userid_msg" class="msg" style="color:red"></span>
+      <span id="userId_msg" class="msg" style="color:red"></span>
    </div>
       
    <div class="select">
       <label for="userPw" ></label>
       <input type="password" class="boxcolor" id="userPw" name="userPw" placeholder="비밀번호">
-      <span id="userpw_msg" class="msg" style="color:red"></span>
+      <span id="userPw_msg" class="msg" style="color:red"></span>
    
    </div>
    <div class="select">
@@ -172,11 +198,11 @@ input:focus {
    </div>
     
    <div class="select">
-      <button id="btn" onclick="login()">로그인</button>
+      <button id="btn" >로그인</button>
    </div>
    
    <div class="naver">
-   <c:import url="../login/naverLogin.jsp" />
+   <c:import url="./naverLogin.jsp" />
    </div>
       
    <div class="kakao">

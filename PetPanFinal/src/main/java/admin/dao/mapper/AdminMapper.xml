@@ -197,13 +197,13 @@
 		<selectKey keyProperty="noticeno" order="BEFORE" resultType="int"> 
 		select seq_notice.nextval from dual
 		</selectKey>
-		insert into notice(noticeno,noticetitle,noticecontent,noticewritedate,userno)
-		Values #{noticeno},#{noticetitle},#{noticecontent},#{noticewritedate},#{userno})
+		insert into notice(noticeno,noticetitle,noticecontent,noticewritedate,userno,boardtypeno)
+		Values (#{noticeno},#{noticetitle},#{noticecontent},CURRENT_DATE,#{userno},#{boardtypeno})
 	</insert>
 	
-	<insert id="insertNoticeFile" parameterType="board.dto.Notice">
+	<insert id="insertNoticeFile" parameterType="board.dto.NoticeFile">
 		insert into noticeFile(fileno  ,noticeno  , originname , storedname ,filesize )	
-		Values (seq_noticeFile.nextval  ,#{noticeno}  , #{originname} , #{storedname} ,#{filesize} )
+		Values (seq_noticeFile.nextval  ,#{noticeno}  , #{originName} , #{storedName} ,#{fileSize} )
 	</insert>
 	
 	<update id="updateBoardtypelist" parameterType="java.util.List">

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import member.dto.Hospital;
 import member.dto.Member;
 import member.dto.Pet;
 import member.dto.PetFile;
@@ -52,7 +53,7 @@ public class MyPageController {
 		model.addAttribute("petInfo", petInfo);
 		logger.info("petInfo : {}", petInfo);
 		
-		
+		// 펫이 여러마리
 		for (Pet p : petInfo) {
 			petFile.setPetNo(p.getPetNo());
 			
@@ -73,6 +74,7 @@ public class MyPageController {
 			, Member member
 			, Model model
 			) {
+		// 유저 정보 조회
 		member.setUserNo((int)session.getAttribute("userno"));
 		
 		Member detail = memberService.userDetail(member);
@@ -93,6 +95,7 @@ public class MyPageController {
 		
 		logger.info("member profile : {}", member);
 
+		// 회원 정보 수정
 		memberService.getKakaoApiFromAddress( jibunAddress);
 		
 		HashMap<String, String> XYMap = memberService.getXYMapfromJson( memberService.getKakaoApiFromAddress( jibunAddress) );
@@ -168,6 +171,25 @@ public class MyPageController {
 	@GetMapping("/mypage/hospital")
 	public void hospital() {
 	}
+	
+	@PostMapping("/mypage/hospital")
+	public String hospitalPost(
+			Hospital hospital 
+			, HttpSession session
+			, Member member
+			) {
+		logger.info("hospital: {}", hospital);
+		
+		hospital.setUserNo((int)session.getAttribute("userno"));
+		
+		logger.info("hospital: {}", hospital);
+
+		memberService.insertHospital( hospital );
+		
+		
+		return "redirect:./mypage";
+	}
+	
 	
 	
 	

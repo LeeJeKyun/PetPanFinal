@@ -5,9 +5,14 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.security.SecureRandom;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,14 +21,16 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import member.controller.MemberController;
 import member.dao.face.KakaoDao;
-import member.service.face.KakaoService;
+import member.dto.Member;
+import member.service.face.socialService;
 
 @Service
-public class KakaoServiceImpl implements KakaoService{
+public class socialServiceImpl implements socialService{
 	
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
@@ -198,5 +205,191 @@ public class KakaoServiceImpl implements KakaoService{
 		    }   
 	}
 	   
+	   
+//	   -------------------네이버
+	   
+		@Override
+		public JsonObject getTokenNaver(String apiURL) {
+
+			try {
+				URL url = new URL(apiURL);
+				
+				HttpURLConnection con = (HttpURLConnection)url.openConnection();
+				
+				con.setRequestMethod("GET");
+				
+				int responseCode = con.getResponseCode();
+				
+				BufferedReader br;
+				
+				if (responseCode == 200) { // 정상 호출
+					br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+				} else {  // 에러 발생
+					br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+				}
+
+				String inputLine;
+				String res = "";;
+
+				while ((inputLine = br.readLine()) != null) {
+					res += inputLine;
+				}
+
+				br.close();
+
+				if (responseCode == 200) {
+					logger.debug("res : {}", res.toString());
+
+					Gson gson = new Gson();
+
+					JsonObject jsonObj = gson.fromJson(res, JsonObject.class);
+					logger.debug("jsonObj : {}", jsonObj);
+
+					return jsonObj;
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			return null;
+		}
+	   
+	   
+	   @Override
+	public String getState(String code) {
+				
+		// 네이버 로그인
+		// CSRF 방지를 위한 상태 토큰 생성 코드
+		SecureRandom random = new SecureRandom();
+		return new BigInteger(130, random).toString(32);
+		
+    }
+		
+		
+	@Override
+	public Map<String, Object> getStateApiUrl() {
+
+			Map<String, Object> map = new HashMap<>();
+			
+			String callbackURL = "http://localhost:8888/member/login/navercallback";
+		    String clientId = "2pZURGxHKiPmm6VSaqll";//애플리케이션 클라이언트 아이디값";
+		    
+		    String redirectURI = null;
+			try {
+				redirectURI = URLEncoder.encode(callbackURL, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		    
+			SecureRandom random = new SecureRandom();
+		    String state = new BigInteger(130, random).toString(32);
+		    String apiURL = "";
+		    apiURL += "https://nid.naver.com/oauth2.0/authorize?response_type=code";
+	        apiURL += "&client_id=" + clientId;
+	        apiURL += "&redirect_uri=" + redirectURI;
+	        apiURL += "&state=" + state;
+			
+	        map.put("state", state);
+	        map.put("apiURL", apiURL);
+			
+	        logger.debug("{}", map.put("apiURL", apiURL));
+	        
+			return map;
+		}
+		
+	   @Override
+	public HashMap<String, Object> getNaverInfo(JsonObject token) {
+		   
+			
+//		    요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
+		   HashMap<String, Object> naverInfo = new HashMap<>();
+
+			  String host = "https://openapi.naver.com/v1/nid/me";
+			  Member naver = new Member();
+	          
+	          try {
+	        	  
+	              URL url = new URL(host);
+
+	              HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+	              
+	              urlConnection.setRequestProperty("Authorization", "Bearer " + token.get("access_token"));
+	              urlConnection.setRequestMethod("GET");
+
+	              int responseCode = urlConnection.getResponseCode();
+	              logger.debug("responseCode : {} ", responseCode);
+
+	              BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+	              logger.debug("br? {} :", br);
+	              
+	              String line = "";
+	              String res = "";
+	              
+	              while((line=br.readLine())!=null) {
+	                  res+=line;
+	              }
+
+	              logger.debug("res : {}", res);
+
+	              Gson gson = new Gson();
+	              
+	              JsonObject jsonObject = gson.fromJson(res, JsonObject.class);
+	              logger.debug("jsonObject : {}", jsonObject);
+	              
+	              JsonObject response = jsonObject.getAsJsonObject("response");
+	              logger.debug("response : {}", response);
+
+	              String email = response.get("email").getAsString().trim();
+	              String id = response.get("id").getAsString().trim();
+	              String name = response.get("name").getAsString().trim();
+			        
+	              naverInfo.put("id", id);
+	              br.close();
+
+	          } catch (IOException e) {
+	              e.printStackTrace();
+	          }
+	          
+	          logger.debug("naverInfo : {}", naverInfo);
+
+	          return naverInfo;
+			
+		}
+
+	@Override
+	public String getApiURL(String code, String state) {
+		String callbackURL = "http://localhost:8888/member/login/navercallback";
+		String clientId = "2pZURGxHKiPmm6VSaqll";	//애플리케이션 클라이언트 아이디값";
+		String clientSecret = "_EBtrHfzWM";		//애플리케이션 클라이언트 시크릿값";
+		String redirectURI = null;
+
+		try {
+			redirectURI = URLEncoder.encode(callbackURL, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		String apiURL = "";
+		apiURL += "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code";
+		apiURL += "&client_id=" + clientId;
+		apiURL += "&client_secret=" + clientSecret;
+		apiURL += "&redirect_uri=" + redirectURI;
+		apiURL += "&code=" + code;
+		apiURL += "&state=" + state;
+		
+		return apiURL;
+	}
+
+
+
+
+
+
+
+
+	   
+	
+	
 	   
 }

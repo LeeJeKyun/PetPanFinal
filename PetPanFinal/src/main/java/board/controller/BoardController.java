@@ -25,6 +25,7 @@ import board.dto.BoardRecommend;
 import board.dto.Comment;
 import board.dto.Notice;
 import board.dto.ReportBoard;
+import board.dto.ReportComment;
 import board.service.face.BoardService;
 import util.Paging;
 
@@ -43,7 +44,7 @@ public class BoardController {
 		if(null != session.getAttribute("userno")) {
 			return "/board/board/write";
 		}else {
-			return "redirect:/main";      
+			return "redirect:/";      
 		}
 	}
 	
@@ -52,10 +53,13 @@ public class BoardController {
 			@RequestParam(value = "file", required = false)List<MultipartFile> fileList //올릴 파일 리스트
 			, Board board
 			, @RequestParam(required = false) List<Integer> no // 취소된 파일 -1 
+			,	HttpSession session
 			) {
 		
 		if(board.getContent() == null || board.getBoardTitle() == null)
 			return "redirect:/board/board";
+		
+		board.setUserNo((int)session.getAttribute("userno"));
 		
 		logger.info("write post");
 		
@@ -76,16 +80,12 @@ public class BoardController {
 			, HttpSession session) {
 		Paging paging = new Paging();
 		
-		//테스트 session  userNo
-		//session.setAttribute("userNo", 1);
-		session.getAttribute("userno");
+		
 		paging.setSearch(search);
 		
-//		paging = boardService.getPaging(curPage, category);
 		paging = boardService.getPaging(curPage, category, search);
 
 		//일반 게시판 자유 or 중고거래 게시글 가져오기
-//		List<Map<String, Object>> list =  boardService.getBoard(paging, category, search);
 		List<Map<String, Object>> list =  boardService.getBoard(paging, category);
 		 
 		//공지사항 3개 가져오기
@@ -94,7 +94,7 @@ public class BoardController {
 		model.addAttribute("listNotice", listNotice);
 		model.addAttribute("list", list);
 		model.addAttribute("paging", paging);
-		
+		model.addAttribute("category", category);
 	}
 	
 	@GetMapping("/board/detail")
@@ -123,23 +123,23 @@ public class BoardController {
 		model.addAttribute("map", map);
 		logger.info("map {}", map);
 	}
-	// 게시글 신고 구현중
 	@PostMapping("/board/reportPopup")
-	public void reportBoard( HttpSession session, ReportBoard reportBoard, String writeDetail) {
+	public void reportBoard(Model model, HttpSession session, ReportBoard reportBoard, String writeDetail) {
 		int userNo = (int) session.getAttribute("userno");
 		
 		reportBoard.setUserNo(userNo);
 		
 		logger.info("reportBoard {}", reportBoard);
 		logger.info("writeDetail {}", writeDetail);
-		boardService.boardReport(reportBoard, writeDetail);  
-			
 		
-		//return "redirect:/board/board/detail?boardNo="+ reportBoard.getBoardNo();
+		boardService.boardReport(reportBoard, writeDetail);
+		model.addAttribute("flag", true);
 	}
 	@GetMapping("/board/reportPopup")
-	public void reportPopup(int boardNo, Model model) {
+	public void reportPopup(@RequestParam(defaultValue = "false", required = false) boolean flag, 
+										int boardNo, Model model) {
 		model.addAttribute("boardNo", boardNo);
+		model.addAttribute("flag", flag);
 	}
 	
 	@GetMapping("/board/delete/board")
@@ -168,7 +168,6 @@ public class BoardController {
 		
 		return mv;
 	}
-	//댓글 ajax 구현중
 	@PostMapping("/board/comment")
 	public ModelAndView comment(int boardNo) {
 		
@@ -198,5 +197,35 @@ public class BoardController {
 		
 		return "jsonView";
 	}
+	@GetMapping("/board/comment/delete")
+	public String deleteComment(int commentNo, Model model) {
+		
+		//댓글 삭제
+		boardService.deleteComment(commentNo);
+		
+		model.addAttribute("data", true);
+		return "jsonView";
+	}
 	
+	@GetMapping("/board/reportComment")
+	public void reportCommentPopup(@RequestParam(defaultValue = "false") boolean flag
+						, int commentNo, Model model) {
+		model.addAttribute("commentNo", commentNo);
+		model.addAttribute("flag", flag);
+	}
+	
+	
+	@PostMapping("/board/reportComment")
+	public void reportComment(ReportComment rc, HttpSession session,
+								@RequestParam(required = false) String writeDetail
+								,Model model) {
+		rc.setUserNo((int)session.getAttribute("userno"));
+		
+		logger.info(" rc 댓글 신고 {}",rc);
+		logger.info("기타 사유 {}", writeDetail);
+		boardService.reportComment(rc, writeDetail);
+		
+		model.addAttribute("data", true);
+		model.addAttribute("flag", true);
+	}
 }

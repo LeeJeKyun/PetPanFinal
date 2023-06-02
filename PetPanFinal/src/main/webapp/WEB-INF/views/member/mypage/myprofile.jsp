@@ -19,9 +19,16 @@
 	text-decoration: none; 
 }
 
+input{ 
+   border:none;
+   
+   border-bottom: 2px solid #FFDAD7;
+/*    border-radius: 5px; */
+ }
+
 
 #text {
-	text-align: center;
+/* 	text-align: center; */
 	width: 600px;
 	margin: 0 auto;
 }
@@ -32,6 +39,9 @@ input class="form-control"{
    border-bottom: 2px solid #FFDAD7;
  }
 
+.post {
+	margin: 0px 85px;
+}
 .select{
     width: 420px;
     margin: 15px auto;
@@ -60,6 +70,27 @@ input class="form-control"{
 
 .id {
 	color: #b7415f;
+	margin: 0px 55px;
+}
+
+.form-control {
+	margin: 0px 70px;
+}
+
+.form-con {
+	margin: 0px 55px;
+}
+
+.control {
+	margin: 0px 120px;
+}
+
+/* .form { */
+/* 	margin: 0px; */
+/* } */
+
+input:focus {
+	outline: 1px solid #FF5050;
 }
 
 </style>
@@ -115,12 +146,6 @@ $(function() {
 
 
 
-
-
-
-
-
-
 <div class="text">
 
 <br>
@@ -136,13 +161,13 @@ $(function() {
 
    <div class="select">
       <label for="userPw">비밀번호</label>
-      <input class="form-control" type="password" id="userPw" name="userPw" placeholder="알파벳 대소문자, 숫자, 특수기호 조합으로 6자 이상, 16자 이하로 작성">
+      <input class="form-con" type="password" id="userPw" name="userPw" placeholder="알파벳 대소문자, 숫자, 특수기호 조합으로 6자 이상, 16자 이하로 작성">
       <span id="userPw_msg" class="msg"></span>
    </div>
    
    <div class="select">
       <label for="userPw_check">비밀번호 재확인</label>
-      <input class="form-control" type="password" id="userPw_check" name="userPw_check" >
+      <input class="form" type="password" id="userPw_check" name="userPw_check" >
       <span id="userPwcheck_error" class="msg"></span>
    </div>
    
@@ -160,16 +185,16 @@ $(function() {
    
 
    <div class="select">
-      <label for="address">주소</label>   <button id="btnPostcode" type="button">우편번호 찾기</button>
-      <input class="form-control" type="text" id="zipCode" name="zipCode" value="${detail.zipCode}" required>	
-      <input class="form-control" type="text"  id="address" name="address" value="${detail.address}" required>	
-      <input class="form-control" type="text" id="detailaddress" name="detailaddress" value="${detail.detailaddress}" required >	
+      <label for="address">주소</label>   <button id="btnPostcode" type="button" class="post">우편번호 찾기</button>
+      <input class="control" type="text" id="zipCode" name="zipCode" value="${detail.zipCode}" required>	
+      <input class="control" type="text"  id="address" name="address" value="${detail.address}" required>	
+      <input class="control" type="text" id="detailaddress" name="detailaddress" value="${detail.detailaddress}" required >	
       <span id="address_msg" class="msg"></span>
    </div>
    
    <div class="select">
       <label for="phone">휴대전화</label>
-      <input class="form-control" type="text"  id="phone" name="phone" pattern="[0-9]+" value="${detail.phone}" required>
+      <input class="form-con" type="text"  id="phone" name="phone" pattern="[0-9]+" value="${detail.phone}" required>
       <span id="phone_msg" class="msg"></span>
    </div>
 

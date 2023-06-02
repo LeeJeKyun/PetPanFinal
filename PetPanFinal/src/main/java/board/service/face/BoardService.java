@@ -9,8 +9,12 @@ import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
 import board.dto.Comment;
+import board.dto.Hospital;
+import board.dto.HospitalFile;
 import board.dto.Notice;
 import board.dto.ReportBoard;
+import board.dto.ReportComment;
+import member.dto.Member;
 import util.Paging;
 
 public interface BoardService {
@@ -120,8 +124,21 @@ public interface BoardService {
 	 * @return
 	 */
 	public List<Map<String, Object>> getNoticeListToCare();
+	
+	/**
+	 * 게시글을 지우는 메소드
+	 * 
+	 * @param board
+	 */
+	public void deleteBoardByBoardObj(Board board);
 
-
+	/**
+	 * 게시글을 올린 사람의 위,경도를 가져오는 메소드
+	 * 
+	 * @param map
+	 * @return
+	 */
+	public Member getMemberByBoard(Map<String, Object> map);
 	
 	//---------------------------제균------------------------------------
 
@@ -137,7 +154,6 @@ public interface BoardService {
 	 * @return 반환된 게시글
 	 */
 	public List<Map<String ,Object>> getBoard(Paging paging, int category);
-//	public List<Map<String ,Object>> getBoard(Paging paging, int category, String search);
 
 	/**
 	 * 카테고리 타입에 맞는 공지사항 게시글 3개 가져오기
@@ -253,6 +269,33 @@ public interface BoardService {
 	 * @return userName
 	 */
 	public String getUsername(int userNo);
+
+	/**
+	 * 댓글 삭제
+	 * @param commentNo 삭제할 댓글 번호
+	 */
+	public void deleteComment(int commentNo);
+
+	/**
+	 * 댓글 신고
+	 * @param 신고할 정보 객체
+	 */
+	public void reportComment(ReportComment rc, String writeDetail);
+
+	/**
+	 * 병원 등록 
+	 * @param fileList 병원등록 사진
+	 * @param no 사진파일들 취소 여부
+	 * @param hospital 등록할 병원 정보 객체
+	 */
+	public void enrollHospital(List<MultipartFile> fileList, List<Integer> no, Hospital hospital);
+
+	/**
+	 * userNo으로 user 정보 조회
+	 * @param userNo 조회할 userNo
+	 * @return userNo의 user 정보
+	 */
+	public Member getUserInfo(int userNo);
 
 	
 

@@ -146,6 +146,16 @@
 		WHERE commentno = #{refcommentno}
 	</select>
 	
+	<update id="deleteByUpdateBoardType" parameterType="board.dto.Board">
+		UPDATE board SET boardtypeno = 5
+		WHERE boardno = #{boardNo}
+	</update>
+	
+	<select id="getMemberByBoardMap" parameterType="hashmap" resultType="member.dto.Member">
+		SELECT userno, username, address, detailaddress, zipcode, latitude, longitude FROM member
+		WHERE userno = #{USERNO}
+	</select>
+	
 	<!-- ===============================제균=============================== -->
 	
 	
@@ -154,14 +164,14 @@
 		FROM board
 		WHERE boardtypeno = 2
 					 AND content LIKE '%'||#{search}||'%' 
-					 OR boardtitle LIKE '%'||#{search}||'%' 
+					 OR boardtypeno = 2 AND boardtitle LIKE '%'||#{search}||'%' 
 	</select>
 	<select id = "selectMarketBoardCnt"  parameterType="string" resultType = "int">
 		SELECT count(*)
 		FROM board
 		WHERE boardtypeno = 3 
 					AND content LIKE '%'||#{search}||'%'
-					OR boardtitle LIKE '%'||#{search}||'%'
+					OR boardtypeno = 3 AND boardtitle LIKE '%'||#{search}||'%'
 	</select>
 	
 	<select id = "selectMarketList" parameterType="util.Paging" resultType = "map">
@@ -180,7 +190,8 @@
                         , member.userno, boardtypeno
 				FROM board, member
 				
-				WHERE board.userno = member.userno AND boardtypeno = 3 AND content like '%'||#{search}||'%'
+				WHERE board.userno = member.userno AND boardtypeno = 3 AND content like '%'||#{search}||'%' OR
+						board.userno = member.userno AND boardtypeno = 3 AND boardtitle like '%'||#{search}||'%'
 				ORDER BY boardno desc
 			)B
 		)
@@ -202,7 +213,8 @@
                         , member.userno, boardtypeno
 				FROM board, member
 				
-				WHERE board.userno = member.userno AND boardtypeno = 2 AND content like '%'||#{search}||'%'
+				WHERE board.userno = member.userno AND boardtypeno = 2 AND content like '%'||#{search}||'%' OR
+						board.userno = member.userno AND boardtypeno = 2 AND boardtitle like '%'||#{search}||'%'
 				ORDER BY boardno desc
 			)B
 		)
@@ -312,7 +324,7 @@
     			)
     		order by cnt desc, sortno
 		)    
-		where cnt between #{min} and #{max}
+<!-- 		where cnt between #{min} and #{max} -->
 	</select>
 	<select id="selectMaxCommentNo" resultType="int">
 		select seq_commenttable.nextval
@@ -340,9 +352,9 @@
 	<update id="updatePlueSortNo" parameterType="map">
 		update commenttable 
 		set sortno = sortNo + 1 
-		where organization = #{organization} and sortno > #{sortNo}  
+		where organization = #{ORGANIZATION} and sortno > #{SORTNO}  
 	</update>
-	<select id="selectMaxCommentCnt" resultType="int" parameterType="int">
+	<select id="selectMaxCommentCnt" resultType="Integer" parameterType="int">
 		select max(cnt)
 		from(
 		select * from(
@@ -356,5 +368,28 @@
 		    )
 		    order by cnt desc, sortno
 		)
+	</select>
+	<update id="updateComment" parameterType="int">
+		update commenttable
+		set content = '작성자가 삭제한 댓글입니다.'
+		where commentNo = #{commentNo}
+	</update>
+	<insert id="insertCommentNo" parameterType="board.dto.ReportComment">
+		insert into reportcomment(coreportno, reportdetail, report_Date, complete, userNo, commentNo)
+		values (seq_reportcomment.nextval, #{reportDetail}, sysdate, 'N', #{userNo}, #{commentNo})
+	</insert>
+	<select id="selectHospitalInfo" parameterType="int" resultType="int">
+		select hospitalNo 
+		from hospital
+		where userNo = #{userNo}
+	</select>
+	<insert id="insertHospitalFile" parameterType="map" >
+		insert into hospitalFile(fileNo, originName, storedName, fileSize, hospitalNo)
+		values(seq_hospitalFile.nextval, #{originName}, #{storedName}, #{fileSize}, #{hospitalNo})
+	</insert>
+	<select id="selectUserInfo" parameterType="int" resultType="member.dto.Member">
+		select userName, zipCode, latitude, longitude, positionNo
+		from member
+		where userNo = #{userNo}
 	</select>
 </mapper>

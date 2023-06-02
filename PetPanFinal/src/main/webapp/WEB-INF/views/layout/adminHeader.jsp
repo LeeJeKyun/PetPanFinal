@@ -89,11 +89,16 @@
            document.getElementById('black').className = 'menu-item';
         }
         
-        if (currentUrl.includes("/user/")){
-           document.getElementById('user').className = 'menu-item active';
+        if (currentUrl.includes("/member/")){
+           document.getElementById('member').className = 'menu-item active';
         }else{
-           document.getElementById('user').className = 'menu-item';
+           document.getElementById('member').className = 'menu-item';
         }
+        if (currentUrl.includes("/notice/")){
+            document.getElementById('notice').className = 'menu-item active';
+         }else{
+            document.getElementById('notice').className = 'menu-item';
+         }
         if (currentUrl.includes("/reportboard/")){
            document.getElementById('reportboard').className = 'menu-item active';
         }else{
@@ -171,7 +176,7 @@
 
 </head>
 <body>
-<div id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" style = "float: left; position: fixed; top:0; left:0;  display: flex;">
+<div id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" style = "float: left; position: fixed; top:0; left:0;  display: flex; height: 1080px;">
           <div class="app-brand demo">
             <a href="<%=request.getContextPath() %>/admin" class="app-brand-link">
               <span class="app-brand-logo demo">
@@ -252,8 +257,12 @@
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">User</span>
             </li>
+<<<<<<< HEAD
+            <li class="menu-item" id="member">
+=======
             <li class="menu-item" id="user">
-              <a href="<%=request.getContextPath() %>/member/list" class="menu-link menu-toggle">
+>>>>>>> refs/remotes/origin/master
+              <a href="<%=request.getContextPath() %>/admin/member/list" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-id-card"></i>
                 <div data-i18n="Account Settings">User Manage</div>
               </a>
@@ -274,7 +283,7 @@
               <span class="menu-header-text">Notice</span>
             </li>
             <li class="menu-item" id="notice">
-              <a href="<%=request.getContextPath() %>/notice/list" class="menu-link menu-toggle">
+              <a href="<%=request.getContextPath() %>/admin/notice/list" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-volume-full"></i>
                 <div data-i18n="Account Settings">Notice Manage</div>
               </a>
