@@ -9,6 +9,7 @@ import board.dto.BoardRecommend;
 import board.dto.Comment;
 import board.dto.Notice;
 import board.dto.ReportBoard;
+import member.dto.Member;
 import util.Paging;
 
 public interface BoardDao {
@@ -157,6 +158,20 @@ public interface BoardDao {
 	 */
 	public int selectRefOrgan(int refcommentno);
 
+	/**
+	 * boardtypeno을 5로 바꿈으로써 게시글을 지우는 시늉을 하는 메소드
+	 * 
+	 * @param board
+	 */
+	public int deleteByUpdateBoardType(Board board);
+	
+	/**
+	 * map에 담긴 userno을 통해서 member의 정보를 가져오는 메소드
+	 * 
+	 * @param map
+	 * @return
+	 */
+	public Member getMemberByBoardMap(Map<String, Object> map);
 	
 	//--------------------------제균--------------------------------
 
@@ -382,6 +397,8 @@ public interface BoardDao {
 	 * @param userNo
 	 */
 	public void insertCommentNo(int commentNo, int userNo);
+
+
 
 	
 }

@@ -20,6 +20,7 @@ import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.Comment;
 import board.service.face.BoardService;
+import member.dto.Member;
 import util.Paging;
 
 @Controller
@@ -92,10 +93,14 @@ public class BoardCareController {
 			int boardNo
 			, Model model
 			, HttpSession session
+			
 			) {
 //		logger.info("boardNo {}", boardNo);
 		Map<String, Object> map = boardService.getCareView(boardNo);
 		logger.info("map : {}", map);
+		
+		Member writerMember = boardService.getMemberByBoard(map);
+		logger.info("writerMember: {}", writerMember);
 		
 		List<BoardFile> fileList = boardService.getCareFile(boardNo);
 		logger.info("fileList : {}", fileList);
@@ -103,7 +108,7 @@ public class BoardCareController {
 		int userNo = 0;
 		boolean isRecommended = false;
 		List<Map<String, Object>> commentList = boardService.getCommentList(boardNo);
-
+		
 		for(Map<String,Object> m : commentList) {
 			logger.info("{}", m);
 		}
@@ -118,8 +123,9 @@ public class BoardCareController {
 		
 		model.addAttribute("map", map);
 		model.addAttribute("fileList", fileList);
-		model.addAttribute("isRecommended", isRecommended)	;
+		model.addAttribute("isRecommended", isRecommended);
 		model.addAttribute("commentList", commentList);
+		model.addAttribute("writerMember", writerMember);
 		
 	}
 	
@@ -181,6 +187,17 @@ public class BoardCareController {
 		
 		model.addAttribute("commentList", commentList);
 		
+	}
+	
+	@GetMapping("/delete")
+	public String care_delete(
+			
+			Board board
+			
+			) {
+		logger.info("{}", board);
+		boardService.deleteBoardByBoardObj(board);
+		return "redirect: /board/care/list";
 	}
 	
 }

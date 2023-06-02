@@ -182,10 +182,12 @@ $(function(){
 		
 		for(var i = 0; i < file.length; i++){
 			console.log( file[i].name );
+			//전체 띄운 목록 삭제
 			$(".file-line").eq(i).remove();
+			//파일리스트 div에 추가하기
 			$("#input-files").append("<div class = 'file-line' data-no = "+ i + ">"
 													+ "<input type = 'hidden' data-no = " + i +" name = 'no' value = " + i +">"
-													+ file[i].name 
+													+ file[i].name 	
 													+ "<span class = 'xFile' data-no = " + i + " style = 'cursor: pointer;'> x </span>" 
 													+ "</div>")
 			console.log(i)

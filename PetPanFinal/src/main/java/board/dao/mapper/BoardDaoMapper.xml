@@ -146,6 +146,16 @@
 		WHERE commentno = #{refcommentno}
 	</select>
 	
+	<update id="deleteByUpdateBoardType" parameterType="board.dto.Board">
+		UPDATE board SET boardtypeno = 5
+		WHERE boardno = #{boardNo}
+	</update>
+	
+	<select id="getMemberByBoardMap" parameterType="hashmap" resultType="member.dto.Member">
+		SELECT userno, username, address, detailaddress, zipcode, latitude, longitude FROM member
+		WHERE userno = #{USERNO}
+	</select>
+	
 	<!-- ===============================제균=============================== -->
 	
 	
