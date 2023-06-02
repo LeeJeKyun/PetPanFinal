@@ -17,16 +17,18 @@ input{
     margin: 15px auto;
 }
 
+
  
 .select input[type=text]{
    width: 420px;
    height: 35px;
-
 } 
+
 .select input[type=password]{
    width: 420px;
    height: 35px;
 } 
+
 
 #btn{
    background-color: #FFDAD7;

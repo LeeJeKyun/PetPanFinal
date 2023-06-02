@@ -46,6 +46,12 @@
   		WHERE userNo=#{userNo}
   	</select>
   	
+  	<update id="updateMember" parameterType="member.dto.Member">
+  		UPDATE member
+  		SET userpw=#{userPw}, usernick=#{userNick}, email=#{email}, address=#{address}, zipcode=#{zipCode}, detailaddress=#{detailaddress }, latitude=#{latitude}, longitude=#{longitude}, phone=#{phone}
+  		WHERE userno=#{userNo}
+  	</update>
+  	
   	<select id="selectSuser" resultType="member.dto.Member" parameterType="String">
   		SELECT * FROM member
   		WHERE suserNo = #{suserNo}

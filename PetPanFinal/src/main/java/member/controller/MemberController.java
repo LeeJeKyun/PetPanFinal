@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.JsonObject;
@@ -170,7 +171,7 @@ public class MemberController {
 			
 		}
 		
-	    return "redirect:./login/socialjoin";
+	    return "redirect:./socialjoin";
 
 		
 		
@@ -213,7 +214,6 @@ public class MemberController {
 			boolean black = memberService.selcetBlack(member2);
 			boolean hospital = memberService.selectHospital(member2);
 
-			
 			// 블랙리스트 로그인 실패
 			if( black ) {
 				
@@ -243,10 +243,9 @@ public class MemberController {
 			Member detail = memberService.userDetail(member2);
 			model.addAttribute("info", member);
 
-			return "./main";
 		}
 		
-		return "./main";
+		return "redirect:/";
 	}
 	
 	@GetMapping("/login/logout")
@@ -264,6 +263,16 @@ public class MemberController {
 		logger.info("/login/join");
 		
 	}
+	
+	@GetMapping("/mailCheck")
+	@ResponseBody
+	public String joinm( String email ) {
+		logger.info("/login/joinm");
+		logger.info("이메일 인증 : {}" + email);
+		
+		return memberService.joinEmail(email);
+	}
+	
 	
 	@PostMapping("/login/join")
 	public String joinProc(

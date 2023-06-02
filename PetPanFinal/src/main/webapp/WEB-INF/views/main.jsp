@@ -6,6 +6,7 @@
 
 <c:import url="./layout/header.jsp" />
 
+
 <style type="text/css">
 .main {
 	float: right;
@@ -20,6 +21,7 @@
 	width: 100%;
 	height: 300px;
 	margin: auto;
+	z-index: 2;
 }
 
 #H{
@@ -104,13 +106,11 @@ $(function(){
 <fieldset id="field">
 	<div id="Hdiv">
 	<input type="text" id="search">
-	<img src="<%=request.getContextPath()%>/resources/member/img/검색.png"  width="20px" height="20px" class="img">
+	<a href="<%=request.getContextPath()%>/board/hospital/list"><img src="<%=request.getContextPath()%>/resources/member/img/검색.png"  width="20px" height="20px" class="img"></a>
 	</div>
 </fieldset>
 
 </form>
-
-
 
 
 
@@ -120,15 +120,23 @@ $(function(){
 <!-- userId eq null || email eq null -->
 
 <c:choose>
-<c:when test="${login eq null  }">
+<c:when test="${login eq null || login eq false  }">
 <%-- <h2>세션 상태: ${not empty login}</h2> --%>
 <button onclick="location.href='/member/login/join'">회원가입</button>
 <button onclick="location.href='/member/login/login'">로그인</button>
 </c:when>
 
+
 <c:when test="${login eq true  }">
 <%-- <h2>세션 상태: ${login eq true }</h2> --%>
-<h2>안녕하세요, ${userName}님</h2>
+
+
+<c:forEach items="${petDetail }" var="petDetail" >
+<img alt=".." src="<%=request.getContextPath()%>/petfile/${petDetail.storedName}" width="90px" height="90px" class="img">
+</c:forEach>
+<%-- <img alt=".." src="<%=request.getContextPath()%>/petfile/${petDetail.storedName}" width="90px" height="90px" class="img"> --%>
+<h3>${detail.userName}님</h3>
+
 <button onclick="location.href='/member/mypage/mypage'">마이페이지</button>
 <button onclick="location.href='/member/login/logout'">로그아웃</button>
 </c:when>
@@ -142,11 +150,15 @@ $(function(){
 
 
 
+</div> <!-- main -->
 
 
 
 
-</div>
+
+
+
+
 
 <c:import url="./layout/footer.jsp" />
 

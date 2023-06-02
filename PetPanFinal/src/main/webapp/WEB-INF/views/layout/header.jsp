@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -101,6 +103,7 @@ a {
 	position: absolute;
 	background: #FFDAD7;
 /* 	opacity: 0.9; */
+	z-index: 1;
 
 }
 
@@ -126,15 +129,37 @@ a {
 <div id="header">  <!-- header -->
 
 
+<c:choose>
+<c:when test="${login eq null  }">
+<%-- <h2>세션 상태: ${not empty login}</h2> --%>
 
 
 <div id="member">
 <small><a href="<%=request.getContextPath() %>/member/login/login">로그인</a></small>
-
-
 <small><a href="<%=request.getContextPath() %>/member/login/join">회원가입</a></small>
 
 </div>
+</c:when>
+
+<c:when test="${login eq true  }">
+<%-- <h2>세션 상태: ${login eq true }</h2> --%>
+<div id="member">
+<small><a href="<%=request.getContextPath() %>/member/login/logout">로그아웃</a></small>
+<small><a href="<%=request.getContextPath() %>/member/mypage/mypage">마이페이지</a></small>
+</div>
+
+</c:when>
+
+</c:choose>
+
+
+<!-- <div id="member"> -->
+<%-- <small><a href="<%=request.getContextPath() %>/member/login/login">로그인</a></small> --%>
+
+
+<%-- <small><a href="<%=request.getContextPath() %>/member/login/join">회원가입</a></small> --%>
+
+<!-- </div> -->
 
 
 <h1><a href="/">PET PAN</a></h1>
@@ -175,9 +200,24 @@ a {
 		</li>
 			<li><a href="<%=request.getContextPath() %>/member/mypage/mypage">마이페이지</a>
 			<ul>
+				
+			<li><a href="<%=request.getContextPath() %>/member/mypage/mypage">마이페이지</a></li>
+				<c:choose>
+				
+				<c:when test="${login eq null  }">
 				<li><a href="<%=request.getContextPath() %>/member/login/join">회원가입</a></li>
+				
+				
 				<li><a href="<%=request.getContextPath() %>/member/login/login">로그인</a></li>
+				</c:when>
+				
+				<c:when test="${login eq true  }">
 				<li><a href="<%=request.getContextPath() %>/member/mypage/mypage">정보수정</a></li>
+				<li><a href="<%=request.getContextPath() %>/member/login/logout">로그아웃</a></li>
+			
+				</c:when>
+				</c:choose>
+				
 			</ul>
 		</li>
 	</ul>
