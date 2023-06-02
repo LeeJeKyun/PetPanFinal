@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import admin.dto.Blacklist;
@@ -88,7 +90,7 @@ public interface AdminService {
 
 	public void changeShop(Shop shop, Integer objectno);
 
-	public void writeNotice(List<MultipartFile> fileList, Notice notice);
+	public void writeNotice(List<MultipartFile> fileList, Notice notice, List<Integer> no, HttpSession session);
 
 	public void stopShop(Integer objectno);
 

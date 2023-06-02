@@ -3,6 +3,7 @@ package admin.dao.face;
 import java.util.HashMap;
 import java.util.List;
 
+import board.dto.NoticeFile;
 import shop.dto.OrderThing;
 import shop.dto.Shop;
 import shop.dto.ShopFile;
@@ -45,6 +46,7 @@ public interface AdminShopDao {
 	public void updateShopDeleteObj(List<HashMap> deleteNoMaplist);
 
 	public void updateOrderUserComplete(List<HashMap> deleteNoMaplist);
+
 
 
 }

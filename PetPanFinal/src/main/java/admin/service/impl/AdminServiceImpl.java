@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -609,25 +610,24 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	@Override
-	public void writeNotice(List<MultipartFile> fileList, Notice notice) {
+	public void writeNotice(List<MultipartFile> fileList, Notice notice, List<Integer> no, HttpSession session) {
 		
-		
+		notice.setUserno(96);
+//		notice.setUserno((int)session.getAttribute("userno"));
+		logger.info("공지 : {}", notice);
 		adminDao.insertNotice(notice);
 		
-		
-		for (MultipartFile M : fileList) {
-			if( M.getSize() <= 0 ) {
-				logger.info("파일의 크기가 0이다, 처리 중단!");
-				
-				//filesave()메소드 중단
-				continue;
-			}
+		if(fileList == null) return; 
+		for(int i = 0; i < fileList.size(); i++) {
+			if( no!=null && no.get(i) == -1) continue;  // -1 이면 올리지 않는 취소한 파일
 			
-			//파일이 저장될 경로 - RealPath
+			if(fileList.get(i).getSize() <= 0)  continue;  // 파일의 크기가 0이면  
+			
+			// 파일이 저장될 경로
 			String storedPath = context.getRealPath("upload");
-			logger.info("storedPath : {}", storedPath);
+			logger.info(" storedPath : {}", storedPath);
 			
-			//upload폴더가 존재하지 않으면 생성한다
+			// upload폴더가 없으면 생성
 			File storedFolder = new File(storedPath);
 			storedFolder.mkdir();
 			
@@ -635,46 +635,47 @@ public class AdminServiceImpl implements AdminService{
 			String storedName = null;
 			
 			do {
-				//저장할 파일 이름 생성하기
-				storedName = M.getOriginalFilename(); //원본 파일명
-				storedName += UUID.randomUUID().toString().split("-")[0]; //UUID추가
+				//저장할 파일 이름 생성
+				storedName = fileList.get(i).getOriginalFilename(); //원본 파일명
+				
+				storedName += UUID.randomUUID().toString().split("-")[0]; //
 				logger.info("storedName : {}", storedName);
-				
-				
+
 				//실제 저장될 파일 객체
 				dest = new File(storedFolder, storedName);
-			
-			} while( dest.exists() );
-			
+				
+			}while(dest.exists());
 			
 			try {
-				
-				//업로드된 파일을 upload폴더에 저장하기
-				M.transferTo(dest);
-				
+				// 업로드된 파일을 upload 폴더에 저장
+				fileList.get(i).transferTo(dest);
 			} catch (IllegalStateException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
-			NoticeFile noticeFile = new NoticeFile();
+			//DB에 저장할 객체
+			NoticeFile noticeFile  = new NoticeFile();
 			
 			noticeFile.setNoticeno(notice.getNoticeno());
-			noticeFile.setOriginName(M.getOriginalFilename());
+			noticeFile.setOriginName(fileList.get(i).getOriginalFilename());
 			noticeFile.setStoredName(storedName);
-			noticeFile.setFileSize(M.getSize());
-			logger.info("filetest : {}", noticeFile);
+			noticeFile.setFileSize(fileList.get(i).getSize());
 			
-			adminDao.insertNoticeFile( noticeFile );
 			
+			logger.info("shopfile: {} ",noticeFile);
+			
+			//DB insert
+			adminDao.insertNoticeFile(noticeFile);
+			
+		}
+	
 		}
 		
 		
 		
 		
 		
-	}
 
 	@Override
 	public void stopShop(Integer objectno) {
