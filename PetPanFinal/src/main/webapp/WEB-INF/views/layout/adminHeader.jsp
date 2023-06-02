@@ -176,7 +176,7 @@
 
 </head>
 <body>
-<div id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" style = "float: left; position: fixed; top:0; left:0;  display: flex;">
+<div id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" style = "float: left; position: fixed; top:0; left:0;  display: flex; height: 1080px;">
           <div class="app-brand demo">
             <a href="<%=request.getContextPath() %>/admin" class="app-brand-link">
               <span class="app-brand-logo demo">
@@ -257,7 +257,11 @@
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">User</span>
             </li>
+<<<<<<< HEAD
             <li class="menu-item" id="member">
+=======
+            <li class="menu-item" id="user">
+>>>>>>> refs/remotes/origin/master
               <a href="<%=request.getContextPath() %>/admin/member/list" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-id-card"></i>
                 <div data-i18n="Account Settings">User Manage</div>

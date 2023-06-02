@@ -43,15 +43,8 @@ tr:hover{
 	width:790px;
 	display:  inline-block;
 }
-#btnWrite{
-	width: 790px;
-	height: 40px;
-	border:none;
-	background-color: #ffdad7;
-	border-radius: 10px 10px 10px 10px;
-	margin-top: 20px;
-	cursor: pointer;
-}
+
+
 #input-files{
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -183,27 +176,31 @@ function updateContents(){
 </script>
 <div id = "container">
 	<div id = "center-div">
-		<h2 style = "margin-top: 20px; margin-bottom: 20px; margin-left: 30px;">상품 등록</h2>
-		<form action = "<%=request.getContextPath() %>/admin/notice/write" method = "post" id = "content-form" enctype="multipart/form-data">
-			<div align="right">
-				<a href = "../shop/list" class="btn btn-danger">상품 등록 취소</a>
-			</div>
-			<input type = "text" name = "name" id = "title" placeholder = " 제목을 입력하세요" required = "required">
+		<h2 style = "margin-top: 20px; margin-bottom: 20px; margin-left: 30px;">공지사항 등록</h2>
+		<form action = "./write" method = "post" id = "content-form" enctype="multipart/form-data">
+			<select name = "boardtypeno" class="form-select">
+			  <option  value="1">품앗이</option>
+			  <option value="2">자유</option>
+			  <option value="3">중고거래</option>
+			  <option value="4">병원</option>
+			</select>
+			
+			
+			
 			<br>
-			<textarea id = "content" name = "shopcontent" required = "required"></textarea>
-			<input type ="file" name ="file" id = "file" multiple = "multiple" accept = ".gif, .jpg, .png, .jpeg" style = "display: none"><br>
+			<input type = "text" name = "noticetitle" id = "title" placeholder = " 제목을 입력하세요" required = "required">
+			<br>
+			<textarea id = "content" name = "noticecontent" required = "required"></textarea>
+			<input type ="file" name ="file" id = "file" multiple = "multiple" style = "display: none"><br>
 			<div align="right">
 			<br>
 			<button type = "button" id ="fileBtn" class="btn btn-info" >첨부파일</button>
 			</div>
 			<div id = "input-files" align="right"></div>
 			
-<!-- 			<input type = "hidden" name = "userNo" value = "${userno}"> -->
-			<input type = "hidden" name = "userNo" value = "1">
-			
-<!-- 			<button type = "submit"  id = "btnWrite" onclick = "updateContents()">작성</button> -->
-			<div align="center">
-			<button type = "button"  id = "btnWrite" class="btn btn-info">작성</button>
+			<div align="right">
+			<button  id = "btnWrite" class="btn btn-primary">작성</button>
+			<a href = "./list" class="btn btn-danger">공지 등록 취소</a>
 			</div>
 		</form>
 	</div>

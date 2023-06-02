@@ -5,6 +5,7 @@ import java.util.List;
 
 import admin.dto.ReportObject;
 import member.dto.Member;
+
 import shop.dto.OrderThing;
 import shop.dto.Shop;
 import shop.dto.ShopFile;
@@ -55,6 +56,7 @@ public interface AdminShopDao {
 	public ReportObject selectReportObject(Integer objreportNo);
 
 	public Member selectReportMember(ReportObject reportObject);
+
 
 
 }
