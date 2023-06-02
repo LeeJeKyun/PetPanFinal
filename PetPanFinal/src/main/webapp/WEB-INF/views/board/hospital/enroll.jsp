@@ -23,6 +23,7 @@
 	width: 740px;
 /* 	height: 500px; */
 	margin: 0 auto;
+	margin-top: 200px;
 }
 table{
 	 border-collapse: collapse;
@@ -72,6 +73,9 @@ input[type=number]{
 	width: 40px;
 	border: none;
 }
+.timepicker{
+	margin-bottom: 20px;
+}
 /* ------ 모달 css  */
 #modal{
 	position: relative;
@@ -91,17 +95,18 @@ input[type=number]{
 </style>
 
 <script type="text/javascript">
-$(document).ready(function () {
-	$('input.timepicker').timepicker({
+$(function(){
+	//time 속성 24시간으로 변경
+	$('.timepicker').timepicker({
             timeFormat: 'HH:mm',
             interval: 30,
+            defaultTime: '09:00',
             startTime: '00:00',
             dynamic: false,
             dropdown: true,
             scrollbar: true
     });
-}
-$(function(){
+	
 	// 파일 삭제, -1로 value 변경
 	$(document).on("click", ".xFile", function(){ 
 		console.log("xFile clicked")
@@ -153,16 +158,16 @@ $(function(){
 			<div>
 				<a href = "./list" id = "cancelBtn">등록 취소</a>
 			</div>
-			<div id = contentBox>
-				<label>오픈 시간: <input type = "time" name = "open"></label><br>
-				<label>닫는 시간: <input type = "time" name = "close"></label>
-			</div>
+<!-- 			<div id = contentBox> -->
+				<label>오픈 시간: <input type = "time" name = "open" class = "timepicker"></label><br>
+				<label>닫는 시간: <input type = "time" name = "close" class = "timepicker"></label>
+<!-- 			</div> -->
 			
 			<div>진료가능한 특수 동물 선택</div>
-			<label><input type = "checkbox" name = "spe" value = "1">포유류</label>
-			<label><input type = "checkbox" name = "spe" value = "2">파충류</label>
-			<label><input type = "checkbox" name = "spe" value = "3">설치류</label>
-			<label><input type = "checkbox" name = "spe" value = "4">조류</label>
+			<label><input type = "checkbox" name = "mammalia" value = "y">포유류</label>
+			<label><input type = "checkbox" name = "reptile" value = "y">파충류</label>
+			<label><input type = "checkbox" name = "rodent" value = "y">설치류</label>
+			<label><input type = "checkbox" name = "birds" value = "y">조류</label>
 			<br>
 			<input type ="file" name ="file" id = "file" multiple = "multiple" accept = ".gif, .jpg, .png, .jpeg" style = "display: none"><br>
 			<button type = "button" id ="fileBtn" >첨부파일</button>

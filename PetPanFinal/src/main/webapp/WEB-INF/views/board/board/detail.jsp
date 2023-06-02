@@ -147,10 +147,10 @@ table{
 </style>
 <script type="text/javascript">
 var reportBoard;
-var reportcomment;
+var reportcommentW;
 window.onunload = function(){
 	reportBoard.close();
-	reportComment.close();	
+	reportcommentW.close();	
 }
 window.onload = function(){
 	$("#refresh").trigger("click");
@@ -165,10 +165,15 @@ $(function(){
 	// 게시글 신고 버튼 클릭시
 	$("#reportBtn").click(function(){
 		var userno = '<%=session.getAttribute("userno")%>';
+		var confirmV;
         if(userno=="null"){ 
         	alert("로그인을 해주세요.")
 			return;
 		}
+        confirmV = confirm("이 게시글을 신고하시겠습니까?")
+        if(!confirmV){
+        	return;
+        }
 		console.log("#reportBtn click")
 		reportBoard = window.open("./reportPopup?boardNo="+${map.BOARDNO }, "신고", "width=400, height=500, resizable=no");
 	});
@@ -233,7 +238,7 @@ function reportComment(commentNo){
     	alert("로그인을 해주세요.")
 		return;
 	}
-	reportComment = window.open("./reportComment?commentNo=" + commentNo, "신고", "width=400, height=500, resizable=no");
+	reportCommentW = window.open("./reportComment?commentNo=" + commentNo, "신고", "width=400, height=500, resizable=no");
 }
 //   댓글 작성
 function writeComment(commentNo){

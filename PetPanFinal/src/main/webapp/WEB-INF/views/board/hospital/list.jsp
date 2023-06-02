@@ -33,11 +33,11 @@ $(function(){
 
 <div id = "container">
 	<h2>병원</h2>
-<%-- 	<c:if test="${map.POSITIONNO == 2}"> --%>
+	<c:if test="${user.positionNo == 2}">
 	<div id = "enroll-area">
 		<a href = "./enroll">병원 등록</a>
 	</div>
-<%-- 	</c:if> --%>
+	</c:if>
 	<div class = "block">
 <%-- 		<c:forEach var = "i" items = "${list }"> --%>
 		<div class = "img">
