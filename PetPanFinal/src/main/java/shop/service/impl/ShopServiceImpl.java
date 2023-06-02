@@ -1,11 +1,19 @@
 package shop.service.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.servlet.ServletContext;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import member.dto.Member;
 import shop.dao.face.ShopDao;
@@ -13,7 +21,9 @@ import shop.dto.Basket;
 import shop.dto.OrderThing;
 import shop.dto.OrderUser;
 import shop.dto.Review;
+import shop.dto.ReviewFile;
 import shop.dto.Shop;
+import shop.dto.ShopFile;
 import shop.service.face.ShopService;
 import util.ReviewPaging;
 import util.ShopPaging;
@@ -21,6 +31,9 @@ import util.ShopPaging;
 @Service
 public class ShopServiceImpl implements ShopService{
 
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	@Autowired ServletContext context;
 	@Autowired ShopDao shopDao;
 	
 	
@@ -187,12 +200,66 @@ public class ShopServiceImpl implements ShopService{
 		
 		return list;
 	}
+	
 	@Override
-	public void writeReview(Review review) {
+	public void writeReview(List<MultipartFile> fileList, Review review, List<Integer> no) {
 		
+		int reviewno = shopDao.selectNextval();
+		
+		review.setImage1(fileList.get(0).getOriginalFilename());
+		review.setReviewno(reviewno);
 		shopDao.writeReview(review);
+		for(int i = 0; i < fileList.size(); i++) {
+			if( no!=null && no.get(i) == -1) continue;  // -1 이면 올리지 않는 취소한 파일
+			
+			if(fileList.get(i).getSize() <= 0)  continue;  // 파일의 크기가 0이면  
+			
+			// 파일이 저장될 경로
+			String storedPath = context.getRealPath("upload");
+			logger.info(" storedPath : {}", storedPath);
+			
+			// upload폴더가 없으면 생성
+			File storedFolder = new File(storedPath);
+			storedFolder.mkdir();
+			
+			File dest = null;
+			String storedName = null;
+			
+			do {
+				//저장할 파일 이름 생성
+				storedName = fileList.get(i).getOriginalFilename(); //원본 파일명
+				
+				storedName += UUID.randomUUID().toString().split("-")[0]; //
+				logger.info("storedName : {}", storedName);
+
+				//실제 저장될 파일 객체
+				dest = new File(storedFolder, storedName);
+				
+			}while(dest.exists());
+			
+			try {
+				// 업로드된 파일을 upload 폴더에 저장
+				fileList.get(i).transferTo(dest);
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			//DB에 저장할 객체
+			ReviewFile reviewFile = new ReviewFile();
+			reviewFile.setReviewno(reviewno);
+			reviewFile.setReviewno(review.getReviewno());
+			reviewFile.setOriginname(fileList.get(i).getOriginalFilename());
+			reviewFile.setStoredname(storedName);
+			reviewFile.setFilesize(fileList.get(i).getSize());
+			
+		
+			
+			//DB insert
+			shopDao.insertShopFile(reviewFile);
+			
+		}
 		
 	}
-	
 	
 }

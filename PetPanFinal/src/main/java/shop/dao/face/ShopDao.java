@@ -10,6 +10,7 @@ import shop.dto.Basket;
 import shop.dto.OrderThing;
 import shop.dto.OrderUser;
 import shop.dto.Review;
+import shop.dto.ReviewFile;
 import shop.dto.Shop;
 import util.ReviewPaging;
 import util.ShopPaging;
@@ -53,6 +54,10 @@ public interface ShopDao {
 	public List<Map<String, Object>> orderList(OrderUser orderUser);
 
 	public void writeReview(Review review);
+
+	public void insertShopFile(ReviewFile reviewFile);
+
+	public int selectNextval();
 
 
 
