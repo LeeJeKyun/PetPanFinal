@@ -35,6 +35,7 @@ public class BoardCareController {
 			
 			@RequestParam(value = "curPage", defaultValue = "1") int curPage,
 			@RequestParam(value = "search", defaultValue = "") String search,
+			@RequestParam(value = "distance", defaultValue = "2") String distance,
 			Model model
 			
 			) {

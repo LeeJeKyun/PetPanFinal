@@ -88,10 +88,16 @@ function sendMessage(userid){
 <div style="text-align: left; width: 1100px; margin: 0 auto;">
 	<span style="font-size: 2em; font-weight: bold;">품앗이</span>
 	<select name="boardselect" id="boardselect" onchange="location.href=(this.value);" style="height: 30px; font-size: 16px;">
-	<option value="" selected="selected">품앗이</option>
-	<option value="">임시보호</option>
-	<option value="" >유기동물</option>
-</select>
+		<option value="" selected="selected">품앗이</option>
+		<option value="">임시보호</option>
+		<option value="" >유기동물</option>
+	</select>
+	
+	
+	<div style="text-align: right;">
+
+	</div>
+	
 </div>
 
 <br>
@@ -145,7 +151,18 @@ function sendMessage(userid){
 		</a>
 		</c:if>
 		</td>
-		<td style="width: 80%; text-align: right;">
+		<td style="width: 50%; text-align: right">
+			반경 선택
+			<select name="distance" id="distanceSelect" style="height: 30px; font-size: 16px;">
+				<option value="" selected="selected">선택</option>
+				<option value="2">2km</option>
+				<option value="4">4km</option>
+				<option value="6">6km</option>
+				<option value="8">8km</option>
+				<option value="10">10km</option>
+			</select>
+		</td>
+		<td style="width: 30%; text-align: right;">
 			<input type="text" id="search" name="search" value="${paging.search }" style=" width:290px; height: 24px; border: 1px solid #ccc;">
 			
 		</td>
