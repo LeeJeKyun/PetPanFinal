@@ -140,6 +140,15 @@ public interface BoardService {
 	 */
 	public Member getMemberByBoard(Map<String, Object> map);
 	
+	/**
+	 * 두 멤버의 거리를 계산하여 반환하는 메소드
+	 * 
+	 * @param loginMember
+	 * @param writerMember
+	 */
+	public double getDistance(Member loginMember, Member writerMember);
+
+	
 	//---------------------------제균------------------------------------
 
 	/**
@@ -296,6 +305,7 @@ public interface BoardService {
 	 * @return userNo의 user 정보
 	 */
 	public Member getUserInfo(int userNo);
+
 
 	
 

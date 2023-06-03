@@ -393,7 +393,15 @@ $(function(){
 		 			id="recommendBtn2" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
 			 </c:otherwise>
 		 </c:choose>
-		 </c:if>
+		 </c:if>	
+		 <div>작성자와 회원님 사이의 거리 :
+		 		<c:if test="${distance lt 1000 }">
+		 			<fmt:formatNumber value="${distance }" type="number" pattern="###"/>m
+		 		</c:if>
+		 		<c:if test="${distance gt 1000 }">
+				 	<fmt:formatNumber value="${distance / 1000 }"  pattern=".000"/>km
+				</c:if>
+		 </div>
 	 </div>
 		 <div id="map" style="width:757px;height:266px;"></div>
 		 <script type="text/javascript">

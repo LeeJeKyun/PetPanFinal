@@ -2,11 +2,7 @@ package board.service.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +22,6 @@ import board.dto.BoardFile;
 import board.dto.BoardRecommend;
 import board.dto.Comment;
 import board.dto.Hospital;
-import board.dto.HospitalFile;
 import board.dto.Notice;
 import board.dto.ReportBoard;
 import board.dto.ReportComment;
@@ -246,10 +241,37 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.getMemberByBoardMap(map);
 	}
 
+	@Override
+	public double getDistance(Member loginMember, Member writerMember) {
+		
+		double loginLat =  Double.parseDouble(loginMember.getLatitude());
+		double loginLon = Double.parseDouble(loginMember.getLongitude());
+		
+		double writeLat = Double.parseDouble(writerMember.getLatitude());
+		double writeLon = Double.parseDouble(writerMember.getLongitude());
+		
+		double loginLatRad = Math.toRadians(loginLat);
+		double loginLonRad = Math.toRadians(loginLon);
+		double writeLatRad = Math.toRadians(writeLat);
+		double writeLonRad = Math.toRadians(writeLon);
+		
+		double result = 6371 * Math.acos(
+				
+				Math.cos(loginLatRad) *
+				Math.cos(writeLatRad) *
+				Math.cos(writeLonRad - loginLonRad) +
+				(Math.sin(loginLatRad) * Math.sin(writeLatRad))
+				
+				);
+		
+		return result;
+		
+	}
 	
 	//-------------------------------제균----------------------------------
 
 	
+
 	@Override
 	public Paging getPaging(Integer curPage, int category, String search) {
 		Paging paging = null;

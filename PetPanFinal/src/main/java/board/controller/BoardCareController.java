@@ -123,6 +123,9 @@ public class BoardCareController {
 			isRecommended = boardService.isRecommended(boardNo, userNo);
 //			logger.info("isRecommended : {} ", isRecommended);
 			model.addAttribute("loginMember", loginMember);
+			double distance = boardService.getDistance(loginMember, writerMember);
+			logger.info("{}", distance);
+			model.addAttribute("distance", distance * 1000);
 		}
 		
 		model.addAttribute("map", map);
