@@ -392,4 +392,161 @@
 		from member
 		where userNo = #{userNo}
 	</select>
+	<select id="selectIsHospitalFile" parameterType="int" resultType="int">
+		select count(*)
+		from hospitalFile
+		where hospitalNo = #{hospitalNo}
+	</select>
+	<delete id="deleteHospitalFile" parameterType="int">
+		delete 
+		from hospitalfile
+		where hospitalNo = #{hospitalNo}
+	</delete>
+	<select id="selectHospitalInfo" resultType="map">
+		select member.userNo
+				, address
+				, zipcode
+				, phone
+				, latitude
+				, longitude
+				, hospitalName
+				, mammalia
+				, reptile
+				, rodent
+				, birds
+				, open
+				, close
+		from hospital, member
+		where member.userNo = hospital.userNo
+	</select>
+	<select id="selectHospitalFileInfo" parameterType="java.util.List" resultType="map">
+		select * 
+		from hospitalFile
+		where hospitalNo IN 
+		<foreach item = "h" index = "i" collection="list" open = "(" separator = "," close = ")">
+			#{h.HOSPITALNO}
+		</foreach>
+	</select>
+	<select id="selectHospitalAllCnt" parameterType="util.HospitalPaging" resultType="int">
+		select count(*)
+		from hospital
+		where hospitalName like '%'||#{search}||'%'
+		<choose>
+			<when test="birds == 'y'">
+				AND birds = 'y'
+			</when>
+			<when test="rodent == 'y'">
+				AND rodent = 'y'
+			</when>
+			<when test="reptile == 'y'">
+				AND reptile = 'y'
+			</when>
+			<when test="mammlia == 'y'">
+				AND mammlia = 'y'
+			</when>
+		</choose>
+	</select>
+	<select id="selectHospitalCnt" parameterType="util.HospitalPaging" resultType="int">
+		select count(*)
+		from member, hospital
+		where longitude BETWEEN (select longitude
+                            from member
+                            where userNo = #{userNo} ) - 0.019 * #{radius}
+                            AND
+                            (select longitude
+                             from member
+                             where userNo = #{userNo} ) + 0.019 * #{radius}
+                            AND
+                            latitude BETWEEN (select latitude
+                                                from member
+                                                where userNo = #{userNo}) - 0.022 * #{radius}
+                            AND 
+                            (select latitude
+                             from member
+                             where userNo = #{userNo}) + 0.022 * #{radius}
+                            AND
+                            member.userNo = hospital.userNo
+                            AND
+                            hospitalName like '%'||#{search}||'%'
+                            <choose>
+							<when test="birds == 'y'">
+								AND birds = 'y'
+							</when>
+							<when test="rodent == 'y'">
+								AND rodent = 'y'
+							</when>
+							<when test="reptile == 'y'">
+								AND reptile = 'y'
+							</when>
+							<when test="mammlia == 'y'">
+								AND mammlia = 'y'
+							</when>
+							</choose>
+	</select>
+	<select id="selectHospitalAll" parameterType="util.HospitalPaging" resultType="map">
+		select * 
+		from (
+    		select rownum rnum, B.* from( 
+        		select hospitalNo, hospitalName, mammalia, reptile, rodent, birds
+                        , open, close, member.userNo, address, phone
+        	from hospital, member
+        	where hospital.userNo = member.userNo
+            	 AND hospitalName like '%'||#{search}||'%'
+            	 <choose>
+					<when test="birds == 'y'">
+						AND birds = 'y'
+					</when>
+					<when test="rodent == 'y'">
+						AND rodent = 'y'
+					</when>
+					<when test="reptile == 'y'">
+						AND reptile = 'y'
+					</when>
+					<when test="mammlia == 'y'">
+						AND mammlia = 'y'
+					</when>
+				</choose>
+    		)B
+		)
+		where rnum BETWEEN #{startNo} AND #{endNo}
+	</select>
+	<select id="selectHospital" parameterType="util.HospitalPaging" resultType="map">
+		select *
+		from member, hospital, hospitalFile
+		where longitude BETWEEN (select longitude
+                            from member
+                            where userNo = #{userNo} ) - 0.019 * #{radius}
+                            AND
+                            (select longitude
+                             from member
+                             where userNo = #{userNo} ) + 0.019 * #{radius}
+                            AND
+                            latitude BETWEEN (select latitude
+                                                from member
+                                                where userNo = #{userNo}) - 0.022 * #{radius}
+                            AND 
+                            (select latitude
+                             from member
+                             where userNo = #{userNo}) + 0.022 * #{radius}
+                            AND
+                            hospital.hospitalNo = hospitalFile.hospitalNo
+                            AND
+                            member.userNo = hospital.userNo
+                            AND
+                            hospitalName like '%'||#{search}||'%'
+                            <choose>
+								<when test="birds == 'y'">
+									AND birds = 'y'
+								</when>
+								<when test="rodent == 'y'">
+									AND rodent = 'y'
+								</when>
+								<when test="reptile == 'y'">
+									AND reptile = 'y'
+								</when>
+								<when test="mammlia == 'y'">
+									AND mammlia = 'y'
+								</when>
+							</choose>
+	</select>
 </mapper>

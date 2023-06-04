@@ -11,6 +11,7 @@ import board.dto.Notice;
 import board.dto.ReportBoard;
 import board.dto.ReportComment;
 import member.dto.Member;
+import util.HospitalPaging;
 import util.Paging;
 
 public interface BoardDao {
@@ -418,6 +419,59 @@ public interface BoardDao {
 	 * @return user 정보
 	 */
 	public Member selectUserInfo(int userNo);
+
+	/**
+	 * 병원 정보에 이미 등록한 사진 파일이 있는지 확인
+	 * @param hospitalNo 파일을 select 할 hospitalNo
+	 * @return 없으면 0
+	 */
+	public int selectIsHospitalFile(int hospitalNo);
+
+	/**
+	 * 이미 등록한 사진 파일을 delete
+	 * @param hospitalNo delete 할 hospitalNo
+	 */
+	public void deleteHospitalFile(int hospitalNo);
+
+	/**
+	 * 병원 정보를 조회
+	 * @return 모든 병원 정보
+	 */
+	public List<Map<String, Object>> selectHospitalInfo();
+
+	/**
+	 * 병원 파일 조회
+	 * @return 병원의 파일 정보
+	 */
+	public List<Map<String, Object>> selectHospitalFileInfo(List<Map<String, Object>> hospitalList);
+
+	/**
+	 * 반경이 0 일때 전체 병원 수 조회
+	 * @param paging 병원 수를 조회하기 위한 조건
+	 * @return 병원 수 
+	 */
+	public int selectHospitalAllCnt(HospitalPaging paging);
+
+	/**
+	 * 반경을 포함한 병원을 조회
+	 * @param paging usreNo, search, radius 가 있는 paging 객체
+	 * @return 반경을 포함한 조회, 병원 수
+	 */
+	public int selectHospitalCnt(HospitalPaging paging);
+
+	/**
+	 * 조건에 맞는 병원 조회 (반경 미포함)
+	 * @param paging 조회할 조건
+	 * @return 조회한 병원 
+	 */
+	public List<Map<String, Object>> selectHospitalAll(HospitalPaging paging);
+
+	/**
+	 * 조건에 맞는 병원 조회 (반경 포함)
+	 * @param paging 조회할 조건
+	 * @return 조회한 병원
+	 */
+	public List<Map<String, Object>> selectHospital(HospitalPaging paging);
 
 
 

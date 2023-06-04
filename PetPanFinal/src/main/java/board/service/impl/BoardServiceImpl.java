@@ -32,6 +32,7 @@ import board.dto.ReportBoard;
 import board.dto.ReportComment;
 import board.service.face.BoardService;
 import member.dto.Member;
+import util.HospitalPaging;
 import util.Paging;
 
 @Service
@@ -535,8 +536,12 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public void enrollHospital(List<MultipartFile> fileList, List<Integer> no, member.dto.Hospital hospital) {
 
-		//회원가입할 때 입력했던 병원번호 no 가져오기
+		//userNo으로 병원번호 no 가져오기
 		int hospitalNo = boardDao.selectHospitalNo(hospital.getUserNo());
+		//이미 등록한 사진이 있으면 삭제하고 등록
+		if(boardDao.selectIsHospitalFile(hospitalNo) > 0) {
+			boardDao.deleteHospitalFile(hospitalNo);
+		}
 		logger.info("병원 정보 NO {}", hospitalNo);
 		logger.info("no no 병원파일{}", no);
 		logger.info("fileList 병원파일{}", fileList);
@@ -595,6 +600,54 @@ public class BoardServiceImpl implements BoardService{
 	public Member getUserInfo(int userNo) {
 		return boardDao.selectUserInfo(userNo);
 	}
+
+	@Override
+	public HospitalPaging getHospitalPaging(HospitalPaging paging) {
+
+		HospitalPaging hPaging = null;
+		
+		if(paging.getUserNo() == -1) {
+			//로그인을 하지 않은 유저
+			paging.setRadius(0);
+		}
+		if(null == paging.getSearch()) paging.setSearch("");
+		
+		if(paging.getRadius() == 0) {
+			//반경이 0이면 전체 검색
+			hPaging = new HospitalPaging(boardDao.selectHospitalAllCnt(paging), paging.getCurPage()
+											, 12, 5);
+		}else {
+			// 반경을 넣은 검색
+			hPaging = new HospitalPaging(boardDao.selectHospitalCnt(paging), paging.getCurPage()
+					, 12, 5);
+		}
+		hPaging.setSearch(paging.getSearch());
+		hPaging.setUserNo(paging.getUserNo());
+		hPaging.setRadius(paging.getRadius());
+		//종 선택
+		hPaging.setRodent(paging.getRodent());
+		hPaging.setBirds(paging.getBirds());
+		hPaging.setMammlia(paging.getMammlia());
+		hPaging.setReptile(paging.getReptile());
+		
+		return hPaging;
+	}
+	@Override
+	public List<Map<String, Object>> getHospitalInfo(HospitalPaging paging) {
+
+		List<Map<String, Object>> list = null;
+		
+		if(paging.getRadius() == 0) {
+			//반경이 0이면 전체 검색
+			list = boardDao.selectHospitalAll(paging); 
+		}else {
+			// 반경을 넣은 검색
+			list = boardDao.selectHospital(paging);
+		}
+		return list;
+	}
+
+	
 
 
 	

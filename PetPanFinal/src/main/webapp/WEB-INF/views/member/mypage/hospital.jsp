@@ -201,7 +201,8 @@ tr:hover{
 	</div>
 	
 	<!-- 병원 사진 추가 -->
-	<input type ="file" name ="file" id = "file" multiple = "multiple" accept = ".gif, .jpg, .png, .jpeg" style = "display: none"><br>
+	<!-- 병원 사진 1장만 -->
+	<input type ="file" name ="file" id = "file"  accept = ".gif, .jpg, .png, .jpeg" style = "display: none"><br>
 	<button type = "button" id ="fileBtn" >첨부파일</button>
 	<table id = "input-files"></table>
 	

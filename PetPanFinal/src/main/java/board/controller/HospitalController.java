@@ -1,6 +1,8 @@
 package board.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,6 +21,7 @@ import board.dto.Hospital;
 import board.dto.HospitalFile;
 import board.service.face.BoardService;
 import member.dto.Member;
+import util.HospitalPaging;
 import util.Paging;
 
 @Controller
@@ -29,18 +32,50 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired BoardService boardService;
 	
 	@GetMapping("/list")
-	public void hospitalListPath(Paging paging, Model model, HttpSession session) {
-		if(null != session.getAttribute("userno") ) {
-			int userNo = (int)session.getAttribute("userno");
-	
-			Member user = new Member();
+	public void hospitalListPath(
+								@RequestParam(defaultValue = "1") Integer curPage
+								, Model model, HttpSession session
+									// 검색어, 반경
+								, @RequestParam(required = false) String search
+								, @RequestParam(required = false, defaultValue = "0") Integer radius
+								, @RequestParam(defaultValue = "N") char rodent
+								, @RequestParam(defaultValue = "N") char birds
+								, @RequestParam(defaultValue = "N") char mammlia
+								, @RequestParam(defaultValue = "N") char reptile
+								) {
+		logger.info("search 검색 {} ", search);
+		logger.info("radius 반경 {} ", radius);
+		int userNo = -1;
+		if(null != session.getAttribute("userno")) {
+			userNo = (int)session.getAttribute("userno");
 			
-			user = boardService.getUserInfo(userNo);
-			
-			logger.info("user {}", user);
-			
-			model.addAttribute("user", user);
 		}
+		
+		// 검색한 페이징 객체 가져오기 + userNo, + radius
+		HospitalPaging paging = new HospitalPaging();
+		paging.setCurPage(curPage);
+		paging.setUserNo(userNo);
+		paging.setRadius(radius);
+		paging.setSearch(search);
+		
+		paging.setRodent(rodent);
+		paging.setBirds(birds);
+		paging.setMammlia(mammlia);
+		paging.setReptile(reptile);
+		
+		logger.info("병원 전 paging {}", paging);
+		paging = boardService.getHospitalPaging(paging);
+		
+		logger.info("병원 후 paging {}", paging);
+		
+		//병원 정보 가져오기 
+		List<Map<String, Object>> hospitalList  = boardService.getHospitalInfo(paging);
+		logger.info(" hospitalList {} ", hospitalList);
+		
+		logger.info("병원 정보 {}", hospitalList);
+		
+		model.addAttribute("hospitalList", hospitalList);
+		model.addAttribute("paging", paging);
 	}
 	@GetMapping("/enroll")
 	public String hospitalEnrollPath(HttpSession session) {

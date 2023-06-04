@@ -15,6 +15,7 @@ import board.dto.ReportBoard;
 import board.dto.ReportComment;
 import member.dto.Hospital;
 import member.dto.Member;
+import util.HospitalPaging;
 import util.Paging;
 
 public interface BoardService {
@@ -296,6 +297,20 @@ public interface BoardService {
 	 * @return userNo의 user 정보
 	 */
 	public Member getUserInfo(int userNo);
+
+	/**
+	 * 검색 조건을 넣은 paging 객체 
+	 * @param paging 조건을 넣은 페이징 객체
+	 * @return 조건을 넣은 페이징 객체 반환
+	 */
+	public HospitalPaging getHospitalPaging(HospitalPaging paging);
+	/**
+	 * 병원 정보를 가져온다
+	 */
+	public List<Map<String, Object>> getHospitalInfo(HospitalPaging paging);
+
+
+	
 
 	
 
