@@ -180,23 +180,23 @@
         		WHERE boardtitle LIKE '%${paging.search}%' AND boardtypeno=1 AND B.userno = M.userno
 		        AND BF.fileno = (SELECT max(fileno) FROM boardFile BF WHERE B.boardno = BF.boardno(+))
 		        <choose>
-			        <when test="distance = 2" >
+			        <when test="distance == 2" >
 				        AND latitude BETWEEN #{loginMember.latitude}-0.019 AND #{loginMember.latitude}+0.019
 				        AND longitude BETWEEN #{loginMember.longitude}-0.022 AND #{loginMember.longitude}+0.022
 			        </when>
-			        <when test="distance = 4" >
+			        <when test="distance == 4" >
 				        AND latitude BETWEEN #{loginMember.latitude}-0.038 AND #{loginMember.latitude}+0.038
 				        AND longitude BETWEEN #{loginMember.longitude}-0.044 AND #{loginMember.longitude}+0.044
 			        </when>
-			        <when test="distance = 6" >
+			        <when test="distance == 6" >
 				        AND latitude BETWEEN #{loginMember.latitude}-0.057 AND #{loginMember.latitude}+0.057
 				        AND longitude BETWEEN #{loginMember.longitude}-0.066 AND #{loginMember.longitude}+0.066
 			        </when>
-			        <when test="distance = 8" >
+			        <when test="distance == 8" >
 				        AND latitude BETWEEN #{loginMember.latitude}-0.076 AND #{loginMember.latitude}+0.076
 				        AND longitude BETWEEN #{loginMember.longitude}-0.088 AND #{loginMember.longitude}+0.088
 			        </when>
-			        <when test="distance = 10" >
+			        <when test="distance == 10" >
 				        AND latitude BETWEEN #{loginMember.latitude}-0.095 AND #{loginMember.latitude}+0.095
 				        AND longitude BETWEEN #{loginMember.longitude}-0.110 AND #{loginMember.longitude}+0.110
 			        </when>
