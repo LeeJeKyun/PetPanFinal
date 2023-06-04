@@ -3,6 +3,8 @@ package board.dao.face;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
@@ -174,6 +176,15 @@ public interface BoardDao {
 	 */
 	public Member getMemberByBoardMap(Map<String, Object> map);
 	
+	/**
+	 * 
+	 * 
+	 * @param paging
+	 * @param loginMember
+	 * @param distance
+	 * @return
+	 */
+	public List<Map<String, Object>> selectCareByLogin(@Param("paging")Paging paging, @Param("loginMember") Member loginMember, @Param("distance")String distance);
 	
 	//--------------------------제균--------------------------------
 
@@ -418,8 +429,6 @@ public interface BoardDao {
 	 * @return user 정보
 	 */
 	public Member selectUserInfo(int userNo);
-
-
 
 
 	

@@ -53,6 +53,8 @@
                 	B.userno,
                 	B.boardtypeno,
                 	M.userid,
+                	M.latitude,
+                	M.longitude,
                 	(SELECT count(*) FROM boardrecommend R WHERE B.boardno = R.boardno) AS recommend,
                 	(SELECT count(*) FROM commenttable C WHERE C.boardno = B.boardno ) AS commentno,
                 	bf.originname,
@@ -154,6 +156,55 @@
 	<select id="getMemberByBoardMap" parameterType="hashmap" resultType="member.dto.Member">
 		SELECT userno, username, address, detailaddress, zipcode, latitude, longitude FROM member
 		WHERE userno = #{USERNO}
+	</select>
+	
+	<select id="selectCareByLogin" parameterType="util.Paging" resultType="hashmap">
+		SELECT * FROM(
+   			 SELECT rownum rnum, S.* 
+  			 FROM ( 
+        		SELECT B.boardno,
+           		boardtitle,
+            	content,
+            	write_date AS writedate,
+            	hit,
+            	B.userno,
+	            B.boardtypeno,
+	            M.userid,
+	            M.latitude,
+	            M.longitude,
+	            (SELECT count(*) FROM boardrecommend R WHERE B.boardno = R.boardno) AS recommend,
+	            (SELECT count(*) FROM commenttable C WHERE C.boardno = B.boardno ) AS commentno,
+	            bf.originname,
+	            bf.storedname
+        		FROM Board B, Member M, BoardFile BF
+        		WHERE boardtitle LIKE '%${paging.search}%' AND boardtypeno=1 AND B.userno = M.userno
+		        AND BF.fileno = (SELECT max(fileno) FROM boardFile BF WHERE B.boardno = BF.boardno(+))
+		        <choose>
+			        <when test="distance = 2" >
+				        AND latitude BETWEEN #{loginMember.latitude}-0.019 AND #{loginMember.latitude}+0.019
+				        AND longitude BETWEEN #{loginMember.longitude}-0.022 AND #{loginMember.longitude}+0.022
+			        </when>
+			        <when test="distance = 4" >
+				        AND latitude BETWEEN #{loginMember.latitude}-0.038 AND #{loginMember.latitude}+0.038
+				        AND longitude BETWEEN #{loginMember.longitude}-0.044 AND #{loginMember.longitude}+0.044
+			        </when>
+			        <when test="distance = 6" >
+				        AND latitude BETWEEN #{loginMember.latitude}-0.057 AND #{loginMember.latitude}+0.057
+				        AND longitude BETWEEN #{loginMember.longitude}-0.066 AND #{loginMember.longitude}+0.066
+			        </when>
+			        <when test="distance = 8" >
+				        AND latitude BETWEEN #{loginMember.latitude}-0.076 AND #{loginMember.latitude}+0.076
+				        AND longitude BETWEEN #{loginMember.longitude}-0.088 AND #{loginMember.longitude}+0.088
+			        </when>
+			        <when test="distance = 10" >
+				        AND latitude BETWEEN #{loginMember.latitude}-0.095 AND #{loginMember.latitude}+0.095
+				        AND longitude BETWEEN #{loginMember.longitude}-0.110 AND #{loginMember.longitude}+0.110
+			        </when>
+		        </choose>
+        	ORDER BY boardno DESC
+    		) S
+		)
+		WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
 	</select>
 	
 	<!-- ===============================제균=============================== -->

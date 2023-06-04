@@ -36,6 +36,7 @@ public class BoardCareController {
 			@RequestParam(value = "curPage", defaultValue = "1") int curPage,
 			@RequestParam(value = "search", defaultValue = "") String search,
 			@RequestParam(value = "distance", defaultValue = "2") String distance,
+			HttpSession session,
 			Model model
 			
 			) {
@@ -43,13 +44,28 @@ public class BoardCareController {
 		logger.info("/care/list [GET]");
 		Paging paging = boardService.getCarePaging(curPage, search);
 		
-		List<Map<String, Object>> list = boardService.getCareList(paging);
+		List<Map<String, Object>> list = null;
+		
+		//로그인을 했을 때는 계정의 정보를 가져와서 주변 게시글만 띄워준다. 
+		if(session.getAttribute("login") != null && (boolean)session.getAttribute("login") != false) {
+			
+			int userno = (int)session.getAttribute("userno");
+			
+			Member loginMember = boardService.getUserInfo(userno);
+			
+			list = boardService.getCareListFromLogin(paging, loginMember, distance);
+			
+		} else {
+		
+			list = boardService.getCareList(paging);
+			
+		}
 		List<Map<String, Object>> noticeList = boardService.getNoticeListToCare();
 		
 		//확인해보기
-		for(Map<String, Object> m : list) {
-			logger.info("map -> {}", m);
-		}
+//		for(Map<String, Object> m : list) {
+//			logger.info("map -> {}", m);
+//		}
 
 //		//확인해보기
 //		for(Map<String, Object> m : noticeList) {

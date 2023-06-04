@@ -148,6 +148,15 @@ public interface BoardService {
 	 */
 	public double getDistance(Member loginMember, Member writerMember);
 
+	/**
+	 * 로그인한 유저 주변의 게시글만 가져오는 메소드
+	 * 
+	 * @param paging
+	 * @param loginMember
+	 * @param distance
+	 * @return
+	 */
+	public List<Map<String, Object>> getCareListFromLogin(Paging paging, Member loginMember, String distance);
 	
 	//---------------------------제균------------------------------------
 
@@ -305,7 +314,6 @@ public interface BoardService {
 	 * @return userNo의 user 정보
 	 */
 	public Member getUserInfo(int userNo);
-
 
 	
 

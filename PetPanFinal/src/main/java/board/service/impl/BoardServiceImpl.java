@@ -268,9 +268,23 @@ public class BoardServiceImpl implements BoardService{
 		
 	}
 	
+	@Override
+	public List<Map<String, Object>> getCareListFromLogin(Paging paging, Member loginMember, String distance) {
+		
+		logger.info("userInfo : {}", loginMember);
+		logger.info("distance : {}", distance);
+		
+		
+		
+		return boardDao.selectCareByLogin(paging, loginMember, distance);
+	}
+	
+	
 	//-------------------------------제균----------------------------------
 
 	
+
+
 
 	@Override
 	public Paging getPaging(Integer curPage, int category, String search) {
