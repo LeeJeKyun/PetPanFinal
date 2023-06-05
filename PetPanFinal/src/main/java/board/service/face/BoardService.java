@@ -11,6 +11,7 @@ import board.dto.BoardRecommend;
 import board.dto.Comment;
 import board.dto.HospitalFile;
 import board.dto.Notice;
+import board.dto.NoticeFile;
 import board.dto.ReportBoard;
 import board.dto.ReportComment;
 import member.dto.Hospital;
@@ -140,6 +141,47 @@ public interface BoardService {
 	 * @return
 	 */
 	public Member getMemberByBoard(Map<String, Object> map);
+	
+	/**
+	 * 두 멤버의 거리를 계산하여 반환하는 메소드
+	 * 
+	 * @param loginMember
+	 * @param writerMember
+	 */
+	public double getDistance(Member loginMember, Member writerMember);
+
+	/**
+	 * 로그인한 유저 주변의 게시글만 가져오는 메소드
+	 * 
+	 * @param paging
+	 * @param loginMember
+	 * @param distance
+	 * @return
+	 */
+	public List<Map<String, Object>> getCareListFromLogin(Paging paging, Member loginMember, String distance);
+	
+	/**
+	 * 신고를 신고테이블에 올리는 메소드
+	 * 
+	 * @param reportBoard
+	 */
+	public void inputCareReport(ReportBoard reportBoard, String writeDetail);
+	
+	/**
+	 * 공지사항 파일을 가져오는 메소드
+	 * 
+	 * @param noticeno
+	 * @return
+	 */
+	public List<NoticeFile> getNoticeFileList(int noticeno);
+	
+	/**
+	 * 댓글을 신고하는 메소드
+	 * 
+	 * @param reportComment
+	 * @param writeDetail
+	 */
+	public void inputCareCommentReport(ReportComment reportComment, String writeDetail);
 	
 	//---------------------------제균------------------------------------
 
