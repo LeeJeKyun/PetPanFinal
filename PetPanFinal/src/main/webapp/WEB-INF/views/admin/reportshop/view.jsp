@@ -28,6 +28,7 @@
 		  <h3>신고 상품 정보</h3>
 		  <p>상품 번호: ${list.objectNo}</p>
 		  <p>상품 이름: <a href="javascript:void(window.open('<%=request.getContextPath() %>/admin/shop/view?objectno=${list.objectNo}', '상품정보','width=1000px, height=1000px'))">${list.name}</a></p>
+		  상품 판매 중단 <input type="checkbox" id="" name="objectNo" value="${list.objectNo }">
 		</div>
 		<hr>
 		

@@ -760,6 +760,7 @@ public class AdminServiceImpl implements AdminService{
 		int totalcount = adminShopDao.countTotalReportShop(search);
 		AdminPaging paging = new AdminPaging(totalcount, curPage);
 		paging.setCurPage(curPage);
+		paging.setSearch(search);
 		
 		return paging;
 	}
@@ -789,9 +790,47 @@ public class AdminServiceImpl implements AdminService{
 		Member member = adminShopDao.selectReportMember(reportObject);
 		return member;
 	}
-	
-	
 
+	@Override
+	public void changeObjReportAndAddBlack(Integer objreportNo, Integer objectNo, Integer userNo, String reason) {
+		adminShopDao.updateReportobject(objreportNo);
+		
+		if(objectNo!=null) {
+			adminShopDao.changeShopDeleteobj(objectNo);
+		}
+		if(userNo!=null) {
+			Blacklist blacklist = new Blacklist();
+			blacklist.setUserno(userNo);
+			blacklist.setReason(reason);
+			
+			adminDao.insertBlacklist(blacklist);
+		}
+		
+	}
 
+	@Override
+	public void changeObjReport(List<String> delete) {
+		
+		List<HashMap> objreportNolist = new ArrayList<HashMap>();
+		
+		  for (int i = 0; i < delete.size(); i++) {
+		       Integer deleteno = Integer.valueOf(delete.get(i));
+		       HashMap<String, Integer> deleteNoMap = new HashMap<String, Integer>();
+		       deleteNoMap.put("objreportNo", deleteno);
+		       
+		       objreportNolist.add(deleteNoMap);
+		       
+		    }
+		  
+		  adminShopDao.updateReportObjectComplete(objreportNolist);
+		
+	}
+	  
+		
 }
+	
+	
+
+
+
 

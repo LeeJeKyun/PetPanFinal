@@ -257,11 +257,11 @@
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">User</span>
             </li>
-<<<<<<< HEAD
+
             <li class="menu-item" id="member">
-=======
+
             <li class="menu-item" id="user">
->>>>>>> refs/remotes/origin/master
+
               <a href="<%=request.getContextPath() %>/admin/member/list" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-id-card"></i>
                 <div data-i18n="Account Settings">User Manage</div>

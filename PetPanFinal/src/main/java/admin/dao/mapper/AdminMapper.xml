@@ -141,7 +141,8 @@
 		FROM reportcomment c, commenttable ct, member m
 		WHERE c.commentno = ct.commentno
 		AND ct.userno = m.userno
-		ORDER BY complete ASC, coreportno DESC) B)) re WHERE rnum BETWEEN #{startNo} AND #{endNo}
+		ORDER BY complete ASC, coreportno DESC) 
+		B)) re WHERE rnum BETWEEN #{startNo} AND #{endNo}
 	</select>
 	
 	<select id="selectCommentNo" resultType="int">
@@ -179,8 +180,8 @@
 		FROM reportboard r, board b, member m
 		WHERE r.boardno = b.boardno
 		AND b.userno = m.userno
-		ORDER BY complete ASC,boreportno DESC) C
-        WHERE reportdetail LIKE ('%${search}%') ) B)
+		AND reportdetail LIKE ('%${search}%')
+		ORDER BY complete ASC,boreportno DESC) C) B)
         re WHERE rnum BETWEEN #{startNo} AND #{endNo}
 	</select>
 	
@@ -238,6 +239,7 @@
 		UPDATE member
   		SET userpw=#{userPw}, usernick=#{userNick}, email=#{email}, address=#{address}, zipcode=#{zipCode}, detailaddress=#{detailaddress }, latitude=#{latitude}, longitude=#{longitude}, phone=#{phone}
   		WHERE userno=#{userNo}
-	
 	</update>
+	
+
 </mapper>
