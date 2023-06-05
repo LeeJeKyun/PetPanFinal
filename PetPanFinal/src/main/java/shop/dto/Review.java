@@ -9,13 +9,14 @@ public class Review {
 	private String image1;
 	private int objectno;
 	private int userno;
+	private int buyno;
 	
 	public Review() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public Review(int reviewno, String reviewtitle, String reviewcontent, int reviewstar, String image1, int objectno,
-			int userno) {
+			int userno, int buyno) {
 		super();
 		this.reviewno = reviewno;
 		this.reviewtitle = reviewtitle;
@@ -24,13 +25,14 @@ public class Review {
 		this.image1 = image1;
 		this.objectno = objectno;
 		this.userno = userno;
+		this.buyno = buyno;
 	}
 
 	@Override
 	public String toString() {
 		return "Review [reviewno=" + reviewno + ", reviewtitle=" + reviewtitle + ", reviewcontent=" + reviewcontent
 				+ ", reviewstar=" + reviewstar + ", image1=" + image1 + ", objectno=" + objectno + ", userno=" + userno
-				+ "]";
+				+ ", buyno=" + buyno + "]";
 	}
 
 	public int getReviewno() {
@@ -88,5 +90,14 @@ public class Review {
 	public void setUserno(int userno) {
 		this.userno = userno;
 	}
+
+	public int getBuyno() {
+		return buyno;
+	}
+
+	public void setBuyno(int buyno) {
+		this.buyno = buyno;
+	}
+	
 	
 }
