@@ -9,13 +9,14 @@ import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
 import board.dto.Comment;
-import board.dto.Hospital;
 import board.dto.HospitalFile;
 import board.dto.Notice;
 import board.dto.NoticeFile;
 import board.dto.ReportBoard;
 import board.dto.ReportComment;
+import member.dto.Hospital;
 import member.dto.Member;
+import util.HospitalPaging;
 import util.Paging;
 
 public interface BoardService {
@@ -339,5 +340,29 @@ public interface BoardService {
 	 */
 	public Member getUserInfo(int userNo);
 
+	/**
+	 * 검색 조건을 넣은 paging 객체 
+	 * @param paging 조건을 넣은 페이징 객체
+	 * @return 조건을 넣은 페이징 객체 반환
+	 */
+	public HospitalPaging getHospitalPaging(HospitalPaging paging);
+	/**
+	 * 병원 정보를 가져온다
+	 */
+	public List<Map<String, Object>> getHospitalInfo(HospitalPaging paging);
+
+	/**
+	 * 병원의 상세보기 정보 가져오기
+	 * userNo이 -1이면 비로그인 상태 거리 안뜸
+	 * @param hospitalNo 상세보기할 병원의 hospitalNo
+	 * @param userNo 
+	 * @return 병원의 상세 정보
+	 */
+	public Map<String, Object> getHospitalDetail(int hospitalNo, int userNo);
+
+
+	
+
+	
 
 }

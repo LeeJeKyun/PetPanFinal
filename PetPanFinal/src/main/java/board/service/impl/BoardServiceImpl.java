@@ -28,6 +28,7 @@ import board.dto.ReportBoard;
 import board.dto.ReportComment;
 import board.service.face.BoardService;
 import member.dto.Member;
+import util.HospitalPaging;
 import util.Paging;
 
 @Service
@@ -603,14 +604,19 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public void enrollHospital(List<MultipartFile> fileList, List<Integer> no, Hospital hospital) {
+	public void enrollHospital(List<MultipartFile> fileList, List<Integer> no, member.dto.Hospital hospital) {
 
-		//회원가입할 때 입력했던 병원번호 no 가져오기
-		int hospitalNo = boardDao.selectHospitalInfo(hospital.getUserNo());
+		//userNo으로 병원번호 no 가져오기
+		int hospitalNo = boardDao.selectHospitalNo(hospital.getUserNo());
+		//이미 등록한 사진이 있으면 삭제하고 등록
+		if(boardDao.selectIsHospitalFile(hospitalNo) > 0) {
+			boardDao.deleteHospitalFile(hospitalNo);
+		}
 		logger.info("병원 정보 NO {}", hospitalNo);
-		
+		logger.info("no no 병원파일{}", no);
+		logger.info("fileList 병원파일{}", fileList);
 		for(int i = 0; i < no.size(); i++) {
-			if(no.get(i) != null && no.get(i) != -1) {
+			if(null != no.get(i) && no.get(i) != -1) {
 				if(fileList.get(i).getSize() <= 0)  continue;  // 파일의 크기가 0이면  
 				
 				// 파일이 저장될 경로
@@ -665,6 +671,102 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.selectUserInfo(userNo);
 	}
 
+	@Override
+	public HospitalPaging getHospitalPaging(HospitalPaging paging) {
 
+		HospitalPaging hPaging = null;
+		
+		if(paging.getUserNo() == -1) {
+			//로그인을 하지 않은 유저
+			paging.setRadius(0);
+		}
+		if(null == paging.getSearch()) paging.setSearch("");
+		
+		if(paging.getRadius() == 0) {
+			//반경이 0이면 전체 검색
+			hPaging = new HospitalPaging(boardDao.selectHospitalAllCnt(paging), paging.getCurPage()
+											, 12, 5);
+		}else {
+			// 반경을 넣은 검색
+			hPaging = new HospitalPaging(boardDao.selectHospitalCnt(paging), paging.getCurPage()
+					, 12, 5);
+		}
+		hPaging.setSearch(paging.getSearch());
+		hPaging.setUserNo(paging.getUserNo());
+		hPaging.setRadius(paging.getRadius());
+		//종 선택
+		hPaging.setRodent(paging.getRodent());
+		hPaging.setBirds(paging.getBirds());
+		hPaging.setMammlia(paging.getMammlia());
+		hPaging.setReptile(paging.getReptile());
+		
+		return hPaging;
+	}
+	@Override
+	public List<Map<String, Object>> getHospitalInfo(HospitalPaging paging) {
+
+		List<Map<String, Object>> list = null;
+		
+		if(paging.getRadius() == 0) {
+			//반경이 0이면 전체 검색
+			list = boardDao.selectHospitalAll(paging); 
+		}else {
+			// 반경을 넣은 검색
+			list = boardDao.selectHospital(paging);
+		}
+		return list;
+	}
+
+	@Override
+	public Map<String, Object> getHospitalDetail(int hospitalNo, int userNo) {
+		//Map<String, Object> map = new HashMap<>();
+		logger.info("hospitalNo {}, userNo {}", hospitalNo, userNo);
+		Map<String, Object> map = boardDao.selectHospitalDetail(hospitalNo);
+		
+		logger.info("map {}", map);
+		if(userNo == -1) {
+			//거리 없음
+			return map;
+		}else {
+			logger.info("안 userNo {}", userNo);
+			//병원의 경도, 위도
+			//H_longitude, H_latitude 병원
+			// U_longitude, U_longitude 유저
+			Map<String, String> Loc = boardDao.selectHospitalLoc(hospitalNo);
+			logger.info("Loc {}", Loc);
+			
+			Map<String, String> userLoc = boardDao.selectUserLoc(userNo);
+			logger.info("userLoc get {}", userLoc.get("U_LONGITUDE"));
+			
+			Loc.put("U_LONGITUDE", userLoc.get("U_LONGITUDE"));
+			Loc.put("U_LATITUDE", userLoc.get("U_LATITUDE"));
+			
+			logger.info("Loc {}", Loc);
+			double distance = calculateDistance(Loc);
+			logger.info("distance {} ", distance);
+			
+			map.put("distance", distance);
+		}
+		return map;
+//		if(userNo == -1) {
+//			//거리 없음
+//			return boardDao.selectHospitalDetail(hospitalNo); 
+//		}else {
+//			Map<String, Integer> map = new HashMap<>();
+//			map.put("hospitalNo", hospitalNo);
+//			map.put("userNo", userNo);
+//			//거리까지 반환
+//			return boardDao.selectHospitalDetailUserNo(map); 
+//		}
+		
+	}
+	public double calculateDistance(Map<String, String> loc) {
+		return 6371.0 * Math.acos(  
+		          Math.cos(Math.toRadians( Double.valueOf(loc.get("U_LONGITUDE"))   ) )
+		          * Math.cos( Math.toRadians(Double.valueOf( loc.get("H_LONGITUDE"))  ) )
+		          * Math.cos( Math.toRadians( Double.valueOf(loc.get("H_LATITUDE"))  ) - Math.toRadians(Double.valueOf( loc.get("U_LATITUDE"))) )
+		          + (Math.sin(Math.toRadians(Double.valueOf( loc.get("U_LONGITUDE")) ) ) * Math.sin(( Math.toRadians(Double.valueOf( loc.get("H_LONGITUDE"))  ) ) )) 
+		          );        
+	}
 	
 }

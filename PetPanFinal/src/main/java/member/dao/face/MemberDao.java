@@ -119,6 +119,15 @@ public interface MemberDao {
 	 */
 	public void insertHospital(Hospital hospital);
 
+	/**
+	 * 병원 테이블에 같은 userNo이 있는지 확인
+	 * @param hospitalNo 확인할 병원 번호
+	 * @return 없으면 0
+	 */
+	public Integer selectIsHospitalNo(int hospitalNo);
+
+	public Integer selectHospitalNo(int userNo);
+
 
 
 
