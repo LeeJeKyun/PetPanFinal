@@ -23,6 +23,7 @@ import board.dto.BoardRecommend;
 import board.dto.Comment;
 import board.dto.Hospital;
 import board.dto.Notice;
+import board.dto.NoticeFile;
 import board.dto.ReportBoard;
 import board.dto.ReportComment;
 import board.service.face.BoardService;
@@ -243,12 +244,18 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public double getDistance(Member loginMember, Member writerMember) {
-		
+
 		double loginLat =  Double.parseDouble(loginMember.getLatitude());
 		double loginLon = Double.parseDouble(loginMember.getLongitude());
-		
+
+//		double loginLat =  Double.parseDouble(loginMember.getLongitude());
+//		double loginLon =  Double.parseDouble(loginMember.getLatitude());
+
 		double writeLat = Double.parseDouble(writerMember.getLatitude());
 		double writeLon = Double.parseDouble(writerMember.getLongitude());
+
+//		double writeLat = Double.parseDouble(writerMember.getLongitude());
+//		double writeLon = Double.parseDouble(writerMember.getLatitude());
 		
 		double loginLatRad = Math.toRadians(loginLat);
 		double loginLonRad = Math.toRadians(loginLon);
@@ -279,11 +286,37 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.selectCareByLogin(paging, loginMember, distance);
 	}
 	
+	@Override
+	public void inputCareReport(ReportBoard reportBoard, String writeDetail) {
+		
+		if("기타".equals(reportBoard.getReportDetail())) {
+			reportBoard.setReportDetail(writeDetail);
+		}
+		
+		logger.info("reportBoard : {}", reportBoard);
+		
+		boardDao.insertCareReport(reportBoard);
+	}
+	
+	@Override
+	public List<NoticeFile> getNoticeFileList(int noticeno) {
+		return boardDao.selectNoticeFileFromNoticeno(noticeno);
+	} 
+	
+	@Override
+	public void inputCareCommentReport(ReportComment reportComment, String writeDetail) {
+		
+		if("기타".equals(reportComment.getReportDetail())) {
+			reportComment.setReportDetail(writeDetail);
+			logger.info("기타가맞나");
+		}
+		
+		logger.info("reportComment: {}", reportComment);
+		
+		boardDao.insertCareCommentReport(reportComment);
+	}
 	
 	//-------------------------------제균----------------------------------
-
-	
-
 
 
 	@Override
@@ -450,6 +483,7 @@ public class BoardServiceImpl implements BoardService{
 	}
 	public Map<String, Object> getCareView(int boardNo) {
 		
+		boardDao.updateHits(boardNo);
 		Map<String, Object> boardMap = boardDao.selectBoardOne(boardNo);
 //		logger.info("boardMap : {}", boardMap);
 		
@@ -562,8 +596,8 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public void reportComment(ReportComment rc, String writeDetail) {
-		if("기타".equals(rc.getReportdetail()) ) {
-			rc.setReportdetail(writeDetail);
+		if("기타".equals(rc.getReportDetail()) ) {
+			rc.setReportDetail(writeDetail);
 		}
 		boardDao.insertCommentNo(rc);
 	}

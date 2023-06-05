@@ -311,6 +311,23 @@ $(function(){
 	})
 	
 })
+
+<%-- 게시글 신고 함수 --%>
+function report() {
+	if(${empty userno}){
+		alert("로그인을 해주세요.")
+		return
+	}
+	
+	window.open("./reportPopup?boardNo="+${map.BOARDNO}, "신고", "width=400, height=500, resizable=no");
+}
+function reportComment(commentNo){
+	if(${empty userno}){
+		alert("로그인을 해주세요.")
+		return
+	}
+	window.open("./reportComment?commentNo="+commentNo, "신고", "width=400, height=500, resizable=no" );
+}
 </script>
 
 <div id = "fcontainer" >
@@ -403,7 +420,7 @@ $(function(){
 				</c:if>
 		 </div>
 	 </div>
-		 <div id="map" style="width:757px;height:266px;"></div>
+		 <div id="map" style="width:797px;height:266px;"></div>
 		 <script type="text/javascript">
 			 var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
 			 var options = { //지도를 생성할 때 필요한 기본 옵션
@@ -425,13 +442,15 @@ $(function(){
 				});
 				
 		 </script>
+		 <div style="text-align: right;">
+		 	<span style="color: #ccc; cursor: pointer;" onclick="report()" >게시글 신고</span>
+		 </div>
 		<hr>
 	 <table>
 	 <c:if test="${login eq true }">
 	 	<tr>
 	 		<td class = "left-side" > 댓글 <input type="text" id="comment" onkeypress="enterkey(event)"></td>
 	 		<td><button type="button" id="commentInput" onclick="commentInput('${userno}', '${map.BOARDNO }')">입력</button></td>
-	 		<td id = "refresh" class = "cursor">새로고침</td>
 	 	</tr>
  	</c:if>
 	 </table>
@@ -448,8 +467,8 @@ $(function(){
 	  <div class="modal-content">
 	    <h2>정말 게시글을 삭제하시겠습니까?</h2><br>
 	    <div style="text-align: center;">
-		    <button id="submit">예</button>
-		    <button id="cancel">아니오</button>
+		    <button id="submit" style="width: 120px; height: 33px; font-size: 17px; font-weight: bold; background-color: #f5cbcb; border-radius: 10px 10px 10px 10px / 10px 10px 10px 9px; border: none; color: #FF5050; cursor: pointer;">예</button>
+		    <button id="cancel" style="width: 120px; height: 33px; font-size: 17px; font-weight: bold; background-color: #f5cbcb; border-radius: 10px 10px 10px 10px / 10px 10px 10px 9px; border: none; color: #FF5050; cursor: pointer;">아니오</button>
 	    </div>
 	  </div>
 	</div>

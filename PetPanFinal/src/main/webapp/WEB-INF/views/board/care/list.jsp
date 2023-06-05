@@ -17,17 +17,19 @@
 }
 </style>
 <script type="text/javascript">
+window.onload = function() {
+	
+	//로그인이 안되어있을 경우 로그인 해야 제대로 이용 가능하다는 alert창 띄우기
+	if(${login} == null){
+		window.alert('로그인을 하셔야 제대로 이용이 가능합니다.')
+	}
+	
+}
 function searchInit(){
 // 	console.log("클릭했다")
 	$("#search").val('');
 	$("#searchBtn").click();
 }
-$(function() {
-	//JQuery DOM 영역
-	
-	
-})
-
 //쪽지모달창
 function closeLayer( obj ) {
 	$(obj).parent().parent().hide();

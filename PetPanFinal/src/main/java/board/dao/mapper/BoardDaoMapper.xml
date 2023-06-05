@@ -115,8 +115,8 @@
 	</insert>
 	
 	<select id="selectCommentByBoardno" parameterType="int" resultType="hashmap">
-		SELECT * FROM commenttable
-		WHERE boardno = #{boardno}
+		SELECT c.*, userid FROM commenttable c, member m
+		WHERE boardno = #{boardno} AND m.userno = c.userno
 		ORDER BY organization DESC, sortno
 	</select>
 	
@@ -181,24 +181,24 @@
 		        AND BF.fileno = (SELECT max(fileno) FROM boardFile BF WHERE B.boardno = BF.boardno(+))
 		        <choose>
 			        <when test="distance == 2" >
-				        AND latitude BETWEEN #{loginMember.latitude}-0.019 AND #{loginMember.latitude}+0.019
-				        AND longitude BETWEEN #{loginMember.longitude}-0.022 AND #{loginMember.longitude}+0.022
+				        AND latitude BETWEEN #{loginMember.latitude}-0.0129 AND #{loginMember.latitude}+0.0129
+				        AND longitude BETWEEN #{loginMember.longitude}-0.0159 AND #{loginMember.longitude}+0.0159
 			        </when>
 			        <when test="distance == 4" >
-				        AND latitude BETWEEN #{loginMember.latitude}-0.038 AND #{loginMember.latitude}+0.038
-				        AND longitude BETWEEN #{loginMember.longitude}-0.044 AND #{loginMember.longitude}+0.044
+				        AND latitude BETWEEN #{loginMember.latitude}-0.0258 AND #{loginMember.latitude}+0.0258
+				        AND longitude BETWEEN #{loginMember.longitude}-0.0318 AND #{loginMember.longitude}+0.0318
 			        </when>
 			        <when test="distance == 6" >
-				        AND latitude BETWEEN #{loginMember.latitude}-0.057 AND #{loginMember.latitude}+0.057
-				        AND longitude BETWEEN #{loginMember.longitude}-0.066 AND #{loginMember.longitude}+0.066
+				        AND latitude BETWEEN #{loginMember.latitude}-0.0387 AND #{loginMember.latitude}+0.0387
+				        AND longitude BETWEEN #{loginMember.longitude}-0.0477 AND #{loginMember.longitude}+0.0477
 			        </when>
 			        <when test="distance == 8" >
-				        AND latitude BETWEEN #{loginMember.latitude}-0.076 AND #{loginMember.latitude}+0.076
-				        AND longitude BETWEEN #{loginMember.longitude}-0.088 AND #{loginMember.longitude}+0.088
+				        AND latitude BETWEEN #{loginMember.latitude}-0.0516 AND #{loginMember.latitude}+0.0516
+				        AND longitude BETWEEN #{loginMember.longitude}-0.0636 AND #{loginMember.longitude}+0.0636
 			        </when>
 			        <when test="distance == 10" >
-				        AND latitude BETWEEN #{loginMember.latitude}-0.095 AND #{loginMember.latitude}+0.095
-				        AND longitude BETWEEN #{loginMember.longitude}-0.110 AND #{loginMember.longitude}+0.110
+				        AND latitude BETWEEN #{loginMember.latitude}-0.0645 AND #{loginMember.latitude}+0.0645
+				        AND longitude BETWEEN #{loginMember.longitude}-0.0795 AND #{loginMember.longitude}+0.0795
 			        </when>
 		        </choose>
         	ORDER BY boardno DESC
@@ -206,6 +206,27 @@
 		)
 		WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
 	</select>
+	
+	<insert id="insertCareReport">
+		INSERT INTO reportboard(BOREPORTNO, reportdetail, report_date, complete, userno, boardno)
+		VALUES(SEQ_REPORTBOARD.nextval , #{reportDetail}, sysdate, 'N', #{userNo}, #{boardNo})		
+	</insert>
+	
+	<update id="updateHits" parameterType="int">
+		UPDATE board set hit = hit + 1
+		WHERE boardno = #{boardNo}
+	</update>
+	
+	<select id="selectNoticeFileFromNoticeno" parameterType="int" resultType="board.dto.NoticeFile">
+		SELECT * FROM noticefile
+		WHERE noticeno = #{noticeno}
+		ORDER BY fileno
+	</select>
+	
+	<insert id="insertCareCommentReport" parameterType="board.dto.ReportComment" >
+		INSERT INTO reportcomment (coreportno, reportdetail, report_date, complete, userno, commentno)
+		VALUES (seq_reportcomment.nextval, #{reportDetail}, sysdate, 'N', #{userNo}, #{commentNo} )
+	</insert>
 	
 	<!-- ===============================제균=============================== -->
 	

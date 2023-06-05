@@ -12,6 +12,7 @@ import board.dto.Comment;
 import board.dto.Hospital;
 import board.dto.HospitalFile;
 import board.dto.Notice;
+import board.dto.NoticeFile;
 import board.dto.ReportBoard;
 import board.dto.ReportComment;
 import member.dto.Member;
@@ -157,6 +158,29 @@ public interface BoardService {
 	 * @return
 	 */
 	public List<Map<String, Object>> getCareListFromLogin(Paging paging, Member loginMember, String distance);
+	
+	/**
+	 * 신고를 신고테이블에 올리는 메소드
+	 * 
+	 * @param reportBoard
+	 */
+	public void inputCareReport(ReportBoard reportBoard, String writeDetail);
+	
+	/**
+	 * 공지사항 파일을 가져오는 메소드
+	 * 
+	 * @param noticeno
+	 * @return
+	 */
+	public List<NoticeFile> getNoticeFileList(int noticeno);
+	
+	/**
+	 * 댓글을 신고하는 메소드
+	 * 
+	 * @param reportComment
+	 * @param writeDetail
+	 */
+	public void inputCareCommentReport(ReportComment reportComment, String writeDetail);
 	
 	//---------------------------제균------------------------------------
 
@@ -315,6 +339,5 @@ public interface BoardService {
 	 */
 	public Member getUserInfo(int userNo);
 
-	
 
 }

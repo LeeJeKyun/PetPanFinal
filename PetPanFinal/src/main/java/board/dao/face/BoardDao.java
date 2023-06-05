@@ -10,6 +10,7 @@ import board.dto.BoardFile;
 import board.dto.BoardRecommend;
 import board.dto.Comment;
 import board.dto.Notice;
+import board.dto.NoticeFile;
 import board.dto.ReportBoard;
 import board.dto.ReportComment;
 import member.dto.Member;
@@ -177,7 +178,7 @@ public interface BoardDao {
 	public Member getMemberByBoardMap(Map<String, Object> map);
 	
 	/**
-	 * 
+	 * 로그인을 한 경우 로그인 회원 주변의 게시글을 가져온다.
 	 * 
 	 * @param paging
 	 * @param loginMember
@@ -185,6 +186,36 @@ public interface BoardDao {
 	 * @return
 	 */
 	public List<Map<String, Object>> selectCareByLogin(@Param("paging")Paging paging, @Param("loginMember") Member loginMember, @Param("distance")String distance);
+	
+	/**
+	 * 품앗이 게시판의 신고내역을 insert하는 메소드
+	 * 
+	 * @param reportBoard
+	 */
+	public void insertCareReport(ReportBoard reportBoard);
+	
+	/**
+	 * 게시글 조회수를 1 증가시키는 메소드
+	 * 
+	 * @param boardNo
+	 */
+	public void updateHits(int boardNo);
+	
+	/**
+	 * 공지사항 번호로 공지사항파일을 가져오는 메소드
+	 * 
+	 * @param noticeno
+	 * @return
+	 */
+	public List<NoticeFile> selectNoticeFileFromNoticeno(int noticeno);
+	
+	/**
+	 * 댓글신고 테이블에 댓글신고를 insert하는 메소드 
+	 * 
+	 * @param reportComment
+	 */
+	public void insertCareCommentReport(ReportComment reportComment);
+	
 	
 	//--------------------------제균--------------------------------
 
