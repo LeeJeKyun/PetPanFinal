@@ -77,7 +77,7 @@ $(document).ready(function(){
 		</div>
 	</form>
 	<div align="center" id="searchbottom" class="searchbottom">
-	<form action="<%=request.getContextPath() %>/admin/reportboard/list" method="get">
+	<form action="<%=request.getContextPath() %>/admin/buyer/list" method="get">
 		<input type="text" name="search" value="${search }">
 		<input type="submit" id="codeIdSubmit" value="검색" class="btn btn-info">
 	</form>

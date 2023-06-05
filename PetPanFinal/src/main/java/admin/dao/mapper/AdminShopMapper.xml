@@ -9,7 +9,7 @@
 	</select>
 	
   	<select id="ShoptselectAll" resultType="shop.dto.Shop" parameterType="util.AdminPaging">
-  		SELECT re.* FROM(SELECT rownum rnum, O.* FROM(SELECT * FROM SHOP ORDER BY OBJECTNO DESC) O) re WHERE rnum BETWEEN #{startNo} AND #{endNo}
+  		SELECT re.* FROM(SELECT rownum rnum, O.* FROM(SELECT * FROM SHOP WHERE NAME LIKE ('%${search}%') ORDER BY OBJECTNO DESC) O) re WHERE rnum BETWEEN #{startNo} AND #{endNo}
   	</select>
   	
   	<update id="updateShop" parameterType="int">
@@ -64,6 +64,7 @@
 		FROM ORDERUSER o, ORDERTHING t, SHOP s
 		WHERE o.buyno = t.buyno
 		AND t.objectno = s.objectno
+		AND buyername LIKE ('%${search}%')
 		ORDER BY o.buyno DESC) B)) re WHERE rnum BETWEEN #{startNo} AND #{endNo}
 	</select>
 	
@@ -106,6 +107,7 @@
 		        FROM REPORTOBJECT R, SHOP S, MEMBER M
 		        WHERE R.OBJECTNO = S.OBJECTNO
 		        AND R.USERNO = M.USERNO
+		        AND REPORTDETAIL LIKE ('%${search}%')
 		        ORDER BY UPPER(complete) ASC, OBJREPORTNO DESC
 		    ) B
 		) re
@@ -124,5 +126,16 @@
   		SELECT * FROM MEMBER
   		WHERE USERNO = #{userNo}
   	</select>
+  	
+  	<update id="updateReportobject" parameterType="int">
+  		UPDATE REPORTOBJECT SET COMPLETE = 'Y' WHERE objreportNo = #{objreportNo}
+  	</update>
+  	
+  	<update id="updateReportObjectComplete" parameterType="java.util.List">
+  		UPDATE REPORTOBJECT SET COMPLETE = 'Y' WHERE objreportNo IN
+  		<foreach collection="list" item="objreportNo" open="(" close=")" separator=",">
+ 			#{objreportNo.objreportNo}
+		</foreach>
+  	</update>
 	
   </mapper>

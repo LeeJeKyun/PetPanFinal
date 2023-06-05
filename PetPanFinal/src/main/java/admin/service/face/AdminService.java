@@ -111,6 +111,10 @@ public interface AdminService {
 
 	public Member getShopReportMember(ReportObject reportObject);
 
+	public void changeObjReportAndAddBlack(Integer objreportNo, Integer objectNo, Integer userNo, String reason);
+
+	public void changeObjReport(List<String> delete);
+
 
 
 	
