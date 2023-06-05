@@ -21,7 +21,9 @@ import shop.dto.Basket;
 import shop.dto.OrderThing;
 import shop.dto.OrderUser;
 import shop.dto.Review;
+import shop.dto.ReviewFile;
 import shop.dto.Shop;
+import shop.dto.ShopFile;
 import shop.service.face.ShopService;
 import util.ReviewPaging;
 import util.ShopPaging;
@@ -36,13 +38,15 @@ public class ShopController {
 	
 	@GetMapping("/main")
 	public void main(Model model, ShopPaging paging
-			,@RequestParam(value="curPage", required=false, defaultValue = "1")int curPage) {
+			,@RequestParam(value="curPage", required=false, defaultValue = "1")int curPage
+			,@RequestParam(required=false,defaultValue = "")String search) {
 		//페이징
-		paging = shopService.getpaging(curPage);
+		paging = shopService.getpaging(curPage,search);
 		
 		//상품 전체 조회
 		List<Shop> shoplist = shopService.shoplist(paging);
 		
+		model.addAttribute("search", search);
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", shoplist);
 	}
@@ -75,12 +79,21 @@ public class ShopController {
 		paging = shopService.reviewPaging(curPage);
 		review.setObjectno(shop.getObjectno());
 
-		System.out.println(review);
+		int checkReview = shopService.cntReview(review);
 		
-		List<Map<String, Object>> reviewList= shopService.reviewList(review);
-		
-		System.out.println(reviewList);
-		model.addAttribute("reviewList", reviewList);
+		if(checkReview > 0) {
+			
+			List<Review> reviewList= shopService.reviewList(review);
+			
+			List<ReviewFile> FileList = shopService.fileList(review);
+			
+			System.out.println(reviewList);
+			System.out.println(FileList);
+			
+			model.addAttribute("reviewList", reviewList);
+			model.addAttribute("filelist", FileList);
+			
+		}
 		
 	}
 	@GetMapping("/basket")
@@ -219,25 +232,26 @@ public class ShopController {
 	}
 	
 	@GetMapping("/writeReview")
-	public void writeReview(int objectno, Model model){
+	public void writeReview(int objectno,int buyno, Model model){
 		
 		model.addAttribute("objectno",objectno);
+		model.addAttribute("buyno",buyno);
 		
 	}
 		
 	@PostMapping("/writeReview")
 	public String writeReviewPost(HttpSession session, Review review
 								,@RequestParam(value = "file", required = false)List<MultipartFile> fileList
-								,@RequestParam(required = false) List<Integer> no) {
+								,@RequestParam(required = false) List<Integer> no
+								,OrderUser orderUser) {
 		
 		review.setUserno((int)session.getAttribute("userno"));
 		
-		System.out.println("ㅇㅇㅇ " + review);
-
-		if(review.getReviewcontent() == null || review.getReviewtitle() == null )
-		return "redirect:/shop/main";
+		if(review.getReviewcontent() == null || review.getReviewtitle() == null ) {
+			return "redirect:/shop/main";
+		}
 		
-		shopService.writeReview(fileList, review, no);
+		shopService.writeReview(fileList, review, no, orderUser);
 		
 		return "redirect:/shop/main";
 	}

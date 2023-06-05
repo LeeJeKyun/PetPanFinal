@@ -9,7 +9,9 @@ import member.dto.Member;
 import shop.dto.Basket;
 import shop.dto.OrderUser;
 import shop.dto.Review;
+import shop.dto.ReviewFile;
 import shop.dto.Shop;
+import shop.dto.ShopFile;
 import util.Paging;
 import util.ReviewPaging;
 import util.ShopPaging;
@@ -19,9 +21,10 @@ public interface ShopService {
 	/**
 	 * 페이징
 	 * @param curPage
+	 * @param search 
 	 * @return
 	 */
-	public ShopPaging getpaging(int curPage);
+	public ShopPaging getpaging(int curPage, String search);
 
 	/**
 	 * 쇼핑 메인페이지 리스트
@@ -29,6 +32,7 @@ public interface ShopService {
 	 * @return 전체 쇼핑 게시판 리스트
 	 */
 	public List<Shop> shoplist(ShopPaging paging);
+	
 
 	/**
 	 * 쇼핑 상세페이지
@@ -62,11 +66,17 @@ public interface ShopService {
 
 	public ReviewPaging reviewPaging(int curPage);
 
-	public List<Map<String, Object>> reviewList(Review review);
+	public List<Review> reviewList(Review review);
 
 	public List<Map<String, Object>> orderList(OrderUser orderUser);
 
-	public void writeReview(List<MultipartFile> fileList, Review review, List<Integer> no);
+	public void writeReview(List<MultipartFile> fileList, Review review, List<Integer> no, OrderUser orderUser);
+
+	public List<ReviewFile> fileList(Review review);
+
+	public int cntReview(Review review);
+
+	
 
 
 
