@@ -124,7 +124,9 @@ public interface MemberDao {
 	 * @param hospitalNo 확인할 병원 번호
 	 * @return 없으면 0
 	 */
-	public int selectIsHospitalNo(int hospitalNo);
+	public Integer selectIsHospitalNo(int hospitalNo);
+
+	public Integer selectHospitalNo(int userNo);
 
 
 

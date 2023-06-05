@@ -309,6 +309,15 @@ public interface BoardService {
 	 */
 	public List<Map<String, Object>> getHospitalInfo(HospitalPaging paging);
 
+	/**
+	 * 병원의 상세보기 정보 가져오기
+	 * userNo이 -1이면 비로그인 상태 거리 안뜸
+	 * @param hospitalNo 상세보기할 병원의 hospitalNo
+	 * @param userNo 
+	 * @return 병원의 상세 정보
+	 */
+	public Map<String, Object> getHospitalDetail(int hospitalNo, int userNo);
+
 
 	
 

@@ -352,13 +352,16 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public void insertHospital(Hospital hospital) {
-
+	public int insertHospital(Hospital hospital) {
+		int hospitalNo = 0;
 		// 이미 병원 정보가 DB에 있는지 확인
-		if( memberDao.selectIsHospitalNo(hospital.getHospitalNo()) == 0) {
+		Integer hn = memberDao.selectIsHospitalNo(hospital.getUserNo());
+		if( null == hn || hn == 0) { //없을 때
 			memberDao.insertHospital(hospital);
+		}else { //있을 때
+			hospitalNo = memberDao.selectHospitalNo(hospital.getUserNo());
 		}
-		
+		return hospitalNo;
 	}
 	
 	

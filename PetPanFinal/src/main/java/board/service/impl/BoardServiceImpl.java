@@ -647,8 +647,56 @@ public class BoardServiceImpl implements BoardService{
 		return list;
 	}
 
-	
-
-
+	@Override
+	public Map<String, Object> getHospitalDetail(int hospitalNo, int userNo) {
+		//Map<String, Object> map = new HashMap<>();
+		logger.info("hospitalNo {}, userNo {}", hospitalNo, userNo);
+		Map<String, Object> map = boardDao.selectHospitalDetail(hospitalNo);
+		
+		logger.info("map {}", map);
+		if(userNo == -1) {
+			//거리 없음
+			return map;
+		}else {
+			logger.info("안 userNo {}", userNo);
+			//병원의 경도, 위도
+			//H_longitude, H_latitude 병원
+			// U_longitude, U_longitude 유저
+			Map<String, String> Loc = boardDao.selectHospitalLoc(hospitalNo);
+			logger.info("Loc {}", Loc);
+			
+			Map<String, String> userLoc = boardDao.selectUserLoc(userNo);
+			logger.info("userLoc get {}", userLoc.get("U_LONGITUDE"));
+			
+			Loc.put("U_LONGITUDE", userLoc.get("U_LONGITUDE"));
+			Loc.put("U_LATITUDE", userLoc.get("U_LATITUDE"));
+			
+			logger.info("Loc {}", Loc);
+			double distance = calculateDistance(Loc);
+			logger.info("distance {} ", distance);
+			
+			map.put("distance", distance);
+		}
+		return map;
+//		if(userNo == -1) {
+//			//거리 없음
+//			return boardDao.selectHospitalDetail(hospitalNo); 
+//		}else {
+//			Map<String, Integer> map = new HashMap<>();
+//			map.put("hospitalNo", hospitalNo);
+//			map.put("userNo", userNo);
+//			//거리까지 반환
+//			return boardDao.selectHospitalDetailUserNo(map); 
+//		}
+		
+	}
+	public double calculateDistance(Map<String, String> loc) {
+		return 6371.0 * Math.acos(  
+		          Math.cos(Math.toRadians( Double.valueOf(loc.get("U_LONGITUDE"))   ) )
+		          * Math.cos( Math.toRadians(Double.valueOf( loc.get("H_LONGITUDE"))  ) )
+		          * Math.cos( Math.toRadians( Double.valueOf(loc.get("H_LATITUDE"))  ) - Math.toRadians(Double.valueOf( loc.get("U_LATITUDE"))) )
+		          + (Math.sin(Math.toRadians(Double.valueOf( loc.get("U_LONGITUDE")) ) ) * Math.sin(( Math.toRadians(Double.valueOf( loc.get("H_LONGITUDE"))  ) ) )) 
+		          );        
+	}
 	
 }

@@ -77,32 +77,40 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		model.addAttribute("hospitalList", hospitalList);
 		model.addAttribute("paging", paging);
 	}
-	@GetMapping("/enroll")
-	public String hospitalEnrollPath(HttpSession session) {
-		if(null == session.getAttribute("login")) {
-			return "redirect:./list";
-		}
-		return "./board/hospital/enroll";
-	}
-	@PostMapping("/enroll")
-	public String hospitalEnroll(@RequestParam(required = false)List<MultipartFile> fileList
-									, @RequestParam(required = false)List<Integer> no
-									, Hospital hospital
-									, HttpSession session) {
-		logger.info("open {}",hospital.getOpen());
-		logger.info("close {}",hospital.getClose());
-		
-		hospital.setUserNo((int)session.getAttribute("userno"));
-		logger.info("hospital {}", hospital);
-		logger.info("hospital files {}", fileList);
-		
-		//boardService.enrollHospital(fileList, no, hospital);
-		
-		
-		return "redirect:./list";
-	}
+//	@GetMapping("/enroll")
+//	public String hospitalEnrollPath(HttpSession session) {
+//		if(null == session.getAttribute("login")) {
+//			return "redirect:./list";
+//		}
+//		return "./board/hospital/enroll";
+//	}
+//	@PostMapping("/enroll")
+//	public String hospitalEnroll(@RequestParam(required = false)List<MultipartFile> fileList
+//									, @RequestParam(required = false)List<Integer> no
+//									, Hospital hospital
+//									, HttpSession session) {
+//		logger.info("open {}",hospital.getOpen());
+//		logger.info("close {}",hospital.getClose());
+//		
+//		hospital.setUserNo((int)session.getAttribute("userno"));
+//		logger.info("hospital {}", hospital);
+//		logger.info("hospital files {}", fileList);
+//		
+//		//boardService.enrollHospital(fileList, no, hospital);
+//		
+//		
+//		return "redirect:./list";
+//	}
 	@GetMapping("/detail")
-	public void hospitalDetail(int hospitalNo, Model model) {
+	public void hospitalDetail(int hospitalNo, Model model, HttpSession session) {
+		int userNo = -1;
+		if(null != session.getAttribute("userno")) {
+			userNo = (int)session.getAttribute("userno");
+		}
+		Map<String, Object> map = boardService.getHospitalDetail(hospitalNo, userNo);
 		
+		logger.info("map {}", map);
+		
+		model.addAttribute("map", map);
 	}
 }

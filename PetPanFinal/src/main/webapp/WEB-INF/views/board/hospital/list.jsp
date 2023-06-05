@@ -53,7 +53,7 @@ $(function(){
 			</a>
 		</div>
 		<div class = "info-name">
-			<h4>병원이름${i.HOSPITALNAME }</h4>
+			<h4>${i.HOSPITALNAME }</h4>
 		</div>
 		<div class = "info">
 			<div>운영시간: ${i.OPEN } ~ ${i.CLOSE }</div>

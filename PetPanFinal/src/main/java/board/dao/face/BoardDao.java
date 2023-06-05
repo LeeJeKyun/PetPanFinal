@@ -473,6 +473,34 @@ public interface BoardDao {
 	 */
 	public List<Map<String, Object>> selectHospital(HospitalPaging paging);
 
+	/**
+	 * 병원의 정보 조회
+	 * @param hospitalNo 상세보기할 병원의  HospitalNo
+	 * @return 병원의 정보
+	 */
+	public Map<String, Object> selectHospitalDetail(int hospitalNo);
+
+	/**
+	 * 거리를 포함한 병원 정보를 조회
+	 * @param map hospitalNo, userNo
+	 * @return 로그인한 userNo의 주소와 병원까지의 주소 거리를 포함한 반환
+	 */
+	public Map<String, Object> selectHospitalDetailUserNo(Map<String, Integer> map);
+
+	/**
+	 * 병원의 위도, 경도 조회
+	 * @param hospitalNo hospitalNo
+	 * @return 병원 위치
+	 */
+	public Map<String, String> selectHospitalLoc(int hospitalNo);
+
+	/**
+	 * 유저의 위치 가져오기
+	 * @param userNo 조회할 위치의 userNo
+	 * @return 유저의 위치 위도, 경도
+	 */
+	public Map<String, String> selectUserLoc(int userNo);
+
 
 
 

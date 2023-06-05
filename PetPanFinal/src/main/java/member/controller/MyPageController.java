@@ -187,7 +187,8 @@ public class MyPageController {
 		logger.info("hospital: {}", hospital);
 		logger.info("fileList  컨: {}", fileList);
 		
-		memberService.insertHospital( hospital );
+		int hospitalNo = memberService.insertHospital( hospital );
+		hospital.setHospitalNo(hospitalNo);
 		boardService.enrollHospital(fileList, no, hospital);
 		
 		return "redirect:./mypage";
