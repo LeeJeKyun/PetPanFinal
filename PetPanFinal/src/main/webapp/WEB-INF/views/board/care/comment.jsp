@@ -8,13 +8,13 @@
 		
 		<table style="border: 1px solid #fff; margin-left: ${comment.DEPTH * 17}px">
 			<tr>
-				<td>글쓴이 ${comment.USERNAME}</td>
+				<td>글쓴이 ${comment.USERID}</td>
 				<td>(<fmt:formatDate value="${comment.WRITE_DATE }" pattern="yyyy.MM.dd"/>)</td>
-				<td><button>신고하기</button></td>
+				<td><span style="color: #555; cursor: pointer;" onclick="reportComment(${comment.COMMENTNO})">신고</span></td>
 			</tr>
 			<tr>
 				<td colspan="2"><span style="cursor: pointer;" onclick="showComCom(${comment.COMMENTNO})">${comment.CONTENT }</span></td>
-				<td><button>삭제</button></td>
+				<td><span style="color: #555; cursor: pointer;">삭제</span></td>
 			</tr>
 			<tr id="ComCom${comment.COMMENTNO }" class="displayNone">
 				<td colspan="2">

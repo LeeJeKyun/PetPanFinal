@@ -2,11 +2,7 @@ package board.service.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +22,8 @@ import board.dto.BoardFile;
 import board.dto.BoardRecommend;
 import board.dto.Comment;
 import board.dto.Hospital;
-import board.dto.HospitalFile;
 import board.dto.Notice;
+import board.dto.NoticeFile;
 import board.dto.ReportBoard;
 import board.dto.ReportComment;
 import board.service.face.BoardService;
@@ -246,10 +242,83 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.getMemberByBoardMap(map);
 	}
 
+	@Override
+	public double getDistance(Member loginMember, Member writerMember) {
+
+		double loginLat =  Double.parseDouble(loginMember.getLatitude());
+		double loginLon = Double.parseDouble(loginMember.getLongitude());
+
+//		double loginLat =  Double.parseDouble(loginMember.getLongitude());
+//		double loginLon =  Double.parseDouble(loginMember.getLatitude());
+
+		double writeLat = Double.parseDouble(writerMember.getLatitude());
+		double writeLon = Double.parseDouble(writerMember.getLongitude());
+
+//		double writeLat = Double.parseDouble(writerMember.getLongitude());
+//		double writeLon = Double.parseDouble(writerMember.getLatitude());
+		
+		double loginLatRad = Math.toRadians(loginLat);
+		double loginLonRad = Math.toRadians(loginLon);
+		double writeLatRad = Math.toRadians(writeLat);
+		double writeLonRad = Math.toRadians(writeLon);
+		
+		double result = 6371 * Math.acos(
+				
+				Math.cos(loginLatRad) *
+				Math.cos(writeLatRad) *
+				Math.cos(writeLonRad - loginLonRad) +
+				(Math.sin(loginLatRad) * Math.sin(writeLatRad))
+				
+				);
+		
+		return result;
+		
+	}
+	
+	@Override
+	public List<Map<String, Object>> getCareListFromLogin(Paging paging, Member loginMember, String distance) {
+		
+		logger.info("userInfo : {}", loginMember);
+		logger.info("distance : {}", distance);
+		
+		
+		
+		return boardDao.selectCareByLogin(paging, loginMember, distance);
+	}
+	
+	@Override
+	public void inputCareReport(ReportBoard reportBoard, String writeDetail) {
+		
+		if("기타".equals(reportBoard.getReportDetail())) {
+			reportBoard.setReportDetail(writeDetail);
+		}
+		
+		logger.info("reportBoard : {}", reportBoard);
+		
+		boardDao.insertCareReport(reportBoard);
+	}
+	
+	@Override
+	public List<NoticeFile> getNoticeFileList(int noticeno) {
+		return boardDao.selectNoticeFileFromNoticeno(noticeno);
+	} 
+	
+	@Override
+	public void inputCareCommentReport(ReportComment reportComment, String writeDetail) {
+		
+		if("기타".equals(reportComment.getReportDetail())) {
+			reportComment.setReportDetail(writeDetail);
+			logger.info("기타가맞나");
+		}
+		
+		logger.info("reportComment: {}", reportComment);
+		
+		boardDao.insertCareCommentReport(reportComment);
+	}
 	
 	//-------------------------------제균----------------------------------
 
-	
+
 	@Override
 	public Paging getPaging(Integer curPage, int category, String search) {
 		Paging paging = null;
@@ -414,6 +483,7 @@ public class BoardServiceImpl implements BoardService{
 	}
 	public Map<String, Object> getCareView(int boardNo) {
 		
+		boardDao.updateHits(boardNo);
 		Map<String, Object> boardMap = boardDao.selectBoardOne(boardNo);
 //		logger.info("boardMap : {}", boardMap);
 		
@@ -526,8 +596,8 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public void reportComment(ReportComment rc, String writeDetail) {
-		if("기타".equals(rc.getReportdetail()) ) {
-			rc.setReportdetail(writeDetail);
+		if("기타".equals(rc.getReportDetail()) ) {
+			rc.setReportDetail(writeDetail);
 		}
 		boardDao.insertCommentNo(rc);
 	}

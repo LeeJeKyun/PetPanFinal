@@ -133,7 +133,7 @@ a {
 
 
 <c:choose>
-<c:when test="${login eq null  }">
+<c:when test="${login eq null || login eq 'null' }">
 <%-- <h2>세션 상태: ${not empty login}</h2> --%>
 
 
@@ -227,7 +227,11 @@ a {
 </div>
 
 
-
+<div style="position: fixed; right: 235px; width: 50px; height: 50px; bottom: 100px; cursor: pointer;">
+	<a href="#header">∧<br>
+		위로
+	</a>
+</div>
 
 
 
