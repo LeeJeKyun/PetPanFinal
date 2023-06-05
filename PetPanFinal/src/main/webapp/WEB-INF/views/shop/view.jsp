@@ -172,6 +172,14 @@
   	}
   	.review_img{
   		float: left;
+  		width: 200px;
+  		height: 150px;
+  		padding: 5px;
+  	}
+  	.review_con{
+  		width: 150px;
+  		height: 100px;
+  		padding: 5px;
   	}
   	
   	.table{
@@ -181,6 +189,9 @@
   	}
   	.table_th{
   		width: 200px
+  	}
+  	.img_div{
+  		display: inline-block;
   	}
 
 </style>
@@ -248,15 +259,18 @@
 		<h3>상품평</h3>
 	</div>
 	<c:forEach items="${reviewList}" var="review">
-	<div class="review_img">
-		<img src="/images/download.jpg">
+	<div>
+		<img src="/upload/${review.IMAGE1 }" class="review_img">
 	</div>
 		
 	<table class="table">
-		<th class="table_th">상품명</th>
-		<th class="table_th">닉네임</th>
-		<th>평점</th>
 		<tr>
+			<th class="table_th">상품명</th>
+			<th class="table_th">닉네임</th>
+			<th>평점</th>
+		</tr>
+		<tr>
+	
 		    <td>${view.name }</td>
 		    <td>${review.USERNICK }</td>
 		    <td>
@@ -282,20 +296,54 @@
 			<td colspan="">${review.REVIEWCONTENT }</td>
 		</tr>
 	</table>
+	<div style="text-align: center;">
+		<c:forEach items="${filelist}" var="filelist">
+			<div class="img_div">
+				<img src="/upload/${filelist.storedname }" class="review_con" style="cursor: pointer;" onclick="doImgPop('/upload/${filelist.storedname }')">
+			</div>
+		</c:forEach>	
+	</div>
+	<div class="line">
+	</div>		
 	</c:forEach>
 	
 </div>
 
 <script type="text/javascript">
 
+function doImgPop(img){ 
+	 img1= new Image(); 
+	 img1.src=(img); 
+	 imgControll(img); 
+	} 
+	  
+	function imgControll(img){ 
+	 if((img1.width!=0)&&(img1.height!=0)){ 
+	    viewImage(img); 
+	  } 
+	  else{ 
+	     controller="imgControll('"+img+"')"; 
+	     intervalID=setTimeout(controller,20); 
+	  } 
+	}
 
+	function viewImage(img){ 
+	 W=img1.width; 
+	 H=img1.height; 
+	 O="width="+W+",height="+H+",scrollbars=yes"; 
+	 imgWin=window.open("","",O); 
+	 imgWin.document.write("<html><head><title>:*:*:*: 이미지상세보기 :*:*:*:*:*:*:</title></head>");
+	 imgWin.document.write("<body topmargin=0 leftmargin=0>");
+	 imgWin.document.write("<img src="+img+" onclick='self.close()' style='cursor:pointer;' title ='클릭하시면 창이 닫힙니다.'>");
+	 imgWin.document.close();
+	}
 $(function(){
 	
 	$('#plus').click(function(){
 		
 		console.log("plus click")
 		var cnt = $(".order_cnt").val()
-		
+				
 		cnt = parseInt(cnt)
 		
 		cnt++

@@ -131,10 +131,18 @@ public interface MemberService {
 
 	/**
 	 * 병원 정보 입력하기
-	 * 
+	 * 이미 있으면 있는 hospital 정보 객체 반환
 	 * @param hospital
 	 */
-	public void insertHospital(Hospital hospital);
+	public int insertHospital(Hospital hospital);
+
+	/**
+	 * 
+	 * 
+	 * @param email
+	 * @return
+	 */
+	public String joinEmail(String email);
 
 
 

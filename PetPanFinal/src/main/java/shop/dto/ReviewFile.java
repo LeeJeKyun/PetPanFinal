@@ -5,14 +5,14 @@ public class ReviewFile {
 	private int fileno;
 	private String originname;
 	private String storedname;
-	private int filesize;
+	private long filesize;
 	private int reviewno;
 	
 	public ReviewFile() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ReviewFile(int fileno, String originname, String storedname, int filesize, int reviewno) {
+	public ReviewFile(int fileno, String originname, String storedname, long filesize, int reviewno) {
 		super();
 		this.fileno = fileno;
 		this.originname = originname;
@@ -51,11 +51,11 @@ public class ReviewFile {
 		this.storedname = storedname;
 	}
 
-	public int getFilesize() {
+	public long getFilesize() {
 		return filesize;
 	}
 
-	public void setFilesize(int filesize) {
+	public void setFilesize(long filesize) {
 		this.filesize = filesize;
 	}
 
@@ -66,6 +66,7 @@ public class ReviewFile {
 	public void setReviewno(int reviewno) {
 		this.reviewno = reviewno;
 	}
+
 	
 		
 }

@@ -19,7 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.Comment;
+import board.dto.ReportBoard;
+import board.dto.ReportComment;
 import board.service.face.BoardService;
+import member.dto.Member;
 import util.Paging;
 
 @Controller
@@ -33,6 +36,8 @@ public class BoardCareController {
 			
 			@RequestParam(value = "curPage", defaultValue = "1") int curPage,
 			@RequestParam(value = "search", defaultValue = "") String search,
+			@RequestParam(value = "distance", defaultValue = "2") String distance,
+			HttpSession session,
 			Model model
 			
 			) {
@@ -40,19 +45,35 @@ public class BoardCareController {
 		logger.info("/care/list [GET]");
 		Paging paging = boardService.getCarePaging(curPage, search);
 		
-		List<Map<String, Object>> list = boardService.getCareList(paging);
+		List<Map<String, Object>> list = null;
+		
+		//로그인을 했을 때는 계정의 정보를 가져와서 주변 게시글만 띄워준다. 
+		if(session.getAttribute("login") != null && (boolean)session.getAttribute("login") != false) {
+			
+			int userno = (int)session.getAttribute("userno");
+			
+			Member loginMember = boardService.getUserInfo(userno);
+			
+			list = boardService.getCareListFromLogin(paging, loginMember, distance);
+			model.addAttribute("login", true);
+			
+		} else {
+		
+			list = boardService.getCareList(paging);
+			model.addAttribute("login", "null");
+			
+		}
 		List<Map<String, Object>> noticeList = boardService.getNoticeListToCare();
 		
 		//확인해보기
-		for(Map<String, Object> m : list) {
-			logger.info("map -> {}", m);
-		}
+//		for(Map<String, Object> m : list) {
+//			logger.info("map -> {}", m);
+//		}
 
 //		//확인해보기
 //		for(Map<String, Object> m : noticeList) {
 //			logger.info("map -> {}", m);
 //		}
-		
 		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
@@ -92,10 +113,14 @@ public class BoardCareController {
 			int boardNo
 			, Model model
 			, HttpSession session
+			
 			) {
 //		logger.info("boardNo {}", boardNo);
 		Map<String, Object> map = boardService.getCareView(boardNo);
 		logger.info("map : {}", map);
+		
+		Member writerMember = boardService.getMemberByBoard(map);
+		logger.info("writerMember: {}", writerMember);
 		
 		List<BoardFile> fileList = boardService.getCareFile(boardNo);
 		logger.info("fileList : {}", fileList);
@@ -103,7 +128,7 @@ public class BoardCareController {
 		int userNo = 0;
 		boolean isRecommended = false;
 		List<Map<String, Object>> commentList = boardService.getCommentList(boardNo);
-
+		
 		for(Map<String,Object> m : commentList) {
 			logger.info("{}", m);
 		}
@@ -112,14 +137,21 @@ public class BoardCareController {
 //			loginid = (String)session.getAttribute("loginid");
 			userNo = (int)session.getAttribute("userno");
 			
+			Member loginMember = boardService.getUserInfo(userNo);
+			logger.info("loginMember : {}", loginMember);
 			isRecommended = boardService.isRecommended(boardNo, userNo);
 //			logger.info("isRecommended : {} ", isRecommended);
+			model.addAttribute("loginMember", loginMember);
+			double distance = boardService.getDistance(loginMember, writerMember);
+			logger.info("{}", distance);
+			model.addAttribute("distance", distance * 1000);
 		}
 		
 		model.addAttribute("map", map);
 		model.addAttribute("fileList", fileList);
-		model.addAttribute("isRecommended", isRecommended)	;
+		model.addAttribute("isRecommended", isRecommended);
 		model.addAttribute("commentList", commentList);
+		model.addAttribute("writerMember", writerMember);
 		
 	}
 	
@@ -181,6 +213,76 @@ public class BoardCareController {
 		
 		model.addAttribute("commentList", commentList);
 		
+	}
+	
+	@GetMapping("/delete")
+	public String care_delete(
+			
+			Board board
+			
+			) {
+		logger.info("{}", board);
+		boardService.deleteBoardByBoardObj(board);
+		return "redirect: /board/care/list";
+	}
+	
+	@GetMapping("/reportPopup")
+	public void care_report(
+			
+			int boardNo,
+			Model model
+			
+			) {
+		logger.info("boardNo : {}", boardNo);
+		model.addAttribute("boardNo", boardNo);
+	}
+	
+	@PostMapping("/reportPopup")
+	public String care_reportProc(
+			
+			ReportBoard reportBoard,
+			@RequestParam(name = "writeDetail",defaultValue = "") String writeDetail,
+			HttpSession session
+			
+			) {
+		
+		logger.info("reportBoard : {}", reportBoard);
+		int userno = (int)session.getAttribute("userno");
+		logger.info("userno : {}", userno);
+		reportBoard.setUserNo(userno);
+		boardService.inputCareReport(reportBoard, writeDetail);
+		
+		return "/board/care/reportComplete";
+	}
+	
+	@GetMapping("/reportComment")
+	public void care_reportComment(
+			
+			int commentNo,
+			Model model
+			
+			) {
+		
+		logger.info("commentno : {}", commentNo);
+		model.addAttribute("commentNo", commentNo);
+		
+	}
+	
+	@PostMapping("/reportComment")
+	public String care_reportComment(
+			
+			ReportComment reportComment,
+			@RequestParam(name = "writeDetail", defaultValue = "") String writeDetail,
+			HttpSession session
+			
+			) {
+		
+		logger.info("reportComment : {}", reportComment);
+		int userno = (int)session.getAttribute("userno");
+		logger.info("userno : {}", userno);
+		reportComment.setUserNo(userno);
+		boardService.inputCareCommentReport(reportComment, writeDetail);
+		return "/board/care/reportComplete";
 	}
 	
 }

@@ -12,6 +12,9 @@
 
 $(function(){
 
+	if(${flag}){
+		window.close();
+	}
 	 $("[name='reportDetail']").click(function(){
 		 if ($("#other").is(':checked')){
 			 console.log("#other clicked")
@@ -25,7 +28,7 @@ $(function(){
 	$("button").click(function(){
 		if( $("[name='reportDetail']").is(':checked') ){
 			$("form").submit();
-			window.close();
+			alert("신고가 완료되었습니다.");
 		}else{
 			alert("사유를 선택해주세요.")
 		}
@@ -96,10 +99,9 @@ button{
 		</tr>
 	</table>
 	<!-- reportReason이 기타면 writeDetaiil로 처리 -->
-	<textarea name = "writeDetaiil" placeholder = "사유를 입력하세요." disabled></textarea>
+	<textarea name = "writeDetail" placeholder = "사유를 입력하세요." disabled></textarea>
 	
 	<!-- 신고할 boardNo -->
-	<!-- userNo은 세션에서 받기 -->
 	<input type = "hidden" name = "boardNo" value = "${boardNo }" >
 	<button type = "button">신고하기</button>
 	</form>

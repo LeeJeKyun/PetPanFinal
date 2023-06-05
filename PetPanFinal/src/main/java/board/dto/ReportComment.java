@@ -5,7 +5,7 @@ import java.util.Date;
 public class ReportComment {
 
 	private int coreportNo;
-	private String reportdetail;
+	private String reportDetail;
 	private Date reportDate;
 	private char complete;
 	private int userNo;
@@ -13,21 +13,20 @@ public class ReportComment {
 	
 	public ReportComment() {}
 
-	@Override
-	public String toString() {
-		return "ReportComment [coreportNo=" + coreportNo + ", reportdetail=" + reportdetail + ", reportDate="
-				+ reportDate + ", complete=" + complete + ", userNo=" + userNo + ", commentNo=" + commentNo + "]";
-	}
-
-	public ReportComment(int coreportNo, String reportdetail, Date reportDate, char complete, int userNo,
+	public ReportComment(int coreportNo, String reportDetail, Date reportDate, char complete, int userNo,
 			int commentNo) {
-		super();
 		this.coreportNo = coreportNo;
-		this.reportdetail = reportdetail;
+		this.reportDetail = reportDetail;
 		this.reportDate = reportDate;
 		this.complete = complete;
 		this.userNo = userNo;
 		this.commentNo = commentNo;
+	}
+
+	@Override
+	public String toString() {
+		return "ReportComment [coreportNo=" + coreportNo + ", reportDetail=" + reportDetail + ", reportDate="
+				+ reportDate + ", complete=" + complete + ", userNo=" + userNo + ", commentNo=" + commentNo + "]";
 	}
 
 	public int getCoreportNo() {
@@ -38,12 +37,12 @@ public class ReportComment {
 		this.coreportNo = coreportNo;
 	}
 
-	public String getReportdetail() {
-		return reportdetail;
+	public String getReportDetail() {
+		return reportDetail;
 	}
 
-	public void setReportdetail(String reportdetail) {
-		this.reportdetail = reportdetail;
+	public void setReportDetail(String reportDetail) {
+		this.reportDetail = reportDetail;
 	}
 
 	public Date getReportDate() {
@@ -77,4 +76,6 @@ public class ReportComment {
 	public void setCommentNo(int commentNo) {
 		this.commentNo = commentNo;
 	}
+
+	
 }

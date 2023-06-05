@@ -60,11 +60,17 @@
 			<c:when  test="${del eq 'n'}">
 	   		<td>배송준비중</td>
 	   		</c:when>
+			<c:when  test="${del eq '1'}">
+	   		<td>리뷰작성완료</td>
+	   		</c:when>
 	    </c:choose>
-		<c:set var="COMPLETE" value="${list.COMPLETE }" />
+			<c:set var="COMPLETE" value="${list.COMPLETE }" />
 			<c:if test="${COMPLETE eq 'y'}">
-		    <td><a href="./writeReview?objectno=${list.OBJECTNO }"><button>리뷰쓰기</button></a></td>
-		</c:if>
+		    	<td><a href="./writeReview?objectno=${list.OBJECTNO }&buyno=${list.BUYNO}"><button>리뷰쓰기</button></a></td>
+			</c:if>
+			<c:if test="${COMPLETE eq '1'}">
+				<td><button disabled="disabled">리뷰작성완료</button>
+			</c:if>
 	</tr>
 </tbody>
 </c:forEach>

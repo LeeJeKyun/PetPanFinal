@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +11,9 @@
 
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<!-- timepicker -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 <!-- 스마트에디터2  -->
 <script type="text/javascript" src = "<%=request.getContextPath() %>/resources/se2/js/service/HuskyEZCreator.js"></script>
 
@@ -101,6 +106,7 @@ a {
 	position: absolute;
 	background: #FFDAD7;
 /* 	opacity: 0.9; */
+	z-index: 1;
 
 }
 
@@ -126,15 +132,37 @@ a {
 <div id="header">  <!-- header -->
 
 
+<c:choose>
+<c:when test="${login eq null || login eq 'null' }">
+<%-- <h2>세션 상태: ${not empty login}</h2> --%>
 
 
 <div id="member">
 <small><a href="<%=request.getContextPath() %>/member/login/login">로그인</a></small>
-
-
 <small><a href="<%=request.getContextPath() %>/member/login/join">회원가입</a></small>
 
 </div>
+</c:when>
+
+<c:when test="${login eq true  }">
+<%-- <h2>세션 상태: ${login eq true }</h2> --%>
+<div id="member">
+<small><a href="<%=request.getContextPath() %>/member/login/logout">로그아웃</a></small>
+<small><a href="<%=request.getContextPath() %>/member/mypage/mypage">마이페이지</a></small>
+</div>
+
+</c:when>
+
+</c:choose>
+
+
+<!-- <div id="member"> -->
+<%-- <small><a href="<%=request.getContextPath() %>/member/login/login">로그인</a></small> --%>
+
+
+<%-- <small><a href="<%=request.getContextPath() %>/member/login/join">회원가입</a></small> --%>
+
+<!-- </div> -->
 
 
 <h1><a href="/">PET PAN</a></h1>
@@ -163,7 +191,7 @@ a {
 			<ul>
 				<li><a href="<%=request.getContextPath() %>/shop/main">쇼핑</a></li>
 				<li><a href="<%=request.getContextPath() %>/shop/headBasket">장바구니</a></li>
-				<li><a href="<%=request.getContextPath() %>/shop/orderList">주문현황</a></li>
+				<li><a href="<%=request.getContextPath() %>/shop/orderList">구매내역</a></li>
 			</ul>
 		</li>
 		<li><a href="<%=request.getContextPath() %>/board/board">게시판</a>
@@ -175,16 +203,35 @@ a {
 		</li>
 			<li><a href="<%=request.getContextPath() %>/member/mypage/mypage">마이페이지</a>
 			<ul>
+				
+			<li><a href="<%=request.getContextPath() %>/member/mypage/mypage">마이페이지</a></li>
+				<c:choose>
+				
+				<c:when test="${login eq null  }">
 				<li><a href="<%=request.getContextPath() %>/member/login/join">회원가입</a></li>
+				
+				
 				<li><a href="<%=request.getContextPath() %>/member/login/login">로그인</a></li>
+				</c:when>
+				
+				<c:when test="${login eq true  }">
 				<li><a href="<%=request.getContextPath() %>/member/mypage/mypage">정보수정</a></li>
+				<li><a href="<%=request.getContextPath() %>/member/login/logout">로그아웃</a></li>
+			
+				</c:when>
+				</c:choose>
+				
 			</ul>
 		</li>
 	</ul>
 </div>
 
 
-
+<div style="position: fixed; right: 235px; width: 50px; height: 50px; bottom: 100px; cursor: pointer;">
+	<a href="#header">∧<br>
+		위로
+	</a>
+</div>
 
 
 

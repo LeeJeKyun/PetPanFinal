@@ -17,17 +17,19 @@
 }
 </style>
 <script type="text/javascript">
+window.onload = function() {
+	
+	//로그인이 안되어있을 경우 로그인 해야 제대로 이용 가능하다는 alert창 띄우기
+	if(${login} == null){
+		window.alert('로그인을 하셔야 제대로 이용이 가능합니다.')
+	}
+	
+}
 function searchInit(){
 // 	console.log("클릭했다")
 	$("#search").val('');
 	$("#searchBtn").click();
 }
-$(function() {
-	//JQuery DOM 영역
-	
-	
-})
-
 //쪽지모달창
 function closeLayer( obj ) {
 	$(obj).parent().parent().hide();
@@ -68,8 +70,16 @@ function message(e, userid){
 	$('.messageLayer').show();
 }
 function sendMessage(userid){
+	var login = '<%=session.getAttribute("login") %>';
+	console.log(login)
+	if(login != 'true'){
+		alert("로그인을 해주세요.")
+		$('.messageLayer').hide();
+		return;
+	}
 	console.log(userid)
-	location.href='<%=request.getContextPath() %>/message/message/send?userid=' + userid;
+	window.open("<%=request.getContextPath() %>/message/message/send?receiveuserid=" + userid, '쪽지', "width=400, height=500, resizable=no");
+	$('.messageLayer').hide();
 }
 </script>
 
@@ -80,10 +90,16 @@ function sendMessage(userid){
 <div style="text-align: left; width: 1100px; margin: 0 auto;">
 	<span style="font-size: 2em; font-weight: bold;">품앗이</span>
 	<select name="boardselect" id="boardselect" onchange="location.href=(this.value);" style="height: 30px; font-size: 16px;">
-	<option value="" selected="selected">품앗이</option>
-	<option value="">임시보호</option>
-	<option value="" >유기동물</option>
-</select>
+		<option value="" selected="selected">품앗이</option>
+		<option value="">임시보호</option>
+		<option value="" >유기동물</option>
+	</select>
+	
+	
+	<div style="text-align: right;">
+
+	</div>
+	
 </div>
 
 <br>
@@ -137,7 +153,18 @@ function sendMessage(userid){
 		</a>
 		</c:if>
 		</td>
-		<td style="width: 80%; text-align: right;">
+		<td style="width: 50%; text-align: right">
+			반경 선택
+			<select name="distance" id="distanceSelect" style="height: 30px; font-size: 16px;">
+				<option value="" selected="selected">선택</option>
+				<option value="2">2km</option>
+				<option value="4">4km</option>
+				<option value="6">6km</option>
+				<option value="8">8km</option>
+				<option value="10">10km</option>
+			</select>
+		</td>
+		<td style="width: 30%; text-align: right;">
 			<input type="text" id="search" name="search" value="${paging.search }" style=" width:290px; height: 24px; border: 1px solid #ccc;">
 			
 		</td>

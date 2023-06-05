@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import board.dto.Notice;
+import board.dto.NoticeFile;
 import board.service.face.BoardService;
 import util.Paging;
 
@@ -54,9 +55,13 @@ public class BoardNoticeController {
 		logger.info("{}", noticeno);
 		Notice notice = boardService.getNoticeView(noticeno);
 		
+		List<NoticeFile> filelist = boardService.getNoticeFileList(noticeno);
+		
 		logger.info("notice : {}" ,notice);
+		logger.info("filelist : {}" ,filelist);
 		//상세조회한 공지사항 jsp에 전달
 		model.addAttribute("notice", notice);
+		model.addAttribute("filelist", filelist);
 		
 	}
 	
