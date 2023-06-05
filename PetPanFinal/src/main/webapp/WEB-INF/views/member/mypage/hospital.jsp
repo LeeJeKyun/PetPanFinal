@@ -18,6 +18,47 @@ $(function() {
 		}
 	})
 	
+	// 파일 삭제, -1로 value 변경
+	$(document).on("click", ".xFile", function(){ 
+		console.log("xFile clicked")
+		
+		console.log( $(this).attr("data-no") )
+		var no = $(this).attr("data-no");
+		
+		console.log( $(".file-line")[no] )
+		
+		$("input[name=no]").get(no).value = -1;
+		
+		$(".file-line").eq(no).hide();
+		
+	})
+	// 파일 선택
+	$("#file").on('change', function(){
+		
+		console.log( "clicked");
+		console.log(document.getElementById("file").files)
+		console.log( document.getElementById("file").files.length )
+		
+		var file  = document.getElementById("file").files;
+		
+		
+		for(var i = 0; i < file.length; i++){
+			console.log( file[i].name );
+			$(".file-line").eq(i).remove();
+			$("#input-files").append("<tr class = 'file-line' data-no = " + i + ">"
+										+ "<td><input type = 'hidden' data-no = " + i +" name = 'no' value = " + i +"></td"
+										+ "<td><span class = 'file-name'>" + file[i].name + "</span></td>" 
+										+ "<td class = 'xFile' data-no = " + i + " > x</td>" 
+										+ "</td>")
+			console.log(i)
+			console.log(file[i].lastModified)
+		}
+	})
+	// ---------------
+	$("#fileBtn").click(function(){
+		$("#file").click();
+	})
+	
 })
 
 
@@ -93,14 +134,26 @@ input{
 	display: none;
 }
 
+#input-files{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+table{
+	 border-collapse: collapse;
+}
+tr:hover{
+	background-color: #ccc;
+}
+.xFile{
+	cursor: pointer;
+	
+}
+.file-name{
+	width:700px;
+	display:  inline-block;
+}
 </style>
-
-
-
-
-
-
-
 
 <div class="text">
 
@@ -109,7 +162,7 @@ input{
 <h2 style="color: #FF5050; text-align: center;">병원 등록</h2>
 
 	
-<form action="./hospital" method="post">
+<form action="./hospital" method="post" enctype ="multipart/form-data">
 	
    <div class="select">
       <label for="hospitalName">이름</label>
@@ -129,33 +182,34 @@ input{
        <input type="text"  id="close" name="close">
    </div><!-- time -->
 	
-
-
-
 <!-- <label style="color: #FF5050; font-size: small;">오전 : </label> -->
-
 
    <div class="select">
    <div>
-	   특수동물 여부<label><input type="checkbox" class="yn"> </label>
+	   <label>특수동물 여부<input type="checkbox" class="yn"> </label>
    </div><!-- select -->
 	   
 	<div>
-		<label >포유류</label>
-		<input type="checkbox" name="mammalia" value="y">
-		<label>파충류</label>
-		<input type="checkbox" name="reptile" value="y">
-		<label>설치류</label>
-		<input type="checkbox" name="rodent" value="y">
-		<label>조류</label>
-		<input type="checkbox" name="birds" value="y">
+		<label >포유류
+		<input type="checkbox" name="mammalia" value="y"></label>
+		<label>파충류
+		<input type="checkbox" name="reptile" value="y"></label>
+		<label>설치류
+		<input type="checkbox" name="rodent" value="y"></label>
+		<label>조류
+		<input type="checkbox" name="birds" value="y"></label>
 	</div>
 	
+	<!-- 병원 사진 추가 -->
+	<!-- 병원 사진 1장만 -->
+	<input type ="file" name ="file" id = "file"  accept = ".gif, .jpg, .png, .jpeg" style = "display: none"><br>
+	<button type = "button" id ="fileBtn" >첨부파일</button>
+	<table id = "input-files"></table>
 	
    </div><!-- select -->
-
+	
    <div class="select">
-      <button id="btn">등록하기</button>
+      <button type = "submit" id="btn">등록하기</button>
    </div><!-- select -->
 
 </form>

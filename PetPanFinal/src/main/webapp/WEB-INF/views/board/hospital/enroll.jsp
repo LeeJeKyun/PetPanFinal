@@ -171,7 +171,6 @@ $(function(){
 			<br>
 			<input type ="file" name ="file" id = "file" multiple = "multiple" accept = ".gif, .jpg, .png, .jpeg" style = "display: none"><br>
 			<button type = "button" id ="fileBtn" >첨부파일</button>
-			<!-- <div id = "input-files"></div> -->
 			<table id = "input-files"></table>
 			
 			<button type = "submit"  id = "btnWrite" >등록</button>

@@ -13,21 +13,20 @@ public class ReportComment {
 	
 	public ReportComment() {}
 
-	@Override
-	public String toString() {
-		return "ReportComment [coreportNo=" + coreportNo + ", reportDetail=" + reportDetail + ", reportDate="
-				+ reportDate + ", complete=" + complete + ", userNo=" + userNo + ", commentNo=" + commentNo + "]";
-	}
-
 	public ReportComment(int coreportNo, String reportDetail, Date reportDate, char complete, int userNo,
 			int commentNo) {
-		super();
 		this.coreportNo = coreportNo;
 		this.reportDetail = reportDetail;
 		this.reportDate = reportDate;
 		this.complete = complete;
 		this.userNo = userNo;
 		this.commentNo = commentNo;
+	}
+
+	@Override
+	public String toString() {
+		return "ReportComment [coreportNo=" + coreportNo + ", reportDetail=" + reportDetail + ", reportDate="
+				+ reportDate + ", complete=" + complete + ", userNo=" + userNo + ", commentNo=" + commentNo + "]";
 	}
 
 	public int getCoreportNo() {
@@ -38,11 +37,11 @@ public class ReportComment {
 		this.coreportNo = coreportNo;
 	}
 
-	public String getReportdetail() {
+	public String getReportDetail() {
 		return reportDetail;
 	}
 
-	public void setReportdetail(String reportDetail) {
+	public void setReportDetail(String reportDetail) {
 		this.reportDetail = reportDetail;
 	}
 
@@ -77,4 +76,6 @@ public class ReportComment {
 	public void setCommentNo(int commentNo) {
 		this.commentNo = commentNo;
 	}
+
+	
 }

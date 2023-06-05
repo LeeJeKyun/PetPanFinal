@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import board.service.face.BoardService;
 import member.dto.Hospital;
 import member.dto.Member;
 import member.dto.Pet;
@@ -30,7 +31,7 @@ public class MyPageController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired private MemberService memberService;
-	
+	@Autowired private BoardService boardService;
 	
 	@GetMapping("/mypage/mypage")
 	public void mypage(
@@ -177,15 +178,18 @@ public class MyPageController {
 			Hospital hospital 
 			, HttpSession session
 			, Member member
+			, @RequestParam(name = "file", required = false)List<MultipartFile> fileList
+			, @RequestParam(required = false)List<Integer> no
 			) {
-		logger.info("hospital: {}", hospital);
 		
 		hospital.setUserNo((int)session.getAttribute("userno"));
 		
 		logger.info("hospital: {}", hospital);
-
-		memberService.insertHospital( hospital );
+		logger.info("fileList  컨: {}", fileList);
 		
+		int hospitalNo = memberService.insertHospital( hospital );
+		hospital.setHospitalNo(hospitalNo);
+		boardService.enrollHospital(fileList, no, hospital);
 		
 		return "redirect:./mypage";
 	}

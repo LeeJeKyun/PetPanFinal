@@ -119,8 +119,16 @@
   		</if>
   		     #{open}, #{close})
   	</insert>
-
-	
+<select id="selectIsHospitalNo" parameterType="int" resultType="integer">
+	select count(*)
+	from hospital
+	where userno = #{userNo}
+</select>
+<select id="selectHospitalNo" parameterType="int" resultType="integer">
+	select hospitalNo
+	from hospital
+	where userNo = #{userNo}
+</select>	
 	
 	
 	
