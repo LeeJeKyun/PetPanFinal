@@ -685,11 +685,11 @@ public class BoardServiceImpl implements BoardService{
 		if(paging.getRadius() == 0) {
 			//반경이 0이면 전체 검색
 			hPaging = new HospitalPaging(boardDao.selectHospitalAllCnt(paging), paging.getCurPage()
-											, 12, 5);
+											, 9, 5);
 		}else {
 			// 반경을 넣은 검색
 			hPaging = new HospitalPaging(boardDao.selectHospitalCnt(paging), paging.getCurPage()
-					, 12, 5);
+					, 9, 5);
 		}
 		hPaging.setSearch(paging.getSearch());
 		hPaging.setUserNo(paging.getUserNo());

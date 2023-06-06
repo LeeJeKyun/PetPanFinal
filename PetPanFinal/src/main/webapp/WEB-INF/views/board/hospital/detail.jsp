@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 
 <c:import url = "../../layout/header.jsp" />
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9f00b2dea1e24ed23b6212ee4f4f660b"></script>
 <style>
 #container{
 	width: 800px;
@@ -48,6 +49,16 @@ $(function(){
 	e = String(hospitalCode).substring(5, 10);
 	$("#code").html(f + m + e)
 })
+window.onload = function(){
+	
+var container = document.getElementById('map-area');
+		var options = {
+			center: new kakao.maps.LatLng(33.450701, 126.570667),
+			level: 3
+		};
+
+		var map = new kakao.maps.Map(container, options);
+}
 </script>
 <div id = "container">
 	<img id = "img" alt="이미지" src="<%=request.getContextPath() %>/upload/${map.STOREDNAME}">
@@ -71,7 +82,7 @@ $(function(){
 	<div>이메일 : <span>${map.EMAIL }</span></div>
 	<div>우리집에서 병원까지 거리.. <span class = "gray-font"><fmt:formatNumber value = "${map.distance }" pattern=".0" />km</span></div>
 	<div>병원 위치 : <span>${map.ADDRESS } ${map.DETAILADDRESS }</span></div>
-	<div id = "map-area"> 지도 api </div>
+	<div id = "map-area"></div>
 	<div id = "hospital-info">대표자명 : <span>${map.USERNAME }</span> | 사업자 번호 : <span id = "code"></span></div>
 </div>
 
