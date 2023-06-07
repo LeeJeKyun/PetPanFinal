@@ -136,7 +136,7 @@ $(function(){
 </c:forEach>
 <%-- <img alt=".." src="<%=request.getContextPath()%>/petfile/${petDetail.storedName}" width="90px" height="90px" class="img"> --%>
 <h3>${detail.userName}님</h3>
-
+<button onclick="location.href='/admin/main'">관리자페이지</button>
 <button onclick="location.href='/member/mypage/mypage'">마이페이지</button>
 <button onclick="location.href='/member/login/logout'">로그아웃</button>
 </c:when>
