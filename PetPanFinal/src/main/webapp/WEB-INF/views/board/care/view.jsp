@@ -291,6 +291,7 @@ function sendMessage(userid){
 <%-----------------------------쪽지모달창 끝 -----------------%>
 $(function(){
 	
+	<c:if test="${userno eq map.USERNO }">
 	// 모달창 로직
 	const modal = document.getElementById("modal");
 	const btnDelete = document.getElementById("btnDelete");
@@ -308,6 +309,11 @@ $(function(){
 	});
 	submitModalBtn.addEventListener("click", () => {
 		location.href="./delete?boardNo=" + ${map.BOARDNO}
+	})
+	</c:if>
+	
+	$(window).on("scroll", function() {
+		$(".messageLayer").hide();
 	})
 	
 })

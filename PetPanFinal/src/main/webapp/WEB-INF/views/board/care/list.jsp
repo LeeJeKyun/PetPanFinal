@@ -24,6 +24,10 @@ window.onload = function() {
 		window.alert('로그인을 하셔야 제대로 이용이 가능합니다.')
 	}
 	
+	$(window).on("scroll", function() {
+		$(".messageLayer").hide();
+	})
+	
 }
 function searchInit(){
 // 	console.log("클릭했다")
@@ -65,7 +69,7 @@ function message(e, userid){
 	$('.messageLayer').css({
 		"top": divTop,
 		"left": divLeft,
-		"position": "fixed"
+		"position": 'fixed'
 	}).attr({"userid" : userid});
 	$('.messageLayer').show();
 }
