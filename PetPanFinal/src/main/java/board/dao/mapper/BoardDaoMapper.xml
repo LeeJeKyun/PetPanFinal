@@ -503,20 +503,18 @@
 		select count(*)
 		from hospital
 		where hospitalName like '%'||#{search}||'%'
-		<choose>
-			<when test="birds == 'y'">
-				AND birds = 'y'
-			</when>
-			<when test="rodent == 'y'">
-				AND rodent = 'y'
-			</when>
-			<when test="reptile == 'y'">
-				AND reptile = 'y'
-			</when>
-			<when test="mammlia == 'y'">
-				AND mammlia = 'y'
-			</when>
-		</choose>
+		<if test="birds.equals('y')">
+			AND birds = 'y'
+		</if>
+		<if test="rodent.equals('y')">
+			AND rodent = 'y'
+		</if>		
+		<if test="reptile.equals('y')">
+			AND reptile = 'y'
+		</if>
+		<if test="mammalia.equals('y')">
+			AND mammalia = 'y'
+		</if>
 	</select>
 	<select id="selectHospitalCnt" parameterType="util.HospitalPaging" resultType="int">
 		select count(*)
@@ -540,20 +538,18 @@
                             member.userNo = hospital.userNo
                             AND
                             hospitalName like '%'||#{search}||'%'
-                            <choose>
-							<when test="birds == 'y'">
+                            <if test="birds.equals('y')">
 								AND birds = 'y'
-							</when>
-							<when test="rodent == 'y'">
+							</if>
+							<if test="rodent.equals('y')">
 								AND rodent = 'y'
-							</when>
-							<when test="reptile == 'y'">
+							</if>		
+							<if test="reptile.equals('y')">
 								AND reptile = 'y'
-							</when>
-							<when test="mammlia == 'y'">
-								AND mammlia = 'y'
-							</when>
-							</choose>
+							</if>
+							<if test="mammalia.equals('y')">
+								AND mammalia = 'y'
+							</if>
 	</select>
 	<select id="selectHospitalAll" parameterType="util.HospitalPaging" resultType="map">
 		select * 
@@ -566,64 +562,65 @@
         		where hospital.userNo = member.userNo
         		AND hospital.hospitalNo = hospitalFile.hospitalNo
             	AND hospitalName like '%'||#{search}||'%'
-            	 <choose>
-					<when test="birds == 'y'">
-						AND birds = 'y'
-					</when>
-					<when test="rodent == 'y'">
+            	 <if test="birds.equals('y')">
+					AND birds = 'y'
+				</if>
+				<if test="rodent.equals('y')">
 						AND rodent = 'y'
-					</when>
-					<when test="reptile == 'y'">
+				</if>		
+				<if test="reptile.equals('y')">
 						AND reptile = 'y'
-					</when>
-					<when test="mammlia == 'y'">
-						AND mammlia = 'y'
-					</when>
-				</choose>
+				</if>
+				<if test="mammalia.equals('y')">
+					AND mammalia = 'y'
+				</if>
+				order by member.userNo
     		)B
 		)
 		where rnum BETWEEN #{startNo} AND #{endNo}
 	</select>
 	<select id="selectHospital" parameterType="util.HospitalPaging" resultType="map">
-		select *
-		from member, hospital, hospitalFile
-		where longitude BETWEEN (select longitude from member where userNo = #{userNo} ) - 0.0129 * #{radius}
-                            AND
-                            (select longitude  from member where userNo = #{userNo} ) + 0.0129 * #{radius}
-                            AND
-                            latitude BETWEEN (select latitude  from member  where userNo = #{userNo}) - 0.0159 * #{radius}
-                            AND 
-                            (select latitude from member where userNo = #{userNo}) + 0.0159 * #{radius}
-                            							AND  hospital.hospitalNo = hospitalFile.hospitalNo
-                            AND  member.userNo = hospital.userNo
-                            AND hospitalName like '%'||#{search}||'%'
-                            <choose>
-								<when test="birds == 'y'">
-									AND birds = 'y'
-								</when>
-								<when test="rodent == 'y'">
+		select * from(
+	    	select rownum rnum, A.*
+	    	from(
+	        	select  hospital.hospitalNo, hospitalName, mammalia, reptile, rodent, birds, userName
+	                            , open, close, member.userNo, address, phone
+	                            , originName, storedName
+	        	from member, hospital, hospitalFile
+	        	where longitude BETWEEN (select longitude from member where userNo = 161 ) - 0.0129 * #{radius}
+	                              AND
+	                              (select longitude  from member where userNo = #{userNo} ) + 0.0129 * #{radius}
+	                              AND
+	                              latitude BETWEEN (select latitude  from member  where userNo = #{userNo}) - 0.0159 * #{radius}
+	                              AND 
+	                              (select latitude from member where userNo = #{userNo}) + 0.0159 * #{radius}
+	                                                        AND  hospital.hospitalNo = hospitalFile.hospitalNo
+	                              AND  member.userNo = hospital.userNo
+	                              AND hospitalName like '%'||#{search}||'%'
+	                        <if test="birds != null and birds.equals('y')">
+								AND birds = 'y'
+							</if>
+							<if test="rodent != null and rodent.equals('y')">
 									AND rodent = 'y'
-								</when>
-								<when test="reptile == 'y'">
+							</if>		
+							<if test="reptile != null and reptile.equals('y')">
 									AND reptile = 'y'
-								</when>
-								<when test="mammlia == 'y'">
-									AND mammlia = 'y'
-								</when>
-							</choose>
+							</if>
+							<if test="mammalia != null and mammalia.equals('y')">
+								AND mammalia = 'y'
+							</if>
+	        	order by member.userno
+	    	)A
+		)
+where rnum BETWEEN #{startNo} AND #{endNo}					
 	</select>
 	<select id="selectHospitalDetail" parameterType="int" resultType="map">
 		select M.*, H.hospitalNo, H.hospitalName, H.hospitalCode, H.mammalia, H.reptile, H.rodent, H.birds, open, close
-            , storedName, originName
+            , storedName, originName, longitude H_longitude, latitude H_latitude
 		from member M, hospital H, hospitalFile F            
 		where M.userNo = H.userNo
     	AND H.hospitalNo = F.hospitalNo
     	AND H.hospitalNo = #{hospitalNo}
-	</select>
-	<select id="selectHospitalDetailUserNo" parameterType="map" resultType="map">
-		select M.*, H.hospitalNo, H.hospitalName, H.hospitalCode, H.mammalia, H.reptile, H.rodent, H.birds, open, close
-            , storedName, originName
-            , DISTNACE_WGS84()
 	</select>
 	<select id="selectHospitalLoc" parameterType="int" resultType="map">
 		select longitude AS H_longitude, latitude AS H_latitude
@@ -634,5 +631,13 @@
 		select  longitude AS U_longitude, latitude AS U_latitude
 		from member
 		where member.userno = #{userNo}
+	</select>
+	<select id="selectHospitalInfoByHospitalNo" parameterType="int" resultType="map">
+		select  hospital.hospitalNo, hospitalName, mammalia, reptile, rodent, birds
+				, open, close, originName 
+		from hospital, hospitalFile, member
+		where hospital.hospitalNo = hospitalFile.hospitalNo  
+				and hospital.hospitalno = #{hospitalNo}
+				and hospital.userno = member.userno
 	</select>
 </mapper>

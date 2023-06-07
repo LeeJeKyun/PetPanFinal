@@ -23,7 +23,7 @@ public class HospitalPaging {
 	private char rodent; // 설치류
 	private char reptile; //파충류
 	private char birds; //조류
-	private char mammlia; //포유류
+	private char mammalia; //포유류
 	
 	//디폴트 생성자 - 페이징 로직이 완성되지 않는다 (사용 불가)
 	public HospitalPaging() {}
@@ -85,12 +85,12 @@ public class HospitalPaging {
 				+ ", totalPage=" + totalPage + ", pageCount=" + pageCount + ", startPage=" + startPage + ", endPage="
 				+ endPage + ", startNo=" + startNo + ", endNo=" + endNo + ", search=" + search + ", userNo=" + userNo
 				+ ", radius=" + radius + ", rodent=" + rodent + ", reptile=" + reptile + ", birds=" + birds
-				+ ", mammlia=" + mammlia + "]";
+				+ ", mammalia=" + mammalia + "]";
 	}
 
 	public HospitalPaging(int curPage, int totalCount, int listCount, int totalPage, int pageCount, int startPage,
 			int endPage, int startNo, int endNo, String search, int userNo, int radius, char rodent, char reptile,
-			char birds, char mammlia) {
+			char birds, char mammalia) {
 		super();
 		this.curPage = curPage;
 		this.totalCount = totalCount;
@@ -107,7 +107,7 @@ public class HospitalPaging {
 		this.rodent = rodent;
 		this.reptile = reptile;
 		this.birds = birds;
-		this.mammlia = mammlia;
+		this.mammalia = mammalia;
 	}
 
 	public int getCurPage() {
@@ -230,11 +230,11 @@ public class HospitalPaging {
 		this.birds = birds;
 	}
 
-	public char getMammlia() {
-		return mammlia;
+	public char getMammalia() {
+		return mammalia;
 	}
 
-	public void setMammlia(char mammlia) {
-		this.mammlia = mammlia;
+	public void setMammalia(char mammalia) {
+		this.mammalia = mammalia;
 	}
 }
