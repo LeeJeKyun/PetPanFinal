@@ -185,7 +185,12 @@ function updateContents(){
 			</div>
 			<div style="float: left">
 				<button type = "button"  id = "btnWrite" class="btn btn-info">작성</button>
+			<hr>
+			<div>
+				대표 사진 : <input type ="file" name ="img" id = "img" accept = ".gif, .jpg, .png, .jpeg" required = "required">				* 대표사진은 수정 할 수 없습니다.
 			</div>
+			</div>
+
 			<input type = "text" name = "name" id = "title" placeholder = " 제목을 입력하세요" required = "required">
 			<div align="left" style= "float:left;">
 			<label> 수량   
@@ -199,10 +204,10 @@ function updateContents(){
 			</div>
 			<br>
 			<textarea id = "content" name = "shopcontent" required = "required"></textarea>
-			<input type ="file" name ="file" id = "file" multiple = "multiple" accept = ".gif, .jpg, .png, .jpeg" style = "display: none"><br>
-			<div align="right">
+			<input type ="file" name ="file" id = "file" multiple = "multiple" accept = ".gif, .jpg, .png, .jpeg" style = "display: none" required = "required"><br>
+			<div style="float: right">
 			<br>
-			<button type = "button" id ="fileBtn" class="btn btn-info" >첨부파일</button>
+			<button type = "button" id ="fileBtn" class="btn btn-info" > 추가 첨부파일</button>
 			</div>
 			<div id = "input-files" align="right"></div>
 			

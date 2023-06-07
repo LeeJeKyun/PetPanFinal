@@ -12,11 +12,10 @@
 		  <h3>신고 정보</h3>
 		  <p>상품 번호: ${shop.objectno}</p>
 		  <p>상품 이름: ${shop.name}</p>
-		  <p>대표 사진 : <c:forEach items="${shopFile }" var="shopFile"  begin="0" end="0">
-			<img alt=".." src="<%=request.getContextPath()%>/upload/${shopFile.storedname}" width="800px" height="auto" class="img">
-			</c:forEach>
+		  <p>대표 사진 : 
+			<img alt=".." src="<%=request.getContextPath()%>/upload/${shop.img1}" width="800px" height="auto" class="img">
 		  <p>상품 내용: ${shop.shopcontent}</p>
-		  <p><c:forEach items="${shopFile }" var="shopFile"  begin="1">
+		  <p><c:forEach items="${shopFile }" var="shopFile">
 			<img alt=".." src="<%=request.getContextPath()%>/upload/${shopFile.storedname}" width="800px" height="auto"  class="img">
 			<br>
 			</c:forEach></p>

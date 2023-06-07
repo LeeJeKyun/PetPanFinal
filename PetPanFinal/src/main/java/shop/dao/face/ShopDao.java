@@ -22,8 +22,6 @@ public interface ShopDao {
 
 	public List<Shop> selectAll(ShopPaging paging);
 	
-	public List<ShopFile> selectFile(ShopPaging paging);
-	
 	public Shop selectByObjno(Shop shop);
 
 	public void insertBasket(Basket basket);
@@ -69,6 +67,11 @@ public interface ShopDao {
 	public int cntReviewno(Review review);
 
 	public void updateC(Review review);
+
+	public List<ShopFile> shopfile(Basket basket);
+
+	
+
 
 
 
