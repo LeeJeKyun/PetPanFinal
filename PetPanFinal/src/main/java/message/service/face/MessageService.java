@@ -1,5 +1,8 @@
 package message.service.face;
 
+import java.util.List;
+import java.util.Map;
+
 import message.dto.Message;
 
 public interface MessageService {
@@ -27,5 +30,21 @@ public interface MessageService {
 	 * @return - 쪽지를 보내는데 성공시 true, 실패시 false
 	 */
 	public boolean sendMessage(Message message);
+
+	/**
+	 * 로그인한 유저의 쪽지를 가져오는 메소드
+	 * 
+	 * @param userno
+	 * @return
+	 */
+	public List<Map<String, Object>> getMessageList(Message message);
+
+	/**
+	 * 상세보기 하려는 쪽지를 가져오는 메소드
+	 * 
+	 * @param message
+	 * @return
+	 */
+	public Message getMessageView(Message message);
 
 }

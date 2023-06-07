@@ -80,7 +80,7 @@
 	
 	<insert id="insertCareBoard" parameterType="board.dto.Board">
 		INSERT INTO board (boardno, boardtitle, content, write_date, hit, userno, boardtypeno)
-		VALUES (#{boardNo}, #{boardTitle}, #{content}, sysdate, 0, #{userNo}, 1 )
+		VALUES (#{boardNo}, #{boardTitle}, #{content}, current_date, 0, #{userNo}, 1 )
 	</insert>
 	
 	<select id="selectCareBoardFile" parameterType="int" resultType="board.dto.BoardFile">
@@ -111,11 +111,11 @@
 	
 	<insert id="insertCommentToCareBoard" parameterType="board.dto.Comment" >
 		INSERT INTO commenttable (commentno, content, write_date, boardno, userno, depth, organization, sortno, refcommentno)
-		VALUES ( #{commentNo}, #{content}, sysdate, #{boardNo}, #{userNo}, #{depth}, #{organization}, #{sortNo}, 0 )
+		VALUES ( #{commentNo}, #{content}, current_date, #{boardNo}, #{userNo}, #{depth}, #{organization}, #{sortNo}, 0 )
 	</insert>
 	
 	<select id="selectCommentByBoardno" parameterType="int" resultType="hashmap">
-		SELECT c.*, userid FROM commenttable c, member m
+		SELECT c.*, userid, m.userno FROM commenttable c, member m
 		WHERE boardno = #{boardno} AND m.userno = c.userno
 		ORDER BY organization DESC, sortno
 	</select>
@@ -209,7 +209,7 @@
 	
 	<insert id="insertCareReport">
 		INSERT INTO reportboard(BOREPORTNO, reportdetail, report_date, complete, userno, boardno)
-		VALUES(SEQ_REPORTBOARD.nextval , #{reportDetail}, sysdate, 'N', #{userNo}, #{boardNo})		
+		VALUES(SEQ_REPORTBOARD.nextval , #{reportDetail}, current_date, 'N', #{userNo}, #{boardNo})		
 	</insert>
 	
 	<update id="updateHits" parameterType="int">
@@ -225,7 +225,7 @@
 	
 	<insert id="insertCareCommentReport" parameterType="board.dto.ReportComment" >
 		INSERT INTO reportcomment (coreportno, reportdetail, report_date, complete, userno, commentno)
-		VALUES (seq_reportcomment.nextval, #{reportDetail}, sysdate, 'N', #{userNo}, #{commentNo} )
+		VALUES (seq_reportcomment.nextval, #{reportDetail}, current_date, 'N', #{userNo}, #{commentNo} )
 	</insert>
 	
 	<!-- ===============================제균=============================== -->

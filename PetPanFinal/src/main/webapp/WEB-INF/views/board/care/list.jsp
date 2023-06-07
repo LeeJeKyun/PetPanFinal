@@ -24,6 +24,10 @@ window.onload = function() {
 		window.alert('로그인을 하셔야 제대로 이용이 가능합니다.')
 	}
 	
+	$(window).on("scroll", function() {
+		$(".messageLayer").hide();
+	})
+	
 }
 function searchInit(){
 // 	console.log("클릭했다")
@@ -43,7 +47,7 @@ function message(e, userid){
 
 // 	console.log(e);
 // 	console.log(userid);
-	
+
 	var sWidth = window.innerWidth;
 	var sHeight = window.innerHeight;
 
@@ -65,7 +69,7 @@ function message(e, userid){
 	$('.messageLayer').css({
 		"top": divTop,
 		"left": divLeft,
-		"position": "fixed"
+		"position": 'fixed'
 	}).attr({"userid" : userid});
 	$('.messageLayer').show();
 }
@@ -85,7 +89,7 @@ function sendMessage(userid){
 
 <br>
 
-<div style="width: 1500px; margin:0 auto;">
+<div style="width: 1500px; margin:0 auto; margin-top:200px;">
 
 <div style="text-align: left; width: 1100px; margin: 0 auto;">
 	<span style="font-size: 2em; font-weight: bold;">품앗이</span>

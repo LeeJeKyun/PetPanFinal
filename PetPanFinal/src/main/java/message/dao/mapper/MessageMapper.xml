@@ -18,7 +18,34 @@
 	
 	<insert id="insertMessage" parameterType="message.dto.Message">
 		INSERT INTO message(messageno, content, send_date, doread, savemessage, receiveuserno, senduserno)
-		VALUES (seq_message.nextval, #{content}, sysdate, 'N', 'N', #{receiveUserNo}, #{sendUserNo})
+		VALUES (seq_message.nextval, #{content}, current_date, 'N', 'N', #{receiveUserNo}, #{sendUserNo})
 	</insert>
+	
+	<select id="selectMessageListbyUserno" parameterType="message.dto.Message" resultType="hashmap">
+		SELECT ms.*, mb.userid FROM message ms, member mb
+		WHERE receiveuserno = #{receiveUserNo} AND mb.userno = ms.senduserno
+		
+		<choose>
+			<when test='"Y".equals(doread)'>
+				AND doread = #{doread}
+			</when>
+				
+			<when test='"N".equals(doread)'>
+				AND doread = #{doread}
+			</when>
+		</choose>
+		
+		ORDER BY doread, messageno DESC
+	</select>
+	
+	<select id="selectMessageByMessageNo" parameterType="message.dto.Message" resultType="message.dto.Message">
+		SELECT * FROM message
+		WHERE messageno = #{messageno}
+	</select>
+	
+	<update id="updateMessageDoRead" parameterType="message.dto.Message">
+		UPDATE message set doread = 'Y'
+		WHERE messageno = #{messageno}
+	</update>
 	
 </mapper>
