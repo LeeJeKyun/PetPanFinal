@@ -39,7 +39,7 @@
  <body>
 <div class="container2">
 <div align="center">
-	<form action="/petpan/admin/reportboard/delete" method="get">
+	<form action="<%=request.getContextPath() %>/admin/reportshop/delete" method="get">
 		<table class = "table table-striped" style="width:1400px">
 		<tr>
 		<th>신고번호</th>

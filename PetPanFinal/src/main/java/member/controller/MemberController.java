@@ -334,7 +334,6 @@ public class MemberController {
 		
 		memberService.insertJoin( member );
 		
-		
 		return "/main";
 		
 	}

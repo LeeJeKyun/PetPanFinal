@@ -12,12 +12,13 @@ import shop.dto.OrderUser;
 import shop.dto.Review;
 import shop.dto.ReviewFile;
 import shop.dto.Shop;
+import shop.dto.ShopFile;
 import util.ReviewPaging;
 import util.ShopPaging;
 
 public interface ShopDao {
 
-	public int countShop();
+	public int countShop(String search);
 
 	public List<Shop> selectAll(ShopPaging paging);
 	
@@ -49,7 +50,7 @@ public interface ShopDao {
 
 	public int countReview();
 
-	public List<Map<String, Object>> reviewList(Review review);
+	public List<Review> reviewList(Review review);
 
 	public List<Map<String, Object>> orderList(OrderUser orderUser);
 
@@ -58,6 +59,25 @@ public interface ShopDao {
 	public void insertShopFile(ReviewFile reviewFile);
 
 	public int selectNextval();
+
+	public List<ReviewFile> fileList(int reviewno);
+
+	public int selectReviewNo(Review review);
+
+	public int cntReviewno(Review review);
+
+	public void updateC(Review review);
+
+	public List<ShopFile> shopfile(Basket basket);
+
+	
+
+
+
+
+	
+
+
 
 
 

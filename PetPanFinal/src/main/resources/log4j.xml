@@ -27,6 +27,10 @@
 		<level value="info" />
 	</logger>
 
+	<logger name="shop">
+		<level value="info" />
+	</logger>
+
 	<!-- 기본로그AOP 로그설정 -->
 	<logger name="aop">
 		<level value="info" />
@@ -40,6 +44,9 @@
 		<level value="trace" />
 	</logger>
 
+<!-- 	<logger name="board.dao"> -->
+<!-- 		<level value="trace" /> -->
+<!-- 	</logger> -->
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">

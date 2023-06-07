@@ -11,6 +11,15 @@
 <c:import url="../layout/header.jsp" />
 
 <style>
+#reviewtitle{
+    width: 640px;
+    height: 25px;
+    float: left;
+}
+.star{
+	float: right;
+	margin-right: 25px;
+}
 *{
 	margin: 0;
 	padding: 0;
@@ -173,26 +182,34 @@ function updateContents(){
 </script>
 <div id = "container">
 	<div id = "center-div">
-		<h2 style = "margin-top: 20px; margin-bottom: 20px; margin-left: 30px;">리뷰 등록</h2>
+		<h2 style = "margin-top: 160px; margin-bottom: 20px; margin-left: 30px;">리뷰 등록</h2>
 		<form action = "<%=request.getContextPath() %>/shop/writeReview" method ="post" id ="content-form" enctype="multipart/form-data">
-			
-			<input type = "text" name = "reviewtitle" id = "reviewtitle" placeholder = " 제목을 입력하세요" required = "required">
-			<br>
-			
-			<!-- 별점하는중 고민하셈 ㅅㄱ 난 집감  -->
+			<div>
+				<input type = "text" name = "reviewtitle" id = "reviewtitle" placeholder = " 제목을 입력하세요" required = "required">
+				<div class="star">평점
+					<select name ="reviewstar">
+						<option value="5">★★★★★</option>
+						<option value="4">★★★★</option>
+						<option value="3">★★★</option>
+						<option value="2">★★</option>
+						<option value="1">★</option>
+					</select>
+				</div>
+			</div>
 			
 			<textarea id = "content" name = "reviewcontent" required = "required"></textarea>
 			<input type ="file" name ="file" id = "file" multiple = "multiple" accept = ".gif, .jpg, .png, .jpeg" style = "display: none"><br>
 			<div align="right">
 			<br>
 			<div style="float: left">
-			<button type = "button" id ="fileBtn" class="btn btn-info" >첨부파일</button>
+			<button type = "button" id ="fileBtn" class="btn btn-info" >사진등록</button>
 			</div>
 				<button type ="button"  id ="btnWrite" class="btn btn-info">작성</button>
 			</div>
 			<div id = "input-files" align="left"></div>
 			<div>
 				<input type="hidden" name="objectno" id="objectno" value="${objectno }">
+				<input type="hidden" name="buyno" id="objectno" value="${buyno }">
 			</div>
 			
 		</form>

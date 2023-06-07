@@ -5,19 +5,22 @@
   
 <mapper namespace="shop.dao.face.ShopDao">
 
-	<select id="countShop" resultType="int">
-		select count(*) from shop		
+	<select id="countShop" resultType="int" parameterType="String">
+		select count(*) from shop
+		where name like ('%' || #{search} || '%')
 	</select>
 	
 	<select id="selectAll" resultType="shop.dto.Shop" parameterType="util.ShopPaging">
-		SELECT * FROM (
-		    SELECT rownum rnum, B.* FROM (
-		        SELECT * FROM shop
-		        where deleteobj = 1
-		        ORDER BY objectno DESC
-		    ) B
-		)
-		WHERE rnum BETWEEN #{startNo } AND #{endNo }
+		select *
+		    from(
+		        select rownum rnum, B.*
+		        from (
+		            SELECT * FROM shop
+		            where deleteobj = 1
+		            ORDER BY objectno DESC
+		        )B
+		    )
+		where rnum between #{startNo } AND #{endNo }
 	</select>
 	
 	<select id="selectByObjno" resultType="shop.dto.Shop" parameterType="shop.dto.Shop">
@@ -51,6 +54,11 @@
 	<select id="basket" resultType="shop.dto.Basket" parameterType="shop.dto.Basket">
 		select * from basket
 		where userno = #{userno}
+	</select>
+	
+	<select id="shopfile" resultType="shop.dto.ShopFile" parameterType="shop.dto.Basket">
+		select * from shopfile
+		where objectno = #{objectno}
 	</select>
 
 	<select id="memberShop" resultType="member.dto.Member" parameterType="shop.dto.Basket">
@@ -92,9 +100,7 @@
 	</select>
 	
 	<select id="reviewList" resultType="hashmap" parameterType="shop.dto.Review" >
-		SELECT R.*, M.* from review R
-		INNER JOIN member M
-		ON R.userno = M.userno
+		SELECT * from review
 		where objectno = #{objectno}
 	</select>
 	
@@ -105,16 +111,16 @@
 		WHERE a.buyno = b.buyno
 		AND userno = #{userno}
 		AND c.objectno = b.objectno
+		ORDER BY buydate DESC
 	</select>
 	
 	<select id="selectNextval" resultType="int">
 		select seq_review.nextval from dual
 	</select>
 	
-	
 	<insert id="writeReview" parameterType="shop.dto.Review">
-		insert into review(reviewno, reviewtitle, reviewcontent, reviewstar, image1, objectno, userno)
-		values(#{reviewno}, #{reviewtitle}, #{reviewcontent}, #{reviewstar},#{image1}, #{objectno}, #{userno})
+		insert into review(reviewno, reviewtitle, reviewcontent, reviewstar, image1, objectno, userno, buyno)
+		values(#{reviewno}, #{reviewtitle}, #{reviewcontent}, #{reviewstar},#{image1}, #{objectno}, #{userno}, #{buyno})
 	</insert>
 	
 	<insert id="insertShopFile" parameterType="shop.dto.ReviewFile">
@@ -122,9 +128,25 @@
 		VALUES(SEQ_REVIEWFILE.nextval, #{originname}, #{storedname}, #{filesize}, #{reviewno} )
 	</insert>
 	
+	<select id="cntReviewno" parameterType="shop.dto.Review" resultType="int">
+		select count(*) from review
+		where objectno = #{objectno}
+	</select>
 	
+	<select id="selectReviewNo" parameterType="shop.dto.Review" resultType="int">
+		select reviewno from review
+		where objectno = #{objectno} 
+	</select>
 	
+	<select id="fileList" parameterType="int" resultType="shop.dto.ReviewFile">
+		select * from ReviewFile
+		where reviewno = #{reviewno}	
+	</select>
 	
-	
+	<update id="updateC" parameterType="shop.dto.Review" >
+		update orderuser
+		set COMPLETE = '1'
+		where buyno = #{buyno}
+	</update>
 	
 </mapper>

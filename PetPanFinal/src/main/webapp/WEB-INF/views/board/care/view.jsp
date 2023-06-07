@@ -56,8 +56,8 @@ table{
 }
 .comment{
 	width: 800px;
-	margin-top: 20px;
 	background-color: #ccc;
+	padding: 8px 3px 13px 20px;
 }
 .left-side{
 	width: 50%;
@@ -125,6 +125,7 @@ table{
 }
 </style>
 <script type="text/javascript">
+//추천 AJAX
 function recommendAjax(boardNo){
 // 	console.log('boardNo : ' + boardNo)
 
@@ -152,6 +153,7 @@ function recommendAjax(boardNo){
 	})
 	
 }
+//댓글 AJAX
 function commentInput(userno, boardno) {
 	console.log("commentInput click!" + userno)
 	console.log("commentInput click!" + boardno)
@@ -211,28 +213,6 @@ function comcomInput(userno, boardno, refcommentno, organization){
 	
 }
 
-$(function(){
-	
-	// 모달창 로직
-	const modal = document.getElementById("modal");
-	const btnDelete = document.getElementById("btnDelete");
-	const submitModalBtn = document.getElementById("submit");
-	const closeModalBtn = document.getElementById("cancel")
-	// 모달창 열기
-	btnDelete.addEventListener("click", () => {
-	  modal.style.display = "block";
-	  document.body.style.overflow = "hidden"; // 스크롤바 제거
-	});
-	// 모달창 닫기
-	closeModalBtn.addEventListener("click", () => {
-	  modal.style.display = "none";
-	  document.body.style.overflow = "auto"; // 스크롤바 보이기
-	});
-	submitModalBtn.addEventListener("click", () => {
-		location.href="./delete?boardNo=" + ${map.BOARDNO}
-	})
-	
-})
 <%-- 댓글 입력시 해당 댓글에 대한 대댓글 입력창 띄우기 --%>
 function showComCom(commentno){
 	console.log(commentno)
@@ -309,7 +289,74 @@ function sendMessage(userid){
 	$('.messageLayer').hide();
 }
 <%-----------------------------쪽지모달창 끝 -----------------%>
+$(function(){
+	
+	<c:if test="${userno eq map.USERNO }">
+	// 모달창 로직
+	const modal = document.getElementById("modal");
+	const btnDelete = document.getElementById("btnDelete");
+	const submitModalBtn = document.getElementById("submit");
+	const closeModalBtn = document.getElementById("cancel")
+	// 모달창 열기
+	btnDelete.addEventListener("click", () => {
+	  modal.style.display = "block";
+	  document.body.style.overflow = "hidden"; // 스크롤바 제거
+	});
+	// 모달창 닫기
+	closeModalBtn.addEventListener("click", () => {
+	  modal.style.display = "none";
+	  document.body.style.overflow = "auto"; // 스크롤바 보이기
+	});
+	submitModalBtn.addEventListener("click", () => {
+		location.href="./delete?boardNo=" + ${map.BOARDNO}
+	})
+	</c:if>
+	
+	$(window).on("scroll", function() {
+		$(".messageLayer").hide();
+	})
+	
+})
 
+<%-- 게시글 신고 함수 --%>
+function report() {
+	if(${empty userno}){
+		alert("로그인을 해주세요.")
+		return
+	}
+	
+	window.open("./reportPopup?boardNo="+${map.BOARDNO}, "신고", "width=400, height=500, resizable=no");
+}
+function reportComment(commentNo){
+	if(${empty userno}){
+		alert("로그인을 해주세요.")
+		return
+	}
+	window.open("./reportComment?commentNo="+commentNo, "신고", "width=400, height=500, resizable=no" );
+}
+function deleteComment(commentNo){
+	console.log("click & " + commentNo)
+	
+		$.ajax({
+		type : "get" 
+			, url: "./comment/delete"
+			, data : { 
+				commentNo : commentNo, 
+				boardNo : ${map.BOARDNO}
+			}
+			, dataType : "html"
+			, success : function(data){
+// 				console.log("AJAX 성공")
+// 				console.log(data)
+				$(".comment-area").html(data)
+				
+			}
+			, error : function(){
+				console.log("AJAX 실패")	
+			}
+		})
+		
+}
 </script>
 
 <div id = "fcontainer" >
@@ -374,27 +421,38 @@ function sendMessage(userid){
 		 </div>
 	 </div>
 	 <div id="recommend">
+		 <div style="padding-left: 16px;">
+		 	<c:if test="${login eq true }">
+			 	<c:choose>
+					<c:when test="${isRecommended eq false || empty isRecommended}">
+				 		<img src="<%=request.getContextPath() %>/resources/img/emptyheart.png" width="30px" height="30px"
+				 			id="recommendBtn1" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
+				 		<img src="<%=request.getContextPath() %>/resources/img/pilledheart.png" width="30px" height="30px" class="displayNone"
+				 			id="recommendBtn2" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
+			 		</c:when>
+			 		<c:otherwise>
+				 		<img src="<%=request.getContextPath() %>/resources/img/emptyheart.png" width="30px" height="30px" class="displayNone"
+				 			id="recommendBtn1" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
+				 		<img src="<%=request.getContextPath() %>/resources/img/pilledheart.png" width="30px" height="30px"
+				 			id="recommendBtn2" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
+					 </c:otherwise>
+				 </c:choose>
+			 </c:if>
+		</div>
 	 	<div id="recommend_count">
 	 		<span>추천수 : </span><span id="recommendCnt">${map.RECOMMEND }</span>
 	 	</div>
-	 	<c:if test="${login eq true }">
-	 	<c:choose>
-			<c:when test="${isRecommended eq false || empty isRecommended}">
-		 		<img src="<%=request.getContextPath() %>/resources/img/emptyheart.png" width="22px"
-		 			id="recommendBtn1" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
-		 		<img src="<%=request.getContextPath() %>/resources/img/pilledheart.png" width="22px" class="displayNone"
-		 			id="recommendBtn2" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
-	 		</c:when>
-	 		<c:otherwise>
-		 		<img src="<%=request.getContextPath() %>/resources/img/emptyheart.png" width="22px" class="displayNone"
-		 			id="recommendBtn1" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
-		 		<img src="<%=request.getContextPath() %>/resources/img/pilledheart.png" width="22px"
-		 			id="recommendBtn2" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
-			 </c:otherwise>
-		 </c:choose>
-		 </c:if>
+	 	<br>
+		 <div>작성자와 회원님 사이의 거리 :
+		 		<c:if test="${distance lt 1000 }">
+		 			<fmt:formatNumber value="${distance }" type="number" pattern="###"/>m
+		 		</c:if>
+		 		<c:if test="${distance gt 1000 }">
+				 	<fmt:formatNumber value="${distance / 1000 }"  pattern=".000"/>km
+				</c:if>
+		 </div>
 	 </div>
-		 <div id="map" style="width:757px;height:266px;"></div>
+		 <div id="map" style="width:797px;height:266px;"></div>
 		 <script type="text/javascript">
 			 var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
 			 var options = { //지도를 생성할 때 필요한 기본 옵션
@@ -402,8 +460,6 @@ function sendMessage(userid){
 			 	level: 7 //지도의 레벨(확대, 축소 정도)
 			 };
 			
-				
-	
 			 var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
 			 
 			 var marker = new kakao.maps.Marker({
@@ -411,15 +467,22 @@ function sendMessage(userid){
 				    position: new kakao.maps.LatLng( ${writerMember.longitude}, ${writerMember.latitude} )
 				});
 			 
+			
+			 var myMarker = new kakao.maps.Marker({
+				 	map: map,
+				    position: new kakao.maps.LatLng( ${loginMember.longitude}, ${loginMember.latitude} )
+				});
 				
 		 </script>
+		 <div style="text-align: right;">
+		 	<span style="color: #ccc; cursor: pointer;" onclick="report()" >게시글 신고</span>
+		 </div>
 		<hr>
 	 <table>
 	 <c:if test="${login eq true }">
 	 	<tr>
 	 		<td class = "left-side" > 댓글 <input type="text" id="comment" onkeypress="enterkey(event)"></td>
 	 		<td><button type="button" id="commentInput" onclick="commentInput('${userno}', '${map.BOARDNO }')">입력</button></td>
-	 		<td id = "refresh" class = "cursor">새로고침</td>
 	 	</tr>
  	</c:if>
 	 </table>
@@ -436,8 +499,8 @@ function sendMessage(userid){
 	  <div class="modal-content">
 	    <h2>정말 게시글을 삭제하시겠습니까?</h2><br>
 	    <div style="text-align: center;">
-		    <button id="submit">예</button>
-		    <button id="cancel">아니오</button>
+		    <button id="submit" style="width: 120px; height: 33px; font-size: 17px; font-weight: bold; background-color: #f5cbcb; border-radius: 10px 10px 10px 10px / 10px 10px 10px 9px; border: none; color: #FF5050; cursor: pointer;">예</button>
+		    <button id="cancel" style="width: 120px; height: 33px; font-size: 17px; font-weight: bold; background-color: #f5cbcb; border-radius: 10px 10px 10px 10px / 10px 10px 10px 9px; border: none; color: #FF5050; cursor: pointer;">아니오</button>
 	    </div>
 	  </div>
 	</div>

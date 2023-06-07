@@ -15,6 +15,7 @@ import admin.dto.ReportObject;
 import board.dto.Board;
 import board.dto.Comment;
 import board.dto.Notice;
+import board.dto.NoticeFile;
 import member.dto.Member;
 import shop.dto.Shop;
 import shop.dto.ShopFile;
@@ -77,7 +78,7 @@ public interface AdminService {
 
 	public void deleteCheckedShop(List<String> delete);
 
-	public int saveShopGetObjectno(Shop shop);
+	public int saveShopGetObjectno(Shop shop, MultipartFile img1);
 	
 	public List<Notice> getNoticeListByType(int theme);
 
@@ -110,6 +111,16 @@ public interface AdminService {
 	public ReportObject getReportObject(Integer objreportNo);
 
 	public Member getShopReportMember(ReportObject reportObject);
+
+	public void changeObjReportAndAddBlack(Integer objreportNo, Integer objectNo, Integer userNo, String reason);
+
+	public void changeObjReport(List<String> delete);
+
+	public Notice getNotice(int noticeno);
+
+	public List<NoticeFile> getNotiaceFilelist(int noticeno);
+
+	public void deletenotice(int noticeno);
 
 
 

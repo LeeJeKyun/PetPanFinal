@@ -1,6 +1,8 @@
 package board.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,6 +21,7 @@ import board.dto.Hospital;
 import board.dto.HospitalFile;
 import board.service.face.BoardService;
 import member.dto.Member;
+import util.HospitalPaging;
 import util.Paging;
 
 @Controller
@@ -29,45 +32,102 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired BoardService boardService;
 	
 	@GetMapping("/list")
-	public void hospitalListPath(Paging paging, Model model, HttpSession session) {
-		if(null != session.getAttribute("userno") ) {
-			int userNo = (int)session.getAttribute("userno");
-	
-			Member user = new Member();
+	public void hospitalListPath(
+								@RequestParam(defaultValue = "1") Integer curPage
+								, Model model, HttpSession session
+									// 검색어, 반경
+								, @RequestParam(required = false) String search
+								, @RequestParam(required = false, defaultValue = "0") Integer radius
+								, @RequestParam(defaultValue = "N") char rodent
+								, @RequestParam(defaultValue = "N") char birds
+								, @RequestParam(defaultValue = "N") char mammalia
+								, @RequestParam(defaultValue = "N") char reptile
+								) {
+		logger.info("search 검색 {} ", search);
+		logger.info("radius 반경 {} ", radius);
+		int userNo = -1;
+		if(null != session.getAttribute("userno")) {
+			userNo = (int)session.getAttribute("userno");
 			
-			user = boardService.getUserInfo(userNo);
-			
-			logger.info("user {}", user);
-			
-			model.addAttribute("user", user);
 		}
+		logger.info("rodent {}", rodent);
+		logger.info("birds {}", birds);
+		logger.info("mammalia {}", mammalia);
+		logger.info("retile {}", reptile);
+		// 검색한 페이징 객체 가져오기 + userNo, + radius
+		HospitalPaging paging = new HospitalPaging();
+		paging.setCurPage(curPage);
+		paging.setUserNo(userNo);
+		paging.setRadius(radius);
+		paging.setSearch(search);
+		
+		paging.setRodent(rodent);
+		paging.setBirds(birds);
+		paging.setMammalia(mammalia);
+		paging.setReptile(reptile);
+		
+		logger.info("병원 전 paging {}", paging);
+		paging = boardService.getHospitalPaging(paging);
+		
+		logger.info("병원 후 paging {}", paging);
+		
+		//병원 정보 가져오기 
+		List<Map<String, Object>> hospitalList  = boardService.getHospitalInfo(paging);
+		logger.info(" hospitalList {} ", hospitalList);
+		
+		logger.info("병원 정보 {}", hospitalList);
+		
+		model.addAttribute("hospitalList", hospitalList);
+		model.addAttribute("paging", paging);
 	}
-	@GetMapping("/enroll")
-	public String hospitalEnrollPath(HttpSession session) {
-		if(null == session.getAttribute("login")) {
-			return "redirect:./list";
-		}
-		return "./board/hospital/enroll";
-	}
-	@PostMapping("/enroll")
-	public String hospitalEnroll(@RequestParam(required = false)List<MultipartFile> fileList
-									, @RequestParam(required = false)List<Integer> no
-									, Hospital hospital
-									, HttpSession session) {
-		logger.info("open {}",hospital.getOpen());
-		logger.info("close {}",hospital.getClose());
-		
-		hospital.setUserNo((int)session.getAttribute("userno"));
-		logger.info("hospital {}", hospital);
-		logger.info("hospital files {}", fileList);
-		
-		boardService.enrollHospital(fileList, no, hospital);
-		
-		
-		return "redirect:./list";
-	}
+//	@GetMapping("/enroll")
+//	public String hospitalEnrollPath(HttpSession session) {
+//		if(null == session.getAttribute("login")) {
+//			return "redirect:./list";
+//		}
+//		return "./board/hospital/enroll";
+//	}
+//	@PostMapping("/enroll")
+//	public String hospitalEnroll(@RequestParam(required = false)List<MultipartFile> fileList
+//									, @RequestParam(required = false)List<Integer> no
+//									, Hospital hospital
+//									, HttpSession session) {
+//		logger.info("open {}",hospital.getOpen());
+//		logger.info("close {}",hospital.getClose());
+//		
+//		hospital.setUserNo((int)session.getAttribute("userno"));
+//		logger.info("hospital {}", hospital);
+//		logger.info("hospital files {}", fileList);
+//		
+//		//boardService.enrollHospital(fileList, no, hospital);
+//		
+//		
+//		return "redirect:./list";
+//	}
 	@GetMapping("/detail")
-	public void hospitalDetail(int hospitalNo, Model model) {
+	public void hospitalDetail(int hospitalNo, Model model, HttpSession session) {
+		int userNo = -1;
+		if(null != session.getAttribute("userno")) {
+			userNo = (int)session.getAttribute("userno");
+		}
+		Map<String, Object> map = boardService.getHospitalDetail(hospitalNo, userNo);
+		
+		logger.info("map {}", map);
+		
+		model.addAttribute("map", map);
+	}
+	
+	@GetMapping("/modifyinfo")
+	public void modifyHospitalInfoGet(int hospitalno, HttpSession session, Model model) {
+		// 기존의 병원 정보 가져오기
+		Map<String, Object> map = boardService.getHospitalInfo(hospitalno, (Integer)session.getAttribute("userno"));
+		
+		logger.info("병원 정보 {}",map);
+		
+		model.addAttribute("map", map);
+	}
+	@PostMapping("/modifyinfo")
+	public void modifyHospitalInfo() {
 		
 	}
 }

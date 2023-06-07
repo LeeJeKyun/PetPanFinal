@@ -96,6 +96,7 @@ public class AdminServiceImpl implements AdminService{
 		int userno = adminDao.selectBoarduser(boardNo);
 		Member member = adminDao.selectMember(userno);
 		return member;
+		
 	}
 
 	@Override
@@ -461,6 +462,10 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public void deleteCheckedShop(List<String> delete) {
+		if (delete == null) {
+			return;
+		}
+		
 	    List<String> deleteNoList = delete;
 	    List<HashMap> deleteNoMaplist = new ArrayList<HashMap>();
 	    
@@ -475,12 +480,51 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public int saveShopGetObjectno(Shop shop) {
+	public int saveShopGetObjectno(Shop shop, MultipartFile img1) {
+		
+		if(img1.getSize() > 0) {
+
+		String storedPath = context.getRealPath("upload");
+		logger.info(" storedPath : {}", storedPath);
+		
+		// upload폴더가 없으면 생성
+		File storedFolder = new File(storedPath);
+		storedFolder.mkdir();
+		
+		File dest = null;
+		String storedName = null;
+		
+		do {
+			//저장할 파일 이름 생성
+			storedName = img1.getOriginalFilename(); //원본 파일명
+			
+			storedName += UUID.randomUUID().toString().split("-")[0]; //
+			logger.info("storedName : {}", storedName);
+
+			//실제 저장될 파일 객체
+			dest = new File(storedFolder, storedName);
+			
+			shop.setImg1(storedName);
+		}while(dest.exists());
+		
+		try {
+			// 업로드된 파일을 upload 폴더에 저장
+			img1.transferTo(dest);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//DB에 저장할 객체
+		
+		}
+		logger.info("shop = {}", shop);
 		int objectno = adminShopDao.selectNextObj();
 		System.out.println(objectno);
 		shop.setObjectno(objectno);
 		adminShopDao.insertShop(shop);
 
+		
 		return objectno;
 	}
 
@@ -760,6 +804,7 @@ public class AdminServiceImpl implements AdminService{
 		int totalcount = adminShopDao.countTotalReportShop(search);
 		AdminPaging paging = new AdminPaging(totalcount, curPage);
 		paging.setCurPage(curPage);
+		paging.setSearch(search);
 		
 		return paging;
 	}
@@ -789,9 +834,74 @@ public class AdminServiceImpl implements AdminService{
 		Member member = adminShopDao.selectReportMember(reportObject);
 		return member;
 	}
+
+	@Override
+	public void changeObjReportAndAddBlack(Integer objreportNo, Integer objectNo, Integer userNo, String reason) {
+		adminShopDao.updateReportobject(objreportNo);
+		
+		if(objectNo!=null) {
+			adminShopDao.changeShopDeleteobj(objectNo);
+		}
+		if(userNo!=null) {
+			Blacklist blacklist = new Blacklist();
+			blacklist.setUserno(userNo);
+			blacklist.setReason(reason);
+			
+			adminDao.insertBlacklist(blacklist);
+		}
+		
+	}
+
+	@Override
+	public void changeObjReport(List<String> delete) {
+		
+		List<HashMap> objreportNolist = new ArrayList<HashMap>();
+		
+		  for (int i = 0; i < delete.size(); i++) {
+		       Integer deleteno = Integer.valueOf(delete.get(i));
+		       HashMap<String, Integer> deleteNoMap = new HashMap<String, Integer>();
+		       deleteNoMap.put("objreportNo", deleteno);
+		       
+		       objreportNolist.add(deleteNoMap);
+		       
+		    }
+		  
+		  adminShopDao.updateReportObjectComplete(objreportNolist);
+		
+	}
+	  
+
+	
+	@Override
+	public Notice getNotice(int noticeno) {
+		Notice notice = adminDao.selectBynoticeno(noticeno);
+		
+		return notice;
+	}
 	
 	
-
-
+	@Override
+	public List<NoticeFile> getNotiaceFilelist(int noticeno) {
+		List<NoticeFile> list = adminDao.selectnoticeFile(noticeno);
+		
+		for(NoticeFile e : list) {
+				logger.info("{}",e);
+		}	
+		
+		return list;
+	}
+	
+	@Override
+	public void deletenotice(int noticeno) {
+		adminDao.deletenoticeFile(noticeno);
+		adminDao.deletenotice(noticeno);
+		
+	}
 }
+
+
+	
+
+
+
 

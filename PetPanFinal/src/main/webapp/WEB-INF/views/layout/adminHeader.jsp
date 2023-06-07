@@ -178,7 +178,7 @@
 <body>
 <div id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" style = "float: left; position: fixed; top:0; left:0;  display: flex; height: 1080px;">
           <div class="app-brand demo">
-            <a href="<%=request.getContextPath() %>/admin" class="app-brand-link">
+            <a href="<%=request.getContextPath() %>/admin/main" class="app-brand-link">
               <span class="app-brand-logo demo">
                 <svg
                   width="25"
@@ -248,7 +248,7 @@
           <ul class="menu-inner py-1">
             <!-- Dashboard -->
             <li class="menu-item" id="main">
-              <a href="<%=request.getContextPath() %>/admin" class="menu-link">
+              <a href="<%=request.getContextPath() %>/admin/main" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Admin Main</div>
               </a>
@@ -257,11 +257,11 @@
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">User</span>
             </li>
-<<<<<<< HEAD
+
             <li class="menu-item" id="member">
-=======
+
             <li class="menu-item" id="user">
->>>>>>> refs/remotes/origin/master
+
               <a href="<%=request.getContextPath() %>/admin/member/list" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-id-card"></i>
                 <div data-i18n="Account Settings">User Manage</div>

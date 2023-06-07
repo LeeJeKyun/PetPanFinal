@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -39,6 +40,7 @@ public class AdminReportShopController {
 		
 		List<ReportObject> list = adminService.getReportShopList(paging);
 		
+		model.addAttribute("search",search);
 		model.addAttribute("list",list);
 		model.addAttribute("paging",paging);
 		
@@ -56,12 +58,29 @@ public class AdminReportShopController {
 		reportObject = adminService.getReportObject(objreportNo);
 		getmember = adminService.getShopReportMember(reportObject);
 		
-		
-		
-		
+
 		
 		model.addAttribute("list",reportObject);
 		model.addAttribute("getmember", getmember);
+	}
+	
+	@PostMapping("/view/delete")
+	public String deleteAndBlackshop(
+			Integer objreportNo,@RequestParam(required=false) Integer objectNo, @RequestParam(required=false) Integer userNo
+			, String reason
+			){
+		
+		adminService.changeObjReportAndAddBlack(objreportNo,objectNo,userNo,reason);
+		
+		return "redirect:/admin/reportshop/list";
+		
+	}
+	
+	@GetMapping("/delete")
+	public String deleteReportBoard(@RequestParam(value="delete",required=false) List<String> delete) {
+		adminService.changeObjReport(delete);
+		
+		return "redirect:/admin/reportshop/list";
 	}
 
 }

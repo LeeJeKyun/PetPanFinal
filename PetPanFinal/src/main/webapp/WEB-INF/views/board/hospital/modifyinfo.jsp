@@ -4,10 +4,21 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:import url="./mypage_header.jsp" />
+<c:import url = "../../layout/header.jsp" />
 
 <script type="text/javascript">
 $(function() {
+	if(${map.USERNO == null}){
+		location.href = "./list"
+	}
+	$("#input-files").append("<tr class = 'file-line' data-no = '-1'>"
+			+ "<td><input type = 'hidden' data-no = '-1' name = 'no' value = '-1'></td"
+			+ "<td><span class = 'file-name'>${map.ORIGINNAME}</span></td>" 
+			+ "<td class = 'xFile' data-no = '-1'> x</td>" 
+			+ "</td>")
+	
+			
+			
 	$(".select .yn").on("click", function() {
 		if( $(this).is(":checked") ) {
 			console.log("cc", $(this))
@@ -112,7 +123,7 @@ input{
 } 
 
 
-#btn{
+.btn{
    background-color: #FFDAD7;
    color : #FF5050;
    border-radius: 7px;
@@ -159,27 +170,21 @@ tr:hover{
 
 <br>
 
-<h2 style="color: #FF5050; text-align: center;">병원 등록</h2>
+<h2 style="color: #FF5050; text-align: center;">병원 정보 수정</h2>
 
 	
-<form action="./hospital" method="post" enctype ="multipart/form-data">
+<form action="./modifyinfo" method="post" enctype ="multipart/form-data">
 	
    <div class="select">
-      <label for="hospitalName">이름</label>
-      <input type="text"  id="hospitalName" name="hospitalName">
-   </div><!-- select -->
-
-
-   <div class="select">
-      <label for="hospitalCode">사업자번호</label>
-      <input type="text"  id="hospitalCode" name="hospitalCode">
+      <label for="hospitalName">병원 이름</label>
+      <input type="text"  id="hospitalName" name="hospitalName" value = "${map.HOSPITALNAME }">
    </div><!-- select -->
 
    <div class="time">
       <label for="code">영업시간</label>
       
-       <input type="text"  id="open" name="open" >  <label style="color: #FF5050; font-size: small;">~ </label>
-       <input type="text"  id="close" name="close">
+       <input type="text"  id="open" name="open" value = "${map.OPEN }">  <label style="color: #FF5050; font-size: small;">~ </label>
+       <input type="text"  id="close" name="close" value = "${map.CLOSE }">
    </div><!-- time -->
 	
 <!-- <label style="color: #FF5050; font-size: small;">오전 : </label> -->
@@ -209,35 +214,15 @@ tr:hover{
    </div><!-- select -->
 	
    <div class="select">
-      <button type = "submit" id="btn">등록하기</button>
+      <button type = "submit" class="btn">변경하기</button>
+      <button type = "button" class = "btn">취소하기</button>
    </div><!-- select -->
 
 </form>
 
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<c:import url="../../layout/footer.jsp" />
-
+<c:import url = "../../layout/footer.jsp" />
 
 
 

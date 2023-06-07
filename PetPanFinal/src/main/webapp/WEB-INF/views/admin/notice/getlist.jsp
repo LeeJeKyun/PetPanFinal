@@ -14,7 +14,7 @@
 			<c:forEach var="list" items="${list}">
 	<tr>
 		<td>${list.noticeno}</td>
-		<td><a href="./view/?noticeNo=${noticeno}">${list.noticetitle}</a></td>
+		<td><a href="./view/?noticeNo=${list.noticeno}">${list.noticetitle}</a></td>
 		<td><fmt:formatDate value="${list.noticewritedate }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
 		<td>${list.userno}</td>
 	</tr>

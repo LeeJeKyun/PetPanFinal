@@ -48,16 +48,17 @@ margin: 0 auto;
 	<ul>
 	   <c:forEach items="${list}" var="list">
 	   <li>
-	    <div class="shoping">
-	    <a href="/shop/view?objectno=${list.objectno}"><img src="<%=request.getContextPath() %>/test/download.jpg"></a>
-	    </div>   
+		<div class="shoping">
+		    <a href="/shop/view?objectno=${list.objectno}">
+				<img src="/upload/${list.img1 }">
+		    </a>
+		</div>
 	    <div class="shopname">
 	     <a href="/shop/view?objectno=${list.objectno}">${list.name}</a>
 	    </div>
 	   </li>
 	   </c:forEach>
 	</ul>
-	
 	
 	</section>
 	

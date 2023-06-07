@@ -133,7 +133,7 @@ a {
 
 
 <c:choose>
-<c:when test="${login eq null  }">
+<c:when test="${login eq null || login eq 'null' }">
 <%-- <h2>세션 상태: ${not empty login}</h2> --%>
 
 
@@ -227,7 +227,12 @@ a {
 </div>
 
 
-
+<div style="position: fixed; right: 235px; width: 75px; height: 85px; bottom: 100px; cursor: pointer;">
+	<a href="#header">∧<br>
+		위로
+	</a><br><br>
+	<a href="<%=request.getContextPath() %>/message/message/list">내 쪽지함</a>
+</div>
 
 
 

@@ -191,12 +191,12 @@ function updateContents(){
 			<input type = "text" name = "noticetitle" id = "title" placeholder = " 제목을 입력하세요" required = "required">
 			<br>
 			<textarea id = "content" name = "noticecontent" required = "required"></textarea>
-			<input type ="file" name ="file" id = "file" multiple = "multiple" style = "display: none"><br>
+			<input type ="file" name ="file" id = "file" multiple = "multiple" style = "display: none" accept = ".gif, .jpg, .png, .jpeg"><br>
 			<div align="right">
 			<br>
 			<button type = "button" id ="fileBtn" class="btn btn-info" >첨부파일</button>
 			</div>
-			<div id = "input-files" align="right"></div>
+			<div id = "input-files" align="right" ></div>
 			
 			<div align="right">
 			<button  id = "btnWrite" class="btn btn-primary">작성</button>

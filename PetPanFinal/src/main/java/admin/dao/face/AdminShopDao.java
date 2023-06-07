@@ -57,6 +57,10 @@ public interface AdminShopDao {
 
 	public Member selectReportMember(ReportObject reportObject);
 
+	public void updateReportobject(Integer objreportNo);
+
+	public void updateReportObjectComplete(List<HashMap> objreportNolist);
+
 
 
 }

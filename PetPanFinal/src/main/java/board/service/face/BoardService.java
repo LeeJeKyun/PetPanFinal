@@ -9,12 +9,14 @@ import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
 import board.dto.Comment;
-import board.dto.Hospital;
 import board.dto.HospitalFile;
 import board.dto.Notice;
+import board.dto.NoticeFile;
 import board.dto.ReportBoard;
 import board.dto.ReportComment;
+import member.dto.Hospital;
 import member.dto.Member;
+import util.HospitalPaging;
 import util.Paging;
 
 public interface BoardService {
@@ -139,6 +141,55 @@ public interface BoardService {
 	 * @return
 	 */
 	public Member getMemberByBoard(Map<String, Object> map);
+	
+	/**
+	 * 두 멤버의 거리를 계산하여 반환하는 메소드
+	 * 
+	 * @param loginMember
+	 * @param writerMember
+	 */
+	public double getDistance(Member loginMember, Member writerMember);
+
+	/**
+	 * 로그인한 유저 주변의 게시글만 가져오는 메소드
+	 * 
+	 * @param paging
+	 * @param loginMember
+	 * @param distance
+	 * @return
+	 */
+	public List<Map<String, Object>> getCareListFromLogin(Paging paging, Member loginMember, String distance);
+	
+	/**
+	 * 신고를 신고테이블에 올리는 메소드
+	 * 
+	 * @param reportBoard
+	 */
+	public void inputCareReport(ReportBoard reportBoard, String writeDetail);
+	
+	/**
+	 * 공지사항 파일을 가져오는 메소드
+	 * 
+	 * @param noticeno
+	 * @return
+	 */
+	public List<NoticeFile> getNoticeFileList(int noticeno);
+	
+	/**
+	 * 댓글을 신고하는 메소드
+	 * 
+	 * @param reportComment
+	 * @param writeDetail
+	 */
+	public void inputCareCommentReport(ReportComment reportComment, String writeDetail);
+
+	/**
+	 * 품앗이 게시글의 댓글을 삭제하는 메소드
+	 * 
+	 * @param comment
+	 */
+	public void deleteCareComment(Comment comment);
+
 	
 	//---------------------------제균------------------------------------
 
@@ -297,6 +348,33 @@ public interface BoardService {
 	 */
 	public Member getUserInfo(int userNo);
 
-	
+	/**
+	 * 검색 조건을 넣은 paging 객체 
+	 * @param paging 조건을 넣은 페이징 객체
+	 * @return 조건을 넣은 페이징 객체 반환
+	 */
+	public HospitalPaging getHospitalPaging(HospitalPaging paging);
+	/**
+	 * 병원 정보를 가져온다
+	 */
+	public List<Map<String, Object>> getHospitalInfo(HospitalPaging paging);
+
+	/**
+	 * 병원의 상세보기 정보 가져오기
+	 * userNo이 -1이면 비로그인 상태 거리 안뜸
+	 * @param hospitalNo 상세보기할 병원의 hospitalNo
+	 * @param userNo 
+	 * @return 병원의 상세 정보
+	 */
+	public Map<String, Object> getHospitalDetail(int hospitalNo, int userNo);
+
+	/**
+	 * boardNo으로 병원 정보 가져오기
+	 * @param boardNo
+	 * @param userNo 
+	 * @return 병원 정보
+	 */
+	public Map<String, Object> getHospitalInfo(int boardNo, Integer userNo);
+
 
 }

@@ -142,6 +142,18 @@
 	</select>
 
 	
+	<select id="selectIsHospitalNo" parameterType="int" resultType="integer">
+		select count(*)
+		from hospital
+		where userno = #{userNo}
+	</select>
+	
+	<select id="selectHospitalNo" parameterType="int" resultType="integer">
+		select hospitalNo
+		from hospital
+		where userNo = #{userNo}
+	</select>	
+	
 	<select id="searchId" parameterType="member.dto.Member" resultType="member.dto.Member">
 		SELECT * FROM member
 		WHERE userName=#{userName} AND phone=#{phone}

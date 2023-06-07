@@ -3,14 +3,18 @@ package board.dao.face;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
 import board.dto.Comment;
 import board.dto.Notice;
+import board.dto.NoticeFile;
 import board.dto.ReportBoard;
 import board.dto.ReportComment;
 import member.dto.Member;
+import util.HospitalPaging;
 import util.Paging;
 
 public interface BoardDao {
@@ -173,6 +177,45 @@ public interface BoardDao {
 	 * @return
 	 */
 	public Member getMemberByBoardMap(Map<String, Object> map);
+	
+	/**
+	 * 로그인을 한 경우 로그인 회원 주변의 게시글을 가져온다.
+	 * 
+	 * @param paging
+	 * @param loginMember
+	 * @param distance
+	 * @return
+	 */
+	public List<Map<String, Object>> selectCareByLogin(@Param("paging")Paging paging, @Param("loginMember") Member loginMember, @Param("distance")String distance);
+	
+	/**
+	 * 품앗이 게시판의 신고내역을 insert하는 메소드
+	 * 
+	 * @param reportBoard
+	 */
+	public void insertCareReport(ReportBoard reportBoard);
+	
+	/**
+	 * 게시글 조회수를 1 증가시키는 메소드
+	 * 
+	 * @param boardNo
+	 */
+	public void updateHits(int boardNo);
+	
+	/**
+	 * 공지사항 번호로 공지사항파일을 가져오는 메소드
+	 * 
+	 * @param noticeno
+	 * @return
+	 */
+	public List<NoticeFile> selectNoticeFileFromNoticeno(int noticeno);
+	
+	/**
+	 * 댓글신고 테이블에 댓글신고를 insert하는 메소드 
+	 * 
+	 * @param reportComment
+	 */
+	public void insertCareCommentReport(ReportComment reportComment);
 	
 	
 	//--------------------------제균--------------------------------
@@ -404,7 +447,7 @@ public interface BoardDao {
 	 * @param userNo 가져올 회원 번호
 	 * @return 입력했던 병원번호, hospitalNo
 	 */
-	public int selectHospitalInfo(int userNo);
+	public int selectHospitalNo(int userNo);
 
 	/**
 	 * 병원 사진 저장
@@ -419,7 +462,86 @@ public interface BoardDao {
 	 */
 	public Member selectUserInfo(int userNo);
 
+	/**
+	 * 병원 정보에 이미 등록한 사진 파일이 있는지 확인
+	 * @param hospitalNo 파일을 select 할 hospitalNo
+	 * @return 없으면 0
+	 */
+	public int selectIsHospitalFile(int hospitalNo);
 
+	/**
+	 * 이미 등록한 사진 파일을 delete
+	 * @param hospitalNo delete 할 hospitalNo
+	 */
+	public void deleteHospitalFile(int hospitalNo);
+
+	/**
+	 * 병원 정보를 조회
+	 * @return 모든 병원 정보
+	 */
+	public List<Map<String, Object>> selectHospitalInfo();
+
+	/**
+	 * 병원 파일 조회
+	 * @return 병원의 파일 정보
+	 */
+	public List<Map<String, Object>> selectHospitalFileInfo(List<Map<String, Object>> hospitalList);
+
+	/**
+	 * 반경이 0 일때 전체 병원 수 조회
+	 * @param paging 병원 수를 조회하기 위한 조건
+	 * @return 병원 수 
+	 */
+	public int selectHospitalAllCnt(HospitalPaging paging);
+
+	/**
+	 * 반경을 포함한 병원을 조회
+	 * @param paging usreNo, search, radius 가 있는 paging 객체
+	 * @return 반경을 포함한 조회, 병원 수
+	 */
+	public int selectHospitalCnt(HospitalPaging paging);
+
+	/**
+	 * 조건에 맞는 병원 조회 (반경 미포함)
+	 * @param paging 조회할 조건
+	 * @return 조회한 병원 
+	 */
+	public List<Map<String, Object>> selectHospitalAll(HospitalPaging paging);
+
+	/**
+	 * 조건에 맞는 병원 조회 (반경 포함)
+	 * @param paging 조회할 조건
+	 * @return 조회한 병원
+	 */
+	public List<Map<String, Object>> selectHospital(HospitalPaging paging);
+
+	/**
+	 * 병원의 정보 조회
+	 * @param hospitalNo 상세보기할 병원의  HospitalNo
+	 * @return 병원의 정보
+	 */
+	public Map<String, Object> selectHospitalDetail(int hospitalNo);
+
+	/**
+	 * 병원의 위도, 경도 조회
+	 * @param hospitalNo hospitalNo
+	 * @return 병원 위치
+	 */
+	public Map<String, String> selectHospitalLoc(int hospitalNo);
+
+	/**
+	 * 유저의 위치 가져오기
+	 * @param userNo 조회할 위치의 userNo
+	 * @return 유저의 위치 위도, 경도
+	 */
+	public Map<String, String> selectUserLoc(int userNo);
+
+	/**
+	 * 병원 정보 조회
+	 * @param hospitalNo 조회할 병원의 hospitalNo
+	 * @return 병원 정보
+	 */
+	public Map<String, Object> selectHospitalInfoByHospitalNo(int hospitalNo);
 
 
 	
