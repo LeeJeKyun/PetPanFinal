@@ -35,7 +35,7 @@
 			</when>
 		</choose>
 		
-		ORDER BY messageno DESC
+		ORDER BY doread, messageno DESC
 	</select>
 	
 	<select id="selectMessageByMessageNo" parameterType="message.dto.Message" resultType="message.dto.Message">
