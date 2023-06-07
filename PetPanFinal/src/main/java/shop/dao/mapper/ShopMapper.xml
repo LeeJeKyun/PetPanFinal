@@ -140,7 +140,7 @@
 	
 	<select id="fileList" parameterType="int" resultType="shop.dto.ReviewFile">
 		select * from ReviewFile
-		where reviewno = #{reviewno}	
+		where reviewno = #{reviewno}
 	</select>
 	
 	<update id="updateC" parameterType="shop.dto.Review" >

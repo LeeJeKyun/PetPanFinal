@@ -193,6 +193,13 @@
   	.img_div{
   		display: inline-block;
   	}
+  	.report{
+  		width: 30px;
+  		cursor: pointer;
+  	}
+  	.rep{
+  		text-align: end;
+  	}
 
 </style>
 <div class="line">
@@ -201,7 +208,7 @@
 <div class="content_top">
 	<div class="ct_left_area">
 		<div class="image_wrap">
-			<img src="/upload/${file[0].storedname }">
+			<img src="/upload/${view.img1 }">
 		</div>
 	</div>
 	<div class="ct_right_area">
@@ -247,12 +254,16 @@
 
 <div class="content_middle">
 	<div class="shop_content">
-	<c:forEach items="file" var="file" begin="1">
-		${file.storedname }
+	<c:forEach items= "${file}" var="file" >
+		<img src="/upload/${file.storedname }">
 	</c:forEach>
 	</div>
 </div>
-
+<div title="신고하기" class="rep">
+	<form action="./report?objectno=${view.objectno }" method="post">
+		<button type="submit"><img src="./../../resources/img/report.jpg" alt="신고하기" class="report"></button>
+	</form>
+</div>
 <div class="line">
 </div>				
 
@@ -260,6 +271,10 @@
 	<div class="review_title">
 		<h3>상품평</h3>
 	</div>
+	<c:set var="review" value="${reviewList }" />
+	<c:if test="${review eq null }">
+		<h2 style="color: blue; text-align: center;" >상품평이 아직 하나도 없어용</h2>
+	</c:if>
 	<c:forEach items="${reviewList}" var="review">
 	<div>
 		<img src="/upload/${review.IMAGE1 }" class="review_img">
@@ -300,9 +315,13 @@
 	</table>
 	<div style="text-align: center;">
 		<c:forEach items="${filelist}" var="filelist">
-			<div class="img_div">
-				<img src="/upload/${filelist.storedname }" class="review_con" style="cursor: pointer;" onclick="doImgPop('/upload/${filelist.storedname }')">
-			</div>
+			<c:forEach items="${filelist.value }" var="ReviewFile">
+				<c:if test="${ReviewFile.reviewno eq review.REVIEWNO}">
+					<div class="img_div">
+						<img src="/upload/${ReviewFile.storedname }" class="review_con" style="cursor: pointer;" onclick="doImgPop('/upload/${ReviewFile.storedname }')">
+					</div>
+				</c:if>
+			</c:forEach>
 		</c:forEach>	
 	</div>
 	<div class="line">

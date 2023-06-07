@@ -62,7 +62,7 @@ public interface ShopDao {
 
 	public List<ReviewFile> fileList(int reviewno);
 
-	public int selectReviewNo(Review review);
+	public List<Integer> selectReviewNo(Review review);
 
 	public int cntReviewno(Review review);
 
