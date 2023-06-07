@@ -241,5 +241,60 @@
   		WHERE userno=#{userNo}
 	</update>
 	
+	<!-- 샾파일 참고  -->
+	<!--  ==================================== -->
+<!-- 		<select id="selectShop" parameterType="int" resultType="shop.dto.Shop"> -->
+<!-- 		SELECT * FROM SHOP WHERE OBJECTNO = #{objectno} -->
+<!-- 	</select> -->
+	
+<!-- 	<select id="selectShopFile" parameterType="int" resultType="shop.dto.ShopFile"> -->
+<!-- 		SELECT * FROM SHOPFILE WHERE OBJECTNO = #{objectno} ORDER BY FILENO -->
+<!-- 	</select> -->
+	
+<!-- 	<select id="selectShopFileByFileno" resultType="shop.dto.ShopFile"> -->
+<!-- 		SELECT * FROM SHOPFILE WHERE FILENO = #{e} -->
+<!-- 	</select> -->
+	
+<!-- 	<delete id="deleteChangeFileOnDb" parameterType="int"> -->
+<!-- 		DELETE FROM SHOPFILE WHERE FILENO = #{e} -->
+<!-- 	</delete> -->
+	
+<!-- 	<update id="updateShopDetail" parameterType="shop.dto.Shop"> -->
+<!-- 		UPDATE SHOP SET NAME = #{name},  -->
+<!-- 		PRICE = #{price},  -->
+<!-- 		REMAIN = #{remain},  -->
+<!-- 		SHOPCONTENT = #{shopcontent}  -->
+<!-- 		WHERE OBJECTNO = #{objectno} -->
+<!-- 	</update> -->
+	
+<!-- 	<update id="changeShopDeleteobj" parameterType="int"> -->
+<!-- 		UPDATE SHOP SET DELETEOBJ = 0 WHERE OBJECTNO = #{objectno} -->
+<!-- 	</update> -->
+	
+	<!--  ==================================== -->
+	
+	
+	<select id="selectBynoticeno" parameterType="int" resultType="board.dto.Notice">
+		SELECT * FROM NOTICE WHERE noticeno = #{noticeno}
+	</select>
+	
+	<select id="selectnoticeFile" parameterType="int" resultType="board.dto.NoticeFile">
+		SELECT * FROM NOTICEFILE WHERE noticeno = #{noticeno} ORDER BY FILENO
+	</select>
+	
+	<delete id="deletenoticeFile" parameterType="int">
+		delete from noticefile where noticeno = #{noticeno}
+	</delete>
+	
+	<delete id="deletenotice" parameterType="int">
+		delete from notice where noticeno = #{noticeno}
+	</delete>
+	
+
+	
+	<!-- 	public Notice selectBynoticeno(int noticeno);
+
+	public List<NoticeFile> selectnoticeFile(int noticeno); -->
+	
 
 </mapper>

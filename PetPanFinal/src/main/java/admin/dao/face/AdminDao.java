@@ -94,6 +94,14 @@ public interface AdminDao {
 
 	public int updateMember(Member member);
 
+	public Notice selectBynoticeno(int noticeno);
+
+	public List<NoticeFile> selectnoticeFile(int noticeno);
+
+	public void deletenoticeFile(int noticeno);
+
+	public void deletenotice(int noticeno);
+
 	
 
 
