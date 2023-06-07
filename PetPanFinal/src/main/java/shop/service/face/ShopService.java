@@ -71,7 +71,7 @@ public interface ShopService {
 
 	public void writeReview(List<MultipartFile> fileList, Review review, List<Integer> no, OrderUser orderUser);
 
-	public List<ReviewFile> ReviewfileList(Review review);
+	public Map<Integer, List> ReviewfileList(Review review);
 
 	public int cntReview(Review review);
 

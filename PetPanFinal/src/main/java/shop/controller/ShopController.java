@@ -77,7 +77,7 @@ public class ShopController {
 		//상품 사진
 		List<ShopFile> file = shopService.shopfile(basket);
 		model.addAttribute("file", file);
-		
+		System.out.println("파일 : " + file); 
 
 		//---- 리뷰 ----
 		paging = shopService.reviewPaging(curPage);
@@ -89,10 +89,11 @@ public class ShopController {
 			
 			List<Review> reviewList= shopService.reviewList(review);
 			
-			List<ReviewFile> FileList = shopService.ReviewfileList(review);
+			Map<Integer, List> FileList = shopService.ReviewfileList(review);
 			
 			model.addAttribute("reviewList", reviewList);
 			model.addAttribute("filelist", FileList);
+			
 			
 		}
 		
@@ -108,7 +109,6 @@ public class ShopController {
 		basket.setUserno((int)session.getAttribute("userno"));
 		
 		//장바구니 담기
-		System.out.println("insert" + basket);
 		shopService.insertBasket(basket);
 		
 		//장바구니 보여주기
@@ -138,8 +138,6 @@ public class ShopController {
 		List<Map<String,Object>> list = shopService.selectBasket(basket);
 		model.addAttribute("list", list);
 		
-		System.out.println("리스트 : " + list);
-		
 		Member member = shopService.memberShop(basket);
 		
 		model.addAttribute("member", member);		
@@ -154,7 +152,6 @@ public class ShopController {
 		basket.setUserno((int)session.getAttribute("userno"));
 		List<Map<String,Object>> list = shopService.selectBasket(basket);
 		
-		System.out.println(list);
 		shopService.insertOrder(list);
 		shopService.buyDeleteBasket(userno);
 		
@@ -167,13 +164,10 @@ public class ShopController {
 		basket.setUserno((int)session.getAttribute("userno"));
 		
 		shopService.deleteBasket(basket);
-		System.out.println("asdfasdfadf" + basket);
 		
 		List<Map<String, Object>> list = shopService.selectBasket(basket);
 
 		Member member = shopService.memberShop(basket);
-		
-		System.out.println("리스트 : " + list);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("member", member);
@@ -186,13 +180,10 @@ public class ShopController {
 		basket.setUserno((int)session.getAttribute("userno"));
 		
 		shopService.deleteBasket(basket);
-		System.out.println("asdfasdfadf" + basket);
 		
 		List<Map<String, Object>> list = shopService.selectBasket(basket);
 		
 		Member member = shopService.memberShop(basket);
-		
-		System.out.println("리스트 : " + list);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("member", member);
@@ -212,8 +203,6 @@ public class ShopController {
 		
 		Member member = shopService.memberShop(basket);
 		
-		System.out.println("리스트 : " + list);
-		
 		model.addAttribute("list", list);
 		model.addAttribute("member", member);	
 	}
@@ -225,8 +214,6 @@ public class ShopController {
 		
 		List<Map<String, Object>> list = shopService.orderList(orderUser);
 
-		System.out.println(list);
-		
 		model.addAttribute("list", list);
 		
 	}
@@ -256,7 +243,10 @@ public class ShopController {
 		return "redirect:/shop/main";
 	}
 	
-	
+	@PostMapping("report")
+	public void report() {
+		
+	}
 	
 	
 }

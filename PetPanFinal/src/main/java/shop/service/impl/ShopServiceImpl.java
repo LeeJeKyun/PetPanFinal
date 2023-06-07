@@ -3,6 +3,8 @@ package shop.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -274,13 +276,23 @@ public class ShopServiceImpl implements ShopService{
 	}
 	
 	@Override
-	public List<ReviewFile> ReviewfileList(Review review) {
+	public Map<Integer, List> ReviewfileList(Review review) {
 		
-		int reviewno = shopDao.selectReviewNo(review);
+		List<Integer> reviewno = shopDao.selectReviewNo(review);
 		
-		List<ReviewFile> list = shopDao.fileList(reviewno);
+		Map<Integer,List> listMap = new HashMap<Integer, List>();
 		
-		return list;
+		List<ReviewFile> list = new ArrayList<ReviewFile>();
+		
+		for(int i=0; i<reviewno.size();i++ ) {
+			
+			list = shopDao.fileList(reviewno.get(i));
+			
+			listMap.put(i, list);
+		
+		}
+		return listMap;
+		
 		
 	}
 
