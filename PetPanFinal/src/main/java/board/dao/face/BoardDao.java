@@ -523,13 +523,6 @@ public interface BoardDao {
 	public Map<String, Object> selectHospitalDetail(int hospitalNo);
 
 	/**
-	 * 거리를 포함한 병원 정보를 조회
-	 * @param map hospitalNo, userNo
-	 * @return 로그인한 userNo의 주소와 병원까지의 주소 거리를 포함한 반환
-	 */
-	public Map<String, Object> selectHospitalDetailUserNo(Map<String, Integer> map);
-
-	/**
 	 * 병원의 위도, 경도 조회
 	 * @param hospitalNo hospitalNo
 	 * @return 병원 위치
@@ -542,6 +535,13 @@ public interface BoardDao {
 	 * @return 유저의 위치 위도, 경도
 	 */
 	public Map<String, String> selectUserLoc(int userNo);
+
+	/**
+	 * 병원 정보 조회
+	 * @param hospitalNo 조회할 병원의 hospitalNo
+	 * @return 병원 정보
+	 */
+	public Map<String, Object> selectHospitalInfoByHospitalNo(int hospitalNo);
 
 
 	

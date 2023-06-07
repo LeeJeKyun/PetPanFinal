@@ -697,7 +697,7 @@ public class BoardServiceImpl implements BoardService{
 		//종 선택
 		hPaging.setRodent(paging.getRodent());
 		hPaging.setBirds(paging.getBirds());
-		hPaging.setMammlia(paging.getMammlia());
+		hPaging.setMammalia(paging.getMammalia());
 		hPaging.setReptile(paging.getReptile());
 		
 		return hPaging;
@@ -725,6 +725,7 @@ public class BoardServiceImpl implements BoardService{
 		
 		logger.info("map {}", map);
 		if(userNo == -1) {
+			// 비로그인 상태
 			//거리 없음
 			return map;
 		}else {
@@ -746,7 +747,12 @@ public class BoardServiceImpl implements BoardService{
 			logger.info("distance {} ", distance);
 			
 			map.put("distance", distance);
+			map.put("U_LONGITUDE", userLoc.get("U_LONGITUDE"));
+			map.put("U_LATITUDE", userLoc.get("U_LATITUDE"));
+			map.put("H_LONGITUDE", Loc.get("H_LONGITUDE"));
+			map.put("H_LATITUDE", Loc.get("H_LATITUDE"));
 		}
+		logger.info("map return 전 {}", map);
 		return map;
 //		if(userNo == -1) {
 //			//거리 없음
@@ -767,6 +773,17 @@ public class BoardServiceImpl implements BoardService{
 		          * Math.cos( Math.toRadians( Double.valueOf(loc.get("H_LATITUDE"))  ) - Math.toRadians(Double.valueOf( loc.get("U_LATITUDE"))) )
 		          + (Math.sin(Math.toRadians(Double.valueOf( loc.get("U_LONGITUDE")) ) ) * Math.sin(( Math.toRadians(Double.valueOf( loc.get("H_LONGITUDE"))  ) ) )) 
 		          );        
+	}
+
+	@Override
+	public Map<String, Object> getHospitalInfo(int hospitalNo, Integer userNo) {
+		Map<String, Object> map = boardDao.selectHospitalInfoByHospitalNo(hospitalNo);
+		
+		if(userNo != null) {
+			return map;
+		}
+		
+		return null; 
 	}
 	
 }
