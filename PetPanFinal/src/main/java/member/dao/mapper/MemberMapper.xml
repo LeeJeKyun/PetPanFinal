@@ -120,13 +120,54 @@
   		     #{open}, #{close})
   	</insert>
 
+	<select id="myreview" parameterType="int" resultType="shop.dto.Review">
+		SELECT * FROM review
+		where userNo = #{userNo}
+	</select>
+
+	<select id="myContent" parameterType="int" resultType="board.dto.Board">
+		SELECT boardNo, boardTitle, content, write_date as writeDate
+		, hit, userNo, boardTypeNo
+		FROM board
+		WHERE userNo = #{userNo}
+		ORDER BY boardNo desc
+	</select>
+
+	<select id="myComment" parameterType="int" resultType="HashMap">
+		SELECT c.commentNo, c.content, c.boardNo, c.write_date as writeDate, b.boardNo, b.boardTypeNo
+		FROM commenttable c
+		INNER JOIN board b ON c.boardNo = b.boardNo
+		WHERE c.userNo = #{userNo}
+		ORDER BY commentNo desc
+	</select>
+
+	
+	<select id="searchId" parameterType="member.dto.Member" resultType="member.dto.Member">
+		SELECT * FROM member
+		WHERE userName=#{userName} AND phone=#{phone}
+	</select>
+	
+	<select id="searchPw" parameterType="member.dto.Member" resultType="member.dto.Member">
+		SELECT * FROM member
+		WHERE userName=#{userName} AND userId=#{userId} AND email=#{email}
+	</select>
 	
 	
+	<update id="updatePw" parameterType="member.dto.Member">
+  		UPDATE member
+  		SET userPw=#{userPw}
+  		WHERE userNo=#{userNo}
+  	</update>
 	
-	
-	
-	
-	
+	<select id="idDu" resultType="int">
+      SELECT count(*) FROM member
+      WHERE userId = #{userId}
+   </select>
+
+	<select id="nickDu" resultType="int">
+      SELECT count(*) FROM member
+      WHERE userNick = #{userNick}
+   </select>
 	
   	
   	

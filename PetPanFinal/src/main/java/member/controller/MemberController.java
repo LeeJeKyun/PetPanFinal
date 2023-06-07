@@ -264,6 +264,46 @@ public class MemberController {
 		
 	}
 	
+	
+	//아이디 중복 검사
+	   @RequestMapping("/join/idDu")
+	   @ResponseBody
+	   public String userIdDu(Member member) {
+	      
+	      logger.info("아이디 중복검사");
+	      
+	      int res = memberService.idDu(member);
+	      
+	      logger.info("res {} " , res);
+	      
+	      //result가 1이면 DB에 아이디 존재
+	      if(res != 0) {
+	         return "fail";   //중복 아이디 존재
+	      }else {
+	         return "success";   //중복 아이디 없음
+	      }
+	   }
+
+	   //아이디 중복 검사
+	   @RequestMapping("/join/nickDu")
+	   @ResponseBody
+	   public String userNickDu(Member member) {
+		   
+		   logger.info("아이디 중복검사");
+		   
+		   int res = memberService.nickDu(member);
+		   
+		   logger.info("res {} " , res);
+		   
+		   //result가 1이면 DB에 닉네임 존재
+		   if(res != 0) {
+			   return "fail";   //중복 닉네임 존재
+		   }else {
+			   return "success";   //중복 닉네임 없음
+		   }
+	   }
+	
+	
 	@GetMapping("/mailCheck")
 	@ResponseBody
 	public String joinm( String email ) {
@@ -288,9 +328,9 @@ public class MemberController {
 		// 지번 주소로 위도 경도를 반환해준다.
 		HashMap<String, String> XYMap = memberService.getXYMapfromJson( memberService.getKakaoApiFromAddress( jibunAddress) );
 		
-		// x는 위도 y는 경도
-		member.setLatitude(XYMap.get("x"));
-		member.setLongitude(XYMap.get("y"));
+		// x는 경도 y는 위도
+		member.setLongitude(XYMap.get("x"));
+		member.setLatitude(XYMap.get("y"));
 		
 		memberService.insertJoin( member );
 		
@@ -340,8 +380,8 @@ public class MemberController {
 		
 		HashMap<String, String> XYMap = memberService.getXYMapfromJson( memberService.getKakaoApiFromAddress( jibunAddress) );
 		
-		member.setLatitude(XYMap.get("x"));
-		member.setLongitude(XYMap.get("y"));
+		member.setLongitude(XYMap.get("x"));
+		member.setLatitude(XYMap.get("y"));
 		
 		if(sosId!=null) {
 		memberService.insertkakaoJoin( member, sosId );
@@ -354,6 +394,78 @@ public class MemberController {
 		
 	}
 	
+	
+	
+	@GetMapping("/login/id")
+	public void id() {
+		logger.info("아이디 찾기");
+	}
+	
+	@PostMapping("/login/id")
+	public String idResult(
+			Member member
+			, Model model
+
+			) {
+		logger.info("아이디 찾기");
+		
+		Member searchId = memberService.searchId(member);
+		
+		logger.info("searchId :{}", searchId);
+		
+		
+		model.addAttribute("searchId", searchId);
+
+		
+		return "./member/login/id_result";
+	}
+
+	@GetMapping("/login/pw")
+	public void pw( Member member, HttpSession session) {
+		logger.info("비밀번호 찾기");
+
+	}
+
+	@PostMapping("/login/pw")
+	public String pwResult(
+			Member member
+			, Model model
+			, HttpSession session
+			) {
+		logger.info("비밀번호 찾기");
+		
+		Member searchPw = memberService.searchPw(member);
+		session.setAttribute("userNo", searchPw.getUserNo());
+		
+		model.addAttribute("searchPw", searchPw);
+
+		return "./member/login/pw_result";
+
+	}
+	
+	@GetMapping("/login/pw_result")
+	public void pwupdate(
+
+			) {
+		logger.info("비밀번호 변경");
+	}
+	
+	@PostMapping("/login/pw_result")
+	public String pwUpdate(
+			Member member
+			, HttpSession session
+			) {
+		logger.info("비밀번호 변경");
+		member.setUserNo((int)session.getAttribute("userNo"));
+
+//		member = (int) session.getAttribute("userNo");
+		logger.info("userNo : {}", member);
+		
+		memberService.updatePw( member);
+		
+		return "redirect:./login";
+
+	}
 	
 	
 }

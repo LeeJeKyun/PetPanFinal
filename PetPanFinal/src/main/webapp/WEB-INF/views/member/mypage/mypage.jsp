@@ -58,7 +58,6 @@
 
 <div class="text">
 
-<br><br>
 
 <div class="my">
 <h3>내 정보</h3>

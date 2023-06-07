@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -275,12 +274,102 @@ $(function(){
 		}
 	});
 
+})
 
 
 
 
+
+
+
+
+
+$(function(){
+	
+$("#idDu").on("click", function(){
+      
+      var userId = $("#userId").val();
+      var data = {userId : userId}
+
+      if(userId == ''){
+         $('#userId_msg').html("아이디를 입력해주세요")
+         return
+      }
+      
+      //회원가입시 아이디 중복검사
+      $.ajax({
+         type:"get",
+         url: " /member/join/idDu",
+         data : data,
+         success: function(result){
+            //
+            if(result != "fail"){
+               //중복아이디가 없어서 사용가능한 아이디입니다
+//                $(".id_input1").css("display","inline-block");
+               //span input2는 안보이게
+//                $(".id_input2").css("display","none");
+
+				$("#userId_msg").html("사용가능한 아이디입니다.")
+				
+            }else{
+				$("#userId_msg").html("사용불가능한 아이디입니다.")
+               //중복아이디이므로 '아이디가 이미 존재합니다' 띄우기
+//                $(".id_input1").css("display","none");
+//                $(".id_input2").css("display","inline-block");
+            }
+            
+         }
+      })
+
+	})
+	
+	
+	
+
+	$("#nickDu").on("click", function(){
+      
+      var userNick = $("#userNick").val();
+      var data = {userNick : userNick}
+
+      if(userNick == ''){
+         $('#userNick_msg').html("닉네임을 입력해주세요")
+         return
+      }
+      
+      //회원가입시 아이디 중복검사
+      $.ajax({
+         type:"get",
+         url: " /member/join/nickDu",
+         data : data,
+         success: function(result){
+            //
+            if(result != "fail"){
+               //중복아이디가 없어서 사용가능한 아이디입니다
+//                $(".id_input1").css("display","inline-block");
+               //span input2는 안보이게
+//                $(".id_input2").css("display","none");
+
+				$("#userNick_msg").html("사용가능한 닉네임입니다.")
+				
+            }else{
+				$("#userNick_msg").html("사용불가능한 닉네임입니다.")
+               //중복아이디이므로 '아이디가 이미 존재합니다' 띄우기
+//                $(".id_input1").css("display","none");
+//                $(".id_input2").css("display","inline-block");
+            }
+            
+         }
+      })
+
+	})
+	
+	
+	
+	
+	
 
 })
+
 
 
 </script>
@@ -298,7 +387,9 @@ $(function(){
    </div>
    
    <div class="select">
-      <label for="userId" >아이디</label><br><button>중복체크</button>
+      <label for="userId" >아이디</label><br><button type="button" id="idDu">중복체크</button>
+<!--       <span class="id_input1">사용 가능한 아이디입니다.</span> -->
+<!--       <span class="id_input2">아이디가 이미 존재합니다.</span> -->
       <input type="text" id="userId" name="userId"  placeholder="6자 이상, 16자 이하의 영문자,숫자만 가능">
       <span id="userId_msg" class="msg"></span>
    </div>
@@ -316,7 +407,7 @@ $(function(){
    </div>
    
    <div class="select">
-      <label for="userNick">닉네임</label>
+      <label for="userNick">닉네임</label><button id="nickDu">중복체크</button>
       <input type="text" id="userNick" name="userNick" >
       <span id="userNick_msg" class="msg"></span>
    </div>

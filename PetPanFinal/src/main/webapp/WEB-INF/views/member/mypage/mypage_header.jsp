@@ -24,6 +24,7 @@
 	font-size: larger;
 	font-weight: 600;
 
+
 }
 
 #footer {
@@ -62,6 +63,9 @@
  	font-weight: 600;
 }
 
+#menu{
+	float: left;
+}
 
 
 ul {
@@ -78,7 +82,12 @@ li {
     float: left;
 }
 
-
+.clearbox {
+	height: 0;
+	overflow: hidden;
+	line-height: 0;
+	clear: both;
+}
 
 </style>
 
@@ -117,7 +126,11 @@ li {
 	</li>
 
 	<li>
-	<a href="./content">내가 쓴 댓글</a>
+	<a href="./comment">내가 쓴 댓글</a>
+	<em></em>
+	</li>
+	<li>
+	<a href="./review">내 리뷰</a>
 	<em></em>
 	</li>
 </ul>
@@ -145,7 +158,7 @@ li {
 	</li>
 
 	<li>
-	<a href="./content">내가 쓴 댓글</a>
+	<a href="./comment">내가 쓴 댓글</a>
 	<em></em>
 	</li>
 </ul>
@@ -155,7 +168,7 @@ li {
 </c:when>
 
 </c:choose>
-
+<div class="clearbox"></div>
 
 
 

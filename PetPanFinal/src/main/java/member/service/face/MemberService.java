@@ -2,13 +2,17 @@ package member.service.face;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import board.dto.Board;
+import board.dto.Comment;
 import member.dto.Hospital;
 import member.dto.Member;
 import member.dto.Pet;
 import member.dto.PetFile;
+import shop.dto.Review;
 
 
 public interface MemberService {
@@ -144,8 +148,66 @@ public interface MemberService {
 	 */
 	public String joinEmail(String email);
 
+	/**
+	 * 마이페이지 내가쓴 리뷰
+	 * @return 
+	 */
+	public List<Review> myreview(int userno);
 
+	/**
+	 * 아이디 찾기
+	 * 
+	 * @param member
+	 * @return
+	 */
+	public Member searchId(Member member);
 
+	/**
+	 * 비밀번호 찾기
+	 * 
+	 * @param member
+	 * @return
+	 */
+	public Member searchPw(Member member);
+
+	/**
+	 * 비밀번호 찾고 변경
+	 * 
+	 * @param member
+	 */
+	public void updatePw(Member member);
+
+	/**
+	 * 아이디 중복검사
+	 * 
+	 * @param member
+	 * @return
+	 */
+	public int idDu(Member member);
+
+	/**
+	 * 닉네임 중복검사
+	 * 
+	 * @param member
+	 * @return
+	 */
+	public int nickDu(Member member);
+
+	/**
+	 * 내가 쓴 게시글 조회
+	 * 
+	 * @param attribute
+	 * @return
+	 */
+	public List<Board> myContent(int userno);
+
+	/**
+	 * 내가 쓴 댓글 조회
+	 * 
+	 * @param attribute
+	 * @return
+	 */
+	public List<Map<String, Object>> myComment(int attribute);
 
 
 
