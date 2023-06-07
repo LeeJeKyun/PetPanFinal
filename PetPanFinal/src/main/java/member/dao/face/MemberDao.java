@@ -2,11 +2,15 @@ package member.dao.face;
 
 
 import java.util.List;
+import java.util.Map;
 
+import board.dto.Board;
+import board.dto.Comment;
 import member.dto.Hospital;
 import member.dto.Member;
 import member.dto.Pet;
 import member.dto.PetFile;
+import shop.dto.Review;
 
 public interface MemberDao {
 
@@ -120,6 +124,52 @@ public interface MemberDao {
 	public void insertHospital(Hospital hospital);
 
 	/**
+	 * 
+	 * 
+	 * @param userno
+	 * @return
+	 */
+	public List<Review> myreview(int userno);
+
+	/**
+	 * 아이디 찾기 (이름, 휴대폰번호 같을 경우)
+	 * 
+	 * @param member
+	 * @return
+	 */
+	public Member searchId(Member member);
+
+	/**
+	 * 비밀번호 찾기(아이디, 이름,이메일 같을 경우)
+	 * 
+	 * @param member
+	 * @return
+	 */
+	public Member searchPw(Member member);
+
+	/**
+	 * 비밀번호 변경
+	 * 
+	 * @param member
+	 */
+	public void updatePw(Member member);
+
+	/**
+	 * 아이디 중복검사
+	 * 
+	 * @param member
+	 * @return
+	 */
+	public int idDu(Member member);
+
+	/**
+	 * 닉네임 중복검사
+	 * 
+	 * @param member
+	 * @return
+	 */
+	public int nickDu(Member member);
+	/**
 	 * 병원 테이블에 같은 userNo이 있는지 확인
 	 * @param hospitalNo 확인할 병원 번호
 	 * @return 없으면 0
@@ -130,7 +180,21 @@ public interface MemberDao {
 
 
 
+	/**
+	 * 내가 쓴 게시글 조회
+	 * 
+	 * @param userno
+	 * @return
+	 */
+	public List<Board> myContent(int userno);
 
+	/**
+	 * 내가 쓴 댓글 조회
+	 * 
+	 * @param userno
+	 * @return
+	 */
+	public List<Map<String, Object>> myComment(int userno);
 
 
 

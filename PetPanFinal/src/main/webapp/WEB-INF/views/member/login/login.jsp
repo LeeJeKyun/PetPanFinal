@@ -212,8 +212,8 @@ input:focus {
       
       
    <div class="select">
-      <a href="/member/id.jsp" >아이디 찾기 | </a>
-      <a href="/member/pj/pw.jsp" >비밀번호 찾기 | </a>
+      <a href="/member/login/id" >아이디 찾기 | </a>
+      <a href="/member/login//pw" >비밀번호 찾기 | </a>
       <a href="/member/login/join" >회원가입</a>
    </div>
 

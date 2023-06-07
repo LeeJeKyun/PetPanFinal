@@ -32,12 +32,15 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import board.dto.Board;
+import board.dto.Comment;
 import member.dao.face.MemberDao;
 import member.dto.Hospital;
 import member.dto.Member;
 import member.dto.Pet;
 import member.dto.PetFile;
 import member.service.face.MemberService;
+import shop.dto.Review;
 
 
 @Service
@@ -283,7 +286,7 @@ public class MemberServiceImpl implements MemberService {
 		
 		// 파일이 저장될 이름
 		String originName = petFile.getOriginalFilename();
-		
+
 		
 		// 저장될 파일 정보 객체
 		File dest = null;
@@ -364,7 +367,59 @@ public class MemberServiceImpl implements MemberService {
 		return hospitalNo;
 	}
 	
+	@Override
+	public List<Review> myreview(int userno) {
+		
+		List<Review> list = memberDao.myreview(userno);
+		
+		return list;
+		
+	}
+	
+	@Override
+	public Member searchId(Member member) {
+
+		
+		return memberDao.searchId(member);
+	}
+	
+	@Override
+	public Member searchPw(Member member) {
+		
+		return memberDao.searchPw(member);
+	}
+	
+	@Override
+	public void updatePw(Member member) {
+
+		memberDao.updatePw( member);	
+	}
+	
+	@Override
+	public int idDu(Member member) {
+		return memberDao.idDu(member);
+	}
+
+	@Override
+	public int nickDu(Member member) {
+		return memberDao.nickDu(member);
+	}
 	
 	
+	@Override
+	public List<Board> myContent(int userno) {
+		
+		List<Board> content = memberDao.myContent(userno);
+		
+		return content;
+	}
+	
+	@Override
+	public List<Map<String, Object>> myComment(int userno) {
+
+		List<Map<String, Object>> comment = memberDao.myComment(userno);
+		
+		return comment;
+	}
 	
 }
