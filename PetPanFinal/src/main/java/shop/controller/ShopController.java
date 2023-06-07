@@ -45,10 +45,11 @@ public class ShopController {
 		
 		//상품 전체 조회
 		List<Shop> shoplist = shopService.shoplist(paging);
-		
+
 		model.addAttribute("search", search);
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", shoplist);
+		
 	}
 	
 	@GetMapping("/view")
@@ -58,7 +59,6 @@ public class ShopController {
 		//shop 상세페이지
 		view = shopService.view(shop);
 		
-		System.out.println("asdfasdfa    " + view);
 		model.addAttribute("view", view);
 		
 		basket.setUserno((int)session.getAttribute("userno"));
@@ -69,11 +69,15 @@ public class ShopController {
 		//장바구니 보여주기
 		List<Map<String, Object>> list = shopService.selectBasket(basket);
 		
-		System.out.println("리스트 : " + list);
 		Member member = shopService.memberShop(basket);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("member", member);
+		
+		//상품 사진
+		List<ShopFile> file = shopService.shopfile(basket);
+		model.addAttribute("file", file);
+		
 
 		//---- 리뷰 ----
 		paging = shopService.reviewPaging(curPage);
@@ -85,10 +89,7 @@ public class ShopController {
 			
 			List<Review> reviewList= shopService.reviewList(review);
 			
-			List<ReviewFile> FileList = shopService.fileList(review);
-			
-			System.out.println(reviewList);
-			System.out.println(FileList);
+			List<ReviewFile> FileList = shopService.ReviewfileList(review);
 			
 			model.addAttribute("reviewList", reviewList);
 			model.addAttribute("filelist", FileList);
@@ -105,7 +106,6 @@ public class ShopController {
 		logger.info("/basket [POST]");
 		
 		basket.setUserno((int)session.getAttribute("userno"));
-//		basket.setUserno(100);
 		
 		//장바구니 담기
 		System.out.println("insert" + basket);
