@@ -32,7 +32,6 @@ public interface ShopService {
 	 * @return 전체 쇼핑 게시판 리스트
 	 */
 	public List<Shop> shoplist(ShopPaging paging);
-	
 
 	/**
 	 * 쇼핑 상세페이지
@@ -72,9 +71,14 @@ public interface ShopService {
 
 	public void writeReview(List<MultipartFile> fileList, Review review, List<Integer> no, OrderUser orderUser);
 
-	public List<ReviewFile> fileList(Review review);
+	public List<ReviewFile> ReviewfileList(Review review);
 
 	public int cntReview(Review review);
+
+	public List<ShopFile> shopfile(Basket basket);
+
+	
+
 
 	
 

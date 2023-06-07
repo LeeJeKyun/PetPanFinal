@@ -11,14 +11,16 @@
 	</select>
 	
 	<select id="selectAll" resultType="shop.dto.Shop" parameterType="util.ShopPaging">
-		SELECT * FROM (
-		    SELECT rownum rnum, B.* FROM (
-		        SELECT * FROM shop
-		        where deleteobj = 1
-		        ORDER BY objectno DESC
-		    ) B
-		)
-		WHERE rnum BETWEEN #{startNo } AND #{endNo }
+		select *
+		    from(
+		        select rownum rnum, B.*
+		        from (
+		            SELECT * FROM shop
+		            where deleteobj = 1
+		            ORDER BY objectno DESC
+		        )B
+		    )
+		where rnum between #{startNo } AND #{endNo }
 	</select>
 	
 	<select id="selectByObjno" resultType="shop.dto.Shop" parameterType="shop.dto.Shop">
@@ -52,6 +54,11 @@
 	<select id="basket" resultType="shop.dto.Basket" parameterType="shop.dto.Basket">
 		select * from basket
 		where userno = #{userno}
+	</select>
+	
+	<select id="shopfile" resultType="shop.dto.ShopFile" parameterType="shop.dto.Basket">
+		select * from shopfile
+		where objectno = #{objectno}
 	</select>
 
 	<select id="memberShop" resultType="member.dto.Member" parameterType="shop.dto.Basket">

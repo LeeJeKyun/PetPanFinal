@@ -65,9 +65,11 @@ $(document).ready(function(){
 		<td>${list.QUANTITY }</td>
 		<td>${list.BUYERPHONE}</td>
 		<td><c:if test="${list.COMPLETE eq 'n' }">배송중</c:if>
-			<c:if test="${list.COMPLETE eq 'y' }">배송완료</c:if></td>
+			<c:if test="${list.COMPLETE eq 'y' }">배송완료</c:if>
+			<c:if test="${list.COMPLETE eq '1' }">구매확정</c:if></td>
 		<td><c:if test="${list.COMPLETE eq 'n' }"><input type="checkbox" id="delete" name="delete" class="delete" value="${list.BUYNO }"></c:if>
-			<c:if test="${list.COMPLETE eq 'y' }"><input type="checkbox" disabled="disabled"></c:if></td>
+			<c:if test="${list.COMPLETE eq 'y' }"><input type="checkbox" disabled="disabled"></c:if>
+			<c:if test="${list.COMPLETE eq '1' }"><input type="checkbox" disabled="disabled"></c:if></td>
 		</tr>
 		</c:forEach>
 		</table>

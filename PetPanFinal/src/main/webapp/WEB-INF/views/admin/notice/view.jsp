@@ -9,19 +9,28 @@
 <body>
     <div class="container2">
         <h1>공지사항 상세보기</h1>
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">${noticetitle}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">작성일: ${noticewritedate}</h6>
-                <p class="card-text">${noticecontent}</p>
-                <p class="card-text">작성자: ${userno}</p>
-                <p class="card-text">게시판 유형: ${BoardTypeNo}</p>
-                <a href="list.jsp" class="card-link">목록으로 돌아가기</a>
-            </div>
-        </div>
-    </div>
-    <!-- 부트스트랩 JS 링크 추가 -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <table class = "table table-striped" style="width:1300px">
+			<tr><th>공지번호</th> <td>${notice.noticeno}</td></tr>
+			<tr><th>공지제목</th> <td>${notice.noticetitle}</td></tr>
+			<tr><th>공지내용</th> <td>${notice.noticecontent}
+			
+			<c:forEach items="${fileList }" var="fileList">
+			<img alt=".." src="<%=request.getContextPath()%>/upload/${fileList.storedName}" width="800px" height="auto"  class="img">
+			</c:forEach>
+			
+			</td></tr>
+			<tr><th>공지작성일</th> <td>${notice.noticewritedate}</td></tr>
+			<tr><th>유저번호</th> <td>${notice.userno}</td></tr>
+			<tr><th>작성번호</th> <td>${notice.boardtypeno}</td></tr>
+			<tr>
+			  
+			</tr>
+		</table>        
+	<div align="right">
+  		<button onclick="location.href='<%=request.getContextPath() %>/admin/notice/update?objectno=${notice.noticeno}'" class="btn btn-info">수정</button>
+  		<button onclick="location.href='<%=request.getContextPath() %>/admin/notice/delete?objectno=${notice.noticeno }'" class="btn btn-danger">삭제</button>
+	</div>
+	</div>
 </body>
 </html>
 

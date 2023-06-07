@@ -40,7 +40,7 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 								, @RequestParam(required = false, defaultValue = "0") Integer radius
 								, @RequestParam(defaultValue = "N") char rodent
 								, @RequestParam(defaultValue = "N") char birds
-								, @RequestParam(defaultValue = "N") char mammlia
+								, @RequestParam(defaultValue = "N") char mammalia
 								, @RequestParam(defaultValue = "N") char reptile
 								) {
 		logger.info("search 검색 {} ", search);
@@ -50,7 +50,10 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 			userNo = (int)session.getAttribute("userno");
 			
 		}
-		
+		logger.info("rodent {}", rodent);
+		logger.info("birds {}", birds);
+		logger.info("mammalia {}", mammalia);
+		logger.info("retile {}", reptile);
 		// 검색한 페이징 객체 가져오기 + userNo, + radius
 		HospitalPaging paging = new HospitalPaging();
 		paging.setCurPage(curPage);
@@ -60,7 +63,7 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		
 		paging.setRodent(rodent);
 		paging.setBirds(birds);
-		paging.setMammlia(mammlia);
+		paging.setMammalia(mammalia);
 		paging.setReptile(reptile);
 		
 		logger.info("병원 전 paging {}", paging);
@@ -112,5 +115,19 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		logger.info("map {}", map);
 		
 		model.addAttribute("map", map);
+	}
+	
+	@GetMapping("/modifyinfo")
+	public void modifyHospitalInfoGet(int hospitalno, HttpSession session, Model model) {
+		// 기존의 병원 정보 가져오기
+		Map<String, Object> map = boardService.getHospitalInfo(hospitalno, (Integer)session.getAttribute("userno"));
+		
+		logger.info("병원 정보 {}",map);
+		
+		model.addAttribute("map", map);
+	}
+	@PostMapping("/modifyinfo")
+	public void modifyHospitalInfo() {
+		
 	}
 }

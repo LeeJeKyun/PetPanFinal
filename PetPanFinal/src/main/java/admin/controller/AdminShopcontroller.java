@@ -66,6 +66,7 @@ public class AdminShopcontroller {
 	
 	@PostMapping("/write")
 	public String addShopObjectProc(
+			@RequestParam(value = "img", required = false)MultipartFile img,
 			@RequestParam(value = "file", required = false)List<MultipartFile> fileList //올릴 파일 리스트
 			, Shop shop
 			, @RequestParam(required = false) List<Integer> no // 취소된 파일 -1
@@ -78,8 +79,9 @@ public class AdminShopcontroller {
 		logger.info("no : {}", no);
 		logger.info("fileList : {}", fileList);
 		logger.info("board : {}", shop);
+		logger.info("board : {}", img);
 		
-		int objectno = adminService.saveShopGetObjectno(shop);
+		int objectno = adminService.saveShopGetObjectno(shop,img);
 		
 		adminService.saveShopFiles(fileList, objectno, no);
 		

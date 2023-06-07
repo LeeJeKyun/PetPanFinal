@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import admin.service.face.AdminService;
 import board.dto.Notice;
+import board.dto.NoticeFile;
 
 @RequestMapping("/admin")
 @Controller
@@ -28,12 +29,6 @@ public class AdminNoticeController {
 	
 	
 	
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/*===========================================================
-	 * 공지사항 CRUD
-	 *==============================================================
-	 */
 	
 	// 공지 리스트 보여주기
 	@GetMapping("/notice/list")
@@ -48,15 +43,13 @@ public class AdminNoticeController {
 	    model.addAttribute("list", noticeList);
 	}
 //공지 하나 보여주기
-	/*============================
-	 *  write먼저하기
-	 *  ============================
-	 */
 	@GetMapping("/notice/view")
-	public void board(  Model model	,int noticeno, HttpSession session) {
+	public void board(  Model model	,@RequestParam(value = "noticeNo")int noticeno, HttpSession session) {
 		
-//			Notice noticeList = adminService.getOnelist(boardno);
-//		    model.addAttribute("list", noticeList);
+			Notice notice = adminService.getNotice(noticeno);
+			List<NoticeFile> fileList = adminService.getNotiaceFilelist(noticeno);
+		    model.addAttribute("notice", notice);
+		    model.addAttribute("fileList", fileList);
 		
 	}
 //	
@@ -94,30 +87,30 @@ public class AdminNoticeController {
 		
 		return "redirect:./list";
 	}
-//	
-//	@GetMapping("/board/detail")
-//	public void detail(int boardNo, HttpSession session ,Model model) {
-//		// boardno, boardTitle, hit, recommend, writeDate, userName, content, boardTypeNo, writeDate
-//		Map<String, Object> map =  boardService.getBoardOne(boardNo);
-//		
-//		// boardNo에 맞는 파일 가져오기
-//		List<BoardFile> list = boardService.getBoardFile(boardNo);
-//		
-//		// 게시글 추천 눌렀는지 가져오기
-//		BoardRecommend boardReco = new BoardRecommend();
-//		boardReco.setBoardNo(boardNo);
-//		//boardReco.setUserNo((int)session.getAttribute("userNo"));
-//		boardReco.setUserNo(1);
-//		
-//		boolean like = boardService.isLike(boardReco); 
-//		
-//		logger.info("boardFile  {}", list);
-//		logger.info("map {}", map);
-//		logger.info("like : {}", like);
-//		
-//		model.addAttribute("like", like);
-//		model.addAttribute("list", list);
-//		model.addAttribute("map", map);
-//	}
+	
+	@GetMapping("/notice/delete")
+	public String delete(@RequestParam(value = "noticeNo")int noticeno) {
+		
+		
+		adminService.deletenotice(noticeno);
+		
+		return "redirect:./list";
+		
+	}
+	
+	
+	@GetMapping("/notice/update")
+	public void update(@RequestParam(value = "noticeNo")int noticeno) {
+		
+	}
+	
+	@PostMapping("/notice/update")
+	public String updatepost(@RequestParam(value = "noticeNo")int noticeno) {
+		
+		
+		return "redirect:./view/" + Integer.toString(noticeno);
+	}
+	
+	
 	
 }
