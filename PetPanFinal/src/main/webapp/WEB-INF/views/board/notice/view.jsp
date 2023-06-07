@@ -22,13 +22,15 @@
 <div style="border-top: 3px solid #f5cbcb;">
 	<p style="font-size: 30px; margin: 5px 0 5px 0;">${notice.noticetitle }</p>
 </div>
-<div style="border-top: 3px solid #f5cbcb; padding: 10px; font-size: 20px; border-bottom: 3px solid #f5cbcb;" >
+<div style="border-top: 3px solid #f5cbcb; padding: 10px; font-size: 20px; border-bottom: 3px solid #f5cbcb; text-align: center;" >
 	<c:forEach items="${filelist }" var="file" >
 	
 		<img alt="공지사진" src="<%=request.getContextPath()%>/upload/${file.storedName}">
 	
 	</c:forEach>
-	${notice.noticecontent}
+	<div style="text-align: left;">
+		${notice.noticecontent}
+	</div>
 </div>
 <br>
 <div style="text-align: center;">

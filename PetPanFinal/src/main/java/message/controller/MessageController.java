@@ -1,5 +1,8 @@
 package message.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -61,5 +64,63 @@ public class MessageController {
 	
 	@GetMapping("/message/complete")
 	public void messageComplete() {}
+	
+	@GetMapping("/message/list")
+	public void messageList(
+			
+			HttpSession session,
+			Model model
+			
+			) {
+		
+		int userno = (int)session.getAttribute("userno");
+		
+		Message message = new Message();
+		message.setReceiveUserNo(userno);
+		
+		List<Map<String, Object>> list = messageService.getMessageList(message);
+		
+//		logger.info("{}", list);
+		
+		for(Map<String, Object> m : list) {
+			logger.info("{}", m);
+		}
+		
+		model.addAttribute("list", list);
+		
+	}
+	
+	@GetMapping("/message/messageList")
+	public void messageList_tab(
+			
+			Message message,
+			Model model
+			
+			) {
+		logger.info("message : {}", message);
+		
+		List<Map<String, Object>> list = messageService.getMessageList(message);
+		
+//		logger.info("{}", list);
+		
+		model.addAttribute("list", list);
+		
+	}
+	
+	@GetMapping("/message/messageView")
+	public void messageView(
+			
+			Message message,
+			Model model
+			
+			) {
+		
+		logger.info("message : {}", message);
+		
+		Message viewMessage = messageService.getMessageView(message);
+		
+		model.addAttribute("viewMessage", viewMessage);
+		
+	}
 	
 }

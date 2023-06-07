@@ -317,6 +317,13 @@ public class BoardServiceImpl implements BoardService{
 		boardDao.insertCareCommentReport(reportComment);
 	}
 	
+	
+	@Override
+	public void deleteCareComment(Comment comment) {
+		boardDao.updateComment(comment.getCommentNo());
+	}
+	
+	
 	//-------------------------------제균----------------------------------
 
 

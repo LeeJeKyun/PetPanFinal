@@ -43,7 +43,7 @@ function message(e, userid){
 
 // 	console.log(e);
 // 	console.log(userid);
-	
+
 	var sWidth = window.innerWidth;
 	var sHeight = window.innerHeight;
 
@@ -85,7 +85,7 @@ function sendMessage(userid){
 
 <br>
 
-<div style="width: 1500px; margin:0 auto;">
+<div style="width: 1500px; margin:0 auto; margin-top:200px;">
 
 <div style="text-align: left; width: 1100px; margin: 0 auto;">
 	<span style="font-size: 2em; font-weight: bold;">품앗이</span>
