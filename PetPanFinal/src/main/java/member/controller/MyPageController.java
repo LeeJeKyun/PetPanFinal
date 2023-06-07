@@ -2,6 +2,7 @@ package member.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,12 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import board.dto.Board;
 import board.service.face.BoardService;
 import member.dto.Hospital;
 import member.dto.Member;
 import member.dto.Pet;
 import member.dto.PetFile;
 import member.service.face.MemberService;
+import shop.dto.Review;
 
 
 @Controller
@@ -141,16 +144,16 @@ public class MyPageController {
 	@GetMapping("/mypage/content")
 	public void content(
 			HttpSession session
-			, Member member
 			, Model model
 
 			) {
 		
-		member.setUserNo((int)session.getAttribute("userno"));
+		List<Board> content = memberService.myContent((int)session.getAttribute("userno"));
 		
 		
-		Member detail = memberService.userDetail(member);
-		model.addAttribute("detail", detail);
+		logger.info("내가 쓴 게시글 : {}", content);
+		model.addAttribute("content", content);
+		
 	}
 	
 	@GetMapping("/mypage/comment")
@@ -161,11 +164,17 @@ public class MyPageController {
 			
 			) {
 		
-		member.setUserNo((int)session.getAttribute("userno"));
+		int userno = (int)session.getAttribute("userno");
 		
+//		List<Comment> comment = memberService.myComment((int)session.getAttribute("userno"));	
+		List<Map<String, Object>> comment = memberService.myComment(userno);	
 		
-		Member detail = memberService.userDetail(member);
-		model.addAttribute("detail", detail);
+//		List<Map<String, Object>> list = fileUploadService.getPackList();
+
+		model.addAttribute("comment", comment);
+		
+		logger.info("내가 쓴 댓글 : {}", comment);
+
 	}
 	
 	
@@ -194,6 +203,15 @@ public class MyPageController {
 		return "redirect:./mypage";
 	}
 	
+	@GetMapping("/mypage/review")
+	public void review(Model model,HttpSession session) {
+		
+		List<Review> list = memberService.myreview((int)session.getAttribute("userno"));
+		
+		logger.info("review: {}", list);
+		model.addAttribute("list", list);
+		
+	}
 	
 	
 	

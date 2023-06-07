@@ -1,5 +1,8 @@
 package message.dao.face;
 
+import java.util.List;
+import java.util.Map;
+
 import message.dto.Message;
 
 public interface MessageDao {
@@ -27,5 +30,28 @@ public interface MessageDao {
 	 * @return 성공시 1, 실패시 0 반환
 	 */
 	public int insertMessage(Message message);
+
+	/**
+	 * 로그인한 유저가 받은 쪽지리스트를 모두 가져오는 메소드
+	 * 
+	 * @param userno
+	 * @return
+	 */
+	public List<Map<String, Object>> selectMessageListbyUserno(Message message);
+
+	/**
+	 * PK로 메시지를 가져오는 메소드
+	 * 
+	 * @param message
+	 * @return
+	 */
+	public Message selectMessageByMessageNo(Message message);
+
+	/**
+	 * 메시지의 doRead컬럼을 Y로 변경하는 메소드
+	 * 
+	 * @param message
+	 */
+	public void updateMessageDoRead(Message message);
 	
 }

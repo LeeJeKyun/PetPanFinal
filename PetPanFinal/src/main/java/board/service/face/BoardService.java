@@ -182,6 +182,14 @@ public interface BoardService {
 	 * @param writeDetail
 	 */
 	public void inputCareCommentReport(ReportComment reportComment, String writeDetail);
+
+	/**
+	 * 품앗이 게시글의 댓글을 삭제하는 메소드
+	 * 
+	 * @param comment
+	 */
+	public void deleteCareComment(Comment comment);
+
 	
 	//---------------------------제균------------------------------------
 
@@ -360,9 +368,13 @@ public interface BoardService {
 	 */
 	public Map<String, Object> getHospitalDetail(int hospitalNo, int userNo);
 
+	/**
+	 * boardNo으로 병원 정보 가져오기
+	 * @param boardNo
+	 * @param userNo 
+	 * @return 병원 정보
+	 */
+	public Map<String, Object> getHospitalInfo(int boardNo, Integer userNo);
 
-	
-
-	
 
 }

@@ -56,8 +56,8 @@ table{
 }
 .comment{
 	width: 800px;
-	margin-top: 20px;
 	background-color: #ccc;
+	padding: 8px 3px 13px 20px;
 }
 .left-side{
 	width: 50%;
@@ -291,6 +291,7 @@ function sendMessage(userid){
 <%-----------------------------쪽지모달창 끝 -----------------%>
 $(function(){
 	
+	<c:if test="${userno eq map.USERNO }">
 	// 모달창 로직
 	const modal = document.getElementById("modal");
 	const btnDelete = document.getElementById("btnDelete");
@@ -308,6 +309,11 @@ $(function(){
 	});
 	submitModalBtn.addEventListener("click", () => {
 		location.href="./delete?boardNo=" + ${map.BOARDNO}
+	})
+	</c:if>
+	
+	$(window).on("scroll", function() {
+		$(".messageLayer").hide();
 	})
 	
 })
@@ -327,6 +333,29 @@ function reportComment(commentNo){
 		return
 	}
 	window.open("./reportComment?commentNo="+commentNo, "신고", "width=400, height=500, resizable=no" );
+}
+function deleteComment(commentNo){
+	console.log("click & " + commentNo)
+	
+		$.ajax({
+		type : "get" 
+			, url: "./comment/delete"
+			, data : { 
+				commentNo : commentNo, 
+				boardNo : ${map.BOARDNO}
+			}
+			, dataType : "html"
+			, success : function(data){
+// 				console.log("AJAX 성공")
+// 				console.log(data)
+				$(".comment-area").html(data)
+				
+			}
+			, error : function(){
+				console.log("AJAX 실패")	
+			}
+		})
+		
 }
 </script>
 
@@ -392,25 +421,28 @@ function reportComment(commentNo){
 		 </div>
 	 </div>
 	 <div id="recommend">
+		 <div style="padding-left: 16px;">
+		 	<c:if test="${login eq true }">
+			 	<c:choose>
+					<c:when test="${isRecommended eq false || empty isRecommended}">
+				 		<img src="<%=request.getContextPath() %>/resources/img/emptyheart.png" width="30px" height="30px"
+				 			id="recommendBtn1" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
+				 		<img src="<%=request.getContextPath() %>/resources/img/pilledheart.png" width="30px" height="30px" class="displayNone"
+				 			id="recommendBtn2" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
+			 		</c:when>
+			 		<c:otherwise>
+				 		<img src="<%=request.getContextPath() %>/resources/img/emptyheart.png" width="30px" height="30px" class="displayNone"
+				 			id="recommendBtn1" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
+				 		<img src="<%=request.getContextPath() %>/resources/img/pilledheart.png" width="30px" height="30px"
+				 			id="recommendBtn2" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
+					 </c:otherwise>
+				 </c:choose>
+			 </c:if>
+		</div>
 	 	<div id="recommend_count">
 	 		<span>추천수 : </span><span id="recommendCnt">${map.RECOMMEND }</span>
 	 	</div>
-	 	<c:if test="${login eq true }">
-	 	<c:choose>
-			<c:when test="${isRecommended eq false || empty isRecommended}">
-		 		<img src="<%=request.getContextPath() %>/resources/img/emptyheart.png" width="22px"
-		 			id="recommendBtn1" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
-		 		<img src="<%=request.getContextPath() %>/resources/img/pilledheart.png" width="22px" class="displayNone"
-		 			id="recommendBtn2" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
-	 		</c:when>
-	 		<c:otherwise>
-		 		<img src="<%=request.getContextPath() %>/resources/img/emptyheart.png" width="22px" class="displayNone"
-		 			id="recommendBtn1" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
-		 		<img src="<%=request.getContextPath() %>/resources/img/pilledheart.png" width="22px"
-		 			id="recommendBtn2" style="cursor: pointer;" onclick="recommendAjax(${map.BOARDNO})">
-			 </c:otherwise>
-		 </c:choose>
-		 </c:if>	
+	 	<br>
 		 <div>작성자와 회원님 사이의 거리 :
 		 		<c:if test="${distance lt 1000 }">
 		 			<fmt:formatNumber value="${distance }" type="number" pattern="###"/>m

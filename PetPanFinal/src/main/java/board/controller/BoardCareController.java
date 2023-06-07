@@ -58,7 +58,7 @@ public class BoardCareController {
 			model.addAttribute("login", true);
 			
 		} else {
-		
+			
 			list = boardService.getCareList(paging);
 			model.addAttribute("login", "null");
 			
@@ -117,13 +117,13 @@ public class BoardCareController {
 			) {
 //		logger.info("boardNo {}", boardNo);
 		Map<String, Object> map = boardService.getCareView(boardNo);
-		logger.info("map : {}", map);
+//		logger.info("map : {}", map);
 		
 		Member writerMember = boardService.getMemberByBoard(map);
-		logger.info("writerMember: {}", writerMember);
+//		logger.info("writerMember: {}", writerMember);
 		
 		List<BoardFile> fileList = boardService.getCareFile(boardNo);
-		logger.info("fileList : {}", fileList);
+//		logger.info("fileList : {}", fileList);
 //		String loginid = null;
 		int userNo = 0;
 		boolean isRecommended = false;
@@ -138,12 +138,12 @@ public class BoardCareController {
 			userNo = (int)session.getAttribute("userno");
 			
 			Member loginMember = boardService.getUserInfo(userNo);
-			logger.info("loginMember : {}", loginMember);
+//			logger.info("loginMember : {}", loginMember);
 			isRecommended = boardService.isRecommended(boardNo, userNo);
 //			logger.info("isRecommended : {} ", isRecommended);
 			model.addAttribute("loginMember", loginMember);
 			double distance = boardService.getDistance(loginMember, writerMember);
-			logger.info("{}", distance);
+//			logger.info("{}", distance);
 			model.addAttribute("distance", distance * 1000);
 		}
 		
@@ -283,6 +283,25 @@ public class BoardCareController {
 		reportComment.setUserNo(userno);
 		boardService.inputCareCommentReport(reportComment, writeDetail);
 		return "/board/care/reportComplete";
+	}
+	
+	@GetMapping("/comment/delete")
+	public String care_deleteComment(
+			
+			Comment comment,
+			Model model
+			
+			) {
+		
+		logger.info("Comment : {}", comment);
+		boardService.deleteCareComment(comment);
+		List<Map<String, Object>> commentList = boardService.getCommentList(comment.getBoardNo());
+		
+		model.addAttribute("commentList", commentList);
+		
+		
+		
+		return "/board/care/comment";
 	}
 	
 }

@@ -96,6 +96,7 @@ public class AdminServiceImpl implements AdminService{
 		int userno = adminDao.selectBoarduser(boardNo);
 		Member member = adminDao.selectMember(userno);
 		return member;
+		
 	}
 
 	@Override
@@ -869,9 +870,36 @@ public class AdminServiceImpl implements AdminService{
 		
 	}
 	  
-		
-}
+
 	
+	@Override
+	public Notice getNotice(int noticeno) {
+		Notice notice = adminDao.selectBynoticeno(noticeno);
+		
+		return notice;
+	}
+	
+	
+	@Override
+	public List<NoticeFile> getNotiaceFilelist(int noticeno) {
+		List<NoticeFile> list = adminDao.selectnoticeFile(noticeno);
+		
+		for(NoticeFile e : list) {
+				logger.info("{}",e);
+		}	
+		
+		return list;
+	}
+	
+	@Override
+	public void deletenotice(int noticeno) {
+		adminDao.deletenoticeFile(noticeno);
+		adminDao.deletenotice(noticeno);
+		
+	}
+}
+
+
 	
 
 
