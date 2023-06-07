@@ -17,11 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-<<<<<<< HEAD
 import board.dto.Board;
-=======
 import board.service.face.BoardService;
->>>>>>> refs/remotes/origin/master
 import member.dto.Hospital;
 import member.dto.Member;
 import member.dto.Pet;
