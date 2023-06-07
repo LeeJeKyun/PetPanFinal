@@ -56,8 +56,6 @@ public class ShopServiceImpl implements ShopService{
 		return list;
 	}
 	
-
-	
 	@Override
 	public Shop view(Shop shop) {
 
@@ -97,6 +95,13 @@ public class ShopServiceImpl implements ShopService{
 		List<Basket> list = shopDao.basket(basket);
 		
 		return list; 
+	}
+	
+	public List<ShopFile> shopfile(Basket basket){
+		
+		List<ShopFile> list = shopDao.shopfile(basket);
+		
+		return list;
 	}
 	
 	@Override
@@ -269,7 +274,7 @@ public class ShopServiceImpl implements ShopService{
 	}
 	
 	@Override
-	public List<ReviewFile> fileList(Review review) {
+	public List<ReviewFile> ReviewfileList(Review review) {
 		
 		int reviewno = shopDao.selectReviewNo(review);
 		
@@ -278,6 +283,6 @@ public class ShopServiceImpl implements ShopService{
 		return list;
 		
 	}
-	
+
 	
 }

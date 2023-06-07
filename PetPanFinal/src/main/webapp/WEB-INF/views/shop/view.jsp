@@ -201,7 +201,7 @@
 <div class="content_top">
 	<div class="ct_left_area">
 		<div class="image_wrap">
-			<img src="/images/download.jpg">
+			<img src="/upload/${file[0].storedname }">
 		</div>
 	</div>
 	<div class="ct_right_area">
@@ -247,7 +247,9 @@
 
 <div class="content_middle">
 	<div class="shop_content">
-		${view.shopcontent }
+	<c:forEach items="file" var="file" begin="1">
+		${file.storedname }
+	</c:forEach>
 	</div>
 </div>
 
