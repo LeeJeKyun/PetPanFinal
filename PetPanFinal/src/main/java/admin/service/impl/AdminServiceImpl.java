@@ -96,6 +96,7 @@ public class AdminServiceImpl implements AdminService{
 		int userno = adminDao.selectBoarduser(boardNo);
 		Member member = adminDao.selectMember(userno);
 		return member;
+		
 	}
 
 	@Override
