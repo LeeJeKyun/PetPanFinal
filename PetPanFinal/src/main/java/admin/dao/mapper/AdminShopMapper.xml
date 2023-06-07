@@ -21,8 +21,8 @@
 	</select>
 	
 	<insert id="insertShop" parameterType="shop.dto.Shop">
-		INSERT INTO SHOP (objectno, name, price, remain, shopcontent, deleteobj)
-		VALUES(#{objectno} ,#{name}, #{price}, #{remain}, #{shopcontent}, 1 )
+		INSERT INTO SHOP (objectno, name, price, remain, shopcontent, deleteobj, img1 )
+		VALUES(#{objectno} ,#{name}, #{price}, #{remain}, #{shopcontent}, 1, #{img1} )
 	</insert>
 	
 	<insert id="insertShopFile" parameterType="shop.dto.ShopFile">

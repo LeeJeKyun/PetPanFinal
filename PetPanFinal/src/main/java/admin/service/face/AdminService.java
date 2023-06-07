@@ -77,7 +77,7 @@ public interface AdminService {
 
 	public void deleteCheckedShop(List<String> delete);
 
-	public int saveShopGetObjectno(Shop shop);
+	public int saveShopGetObjectno(Shop shop, MultipartFile img1);
 	
 	public List<Notice> getNoticeListByType(int theme);
 

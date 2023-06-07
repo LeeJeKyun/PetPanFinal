@@ -461,6 +461,10 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public void deleteCheckedShop(List<String> delete) {
+		if (delete == null) {
+			return;
+		}
+		
 	    List<String> deleteNoList = delete;
 	    List<HashMap> deleteNoMaplist = new ArrayList<HashMap>();
 	    
@@ -475,12 +479,51 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public int saveShopGetObjectno(Shop shop) {
+	public int saveShopGetObjectno(Shop shop, MultipartFile img1) {
+		
+		if(img1.getSize() > 0) {
+
+		String storedPath = context.getRealPath("upload");
+		logger.info(" storedPath : {}", storedPath);
+		
+		// upload폴더가 없으면 생성
+		File storedFolder = new File(storedPath);
+		storedFolder.mkdir();
+		
+		File dest = null;
+		String storedName = null;
+		
+		do {
+			//저장할 파일 이름 생성
+			storedName = img1.getOriginalFilename(); //원본 파일명
+			
+			storedName += UUID.randomUUID().toString().split("-")[0]; //
+			logger.info("storedName : {}", storedName);
+
+			//실제 저장될 파일 객체
+			dest = new File(storedFolder, storedName);
+			
+			shop.setImg1(storedName);
+		}while(dest.exists());
+		
+		try {
+			// 업로드된 파일을 upload 폴더에 저장
+			img1.transferTo(dest);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//DB에 저장할 객체
+		
+		}
+		logger.info("shop = {}", shop);
 		int objectno = adminShopDao.selectNextObj();
 		System.out.println(objectno);
 		shop.setObjectno(objectno);
 		adminShopDao.insertShop(shop);
 
+		
 		return objectno;
 	}
 
