@@ -260,9 +260,7 @@
 	</div>
 </div>
 <div title="신고하기" class="rep">
-	<form action="./report?objectno=${view.objectno }" method="post">
-		<button type="submit"><img src="./../../resources/img/report.jpg" alt="신고하기" class="report"></button>
-	</form>
+	<button onclick="report()"><img src="./../../resources/img/report.jpg" alt="신고하기" class="report"></button>
 </div>
 <div class="line">
 </div>				
@@ -460,6 +458,12 @@ $(function() {
 	})	
 
 })
+
+function report() {
+	
+	window.open("./report?objectno=" + ${view.objectno}, "신고", "width=400, height=500, resizable=no");
+}
+
 </script>
 <c:import url="../layout/footer.jsp" />
 
