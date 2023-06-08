@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import admin.service.face.AdminService;
 import board.dto.Notice;
 import board.dto.NoticeFile;
+import shop.dto.Shop;
 
 @RequestMapping("/admin")
 @Controller
@@ -42,6 +43,9 @@ public class AdminNoticeController {
 		List<Notice> noticeList = adminService.getNoticeListByType(theme);
 	    model.addAttribute("list", noticeList);
 	}
+	
+	
+	
 //공지 하나 보여주기
 	@GetMapping("/notice/view")
 	public void board(  Model model	,@RequestParam(value = "noticeNo")int noticeno, HttpSession session) {
@@ -100,15 +104,37 @@ public class AdminNoticeController {
 	
 	
 	@GetMapping("/notice/update")
-	public void update(@RequestParam(value = "noticeNo")int noticeno) {
+	public void update(Model model	,@RequestParam(value = "noticeNo")int noticeno, HttpSession session) {
+		
+		Notice notice = adminService.getNotice(noticeno);
+		List<NoticeFile> fileList = adminService.getNotiaceFilelist(noticeno);
+	    model.addAttribute("notice", notice);
+	    model.addAttribute("fileList", fileList);
 		
 	}
 	
 	@PostMapping("/notice/update")
-	public String updatepost(@RequestParam(value = "noticeNo")int noticeno) {
+	public String updatepost(Integer noticeNo,
+			@RequestParam(value = "file", required = false)List<MultipartFile> fileList //올릴 파일 리스트
+			, Notice notice
+			, @RequestParam(required = false) List<Integer> no // 취소된 파일 -1
+			, @RequestParam(required = false) List<Integer> delete
+			, @RequestParam(required = false) List<Integer> save ) {
 		
 		
-		return "redirect:./view/" + Integer.toString(noticeno);
+		System.out.println(notice);
+		
+		if(notice.getNoticecontent() == null || notice.getNoticetitle() == null )
+			return "redirect:/admin/shop/list";
+			
+			adminService.noticechangeAndDeleteFile(delete,save);
+	
+			adminService.changeNotice(notice);
+			
+			adminService.saveNoticeFiles(fileList, notice, no);
+		
+		
+		return "redirect:./view?noticeNo=" + Integer.toString(notice.getNoticeno());
 	}
 	
 	

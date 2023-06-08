@@ -115,7 +115,7 @@
 
 <div class="r">
 
-<a href="./unregister" class="ur">회원탈퇴</a>
+<a href="../unregist/cheak" class="ur">회원탈퇴</a>
 
 </div>
 
