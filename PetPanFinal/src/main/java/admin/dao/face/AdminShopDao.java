@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import admin.dto.ReportObject;
+import board.dto.Notice;
 import member.dto.Member;
 
 import shop.dto.OrderThing;
@@ -60,6 +61,7 @@ public interface AdminShopDao {
 	public void updateReportobject(Integer objreportNo);
 
 	public void updateReportObjectComplete(List<HashMap> objreportNolist);
+
 
 
 

@@ -897,6 +897,110 @@ public class AdminServiceImpl implements AdminService{
 		adminDao.deletenotice(noticeno);
 		
 	}
+	
+	
+	@Override
+	public void changeNotice(Notice notice) {
+		// TODO Auto-generated method stub
+		
+		adminDao.updatenoticeDetail(notice);
+		
+	}
+	@Override
+	public void noticechangeAndDeleteFile(List<Integer> delete, List<Integer> save) {
+		// TODO Auto-generated method stub
+		
+		if(save!=null) {
+		for(int i=save.size()-1; i>=0 ;i--) {
+			int remove = save.get(i);
+			delete.remove(remove);
+			System.out.println(remove);
+		}
+	}	
+			
+	if(delete != null) {
+		for(int e : delete) {
+			NoticeFile deletefile = adminDao.selectnoticeFileByFileno(e);
+			String storedPath = context.getRealPath("upload");
+			String storedName = "\\";
+			storedName += deletefile.getStoredName();
+//			storedPath += storedName;
+			System.out.println(storedName);
+			System.out.println(storedPath);
+			
+			File file = new File(storedPath, storedName);
+			
+			
+    		if(file.delete()){
+    			System.out.println("파일삭제 성공");
+    		}else{
+    			System.out.println("파일삭제 실패");
+    		}
+
+			adminDao.deleteFileByFileno(e);	
+		}
+	}
+		
+	}
+	@Override
+	public void saveNoticeFiles(List<MultipartFile> fileList, Notice notice, List<Integer> no) {
+		
+		if(fileList == null) return; 
+		
+		for(int i = 0; i < fileList.size(); i++) {
+			
+			if( no!=null && no.get(i) == -1) continue;  // -1 이면 올리지 않는 취소한 파일
+			
+			if(fileList.get(i).getSize() <= 0)  continue;  // 파일의 크기가 0이면  
+			
+			// 파일이 저장될 경로
+			String storedPath = context.getRealPath("upload");
+			logger.info(" storedPath : {}", storedPath);
+			
+			// upload폴더가 없으면 생성
+			File storedFolder = new File(storedPath);
+			storedFolder.mkdir();
+			
+			File dest = null;
+			String storedName = null;
+			
+			do {
+				//저장할 파일 이름 생성
+				storedName = fileList.get(i).getOriginalFilename(); //원본 파일명
+				
+				storedName += UUID.randomUUID().toString().split("-")[0]; //
+				logger.info("storedName : {}", storedName);
+
+				//실제 저장될 파일 객체
+				dest = new File(storedFolder, storedName);
+				
+			}while(dest.exists());
+			
+			try {
+				// 업로드된 파일을 upload 폴더에 저장
+				fileList.get(i).transferTo(dest);
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			//DB에 저장할 객체
+			NoticeFile noticeFile  = new NoticeFile();
+			
+			noticeFile.setNoticeno(notice.getNoticeno());
+			noticeFile.setOriginName(fileList.get(i).getOriginalFilename());
+			noticeFile.setStoredName(storedName);
+			noticeFile.setFileSize(fileList.get(i).getSize());
+			
+			
+			logger.info("noticefile: {} ",noticeFile);
+			
+			//DB insert
+			adminDao.insertNoticeFile(noticeFile);
+			
+		}
+		
+	}
 }
 
 
