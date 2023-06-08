@@ -7,7 +7,7 @@
     
 	<table style="padding: 15px 15px 0 15px; width: 100%">
 		<tr>
-			<td><input type="checkbox" onclick="toggleAllCheckbox()"></th>
+			<td><input type="checkbox" onclick="toggleAllCheckbox()"></td>
 			<th style="width: 20%">보낸사람</th>
 			<th style="width: 40%; text-align: left;" colspan="2">쪽지내용</th>
 			<th style="width: 40%">보낸일시</th>
