@@ -176,10 +176,24 @@ tr:hover{
    </div><!-- select -->
 
    <div class="time">
-      <label for="code">영업시간</label>
-      
+      <label for="code">영업시간</label>					
+<!-- 			<select	class="form-control" name="email2" id="email2"> -->
+<!-- 				<option value="">08:00</option> -->
+<!-- 				<option>09:00</option> -->
+<!-- 				<option>10:00</option> -->
+<!-- 				<option>11:00</option> -->
+<!-- 			</select>  -->
        <input type="text"  id="open" name="open" >  <label style="color: #FF5050; font-size: small;">~ </label>
        <input type="text"  id="close" name="close">
+<!--        		<select	class="form-control" name="email2" id="email2"> -->
+<!-- 				<option>17:00</option> -->
+<!-- 				<option>18:00</option> -->
+<!-- 				<option>19:00</option> -->
+<!-- 				<option>20:00</option> -->
+<!-- 			</select>  -->
+       
+       
+       
    </div><!-- time -->
 	
 <!-- <label style="color: #FF5050; font-size: small;">오전 : </label> -->

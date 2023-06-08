@@ -51,6 +51,14 @@
   	margin: 15px -150px;
  }
 
+.petUp{
+	margin: 2px 48%;
+}
+
+.petUp a{
+	color: #FF5050;
+ 	text-decoration: none; 
+}
 </style>
 
 <c:import url="./mypage_header.jsp" />
@@ -84,18 +92,20 @@
 <div class="pe">
 
 <c:forEach items="${petDetail }" var="petDetail" >
-<img alt=".." src="<%=request.getContextPath()%>/petfile/${petDetail.storedName}" width="90px" height="90px" class="img">
+	<img alt=".." src="<%=request.getContextPath()%>/petfile/${petDetail.storedName}" width="90px" height="90px" class="img">
 </c:forEach>
 
 <c:forEach items="${petInfo }" var="petInfo" >
-<h2 style="color: #263959;">이름 : ${petInfo.petName }</h2>
-<h4 style="color: #52616a;">종류 : ${petInfo.type }</h4>
+	<h2 style="color: #263959;">이름 : ${petInfo.petName }</h2>
+	<h4 style="color: #52616a;">종류 : ${petInfo.type }</h4>
 </c:forEach>
-
 
 
 </div> <!-- pe -->
 
+<div class="petUp">
+<a href="./petUpdate">수정하기</a>
+</div>
 
 </c:when>
 
@@ -105,7 +115,7 @@
 
 <div class="r">
 
-<a href="./unregister" class="ur">회원탈퇴</a>
+<a href="../unregist/cheak" class="ur">회원탈퇴</a>
 
 </div>
 

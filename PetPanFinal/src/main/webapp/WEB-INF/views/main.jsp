@@ -3,6 +3,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 
 <c:import url="./layout/header.jsp" />
 
@@ -28,6 +29,16 @@
 	text-align: center;
 	margin-top: 50px;
 	color: #FF5050;
+	font-size: 30px;
+	font-weight: 550;
+}
+
+#Hot {
+	text-align: center;
+	margin-top: 25px;
+	color: #FF5050;
+	font-size: 30px;
+	font-weight: 550;
 }
 
 #Hdiv{
@@ -50,7 +61,55 @@
 	margin: 0px 42%;
 }
 
+.bb {
+	float: left;
+}
 
+.bb ul {
+	text-decoration: none;
+	color: #FF5060;
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+
+.bb li {
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    border : 0;
+    float: left;
+}
+
+#old {
+	margin-left: 500px;
+ 	margin-right: 500px; 
+}
+
+#free {
+	margin-left: 300px;
+}
+
+#free2 {
+	margin-left: 100px;
+}
+
+.th-border{
+	border-top: solid #FFDAD7 3px ; 
+	border-bottom:solid #FFDAD7 3px ;
+}
+ .td-style{ 
+ 	text-align: center; 
+ 	border-bottom: solid #FFDAD7 2px;
+ } 
+
+
+
+.clearbox {
+	height: 0;
+	overflow: hidden;
+	line-height: 0;
+	clear: both;
+}
 </style>
 
 <script type="text/javascript">
@@ -100,7 +159,7 @@ $(function(){
 
 
 
-<h1 id="H">병원 검색</h1>
+<p id="H">병원 검색</p>
 <form action=".list/" method="post" >
 
 <fieldset id="field">
@@ -111,6 +170,84 @@ $(function(){
 </fieldset>
 
 </form>
+
+
+<div class="hot">
+<p id="Hot">인기 게시글</p>
+
+	<div class="bb">
+	<ul>
+		<li>
+		<p id="free">자유 게시판</p>
+		</li>
+		<li>
+		<p id="old">중고 거래</p>
+		</li>
+	</ul>
+	</div>
+	
+
+</div> <!-- hot -->
+
+
+<table class = "table-list" style = "width:500px" border-collapse: collapse">
+	<tr class = "th-border items">
+		<th>글 번호</th>
+		<th>글 제목	</th>
+		<th>조회수</th>
+	</tr>
+
+
+<c:forEach items="${free }" var="free" >
+	<tr class = "td-style items">
+		<td> ${free.boardNo }</td>
+		<td><a href="../../board/board/detail?boardNo=${free.boardNo }"> ${free.boardTitle }</a></td>
+		<td class = "date">${free.hit }</td>
+	</tr>
+</c:forEach>
+
+</table>
+
+
+
+
+
+<%-- <c:forEach items="${free }" var="free" > --%>
+<%-- <%-- 	<h2 style="color: #263959;">${free.boardNo }</h2> --%> 
+<%-- 	<h4 style="color: #52616a;">${free.boardNo } <a href="">${free.boardTitle } </a></h4> --%>
+<%-- </c:forEach> --%>
+
+
+
+
+
+
+<div class="hot">
+<p id="Hot">새로 나온 게시글</p>
+
+	<div class="bb">
+	<ul>
+		<li>
+		<p id="free2">자유 게시판</p>
+		</li>
+		<li>
+		<p id="old">중고 거래</p>
+		</li>
+		<li>
+		<p id="poom">품앗이</p>
+		</li>
+	</ul>
+	</div>
+</div> <!-- hot -->
+
+
+<div class="clearbox">
+</div>
+
+
+
+
+
 
 
 

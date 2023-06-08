@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import board.dto.Board;
+import main.service.face.MainService;
 import member.dto.Member;
 import member.dto.Pet;
 import member.dto.PetFile;
@@ -23,7 +25,7 @@ public class MainController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired private MemberService memberService;
-	
+	@Autowired MainService mainService;
 
 	@GetMapping("/")
 	public String main(
@@ -31,6 +33,7 @@ public class MainController {
 			, Member member
 			, Model model
 			, PetFile petFile
+			, Board board
 			) {
 		logger.info("로그인 성공 메인");
 		
@@ -38,38 +41,40 @@ public class MainController {
 		
 		member.setUserNo((int)session.getAttribute("userno"));
 		
-		
 		Member detail = memberService.userDetail(member);
 		model.addAttribute("detail", detail);
-		logger.info("detail {}", detail);
 		
 		// userno로 펫 정보 조회하기
 		List<Pet> petInfo = memberService.petInfo(member);
 		model.addAttribute("petInfo", petInfo);
-		logger.info("petInfo : {}", petInfo);
 		
 		// 펫이 여러마리
 		for (Pet p : petInfo) {
 			petFile.setPetNo(p.getPetNo());
-			
-		
-		logger.info("petFile: {}", petFile);
 		
 		// petno로 펫 사진 불러오기
 		List<PetFile> petDetail = memberService.petFile(petFile);
 		model.addAttribute("petDetail", petDetail);
-		logger.info("petDetail : {}" , petDetail);
 		
 		}
 		
 	}
+	
+		
+		// 자유게시판 인기순 조회
+		List<Board> free = mainService.selectFree(board);
+		
+		logger.info("free : {} ", free);
+		
+		model.addAttribute("free", free);
+		
+		
+		
 		return "/main";
-
+		
+		
+		
 	}	
-	
-	
-	
-	
 	
 	
 	

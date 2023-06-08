@@ -236,6 +236,7 @@ function toggleAllCheckbox(){
 	}	
 	
 }
+
 </script>
 
 <br>

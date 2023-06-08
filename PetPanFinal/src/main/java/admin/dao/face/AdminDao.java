@@ -102,6 +102,13 @@ public interface AdminDao {
 
 	public void deletenotice(int noticeno);
 
+	public void updatenoticeDetail(Notice notice);
+
+	public void deleteFileByFileno(int e);
+
+	public NoticeFile selectnoticeFileByFileno(int e);
+
+
 	
 
 
