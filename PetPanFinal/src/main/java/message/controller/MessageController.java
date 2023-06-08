@@ -13,7 +13,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import member.dto.Member;
+import member.service.face.MemberService;
 import message.dto.Message;
 import message.service.face.MessageService;
 
@@ -23,6 +26,7 @@ public class MessageController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired MessageService messageService;
+	@Autowired MemberService memberService;
 
 	@GetMapping("/message/send")
 	public void send(
@@ -33,7 +37,7 @@ public class MessageController {
 			
 			) {
 		int sendUserNo = (int)session.getAttribute("userno");
-		int receiveUserNo = messageService.getReceiveUserNo(receiveuserid);
+		Member receiveMember = messageService.getReceiveUser(receiveuserid);
 		
 		logger.info("receiver : {}", receiveuserid);
 		logger.info("sendNo : {}", sendUserNo);
@@ -41,7 +45,7 @@ public class MessageController {
 		String sendUserId = messageService.getSendUserId(sendUserNo);
 		logger.info("sender : {}", sendUserId);
 		model.addAttribute("receiveuserid", receiveuserid);
-		model.addAttribute("receiveuserno", receiveUserNo);
+		model.addAttribute("receiveMember", receiveMember);
 		model.addAttribute("senduserid", sendUserId);
 		model.addAttribute("senduserno", sendUserNo);
 	}
@@ -119,8 +123,48 @@ public class MessageController {
 		
 		Message viewMessage = messageService.getMessageView(message);
 		
-		model.addAttribute("viewMessage", viewMessage);
+		int senduserno = viewMessage.getSendUserNo();
+		Member userNo = new Member();
+		userNo.setUserNo(senduserno);
+		Member sendMember = memberService.userDetail(userNo);
 		
+		logger.info("sendMember : {}", sendMember);
+		
+		model.addAttribute("viewMessage", viewMessage);
+		model.addAttribute("sendMember", sendMember);
+	}
+	
+	@GetMapping("/message/messagesave")
+	public  @ResponseBody boolean messagesave(
+			
+			Message message,
+			String issaved
+			
+			) {
+		
+		
+		//Y인 경우 이미 저장된 쪽지, N인경우 저장해야하는 쪽지
+		logger.info("issaved : {}", issaved);
+		message.setSaveMessage(issaved);
+		
+		boolean res = messageService.saveMessage(message);
+		
+		//저장시엔 true, 취소시엔 false
+		logger.info("res : {}", res);
+		return res;
+	}
+	
+	@GetMapping("/message/messagedelete")
+	public @ResponseBody boolean messagedelete(
+			
+			Message message
+			
+			) {
+		logger.info("message : {}", message);
+		
+		boolean res = messageService.deleteMessage(message);
+		
+		return res;
 	}
 	
 }

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import member.dto.Member;
 import message.dao.face.MessageDao;
 import message.dto.Message;
 import message.service.face.MessageService;
@@ -19,8 +20,8 @@ public class MessageServiceImpl implements MessageService {
 	@Autowired MessageDao messageDao;
 	
 	@Override
-	public int getReceiveUserNo(String receiveuserid) {
-		return messageDao.selectUsernoByUserid(receiveuserid);
+	public Member getReceiveUser(String receiveuserid) {
+		return messageDao.selectMemberByUserid(receiveuserid);
 	}
 
 	@Override
@@ -57,6 +58,33 @@ public class MessageServiceImpl implements MessageService {
 		messageDao.updateMessageDoRead(message);
 		
 		return viewMessage;
+	}
+
+	@Override
+	public boolean saveMessage(Message message) {
+		
+		messageDao.updateMessageSave(message);
+		
+		if("Y".equals( message.getSaveMessage() ) ){
+			
+			//저장을 취소했을때
+			return false;
+		}
+		
+		//저장했을때
+		return true;
+	}
+
+	@Override
+	public boolean deleteMessage(Message message) {
+		
+		int res = messageDao.deleteMessageByMessageno(message);
+		
+		if(res > 0) {
+			return true;
+		}
+		
+		return false;
 	}
 	
 	

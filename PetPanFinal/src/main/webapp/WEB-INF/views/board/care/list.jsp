@@ -134,7 +134,7 @@ function sendMessage(userid){
 		<td>${care.BOARDNO }</td>
 		<td style="height: 90px;"><a href="../care/view?boardNo=${care.BOARDNO }"><img width="120px" height="90px" alt="아가사진" src="<%=request.getContextPath() %>/upload/${care.STOREDNAME}" style="vertical-align: middle;" ></a></td>
 		<td><a href="../care/view?boardNo=${care.BOARDNO }">${care.BOARDTITLE }</a><small style="color: #555;"> [${care.COMMENTNO }]</small></td>
-		<td><span class="message" onclick="message(event, '${care.USERID}')" style="cursor: pointer;">${care.USERID }</span></td>
+		<td><span class="message" onclick="message(event, '${care.USERID}')" style="cursor: pointer;">${care.USERNICK }</span></td>
 		<td><fmt:formatDate value="${care.WRITEDATE }" pattern="yyyy-MM-dd" /></td>
 		<td>${care.HIT }</td>
 		<td>${care.RECOMMEND }</td>
