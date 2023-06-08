@@ -22,6 +22,7 @@ import shop.dao.face.ShopDao;
 import shop.dto.Basket;
 import shop.dto.OrderThing;
 import shop.dto.OrderUser;
+import shop.dto.ReportObject;
 import shop.dto.Review;
 import shop.dto.ReviewFile;
 import shop.dto.Shop;
@@ -289,12 +290,16 @@ public class ShopServiceImpl implements ShopService{
 			list = shopDao.fileList(reviewno.get(i));
 			
 			listMap.put(i, list);
-		
 		}
 		return listMap;
-		
-		
 	}
 
+	@Override
+	public void insertReport(ReportObject reportObject) {
+		
+		shopDao.insertReport(reportObject);
+		
+	}
+	
 	
 }

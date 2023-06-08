@@ -149,4 +149,10 @@
 		where buyno = #{buyno}
 	</update>
 	
+	<insert id="insertReport" parameterType="shop.dto.ReportObject">
+		insert into reportobject
+		values(seq_reportobject.nextval, #{objectno}, #{reportdetail}, current_date, 'n', #{userno})
+	</insert>
+	
+	
 </mapper>

@@ -20,6 +20,7 @@ import member.dto.Member;
 import shop.dto.Basket;
 import shop.dto.OrderThing;
 import shop.dto.OrderUser;
+import shop.dto.ReportObject;
 import shop.dto.Review;
 import shop.dto.ReviewFile;
 import shop.dto.Shop;
@@ -203,6 +204,7 @@ public class ShopController {
 		
 		Member member = shopService.memberShop(basket);
 		
+		
 		model.addAttribute("list", list);
 		model.addAttribute("member", member);	
 	}
@@ -243,8 +245,23 @@ public class ShopController {
 		return "redirect:/shop/main";
 	}
 	
-	@PostMapping("report")
-	public void report() {
+	@GetMapping("/report")
+	public void report(int objectno, Model model) {
+	
+		model.addAttribute("objectno", objectno);
+		
+	}
+	
+	@PostMapping("/report")
+	public void reportPost(ReportObject reportObject, HttpSession session, String reportdetail) {
+	
+		reportObject.setUserno((int)session.getAttribute("userno"));
+		reportObject.setReportdetail(reportdetail);
+		
+		logger.info("{}", reportObject);
+		
+		shopService.insertReport(reportObject);
+		
 		
 	}
 	
