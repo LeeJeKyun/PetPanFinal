@@ -61,15 +61,16 @@ button{
 			<td style = "width: 50%; text-align: left;"><h3>쪽지보내기</h3> </td>
 		</tr>
 		<tr>
-			<td><label for="receiveuserid" >받는사람 <input type = "text"  name = "receiveuserid" id="receiveuserid" value = "${receiveuserid }" readonly="readonly"></label></td>
+			<td><label for="usernick" >받는사람 <input type = "text"  name = "usernick" id="usernick" value = "${receiveMember.userNick }" readonly="readonly"></label></td>
 		</tr>
 	</table>
 	<!-- reportReason이 기타면 writeDetaiil로 처리 -->
 	<textarea name = "content" placeholder = "메시지를 입력하세요."></textarea>
 	
 	<!-- 신고할 boardNo -->
-	<!-- userNo은 세션에서 받기 -->
-	<input type = "hidden" name = "receiveUserNo" value = "${receiveuserno }" >
+	<!-- 	userNo은 세션에서 받기 -->
+<%-- 	<input type = "hidden"  name = "receiveuserid" id="receiveuserid" value = "${receiveuserid }" readonly="readonly"> --%>
+	<input type = "hidden" name = "receiveUserNo" value = "${receiveMember.userNo }" >
 	<input type = "hidden" name = "sendUserNo" value = "${senduserno }" >
 	<button type = "submit">쪽지보내기</button>
 	</form>

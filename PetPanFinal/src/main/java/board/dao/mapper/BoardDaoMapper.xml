@@ -170,6 +170,7 @@
             	B.userno,
 	            B.boardtypeno,
 	            M.userid,
+	            M.usernick,
 	            M.latitude,
 	            M.longitude,
 	            (SELECT count(*) FROM boardrecommend R WHERE B.boardno = R.boardno) AS recommend,
@@ -322,7 +323,7 @@
 		values(seq_boardfile.nextval, #{originName}, #{storedName}, #{fileSize}, #{boardNo})
 	</insert>
 	<select id="selectBoardOne" parameterType="int" resultType="map">
-		select boardno, boardtitle, content, hit, boardtypeno, member.userno, username, userid
+		select boardno, boardtitle, content, hit, boardtypeno, member.userno, username, userid, usernick
 																, write_date AS writeDate 
 																, (select count(*) 
                                                                 from boardrecommend R, board 

@@ -117,7 +117,7 @@ public class BoardCareController {
 			) {
 //		logger.info("boardNo {}", boardNo);
 		Map<String, Object> map = boardService.getCareView(boardNo);
-//		logger.info("map : {}", map);
+		logger.info("map : {}", map);
 		
 		Member writerMember = boardService.getMemberByBoard(map);
 //		logger.info("writerMember: {}", writerMember);
@@ -161,11 +161,11 @@ public class BoardCareController {
 //				, HttpSession session
 //			) {
 //		
-////		logger.info("boardNo : {}", boardNo);
+//		logger.info("boardNo : {}", boardNo);
 //		String loginid = (String)session.getAttribute("loginid");
-////		logger.info("loginid : {}", loginid);
+//		logger.info("loginid : {}", loginid);
 //		int userNo = boardService.getUserno(loginid);
-////		logger.info("userNo : {}", userNo);
+//		logger.info("userNo : {}", userNo);
 //		
 //		boardService.recommendBoardCare(boardNo, userNo);
 //		int recommendCnt = boardService.getRecommendCnt(boardNo);
