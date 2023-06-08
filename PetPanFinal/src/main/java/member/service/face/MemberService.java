@@ -148,6 +148,9 @@ public interface MemberService {
 	 */
 	public String joinEmail(String email);
 
+	
+	
+	
 	/**
 	 * 마이페이지 내가쓴 리뷰
 	 * @return 
@@ -208,6 +211,14 @@ public interface MemberService {
 	 * @return
 	 */
 	public List<Map<String, Object>> myComment(int attribute);
+
+	/**
+	 * 비밀번호 찾기 할 때 이메일 전송
+	 * 
+	 * @param email
+	 * @return
+	 */
+	public String pwEmail(String email);
 
 
 

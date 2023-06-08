@@ -53,26 +53,27 @@ $(function(){
 
 $(function(){
 	$('#mail-Check-Btn').click(function() {
-		const email = $('#email').val() + $('#email2').val(); // 이메일 주소값 얻어오기!
+		const email = $('#emailF').val() + $("#middle").text() + $('#email2').val(); // 이메일 주소값 얻어오기!
 		console.log('완성된 이메일 : ' + email); // 이메일 오는지 확인
 		const checkInput = $('.mail-check') // 인증번호 입력하는곳 
 		
 		// 이메일을 적지 않았을 때 ajax를 막아야한다!!
-		if($('#email').val()==''){
+		if($('#emailF').val()==''){
 			$('#mail-check-warn').html('이메일 인증 해주세요!')
 			$('#mail-check-warn').css('color','red')
 			return;
 		}
+
+		alert('인증번호가 전송되었습니다.')
 		
 		
 		$.ajax({
 			type : 'get',
-			url : '/member/mailCheck?email='+email, // GET방식이라 Url 뒤에 email을 붙일수있다.
+			url : '/member/pwMailCheck?email='+email, // GET방식이라 Url 뒤에 email을 붙일수있다.
 			success : function (data) {	// data는 serviceImpl의 joinEmail에서 보내주는 authNumber
 				console.log("data : " +  data);
 				checkInput.attr('disabled',false);
 				code =data;
-				alert('인증번호가 전송되었습니다.')
 			}			
 		}); // end ajax
 	}); // end send email
@@ -175,17 +176,31 @@ input:focus {
       
     
     	<div class="select" style="margin:10px 90px;">
-		<label for="email" >이메일</label>
+			<label for="email" >이메일</label>
+			
 		<div class="input-group">
-			<input type="text" class="form-control" name="email"
-				id="email" placeholder="이메일" style="width:150px"> <select
-				class="form-control" name="email2" id="email2">
-				<option>@naver.com</option>
-				<option>@daum.net</option>
-				<option>@gmail.com</option>
-				<option>@hanmail.com</option>
-				<option>@yahoo.co.kr</option>
-			</select> 
+		
+			<input type="text" class="form-control" name="emailF" id="emailF" placeholder="이메일" style="width:150px"> 
+				<span id="middle">@</span>
+				<input type="text" id="email2" list="email3" style="width:150px">
+				<datalist class="form-control" id="email3">
+					<option value="naver.com">naver.com</option>
+					<option value="daum.net">daum.net</option>
+					<option value="gmail.com">gmail.com</option>
+					<option>직접입력</option>
+				</datalist>
+		
+		
+<!-- 			<input type="text" class="form-control" name="email" id="email" placeholder="이메일" style="width:150px">  -->
+<!-- 			<datalist class="form-control" id="email2"> -->
+<!-- 				<option>@naver.com</option> -->
+<!-- 				<option>@daum.net</option> -->
+<!-- 				<option>@gmail.com</option> -->
+<!-- 				<option>@hanmail.com</option> -->
+<!-- 				<option>@yahoo.co.kr</option> -->
+<!-- 			</datalist> -->
+			
+			
 				<button type="button"id="mail-Check-Btn" class="input-group-addon">본인인증</button>
 			<div class="btn">
 				<input class="mail-check"

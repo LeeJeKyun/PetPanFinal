@@ -169,16 +169,6 @@ public interface MemberDao {
 	 * @return
 	 */
 	public int nickDu(Member member);
-	/**
-	 * 병원 테이블에 같은 userNo이 있는지 확인
-	 * @param hospitalNo 확인할 병원 번호
-	 * @return 없으면 0
-	 */
-	public Integer selectIsHospitalNo(int hospitalNo);
-
-	public Integer selectHospitalNo(int userNo);
-
-
 
 	/**
 	 * 내가 쓴 게시글 조회
@@ -197,7 +187,19 @@ public interface MemberDao {
 	public List<Map<String, Object>> myComment(int userno);
 
 
+	/**
+	 * 병원 테이블에 같은 userNo이 있는지 확인
+	 * @param hospitalNo 확인할 병원 번호
+	 * @return 없으면 0
+	 */
+	public Integer selectIsHospitalNo(int hospitalNo);
 
+	/**
+	 * 
+	 * @param userNo
+	 * @return
+	 */
+	public Integer selectHospitalNo(int userNo);
 
 
 

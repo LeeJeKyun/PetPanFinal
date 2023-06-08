@@ -23,7 +23,7 @@
 	margin: 0 auto;
 }
 
-a{
+#fcontainer a{
  	text-decoration: none; 
  	color: #FF5050; 
  	font-size: small;

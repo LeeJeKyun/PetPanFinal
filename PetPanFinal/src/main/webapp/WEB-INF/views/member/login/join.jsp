@@ -228,19 +228,24 @@ function compare_check(){
 }
 
 
+
+// 이메일 인증
+
 $(function(){
+	
 	$('#mail-Check-Btn').click(function() {
-		const email = $('#email').val() + $('#email2').val(); // 이메일 주소값 얻어오기!
+		const email = $('#emailF').val() + $("#middle").text() + $('#email2').val(); // 이메일 주소값 얻어오기!
 		console.log('완성된 이메일 : ' + email); // 이메일 오는지 확인
 		const checkInput = $('.mail-check') // 인증번호 입력하는곳 
 		
-		// 이메일을 적지 않았을 때 ajax를 막아야한다!!
-		if($('#email').val()==''){
+		// 이메일을 적지 않았을 때 ajax를 막아야한다,,
+		if($('#emailF').val()==''){
 			$('#mail-check-warn').html('이메일 인증 해주세요!')
 			$('#mail-check-warn').css('color','red')
 			return;
 		}
 		
+			alert('인증번호가 전송되었습니다.')
 		
 		$.ajax({
 			type : 'get',
@@ -249,7 +254,6 @@ $(function(){
 				console.log("data : " +  data);
 				checkInput.attr('disabled',false);
 				code =data;
-				alert('인증번호가 전송되었습니다.')
 			}			
 		}); // end ajax
 	}); // end send email
@@ -274,13 +278,28 @@ $(function(){
 		}
 	});
 
+	//이메일주소 가져오기
+	$("#emailF").blur(function(){
+		email();	
+	});
+
+	$("#email2").change(function(){
+		email();	
+	});
+
 })
 
 
 
-
-
-
+function email() {
+	const emailF = $("#emailF").val();
+	const middle = $("#middle").text();
+	const address = $("#email2").val();
+	
+	if(emailF != "" && address != "") {
+		$("#email").val(emailF + middle + address);
+	}
+};
 
 
 
@@ -310,6 +329,7 @@ $("#idDu").on("click", function(){
 //                $(".id_input2").css("display","none");
 
 				$("#userId_msg").html("사용가능한 아이디입니다.")
+				$("#userId_msg").css('color', 'green')
 				
             }else{
 				$("#userId_msg").html("사용불가능한 아이디입니다.")
@@ -322,10 +342,9 @@ $("#idDu").on("click", function(){
       })
 
 	})
-	
-	
-	
 
+	
+	
 	$("#nickDu").on("click", function(){
       
       var userNick = $("#userNick").val();
@@ -350,7 +369,7 @@ $("#idDu").on("click", function(){
 //                $(".id_input2").css("display","none");
 
 				$("#userNick_msg").html("사용가능한 닉네임입니다.")
-				
+				$("#userNick_msg").css('color', 'green')
             }else{
 				$("#userNick_msg").html("사용불가능한 닉네임입니다.")
                //중복아이디이므로 '아이디가 이미 존재합니다' 띄우기
@@ -365,9 +384,6 @@ $("#idDu").on("click", function(){
 	
 	
 	
-	
-	
-
 })
 
 
@@ -407,41 +423,37 @@ $("#idDu").on("click", function(){
    </div>
    
    <div class="select">
-      <label for="userNick">닉네임</label><button id="nickDu">중복체크</button>
+      <label for="userNick">닉네임</label><button id="nickDu" type="button">중복체크</button>
       <input type="text" id="userNick" name="userNick" >
       <span id="userNick_msg" class="msg"></span>
    </div>
 
-<!--    <div class="select"> -->
-<!--       <label for="email">이메일</label> -->
-<!--       <input type="text" id="email" name="email" > -->
-<!--       <span id="email_msg" class="msg"></span> -->
-<!--    </div> -->
-
 
 		<div class="select" style="margin:10px 90px;">
 			<label for="email" >이메일</label>
+			
 			<div class="input-group">
-				<input type="text" class="form-control" name="email"
-					id="email" placeholder="이메일" style="width:150px"> <select
-					class="form-control" name="email2" id="email2">
-					<option>@naver.com</option>
-					<option>@daum.net</option>
-					<option>@gmail.com</option>
-					<option>@hanmail.com</option>
-					<option>@yahoo.co.kr</option>
-				</select> 
+				<input type="text" class="form-control" name="emailF" id="emailF" placeholder="이메일" style="width:150px"> 
+					<span id="middle">@</span>
+					<input type="text" id="email2" list="email3" style="width:150px">
+					<datalist class="form-control" id="email3">
+						<option value="naver.com">naver.com</option>
+						<option value="daum.net">daum.net</option>
+						<option value="gmail.com">gmail.com</option>
+						<option>직접입력</option>
+					</datalist>
+					<input type="hidden" id="email" name="email" value="">
 					<button type="button"id="mail-Check-Btn" class="input-group-addon">본인인증</button>
 				<div class="btn">
 					<input class="mail-check"
 						placeholder="인증번호를 입력해주세요!" disabled="disabled" maxlength="6">
-				</div>
+				</div> <!-- btn -->
 				<span id="mail-check-warn"></span>
-			</div>
-		</div>
+			</div><!-- input-group -->
+			
+		</div><!-- select -->
 
-
-		<div class="select">
+	<div class="select">
       <label for="address">주소</label>   <button id="btnPostcode" type="button">우편번호 찾기</button>
       <input type="text" id="zipCode" name="zipCode" >	
       <input type="text"  id="address" name="address" >	
@@ -451,7 +463,7 @@ $("#idDu").on("click", function(){
    
    <div class="select">
       <label for="phone">휴대전화</label>
-      <input type="text"  id="phone" name="phone" pattern="[0-9]+" placeholder="ex)01012345678">
+      <input type="text" id="phone" name="phone" pattern="[0-9]+" placeholder="ex)01012345678">
       <span id="phone_msg" class="msg"></span>
    </div>
    
