@@ -30,7 +30,7 @@
 		<tr><th>유저이메일</th><td>${member.email}</td>	</tr>
 		<tr><th>유저주소</th><td>${member.address}</td></tr>
 		<tr><th>유저핸드폰번호</th><td>${member.phone}</td></tr>
-		<tr><th>유저 포지션</th><td>${member.positionNo}</td></tr>
+		<tr><th>유저 포지션</th><td>${member.positionNo == 1 ? "일반회원" : member.positionNo == 2 ? "병원관계자" : "관리자"}</td></tr>
 		</table>
 		<a href = "./update?userno=${member.userNo}"><button class = "btn btn-primary">정보 수정</button></a>
 		<a href = "./list"><button class = "btn btn-primary">멤버 리스트</button></a>
