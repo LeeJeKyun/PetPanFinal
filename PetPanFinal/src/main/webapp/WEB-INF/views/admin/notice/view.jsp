@@ -27,8 +27,8 @@
 			</tr>
 		</table>        
 	<div align="right">
-  		<button onclick="location.href='<%=request.getContextPath() %>/admin/notice/update?objectno=${notice.noticeno}'" class="btn btn-info">수정</button>
-  		<button onclick="location.href='<%=request.getContextPath() %>/admin/notice/delete?objectno=${notice.noticeno }'" class="btn btn-danger">삭제</button>
+  		<button onclick="location.href='<%=request.getContextPath() %>/admin/notice/update?noticeNo=${notice.noticeno}'" class="btn btn-info">수정</button>
+  		<button onclick="location.href='<%=request.getContextPath() %>/admin/notice/delete?noticeNo=${notice.noticeno }'" class="btn btn-danger">삭제</button>
 	</div>
 	</div>
 </body>

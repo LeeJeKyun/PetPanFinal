@@ -3,6 +3,7 @@ package message.dao.face;
 import java.util.List;
 import java.util.Map;
 
+import member.dto.Member;
 import message.dto.Message;
 
 public interface MessageDao {
@@ -13,7 +14,7 @@ public interface MessageDao {
 	 * @param receiveuserid
 	 * @return
 	 */
-	public int selectUsernoByUserid(String receiveuserid);
+	public Member selectMemberByUserid(String receiveuserid);
 
 	/**
 	 * 메시지를 전달하는 userid를 userno을 통해 가져오는 메소드
@@ -53,5 +54,20 @@ public interface MessageDao {
 	 * @param message
 	 */
 	public void updateMessageDoRead(Message message);
+
+	/**
+	 * 메시지의 저장상태에 따라 상태를 Y, N으로 변경하는 메소드
+	 * 
+	 * @param message
+	 */
+	public void updateMessageSave(Message message);
+
+	/**
+	 * 메시지를 delete하는 메소드
+	 * 
+	 * @param message
+	 * @return
+	 */
+	public int deleteMessageByMessageno(Message message);
 	
 }

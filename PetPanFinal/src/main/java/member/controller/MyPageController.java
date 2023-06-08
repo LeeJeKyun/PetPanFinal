@@ -45,31 +45,73 @@ public class MyPageController {
 			, PetFile petFile
 			) {
 		
-		
+		// 세션에 담긴 userno 가져오기
 		member.setUserNo((int)session.getAttribute("userno"));
 		
+		// userno로 유저 정보 조회하고 모델에 담기
 		Member detail = memberService.userDetail(member);
 		model.addAttribute("detail", detail);
-//		logger.info("detail : {}" , detail);
 		
 		// userno로 펫 정보 조회하기
 		List<Pet> petInfo = memberService.petInfo(member);
 		model.addAttribute("petInfo", petInfo);
 		logger.info("petInfo : {}", petInfo);
 		
-		// 펫이 여러마리
+		// 펫이 여러마리일 경우 리스트로 펫 정보 보여주기
 		for (Pet p : petInfo) {
 			petFile.setPetNo(p.getPetNo());
-			
-		
-		logger.info("petFile: {}", petFile);
+			logger.info("petFile: {}", petFile);
+		}
 		
 		// petno로 펫 사진 불러오기
 		List<PetFile> petDetail = memberService.petFile(petFile);
 		model.addAttribute("petDetail", petDetail);
+		
 		logger.info("petDetail : {}" , petDetail);
 		
+	}
+	
+
+	@GetMapping("/mypage/petUpdate")
+	public void petUpdate(
+			HttpSession session
+			, Member member
+			, Model model
+			, Pet pet
+			, PetFile petFile
+			) {
+		
+		// 세션에 담긴 userno 가져오기
+		member.setUserNo((int)session.getAttribute("userno"));
+		
+		// userno로 유저 정보 조회하고 모델에 담기
+		Member detail = memberService.userDetail(member);
+		model.addAttribute("detail", detail);
+		
+		// userno로 펫 정보 조회하기
+		List<Pet> petInfo = memberService.petInfo(member);
+		model.addAttribute("petInfo", petInfo);
+		logger.info("petInfo : {}", petInfo);
+		
+		// 펫이 여러마리일 경우 리스트로 펫 정보 보여주기
+		for (Pet p : petInfo) {
+			petFile.setPetNo(p.getPetNo());
+			logger.info("petFile: {}", petFile);
 		}
+		
+		// petno로 펫 사진 불러오기
+		List<PetFile> petDetail = memberService.petFile(petFile);
+		model.addAttribute("petDetail", petDetail);
+		
+		
+		for (PetFile pf : petDetail) {
+			petFile.setPetNo(pf.getPetNo());
+			logger.info("petFile: {}", petFile);
+		}
+		
+		logger.info("petDetail : {}" , petDetail);
+		
+		
 	}
 
 	@GetMapping("/mypage/myprofile")
@@ -213,6 +255,8 @@ public class MyPageController {
 		
 	}
 	
+
+
 	
 	
 	

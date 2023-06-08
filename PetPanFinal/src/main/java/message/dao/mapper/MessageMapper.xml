@@ -6,8 +6,8 @@
 
 <mapper namespace="message.dao.face.MessageDao">
 	
-	<select id="selectUsernoByUserid" resultType="int" parameterType="string">
-		SELECT userno FROM member
+	<select id="selectMemberByUserid" resultType="member.dto.Member" parameterType="string">
+		SELECT userno, usernick FROM member
 		WHERE userid = #{receiveuserid}
 	</select>
 	
@@ -22,8 +22,17 @@
 	</insert>
 	
 	<select id="selectMessageListbyUserno" parameterType="message.dto.Message" resultType="hashmap">
-		SELECT ms.*, mb.userid FROM message ms, member mb
-		WHERE receiveuserno = #{receiveUserNo} AND mb.userno = ms.senduserno
+		SELECT ms.*, mb.userid, mb.usernick FROM message ms, member mb
+		WHERE 1=1   
+		
+		<choose>
+			<when test='"Send".equals(doread)'>
+				AND senduserno = #{receiveUserNo} AND mb.userno = ms.receiveuserno
+			</when>
+			<otherwise>
+				AND receiveuserno = #{receiveUserNo} AND mb.userno = ms.senduserno
+			</otherwise>
+		</choose>
 		
 		<choose>
 			<when test='"Y".equals(doread)'>
@@ -34,6 +43,10 @@
 				AND doread = #{doread}
 			</when>
 		</choose>
+		
+		<if test='"Y".equals(saveMessage)'>
+			AND savemessage = 'Y'
+		</if>
 		
 		ORDER BY doread, messageno DESC
 	</select>
@@ -47,5 +60,21 @@
 		UPDATE message set doread = 'Y'
 		WHERE messageno = #{messageno}
 	</update>
+	
+	<update id="updateMessageSave" parameterType="message.dto.Message">
+		UPDATE message 
+		<if test='"N".equals(saveMessage)'>
+		set savemessage = 'Y'
+		</if>
+		<if test='"Y".equals(saveMessage)'>
+		set savemessage = 'N'
+		</if>
+		WHERE messageno = #{messageno}
+	</update>
+	
+	<delete id="deleteMessageByMessageno" parameterType="message.dto.Message">
+		DELETE message
+		WHERE messageno = #{messageno}
+	</delete>
 	
 </mapper>

@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -64,56 +64,56 @@ $(function(){
 </script>
 
 <div id = "container">
-	<h2>º´¿ø</h2>
+	<h2>ë³‘ì›</h2>
 	
  	<c:forEach var = "i" items = "${hospitalList }" varStatus="c">
 	<div class = "block">
 		<div class = "img" data-hospitalNo = ${i.HOSPITALNO }>
 			<a class = "hosPicture" href = "./detail?hospitalNo=${i.HOSPITALNO}">
-				<img alt="ÀÌ¹ÌÁö" src="<%=request.getContextPath() %>/upload/${i.STOREDNAME}">
+				<img alt="ì´ë¯¸ì§€" src="<%=request.getContextPath() %>/upload/${i.STOREDNAME}">
 			</a>
 		</div>
 		<div class = "info-name">
 			<h4>${i.HOSPITALNAME }</h4>
 		</div>
 		<div class = "info">
-			<div>¿î¿µ½Ã°£: ${i.OPEN } ~ ${i.CLOSE }</div>
-			<div data-cnt = ${c.index }>ÀüÈ­¹øÈ£: <span class = "phone"></span></div>
-			<div>Æ¯¼öµ¿¹° °¡´É</div>
+			<div>ìš´ì˜ì‹œê°„: ${i.OPEN } ~ ${i.CLOSE }</div>
+			<div data-cnt = ${c.index }>ì „í™”ë²ˆí˜¸: <span class = "phone"></span></div>
+			<div>íŠ¹ìˆ˜ë™ë¬¼ ê°€ëŠ¥</div>
  			<c:if test="${i.MAMMALIA eq 'y' }"> 
-				<span class = "name">Æ÷À¯·ù</span>
+				<span class = "name">í¬ìœ ë¥˜</span>
  			</c:if> 
  			<c:if test="${i.REPTILE eq 'y' }"> 
-				<span class = "name">ÆÄÃæ·ù</span>
+				<span class = "name">íŒŒì¶©ë¥˜</span>
  			</c:if> 
  			<c:if test="${i.RODENT eq 'y' }"> 
-				<span class = "name">¼³Ä¡·ù</span>
+				<span class = "name">ì„¤ì¹˜ë¥˜</span>
 			</c:if>
 			<c:if test="${i.BIRDS eq 'y' }">
-				<span class = "name">Á¶·ù</span>
+				<span class = "name">ì¡°ë¥˜</span>
 			</c:if>
 		</div>
 	</div>
 	</c:forEach>
 	<form action = "./list" method = "get" id = "searchBox">
 		<select name = "radius" id = "radius" style = "display:inline-block">
-			<option value = "0">ÀüÃ¼</option>
-			<option value = "1">2km ¹Ý°æ</option>
-			<option value = "2">4km ¹Ý°æ</option>
-			<option value = "3">6km ¹Ý°æ</option>
-			<option value = "4">8km ¹Ý°æ</option>
-			<option value = "5">10km ¹Ý°æ</option>
+			<option value = "0">ì „ì²´</option>
+			<option value = "1">2km ë°˜ê²½</option>
+			<option value = "2">4km ë°˜ê²½</option>
+			<option value = "3">6km ë°˜ê²½</option>
+			<option value = "4">8km ë°˜ê²½</option>
+			<option value = "5">10km ë°˜ê²½</option>
 		</select>
 		<div style = "display:inline-block">
-			<label><input type = "checkbox" id = "choose">Á¾ ¼±ÅÃ</label>
+			<label><input type = "checkbox" id = "choose">ì¢… ì„ íƒ</label>
 		</div>
-		<input type = "text" name = "search" placeholder = "°Ë»öÇÒ º´¿øÀ» ÀÔ·ÂÇÏ¼¼¿ä" value = "${paging.search }">
-		<button>°Ë»ö</button>
+		<input type = "text" name = "search" placeholder = "ê²€ìƒ‰í•  ë³‘ì›ì„ ìž…ë ¥í•˜ì„¸ìš”" value = "${paging.search }">
+		<button>ê²€ìƒ‰</button>
 		<div id = "animals" style = "display: none;">
-			<label><input type = "checkbox" name = "reptile" value = "y">ÆÄÃæ·ù</label>
-			<label><input type = "checkbox" name = "mammalia" value = "y">Æ÷À¯·ù</label>
-			<label><input type = "checkbox" name = "rodent" value = "y">¼³Ä¡·ù</label>
-			<label><input type = "checkbox" name = "birds" value = "y">Á¶·ù</label>
+			<label><input type = "checkbox" name = "reptile" value = "y">íŒŒì¶©ë¥˜</label>
+			<label><input type = "checkbox" name = "mammalia" value = "y">í¬ìœ ë¥˜</label>
+			<label><input type = "checkbox" name = "rodent" value = "y">ì„¤ì¹˜ë¥˜</label>
+			<label><input type = "checkbox" name = "birds" value = "y">ì¡°ë¥˜</label>
 		</div>
 	</form>
 </div>

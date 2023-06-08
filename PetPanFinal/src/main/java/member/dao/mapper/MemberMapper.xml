@@ -164,7 +164,6 @@
 		WHERE userName=#{userName} AND userId=#{userId} AND email=#{email}
 	</select>
 	
-	
 	<update id="updatePw" parameterType="member.dto.Member">
   		UPDATE member
   		SET userPw=#{userPw}
