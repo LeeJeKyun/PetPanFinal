@@ -265,7 +265,7 @@ public class MemberController {
 	}
 	
 	
-	//아이디 중복 검사
+		//아이디 중복 검사
 	   @RequestMapping("/join/idDu")
 	   @ResponseBody
 	   public String userIdDu(Member member) {
@@ -284,12 +284,12 @@ public class MemberController {
 	      }
 	   }
 
-	   //아이디 중복 검사
+	   //닉네임 중복 검사
 	   @RequestMapping("/join/nickDu")
 	   @ResponseBody
 	   public String userNickDu(Member member) {
 		   
-		   logger.info("아이디 중복검사");
+		   logger.info("닉네임 중복검사");
 		   
 		   int res = memberService.nickDu(member);
 		   
@@ -311,6 +311,15 @@ public class MemberController {
 		logger.info("이메일 인증 : {}" + email);
 		
 		return memberService.joinEmail(email);
+	}
+	
+	@GetMapping("/pwMailCheck")
+	@ResponseBody
+	public String pwLogin( String email ) {
+		logger.info("/login/pwLogin");
+		logger.info("이메일 인증 : {}" + email);
+		
+		return memberService.pwEmail(email);
 	}
 	
 	

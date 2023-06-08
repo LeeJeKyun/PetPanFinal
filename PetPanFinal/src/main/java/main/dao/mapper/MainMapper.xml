@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="main.dao.face.MainDao">
+  	
+  	
+  	<select id="selectFree" resultType="board.dto.Board" parameterType="board.dto.Board">
+  		SELECT rownum, b.boardNo, b.boardTitle, b.hit FROM
+  			(SELECT * FROM board
+  			WHERE boardtypeno = 2 
+  			ORDER BY hit desc) b
+  		WHERE rownum between 1 and 10
+  	</select>
+  	
+  	
+  	
+  </mapper>

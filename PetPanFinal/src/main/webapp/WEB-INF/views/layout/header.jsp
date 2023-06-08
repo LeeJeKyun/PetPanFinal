@@ -207,7 +207,7 @@ a {
 			<li><a href="<%=request.getContextPath() %>/member/mypage/mypage">마이페이지</a></li>
 				<c:choose>
 				
-				<c:when test="${login eq null  }">
+				<c:when test="${login eq null || login eq false  }">
 				<li><a href="<%=request.getContextPath() %>/member/login/join">회원가입</a></li>
 				
 				
@@ -227,12 +227,12 @@ a {
 </div>
 
 
-<div style="position: fixed; right: 235px; width: 75px; height: 85px; bottom: 100px; cursor: pointer;">
+<aside style="position: fixed; right: 235px; width: 75px; height: 85px; bottom: 100px; cursor: pointer;">
 	<a href="#header">∧<br>
 		위로
 	</a><br><br>
 	<a href="<%=request.getContextPath() %>/message/message/list">내 쪽지함</a>
-</div>
+</aside>
 
 
 
