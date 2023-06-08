@@ -19,6 +19,8 @@ public class UnregistServiceImpl implements UnregistService{
 		member.setUserPw(pw);
 		
 		int cheak = unregistDao.selectRegMember(member);
+		
+		
 
 		return cheak;
 	}
