@@ -50,78 +50,43 @@
   	float: left; 
   	margin: 15px -150px;
  }
+ label{
+ 	
+ }
 
 </style>
 
-<c:import url="./mypage_header.jsp" />
+<c:import url="../mypage/mypage_header.jsp" />
+<script type="text/javascript">
+</script>
 
 
 <div class="text">
 
 
 <div class="my">
-<h3>내 정보</h3>
+<h3>회원탈퇴</h3>
 </div>
-
+<form action="./cheak" method="post">
 <div class="m">
-
-<h2 style="color: #263959;">이름 : ${detail.userName }</h2>
-<h4 style="color: #52616a;">닉네임 : ${detail.userNick }</h4>
-<h4 style="color: #52616a;">아이디 : ${detail.userId }</h4>
-<h4 style="color: #52616a;">Phone : ${detail.phone }</h4>
-
+<label for="userPw">비밀번호</label>
+<input type="text" id="userPw" class="userPw" name="pw"><br><br>
+<label for="userPw_check">비밀번호 확인</label>
+<input type="text" id="userPw_check" class="userPw_cheak" >
+<br><br>
+<c:if test="${cheak eq '0' }">
+<h5>비밀번호가 일치하지 않습니다.</h5>
+</c:if>
+<button></button>
 </div> <!-- m -->
-
-
-
-<c:choose>
-<c:when test="${empty hospital }">
-
-<div class="myp">
-<h3>펫 정보</h3>
-</div>
-
-<div class="pe">
-
-<c:forEach items="${petDetail }" var="petDetail" >
-<img alt=".." src="<%=request.getContextPath()%>/petfile/${petDetail.storedName}" width="90px" height="90px" class="img">
-</c:forEach>
-
-<c:forEach items="${petInfo }" var="petInfo" >
-<h2 style="color: #263959;">이름 : ${petInfo.petName }</h2>
-<h4 style="color: #52616a;">종류 : ${petInfo.type }</h4>
-</c:forEach>
-
-
-
-</div> <!-- pe -->
-
-
-</c:when>
-
-</c:choose>
-
+</form>
 
 
 <div class="r">
 
-<a href="../unregist/cheak" class="ur">회원탈퇴</a>
+<a href="../unregist/cheak" class="ur">탈퇴취소하기</a>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
