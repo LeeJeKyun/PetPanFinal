@@ -128,6 +128,8 @@ public interface AdminService {
 
 	public void saveNoticeFiles(List<MultipartFile> fileList, Notice notice, List<Integer> no);
 
+	public void resellCheckedShop(List<String> resell);
+
 
 
 	
