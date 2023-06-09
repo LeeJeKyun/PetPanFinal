@@ -924,7 +924,6 @@ public class AdminServiceImpl implements AdminService{
 			String storedPath = context.getRealPath("upload");
 			String storedName = "\\";
 			storedName += deletefile.getStoredName();
-//			storedPath += storedName;
 			System.out.println(storedName);
 			System.out.println(storedPath);
 			

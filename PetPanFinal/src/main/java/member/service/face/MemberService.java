@@ -121,10 +121,10 @@ public interface MemberService {
 	/**
 	 * 펫 사진 정보 가져오기
 	 * 
-	 * @param petFile
-	 * @return
+	 * @param petFileList - 펫 번호를 가져올 List<PetFile> 객체
+	 * @return - 펫 번호가 입력되어 있는 List<PetFile> 객체 
 	 */
-	public List<PetFile> petFile(PetFile petNo);
+	public List<PetFile> petFile(List<PetFile> petFileList);
 
 	/**
 	 * 병원 관계자인지 일반 회원인지!!
@@ -148,9 +148,6 @@ public interface MemberService {
 	 */
 	public String joinEmail(String email);
 
-	
-	
-	
 	/**
 	 * 마이페이지 내가쓴 리뷰
 	 * @return 
@@ -219,6 +216,39 @@ public interface MemberService {
 	 * @return
 	 */
 	public String pwEmail(String email);
+
+	/**
+	 * 
+	 * 
+	 * @param petFile
+	 * @return
+	 */
+	public List<PetFile> selectPetprofile(PetFile petFile);
+
+	/**
+	 * 펫 정보 가져오기
+	 * 
+	 * @param pet
+	 * @return 
+	 */
+	public Pet selectPetByPetNo(Pet pet);
+
+	/**
+	 * 펫 사진 가져오기
+	 * 
+	 * @param pet
+	 * @return
+	 */
+	public PetFile selectPetFileByPet(Pet pet);
+
+	/**
+	 * 펫 사진 수정하기
+	 * 
+	 * @param pet
+	 * @param petFile
+	 * @return
+	 */
+	public int petUpdate(Pet pet, MultipartFile petFile);
 
 
 
