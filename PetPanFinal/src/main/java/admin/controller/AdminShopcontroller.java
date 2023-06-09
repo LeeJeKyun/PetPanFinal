@@ -49,9 +49,12 @@ public class AdminShopcontroller {
 		
 	}
 	@GetMapping("/delete")
-	public String Shopdelete(@RequestParam(value="delete",required=false) List<String> delete) {
+	public String Shopdelete(@RequestParam(value="delete",required=false) List<String> delete
+			,@RequestParam(value="resell",required=false) List<String> resell
+			) {
 		
 		adminService.deleteCheckedShop(delete);
+		adminService.resellCheckedShop(resell);
 		
 		
 		return "redirect:/admin/shop/list";
