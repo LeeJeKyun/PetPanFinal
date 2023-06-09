@@ -9,6 +9,22 @@
 		SELECT count(*) FROM reportboard
 	</select>
 	
+	<select id="selectAllBlacklist" resultType="int">
+		SELECT count(*) FROM Blacklist
+	</select>
+	
+	<select id="selectAllMember" resultType="int">
+		SELECT count(*) FROM Member
+	</select>
+	
+	<select id="selectSearchMember" resultType="int" >
+		SELECT count(*) FROM Member WHERE username LIKE ('%${keyword}%')
+	</select>
+	
+
+
+	
+	
 	  <select id="selectTotalSearch" resultType="int" parameterType="String">
 		SELECT count(*) FROM reportboard WHERE reportdetail LIKE ('%${search}%')
 	</select>

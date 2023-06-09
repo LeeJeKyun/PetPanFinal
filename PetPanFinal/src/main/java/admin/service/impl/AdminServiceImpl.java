@@ -68,6 +68,7 @@ public class AdminServiceImpl implements AdminService{
 		return paging;
 	}
 
+
 	@Override
 	public AdminPaging getPage(int curPage, String search) {
 		int totalpage = adminDao.selectTotalSearch(search);
@@ -1000,6 +1001,34 @@ public class AdminServiceImpl implements AdminService{
 		}
 		
 	}
+	@Override
+	public AdminPaging getBlacklistPage(int curPage) {
+		
+		int totalpage = adminDao.selectAllBlacklist();
+		AdminPaging paging = new AdminPaging(totalpage, curPage);
+
+		return paging;
+	}
+	
+	@Override
+	public AdminPaging getmemberPage(int curPage) {
+		int totalpage = adminDao.selectAllMember();
+		AdminPaging paging = new AdminPaging(totalpage, curPage);
+
+		return paging;
+	}
+	
+	@Override
+	public AdminPaging getSearchMemberPage(int curPage,String keyword) {
+		int totalpage = adminDao.selectSearchMember(keyword);
+		AdminPaging paging = new AdminPaging(totalpage, curPage);
+
+		return paging;
+	}
+	
+	
+	
+	
 
 	@Override
 	public void resellCheckedShop(List<String> resell) {

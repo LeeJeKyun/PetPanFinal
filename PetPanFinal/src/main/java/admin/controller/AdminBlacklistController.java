@@ -50,7 +50,7 @@ public class AdminBlacklistController {
 //		logger.info("curPage = {}", curPage);
 		AdminPaging paging = new AdminPaging();
 		
-		paging = adminService.getPage(curPage);
+		paging = adminService.getBlacklistPage(curPage);
 		
 //		logger.info("paging = {}", paging);
 		List<Map<String,Object>> list = adminService.getBlacklistBoard(paging);

@@ -33,9 +33,9 @@ public class AdminMemberController {
 
 		AdminPaging paging = new AdminPaging();
 		
-		paging = adminService.getPage(curPage);
+		paging = adminService.getmemberPage(curPage);
 		
-
+		logger.info("{}",paging);
 		
 		List<Member> list = adminService.getMemberBoard(paging);
 		
@@ -46,9 +46,13 @@ public class AdminMemberController {
 	@GetMapping("/member/search")
 	public void viewsearchBoard(@RequestParam(defaultValue = "0") int curPage, String keyword, Model model ) {
 		
+		
+		
 		AdminPaging paging = new AdminPaging();
 		
-		paging = adminService.getPage(curPage);
+		
+		paging = adminService.getSearchMemberPage(curPage,keyword);
+//		paging = adminService.getPage(curPage);
 		
 		
 		
