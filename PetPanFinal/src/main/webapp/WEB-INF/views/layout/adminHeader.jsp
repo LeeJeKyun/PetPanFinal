@@ -127,8 +127,13 @@
       });
     
     </script>
-    
+    <style>
+		@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+	</style>
    <style type="text/css">
+   body {
+/* 	font-family: 'Roboto', sans-serif; */
+	}
    html{
    position:relative;
    }
@@ -169,9 +174,10 @@
    }
    
 
-   
+
    
    </style>
+
   </head>
 
 </head>
@@ -331,9 +337,10 @@
         </div>
         
         <div class = welcome>
-           <h3>PetPan 관리자 페이지</h3>
+        
+           <i class="bi bi-person"></i><h3 class = "h3">PetPan 관리자 페이지</h3>
         </div>
         
         <div class = logon>
-           <h3>${userName} 님 환영합니다</h3>
+           <h3 class = "h3"> ${userName} 님 환영합니다</h3>
         </div>

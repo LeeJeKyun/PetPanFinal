@@ -108,6 +108,12 @@ public interface AdminDao {
 
 	public NoticeFile selectnoticeFileByFileno(int e);
 
+	public int selectAllBlacklist();
+
+	public int selectAllMember();
+
+	public int selectSearchMember(String keyword);
+
 
 	
 
