@@ -68,6 +68,7 @@ public class AdminServiceImpl implements AdminService{
 		return paging;
 	}
 
+
 	@Override
 	public AdminPaging getPage(int curPage, String search) {
 		int totalpage = adminDao.selectTotalSearch(search);
@@ -924,7 +925,6 @@ public class AdminServiceImpl implements AdminService{
 			String storedPath = context.getRealPath("upload");
 			String storedName = "\\";
 			storedName += deletefile.getStoredName();
-//			storedPath += storedName;
 			System.out.println(storedName);
 			System.out.println(storedPath);
 			
@@ -999,6 +999,55 @@ public class AdminServiceImpl implements AdminService{
 			adminDao.insertNoticeFile(noticeFile);
 			
 		}
+		
+	}
+	@Override
+	public AdminPaging getBlacklistPage(int curPage) {
+		
+		int totalpage = adminDao.selectAllBlacklist();
+		AdminPaging paging = new AdminPaging(totalpage, curPage);
+
+		return paging;
+	}
+	
+	@Override
+	public AdminPaging getmemberPage(int curPage) {
+		int totalpage = adminDao.selectAllMember();
+		AdminPaging paging = new AdminPaging(totalpage, curPage);
+
+		return paging;
+	}
+	
+	@Override
+	public AdminPaging getSearchMemberPage(int curPage,String keyword) {
+		int totalpage = adminDao.selectSearchMember(keyword);
+		AdminPaging paging = new AdminPaging(totalpage, curPage);
+
+		return paging;
+	}
+	
+	
+	
+	
+
+	@Override
+	public void resellCheckedShop(List<String> resell) {
+		if (resell == null) {
+			return;
+		}
+		
+	    List<String> resellNoList = resell;
+	    List<HashMap> resellNoMaplist = new ArrayList<HashMap>();
+	    
+	    for (int i = 0; i < resellNoList.size(); i++) {
+	        int resellNo = Integer.valueOf(resellNoList.get(i));
+	        HashMap<String, Integer> resellNoMap = new HashMap<String, Integer>();
+	        resellNoMap.put("objectNo", resellNo );
+	        resellNoMaplist.add(i, resellNoMap);
+	    }
+	    
+	    adminShopDao.updateShopResellObj(resellNoMaplist);
+		
 		
 	}
 }

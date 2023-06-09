@@ -64,40 +64,45 @@ input{
 
 <br>
 
-<h2 style="color: #FF5050; text-align: center;">동물 수정</h2>
+<h2 style="color: #FF5050; text-align: center;">동물 정보 수정</h2>
 
 	
-<form action="./petUpdate" method="post" enctype="multipart/form-data">
+<form action="./petinfo" method="post" enctype="multipart/form-data">
 	
-
-
-   <div class="select">
-
-	<img alt=".." src="<%=request.getContextPath()%>/petfile/${Detail.storedName}" width="90px" height="90px" class="img">
+	<div class="select">
 	
-	   <div class="select">
-	
-	
-	이름 : <input type = "text" style="color: #263959;" value="${Info.petName}" name = "petName">
-		</div>
+		<c:forEach var="Info" items="${petInfo}">
+		<c:forEach items="${petDetail}" var="Detail"  >
+			<c:choose>
+			<c:when test="${Info.petNo  eq Detail.petNo}">
+<!-- 			<input type="button"> -->
+			<img alt=".." src="<%=request.getContextPath()%>/petfile/${Detail.storedName}" width="90px" height="90px" class="img">
+			</c:when>
+			</c:choose>
+		</c:forEach>
+			<h2 style="color: #263959;">이름 : ${Info.petName }</h2>
+			<h4 style="color: #52616a;">종류 : ${Info.type }</h4>
 		
-		   <div class="select">
-		
-	종류 : <input style="color: #52616a;" name = "type" value="${Info.type}">
-		</div>
-			<input type="hidden" value="${Info.petNo}" name = "petNo">
+		   	<div class="select">
+			<input type="file" id="file" name="file"><br><br>
+	 	 	<div id = "input-files"></div>
+   			</div>	
+		</c:forEach>
+	
+	
+	
+	
 	</div>
-	
-   <div class="select">
-	<input type="file" id="file" name="petFile"><br><br>
-	  <div id = "input-files"></div>
-   </div>
+
+
+
 
    <div class="select">
-      <button id="btn">등록하기</button>
+      <button id="btn">수정하기</button>
    </div>
 
 </form>
+
 
 
 

@@ -1,5 +1,6 @@
 package member.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +43,6 @@ public class MyPageController {
 			, Member member
 			, Model model
 			, Pet pet
-			, PetFile petFile
 			) {
 		
 		// 세션에 담긴 userno 가져오기
@@ -57,14 +57,19 @@ public class MyPageController {
 		model.addAttribute("petInfo", petInfo);
 		logger.info("petInfo : {}", petInfo);
 		
+		List<PetFile> petFileList = new ArrayList<>();
+		
 		// 펫이 여러마리일 경우 리스트로 펫 정보 보여주기
 		for (Pet p : petInfo) {
+			PetFile petFile = new PetFile();
 			petFile.setPetNo(p.getPetNo());
 			logger.info("petFile: {}", petFile);
+			petFileList.add(petFile);
 		}
 		
 		// petno로 펫 사진 불러오기
-		List<PetFile> petDetail = memberService.petFile(petFile);
+		List<PetFile> petDetail = memberService.petFile(petFileList);
+		model.addAttribute("petInfo", petInfo);
 		model.addAttribute("petDetail", petDetail);
 		
 		logger.info("petDetail : {}" , petDetail);
@@ -78,42 +83,53 @@ public class MyPageController {
 			, Member member
 			, Model model
 			, Pet pet
-			, PetFile petFile
+			
 			) {
 		
 		// 세션에 담긴 userno 가져오기
-		member.setUserNo((int)session.getAttribute("userno"));
-		
-		// userno로 유저 정보 조회하고 모델에 담기
-		Member detail = memberService.userDetail(member);
-		model.addAttribute("detail", detail);
-		
-		// userno로 펫 정보 조회하기
-		List<Pet> petInfo = memberService.petInfo(member);
-		model.addAttribute("petInfo", petInfo);
-		logger.info("petInfo : {}", petInfo);
-		
-		// 펫이 여러마리일 경우 리스트로 펫 정보 보여주기
-		for (Pet p : petInfo) {
-			petFile.setPetNo(p.getPetNo());
-			logger.info("petFile: {}", petFile);
-		}
-		
-		// petno로 펫 사진 불러오기
-		List<PetFile> petDetail = memberService.petFile(petFile);
-		model.addAttribute("petDetail", petDetail);
+//		member.setUserNo((int)session.getAttribute("userno"));
 		
 		
-		for (PetFile pf : petDetail) {
-			petFile.setPetNo(pf.getPetNo());
-			logger.info("petFile: {}", petFile);
-		}
+//		pet정보 가져오기
 		
-		logger.info("petDetail : {}" , petDetail);
+		Pet p = memberService.selectPetByPetNo(pet);
 		
+//		pet 파일 가져오기
+		
+		PetFile pf = memberService.selectPetFileByPet(pet);
+		
+		model.addAttribute("Info", p);
+		model.addAttribute("Detail", pf);
+		
+		
+	
 		
 	}
+	
+	
+	
+	@PostMapping("/mypage/petUpdate")
+	public String petUpdatePost(
+			HttpSession session
+			, Pet pet
+			, MultipartFile petFile
+			) {
+		
+		logger.info("petfile---------------------{}",petFile);
+		logger.info("pet---------------------{}",pet);
+		
+		
+		memberService.petUpdate(pet, petFile);
 
+		
+		
+		
+		
+		return "redirect:./mypage";
+		
+	}
+	
+	
 	@GetMapping("/mypage/myprofile")
 	public void myprofile(
 			HttpSession session
@@ -183,6 +199,8 @@ public class MyPageController {
 	}
 
 	
+	
+	
 	@GetMapping("/mypage/content")
 	public void content(
 			HttpSession session
@@ -197,6 +215,8 @@ public class MyPageController {
 		model.addAttribute("content", content);
 		
 	}
+	
+	
 	
 	@GetMapping("/mypage/comment")
 	public void comment(
@@ -218,6 +238,9 @@ public class MyPageController {
 		logger.info("내가 쓴 댓글 : {}", comment);
 
 	}
+	
+	
+	
 	
 	
 	@GetMapping("/mypage/hospital")

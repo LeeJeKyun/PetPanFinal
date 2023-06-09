@@ -63,4 +63,25 @@ public interface MessageService {
 	 */
 	public boolean deleteMessage(Message message);
 
+	/**
+	 * 메시지를 여러번 삭제하는 메소드
+	 * 
+	 * @param messagenoList
+	 */
+	public void deleteMessageByList(List<Integer> messagenoList);
+
+	/**
+	 * 여러 메시지를 한번에 읽음처리하는 메소드
+	 * 
+	 * @param messagenoList
+	 */
+	public void readMessageByList(List<Integer> messagenoList);
+
+	/**
+	 * 여러 메시지를 한번에 저장처리하는 메소드
+	 * 
+	 * @param messagenoList
+	 */
+	public void saveMessageByList(List<Integer> messagenoList);
+
 }

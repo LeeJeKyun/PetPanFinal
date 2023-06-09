@@ -9,7 +9,8 @@
 <div class="container2" style="margin-left: 500px">
 <div>
 	<div>
-		  <h3>신고 정보</h3>
+
+		  
 		  <p>상품 번호: ${shop.objectno}</p>
 		  <p>상품 이름: ${shop.name}</p>
 		  <p>대표 사진 : 

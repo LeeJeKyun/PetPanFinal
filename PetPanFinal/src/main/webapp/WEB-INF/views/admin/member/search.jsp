@@ -39,7 +39,7 @@
 
 		<tr>
 		<td>${list.userNo }</td>
-		<td>${list.userName }</td>
+		<td><a href = "./view?userno=${list.userNo}">${list.userName }</a></td>
 		<td>${list.userId}</td>
 		<td>${list.userPw}</td>
 		<td>${list.email}</td>

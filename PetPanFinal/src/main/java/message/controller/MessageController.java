@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import member.dto.Member;
@@ -165,6 +166,36 @@ public class MessageController {
 		boolean res = messageService.deleteMessage(message);
 		
 		return res;
+	}
+	
+	@PostMapping("/message/messageprocess")
+	public String messageProcess(
+			
+			@RequestParam(name = "messageno") List<Integer> messagenoList,
+			String process
+			
+			) {
+		
+		for(int a : messagenoList) {
+			logger.info("{}", a);
+		}
+		
+		logger.info("process:{}", process);
+		
+		switch(process) {
+			
+			case "d" : messageService.deleteMessageByList(messagenoList);
+			break;
+			
+			case "r" : messageService.readMessageByList(messagenoList);
+			break;
+			
+			case "s" : messageService.saveMessageByList(messagenoList);
+			break;
+			
+		}
+		
+		return "redirect:/message/message/list";
 	}
 	
 }

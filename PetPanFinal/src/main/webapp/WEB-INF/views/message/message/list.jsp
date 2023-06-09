@@ -237,6 +237,11 @@ function toggleAllCheckbox(){
 	
 }
 
+function changeProcess(process){
+	$("[name='process']").val(process);
+	$("form").submit();
+}
+
 </script>
 
 <br>
