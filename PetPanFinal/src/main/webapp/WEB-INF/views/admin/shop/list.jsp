@@ -33,6 +33,34 @@
 	    }
 	  });
 	});
+  
+  $(document).ready(function(){
+	  $("#codeIdSubmit").on('click',function(){
+	    var resellArr = [];
+	   
+	    $("input[name=resell]:checked").each(function(){
+	    	resellArr.push($(this).val());
+	    });
+	  });
+
+	  //checkall
+	  $("#checkall2").click(function(){
+	    if($("#checkall2").is(":checked")){
+	      $(".resell").prop("checked", true);
+	    }else{
+	      $(".resell").prop("checked", false);
+	    }
+	  });
+
+	  //한개 해제하면 전체도 해제
+	  $(".resell").click(function(){
+	    if($("input[name='resell']:checked").length == ${fn:length(list)}){
+	      $("#checkall2").prop("checked", true);
+	    }else{
+	      $("#checkall2").prop("checked", false);
+	    }
+	  });
+	});
 
   </script>
 
@@ -48,6 +76,7 @@
 		<th>남은수량</th>
 		<th>판매 여부</th>
 		<th>판매 중단 체크</th>
+		<th>판매 재개 체크</th>
 		
 		</tr>
 		<c:forEach var="list" items="${list}">
@@ -64,13 +93,19 @@
 			<c:if test="${list.deleteobj eq 1 }"><input type="checkbox" id="delete" name="delete" class="delete" value="${list.objectno }"></c:if>
 			<c:if test="${list.deleteobj ne 1 }"><input type="checkbox" disabled="disabled"></c:if>
 		</td>
+		
+		<td>
+			<c:if test="${list.deleteobj ne 1 }"><input type="checkbox" id="resell" name="resell" class="resell" value="${list.objectno }"></c:if>
+			<c:if test="${list.deleteobj eq 1 }"><input type="checkbox" disabled="disabled"></c:if>
+		</td>
 		</tr>
 		</c:forEach>
 		</table>
 		
 		<div align="right" id="searchdelete" class="searchdelete"  style= "float:right;">
-			<input type="checkbox" id="checkall" name="checkall" class="checkall">전부선택
-			<input type="submit" id="codeIdSubmit" value="판매중단"  class="btn btn-danger">
+			<input type="checkbox" id="checkall" name="checkall" class="checkall">판매 중단 전부선택   
+			<input type="checkbox" id="checkall2" name="checkall2" class="checkall2">판매 재개 전부선택
+			<input type="submit" id="codeIdSubmit" value="판매중단/판매재개"  class="btn btn-danger">
 		</div>
 	</form>
 	<div align="left" id="searchbottom" class="searchbottom">

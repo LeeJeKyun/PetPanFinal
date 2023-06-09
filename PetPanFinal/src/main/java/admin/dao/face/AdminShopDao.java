@@ -62,6 +62,10 @@ public interface AdminShopDao {
 
 	public void updateReportObjectComplete(List<HashMap> objreportNolist);
 
+	public void updateReportObjectCompleteResell(List<HashMap> objreportNolist);
+
+	public void updateShopResellObj(List<HashMap> resellNoMaplist);
+
 
 
 
