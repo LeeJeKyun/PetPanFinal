@@ -1000,6 +1000,27 @@ public class AdminServiceImpl implements AdminService{
 		}
 		
 	}
+
+	@Override
+	public void resellCheckedShop(List<String> resell) {
+		if (resell == null) {
+			return;
+		}
+		
+	    List<String> resellNoList = resell;
+	    List<HashMap> resellNoMaplist = new ArrayList<HashMap>();
+	    
+	    for (int i = 0; i < resellNoList.size(); i++) {
+	        int resellNo = Integer.valueOf(resellNoList.get(i));
+	        HashMap<String, Integer> resellNoMap = new HashMap<String, Integer>();
+	        resellNoMap.put("objectNo", resellNo );
+	        resellNoMaplist.add(i, resellNoMap);
+	    }
+	    
+	    adminShopDao.updateShopResellObj(resellNoMaplist);
+		
+		
+	}
 }
 
 

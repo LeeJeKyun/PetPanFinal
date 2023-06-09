@@ -449,6 +449,13 @@ public class MemberServiceImpl implements MemberService {
 		
 		return comment;
 	}
+
+	@Override
+	public Member getMemberInfoByUserid(Member member) {
+		return memberDao.selectUserNoMemberByUserId(member);
+	}
+	
+	
 	
 	
 	

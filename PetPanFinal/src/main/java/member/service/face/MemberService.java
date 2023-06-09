@@ -250,6 +250,14 @@ public interface MemberService {
 	 */
 	public int petUpdate(Pet pet, MultipartFile petFile);
 
+	/**
+	 * userid로 Member의 정보를 불러오는(userno) 메소드
+	 * 
+	 * @param member
+	 * @return
+	 */
+	public Member getMemberInfoByUserid(Member member);
+
 
 
 

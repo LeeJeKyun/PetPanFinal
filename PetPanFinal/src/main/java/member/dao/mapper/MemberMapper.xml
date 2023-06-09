@@ -174,12 +174,12 @@
 	<select id="idDu" resultType="int">
       SELECT count(*) FROM member
       WHERE userId = #{userId}
-   </select>
+	</select>
 
 	<select id="nickDu" resultType="int">
       SELECT count(*) FROM member
       WHERE userNick = #{userNick}
-   </select>
+	</select>
 	
 	<select id="selectPetprofile" parameterType="member.dto.PetFile" resultType="member.dto.PetFile">
 		SELECT * FROM petfile
@@ -206,11 +206,11 @@
   		set petName = #{petName}, type=#{type}
   		where petNo = #{petNo}
   	</update>
-  	
-
-  		
-		
-  	
+  	  	
+	<select id="selectUserNoMemberByUserId" parameterType="member.dto.Member" resultType="member.dto.Member">
+		SELECT userno, usernick FROM member
+		WHERE userid = #{userId}
+	</select>
   	
   	
   </mapper>
