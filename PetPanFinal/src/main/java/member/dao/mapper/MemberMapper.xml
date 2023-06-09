@@ -74,13 +74,14 @@
 	<select id="selectPetInfo" parameterType="int" resultType="member.dto.Pet">
 		SELECT * FROM pet
 		WHERE userNo=#{userNo}
+		ORDER BY petno
 	</select>
 	
 
 	<select id="selectPetFile" parameterType="int" resultType="member.dto.PetFile">
 		SELECT * FROM petfile
 		WHERE petNo=#{petNo}
- 
+		ORDER BY petno
 	</select>
 
 	<select id ="selectHospital" resultType="int" parameterType="member.dto.Member">
@@ -180,9 +181,36 @@
       WHERE userNick = #{userNick}
 	</select>
 	
+	<select id="selectPetprofile" parameterType="member.dto.PetFile" resultType="member.dto.PetFile">
+		SELECT * FROM petfile
+		WHERE petNo=#{petNo}
+	</select>
+  	
+  	<select id="selectPetByPetNo" parameterType="member.dto.Pet" resultType="member.dto.Pet">
+  		SELECT * FROM pet
+  		WHERE petNo= #{petNo}
+  	</select>
+  	
+  	<select id="selectPetFileByPet" parameterType="member.dto.Pet" resultType="member.dto.PetFile">
+  		SELECT * FROM petfile
+  		WHERE petNo= #{petNo}
+  	</select>
+  	
+  	
+  	<delete id="deletePetfile" parameterType="member.dto.Pet">
+  		delete from petfile where petno = #{petNo}
+  	</delete>
+  	
+  	<update id="updatePet" parameterType="member.dto.Pet">
+  		update Pet 
+  		set petName = #{petName}, type=#{type}
+  		where petNo = #{petNo}
+  	</update>
+  	  	
 	<select id="selectUserNoMemberByUserId" parameterType="member.dto.Member" resultType="member.dto.Member">
 		SELECT userno, usernick FROM member
 		WHERE userid = #{userId}
 	</select>
+  	
   	
   </mapper>

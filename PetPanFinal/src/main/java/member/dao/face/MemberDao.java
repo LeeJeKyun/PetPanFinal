@@ -103,10 +103,10 @@ public interface MemberDao {
 	/**
 	 * petNo로 사진 조회
 	 * 
-	 * @param petNo
+	 * @param petFileList 
 	 * @return
 	 */
-	public List<PetFile> selectPetFile(PetFile petNo);
+	public PetFile selectPetFile(int petNo);
 
 	/**
 	 * 포지션넘버 조회해서 병원관계자인지 일반회원인지,,
@@ -200,6 +200,45 @@ public interface MemberDao {
 	 * @return
 	 */
 	public Integer selectHospitalNo(int userNo);
+
+	/**
+	 * 
+	 * 
+	 * @param petFile
+	 * @return
+	 */
+	public List<PetFile> selectPetprofile(PetFile petFile);
+
+	/**
+	 * 펫 정보 가져오기
+	 * 
+	 * @param pet
+	 * @return
+	 */
+	public Pet selectPetByPetNo(Pet pet);
+
+	/**
+	 * 펫 사진 가져오기
+	 * 
+	 * @param pet
+	 * @return
+	 */
+	public PetFile selectPetFileByPet(Pet pet);
+
+	/**
+	 * 
+	 * @param pet
+	 */
+	
+	public void deletePetfile(Pet pet);
+	
+	
+	/**
+	 * 
+	 * @param pet
+	 */
+	public void updatePet(Pet pet);
+
 
 	/**
 	 * UserId로 멤버의 정보를 가져오는 메소드
