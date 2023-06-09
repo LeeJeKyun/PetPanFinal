@@ -201,6 +201,14 @@ public interface MemberDao {
 	 */
 	public Integer selectHospitalNo(int userNo);
 
+	/**
+	 * UserId로 멤버의 정보를 가져오는 메소드
+	 * 
+	 * @param member
+	 * @return
+	 */
+	public Member selectUserNoMemberByUserId(Member member);
+
 
 
 

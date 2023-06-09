@@ -173,13 +173,16 @@
 	<select id="idDu" resultType="int">
       SELECT count(*) FROM member
       WHERE userId = #{userId}
-   </select>
+	</select>
 
 	<select id="nickDu" resultType="int">
       SELECT count(*) FROM member
       WHERE userNick = #{userNick}
-   </select>
+	</select>
 	
-  	
+	<select id="selectUserNoMemberByUserId" parameterType="member.dto.Member" resultType="member.dto.Member">
+		SELECT userno, usernick FROM member
+		WHERE userid = #{userId}
+	</select>
   	
   </mapper>
