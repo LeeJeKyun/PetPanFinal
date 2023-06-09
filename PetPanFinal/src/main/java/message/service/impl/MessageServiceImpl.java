@@ -86,6 +86,40 @@ public class MessageServiceImpl implements MessageService {
 		
 		return false;
 	}
+
+	@Override
+	public void deleteMessageByList(List<Integer> messagenoList) {
+		for(int i=0; i<messagenoList.size(); i++) {
+			
+			Message m = new Message();
+			m.setMessageno(messagenoList.get(i));
+			messageDao.deleteMessageByMessageno(m);
+			
+		}
+	}
+
+	@Override
+	public void readMessageByList(List<Integer> messagenoList) {
+		for(int i=0; i<messagenoList.size(); i++) {
+			
+			Message m = new Message();
+			m.setMessageno(messagenoList.get(i));
+			messageDao.updateMessageDoRead(m);
+			
+		}
+	}
+
+	@Override
+	public void saveMessageByList(List<Integer> messagenoList) {
+		for(int i=0; i<messagenoList.size(); i++) {
+			
+			Message m = new Message();
+			m.setMessageno(messagenoList.get(i));
+			m.setSaveMessage("N");
+			messageDao.updateMessageSave(m);
+			
+		}
+	}
 	
 	
 	

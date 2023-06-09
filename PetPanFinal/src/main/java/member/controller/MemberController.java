@@ -2,6 +2,7 @@ package member.controller;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.JsonObject;
 
+import board.dto.Board;
 import member.dto.Member;
 import member.service.face.MemberService;
 import member.service.face.socialService;
@@ -35,7 +37,7 @@ public class MemberController {
 	@Autowired private socialService socialService;
 	@Autowired private MemberService memberService;
 	
-
+	
 	
 	
 	@GetMapping("/login/login")
@@ -52,7 +54,6 @@ public class MemberController {
 			, String sosId
 			) {
 		
-
 		String access_Token = socialService.getAccessToken(code);
 		
 //		logger.info("Membercontroller access_token : {}" + access_Token);
@@ -242,7 +243,7 @@ public class MemberController {
 //			logger.info("hospital : {}", hospital);
 			Member detail = memberService.userDetail(member2);
 			model.addAttribute("info", member);
-
+			
 		}
 		
 		return "redirect:/";
@@ -473,6 +474,32 @@ public class MemberController {
 		
 		return "redirect:./login";
 
+	}
+	
+	@GetMapping("/info/userinfo")
+	public void userinfo(
+			
+			Member member,
+			Model model
+			
+			) {
+		logger.info("member : {}", member);
+		
+		Member selectedMember = memberService.getMemberInfoByUserid(member);
+		
+		int userno = selectedMember.getUserNo();
+		
+		logger.info("selectedMember : {}", selectedMember);
+		
+		List<Board> contentList = memberService.myContent(userno);
+		logger.info("contentList : {}", contentList);
+		List<Map<String, Object>> commentList = memberService.myComment(userno);
+		logger.info("commentList : {}", commentList);
+		
+		model.addAttribute("member", selectedMember);
+		model.addAttribute("contentList", contentList);
+		model.addAttribute("commentList", commentList);
+		
 	}
 	
 	

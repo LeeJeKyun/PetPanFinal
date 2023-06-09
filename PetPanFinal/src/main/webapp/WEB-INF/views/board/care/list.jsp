@@ -85,6 +85,12 @@ function sendMessage(userid){
 	window.open("<%=request.getContextPath() %>/message/message/send?receiveuserid=" + userid, '쪽지', "width=400, height=500, resizable=no");
 	$('.messageLayer').hide();
 }
+
+function openInfo(userid){
+	
+	window.open("<%=request.getContextPath() %>/member/info/userinfo?userId=" + userid, '정보', "width=400, height=500, resizable=no");
+}
+
 </script>
 
 <br>
@@ -133,7 +139,14 @@ function sendMessage(userid){
 	<tr style="height: 40px; border-top: 2px solid #f5cbcb;">
 		<td>${care.BOARDNO }</td>
 		<td style="height: 90px;"><a href="../care/view?boardNo=${care.BOARDNO }"><img width="120px" height="90px" alt="아가사진" src="<%=request.getContextPath() %>/upload/${care.STOREDNAME}" style="vertical-align: middle;" ></a></td>
-		<td><a href="../care/view?boardNo=${care.BOARDNO }">${care.BOARDTITLE }</a><small style="color: #555;"> [${care.COMMENTNO }]</small></td>
+		<td>
+			<a href="../care/view?boardNo=${care.BOARDNO }" 
+				<c:if test="${care.USERNO eq userno }"> 
+					style="color:#111" 
+				</c:if>
+			>
+				${care.BOARDTITLE }</a><small style="color: #555;"> [${care.COMMENTNO }]</small>
+		</td>
 		<td><span class="message" onclick="message(event, '${care.USERID}')" style="cursor: pointer;">${care.USERNICK }</span></td>
 		<td><fmt:formatDate value="${care.WRITEDATE }" pattern="yyyy-MM-dd" /></td>
 		<td>${care.HIT }</td>
@@ -190,10 +203,15 @@ function sendMessage(userid){
 	<br>
 </div>
 
-<div class="messageLayer" style="display: none; background: #FFDAD7; color: #FF5050; width: 143px; height: 33px; padding: 10px;">
-	<div>
-		<span onclick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</span>
-		<span style="cursor:pointer;font-size:1.5em" onclick="sendMessage($('.messageLayer').attr('userid'))">쪽지보내기</span>
+<div class="messageLayer" style="display: none; background: #FFDAD7; color: #FF5050; width: 103px; height: 75px; padding: 10px;">
+	<div style="text-align: right;">
+		<span onclick="closeLayer(this)" style="cursor:pointer;font-size:1em" title="닫기">X</span>
+	</div>
+	<div style="text-align: center;">
+		<span style="cursor:pointer;font-size:1em" onclick="openInfo($('.messageLayer').attr('userid'))">사용자정보</span>
+	</div>
+	<div style="text-align: center;">
+		<span style="cursor:pointer;font-size:1em" onclick="sendMessage($('.messageLayer').attr('userid'))">쪽지보내기</span>
 	</div>
 </div>
 <!-- //폼 레이어  -->
