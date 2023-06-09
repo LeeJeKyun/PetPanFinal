@@ -57,11 +57,14 @@ public class UnregistController {
 	public String unregistdo(@RequestParam(required = false, defaultValue = "N")String delete,HttpSession session) {
 		
 		int userno = (int) session.getAttribute("userno");
+		
 		if(delete.equals("N")) {
 			return "redirect:/member/mypage/mypage";
 		}
 		
 		unregistService.unregistAll(userno);
+		
+		session.invalidate();
 		
 		return "redirect:thanks";
 	
