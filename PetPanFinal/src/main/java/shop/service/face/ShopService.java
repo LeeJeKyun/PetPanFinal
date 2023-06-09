@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import member.dto.Member;
 import shop.dto.Basket;
 import shop.dto.OrderUser;
+import shop.dto.ReportObject;
 import shop.dto.Review;
 import shop.dto.ReviewFile;
 import shop.dto.Shop;
@@ -76,6 +77,12 @@ public interface ShopService {
 	public int cntReview(Review review);
 
 	public List<ShopFile> shopfile(Basket basket);
+
+	/**
+	 * 상품 신고 
+	 * @param reportObject - userno object reportdetail
+	 */
+	public void insertReport(ReportObject reportObject);
 
 	
 

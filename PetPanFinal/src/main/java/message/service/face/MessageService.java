@@ -3,6 +3,7 @@ package message.service.face;
 import java.util.List;
 import java.util.Map;
 
+import member.dto.Member;
 import message.dto.Message;
 
 public interface MessageService {
@@ -13,7 +14,7 @@ public interface MessageService {
 	 * @param receiveuserid
 	 * @return
 	 */
-	public int getReceiveUserNo(String receiveuserid);
+	public Member getReceiveUser(String receiveuserid);
 
 	/**
 	 * 보내는 유저의 닉네임을 가져오는 메소드
@@ -46,5 +47,41 @@ public interface MessageService {
 	 * @return
 	 */
 	public Message getMessageView(Message message);
+
+	/**
+	 * 쪽지를 저장하는 메소드
+	 * 
+	 * @param message
+	 */
+	public boolean saveMessage(Message message);
+
+	/**
+	 * 쪽지를 삭제하는 메소드
+	 * 
+	 * @param message
+	 * @return
+	 */
+	public boolean deleteMessage(Message message);
+
+	/**
+	 * 메시지를 여러번 삭제하는 메소드
+	 * 
+	 * @param messagenoList
+	 */
+	public void deleteMessageByList(List<Integer> messagenoList);
+
+	/**
+	 * 여러 메시지를 한번에 읽음처리하는 메소드
+	 * 
+	 * @param messagenoList
+	 */
+	public void readMessageByList(List<Integer> messagenoList);
+
+	/**
+	 * 여러 메시지를 한번에 저장처리하는 메소드
+	 * 
+	 * @param messagenoList
+	 */
+	public void saveMessageByList(List<Integer> messagenoList);
 
 }

@@ -103,10 +103,10 @@ public interface MemberDao {
 	/**
 	 * petNo로 사진 조회
 	 * 
-	 * @param petNo
+	 * @param petFileList 
 	 * @return
 	 */
-	public List<PetFile> selectPetFile(PetFile petNo);
+	public PetFile selectPetFile(int petNo);
 
 	/**
 	 * 포지션넘버 조회해서 병원관계자인지 일반회원인지,,
@@ -169,16 +169,6 @@ public interface MemberDao {
 	 * @return
 	 */
 	public int nickDu(Member member);
-	/**
-	 * 병원 테이블에 같은 userNo이 있는지 확인
-	 * @param hospitalNo 확인할 병원 번호
-	 * @return 없으면 0
-	 */
-	public Integer selectIsHospitalNo(int hospitalNo);
-
-	public Integer selectHospitalNo(int userNo);
-
-
 
 	/**
 	 * 내가 쓴 게시글 조회
@@ -197,7 +187,66 @@ public interface MemberDao {
 	public List<Map<String, Object>> myComment(int userno);
 
 
+	/**
+	 * 병원 테이블에 같은 userNo이 있는지 확인
+	 * @param hospitalNo 확인할 병원 번호
+	 * @return 없으면 0
+	 */
+	public Integer selectIsHospitalNo(int hospitalNo);
 
+	/**
+	 * 
+	 * @param userNo
+	 * @return
+	 */
+	public Integer selectHospitalNo(int userNo);
+
+	/**
+	 * 
+	 * 
+	 * @param petFile
+	 * @return
+	 */
+	public List<PetFile> selectPetprofile(PetFile petFile);
+
+	/**
+	 * 펫 정보 가져오기
+	 * 
+	 * @param pet
+	 * @return
+	 */
+	public Pet selectPetByPetNo(Pet pet);
+
+	/**
+	 * 펫 사진 가져오기
+	 * 
+	 * @param pet
+	 * @return
+	 */
+	public PetFile selectPetFileByPet(Pet pet);
+
+	/**
+	 * 
+	 * @param pet
+	 */
+	
+	public void deletePetfile(Pet pet);
+	
+	
+	/**
+	 * 
+	 * @param pet
+	 */
+	public void updatePet(Pet pet);
+
+
+	/**
+	 * UserId로 멤버의 정보를 가져오는 메소드
+	 * 
+	 * @param member
+	 * @return
+	 */
+	public Member selectUserNoMemberByUserId(Member member);
 
 
 

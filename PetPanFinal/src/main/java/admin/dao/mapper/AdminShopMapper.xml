@@ -87,6 +87,13 @@
 		</foreach>
 	</update>
 	
+	<update id="updateShopResellObj" parameterType="java.util.List">
+		UPDATE SHOP SET DELETEOBJ = 1 WHERE OBJECTNO IN
+		<foreach collection="list" item="objectNo" open="(" close=")" separator=",">
+ 			#{objectNo.objectNo}
+		</foreach>
+	</update>
+	
 	<update id="updateOrderUserComplete" parameterType="java.util.List">
 		UPDATE ORDERUSER SET COMPLETE = 'y' WHERE buyno IN
 		<foreach collection="list" item="buyNo" open="(" close=")" separator=",">

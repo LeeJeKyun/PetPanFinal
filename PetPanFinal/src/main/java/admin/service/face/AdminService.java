@@ -134,6 +134,8 @@ public interface AdminService {
 
 	public AdminPaging getSearchMemberPage(int curPage, String keyword);
 
+	public void resellCheckedShop(List<String> resell);
+
 
 
 	

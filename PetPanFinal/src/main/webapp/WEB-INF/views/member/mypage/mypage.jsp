@@ -51,6 +51,14 @@
   	margin: 15px -150px;
  }
 
+.petUp{
+	margin: 2px 48%;
+}
+
+.petUp a{
+	color: #FF5050;
+ 	text-decoration: none; 
+}
 </style>
 
 <c:import url="./mypage_header.jsp" />
@@ -83,15 +91,14 @@
 
 <div class="pe">
 
-<c:forEach items="${petDetail }" var="petDetail" >
-<img alt=".." src="<%=request.getContextPath()%>/petfile/${petDetail.storedName}" width="90px" height="90px" class="img">
+<c:forEach items="${petDetail }" var="Detail" >
+	<a href="./petUpdate?petNo=${Detail.petNo }"><img alt=".." src="<%=request.getContextPath()%>/petfile/${Detail.storedName}" width="90px" height="90px" class="img"></a>
 </c:forEach>
 
-<c:forEach items="${petInfo }" var="petInfo" >
-<h2 style="color: #263959;">이름 : ${petInfo.petName }</h2>
-<h4 style="color: #52616a;">종류 : ${petInfo.type }</h4>
+<c:forEach items="${petInfo }" var="Info" >
+	<h2 style="color: #263959;">이름 : ${Info.petName }</h2>
+	<h4 style="color: #52616a;">종류 : ${Info.type }</h4>
 </c:forEach>
-
 
 
 </div> <!-- pe -->

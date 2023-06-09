@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletContext;
 
@@ -133,6 +135,23 @@ public class MemberServiceImpl implements MemberService {
 		mailSend(setFrom, toMail, title, content);
 		return Integer.toString(authNumber);
 	}
+	
+	@Override
+	public String pwEmail(String email) {
+		makeRandomNumber();
+		String setFrom = "dabin9872@gmail.com"; // email-config에 설정한 자신의 이메일 주소를 입력 
+		String toMail = email;
+		String title = "비밀번호 찾기 인증 이메일 입니다."; // 이메일 제목 
+		String content = 
+				"비밀번호 찾기 인증 이메일입니다." + 	//html 형식으로 작성 ! 
+                "<br><br>" + 
+			    "인증 번호는 " + authNumber + "입니다." + 
+			    "<br>" + 
+			    "해당 인증번호를 인증번호 확인란에 기입하여 주세요."; //이메일 내용 삽입
+		mailSend(setFrom, toMail, title, content);
+		return Integer.toString(authNumber);
+	}
+	
 	
 	//이메일 전송 메소드
 	public void mailSend(String setFrom, String toMail, String title, String content) { 
@@ -338,9 +357,18 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public List<PetFile> petFile(PetFile petNo) {
+	public List<PetFile> petFile(List<PetFile> petFileList) {
 		
-		return memberDao.selectPetFile(petNo);
+		List<PetFile> returnList = new ArrayList<PetFile>();
+		
+		for(int i=0; i<petFileList.size(); i++) {
+			PetFile petFile = memberDao.selectPetFile(petFileList.get(i).getPetNo());
+			
+			returnList.add(petFile);
+		}
+		
+		return returnList;
+		
 	}
 
 	@Override
@@ -421,5 +449,99 @@ public class MemberServiceImpl implements MemberService {
 		
 		return comment;
 	}
+
+	@Override
+	public Member getMemberInfoByUserid(Member member) {
+		return memberDao.selectUserNoMemberByUserId(member);
+	}
 	
+	
+	
+	
+	
+	@Override
+	public List<PetFile> selectPetprofile(PetFile petFile) {
+
+		return memberDao.selectPetprofile(petFile);
+	}
+	
+	
+	@Override
+	public Pet selectPetByPetNo(Pet pet) {
+	
+		return memberDao.selectPetByPetNo(pet);
+	}	
+	
+	@Override
+	public PetFile selectPetFileByPet(Pet pet) {
+	
+		return memberDao.selectPetFileByPet(pet);
+
+	}
+	@Override
+	public int petUpdate(Pet pet, MultipartFile petFile) {
+		
+		
+		String storedPath = context.getRealPath("petfile");
+		File storedFolder = new File(storedPath);
+		if( !storedFolder.exists() ) {
+			storedFolder.mkdir();
+		}
+		
+		// 파일이 저장될 이름
+		String originName = petFile.getOriginalFilename();
+
+		
+		// 저장될 파일 정보 객체
+		File dest = null;
+		
+		String storedName = null;
+		
+		//저장된 파일이름 중복을 방지하는 로직임
+		do {
+		
+			storedName = UUID.randomUUID().toString().split("-")[0];
+			
+			dest = new File(storedFolder, storedName);
+			
+		}while(dest.exists());
+		
+		
+		try {
+			petFile.transferTo(dest);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		PetFile file = new PetFile();
+		
+		file.setPetNo( pet.getPetNo()  );
+		file.setOriginName(originName);
+		file.setStoredName(storedName);
+		file.setFileSize(petFile.getSize());
+		
+		
+		
+		PetFile dfile =  (PetFile)memberDao.selectPetFileByPet(pet);
+		
+
+	
+		logger.info("pet: {}", pet);
+		memberDao.updatePet(pet);
+		
+		
+		if(petFile.getSize() != 0) {
+		
+		memberDao.deletePetfile(pet);
+		
+		memberDao.insertPetfile(file);
+		}
+		
+		return 0;
+	}
 }
