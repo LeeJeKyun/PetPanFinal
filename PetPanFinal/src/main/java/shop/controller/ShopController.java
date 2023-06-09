@@ -62,34 +62,46 @@ public class ShopController {
 		
 		model.addAttribute("view", view);
 		
-		basket.setUserno((int)session.getAttribute("userno"));
+		//비로그인 확인
+		Object checkLogin = session.getAttribute("userno");
 		
-		//장바구니 담기
-		shopService.insertBasket(basket);
-		
-		//장바구니 보여주기
-		List<Map<String, Object>> list = shopService.selectBasket(basket);
-		
-		Member member = shopService.memberShop(basket);
-		
-		model.addAttribute("list", list);
-		model.addAttribute("member", member);
+		//로그인상태일때 장바구니 보이게하기
+		if(checkLogin != null) {
+			
+			int userno = (int)checkLogin;
+			basket.setUserno(userno);
+			
+			//장바구니 담기
+			shopService.insertBasket(basket);
+			
+			//장바구니 보여주기
+			List<Map<String, Object>> list = shopService.selectBasket(basket);
+			
+			Member member = shopService.memberShop(basket);
+			
+			model.addAttribute("list", list);
+			model.addAttribute("member", member);
+			model.addAttribute("login", true);
+			
+		}
 		
 		//상품 사진
 		List<ShopFile> file = shopService.shopfile(basket);
 		model.addAttribute("file", file);
-		System.out.println("파일 : " + file); 
 
 		//---- 리뷰 ----
-		paging = shopService.reviewPaging(curPage);
 		review.setObjectno(shop.getObjectno());
 
 		int checkReview = shopService.cntReview(review);
 		
+		//리뷰가 있을때
 		if(checkReview > 0) {
 			
-			List<Review> reviewList= shopService.reviewList(review);
+			//리뷰 리스트
+			List<Map<String, Object>> reviewList= shopService.reviewList(review);
 			
+			//리뷰 사진
+			System.out.println(review);
 			Map<Integer, List> FileList = shopService.ReviewfileList(review);
 			
 			model.addAttribute("reviewList", reviewList);
@@ -117,8 +129,6 @@ public class ShopController {
 		
 		Member member = shopService.memberShop(basket);
 		
-		System.out.println("리스트 : " + list);
-		
 		model.addAttribute("list", list);
 		model.addAttribute("member", member);	
 	}
@@ -134,8 +144,10 @@ public class ShopController {
 		
 		basket.setUserno((int)session.getAttribute("userno"));
 		
+		//바로 구매 누르면 장바구니 자동 등록
 		shopService.insertBasket(basket);
 		
+		//구매전 장바구니 확인 
 		List<Map<String,Object>> list = shopService.selectBasket(basket);
 		model.addAttribute("list", list);
 		
@@ -151,21 +163,28 @@ public class ShopController {
 		
 		int userno = (int)session.getAttribute("userno");
 		basket.setUserno((int)session.getAttribute("userno"));
+		
+		//구매전 장바구니 확인
 		List<Map<String,Object>> list = shopService.selectBasket(basket);
 		
+		//구매내역
 		shopService.insertOrder(list);
+		//구매후 장바구니 삭제
 		shopService.buyDeleteBasket(userno);
 		
 		return "redirect:/shop/main";
 	}
 	
+	//shop 상세정보에서 장바구니 삭제
 	@GetMapping("/delete")
 	public String deletePost(Basket basket, HttpSession session, Model model) {
 		
 		basket.setUserno((int)session.getAttribute("userno"));
 		
+		//장바구니 삭제
 		shopService.deleteBasket(basket);
 		
+		//장바구니 삭제 후 장바구니 보여주기
 		List<Map<String, Object>> list = shopService.selectBasket(basket);
 
 		Member member = shopService.memberShop(basket);
@@ -175,11 +194,12 @@ public class ShopController {
 		
 		return "forward:basket";
 	}
+	
+	//장바구니 삭제
 	@GetMapping("/deleteBasket")
 	public String deleteBasket(Basket basket, HttpSession session, Model model) {
-		
+
 		basket.setUserno((int)session.getAttribute("userno"));
-		
 		shopService.deleteBasket(basket);
 		
 		List<Map<String, Object>> list = shopService.selectBasket(basket);
@@ -214,6 +234,7 @@ public class ShopController {
 		
 		orderUser.setUserno((int)session.getAttribute("userno"));
 		
+		//구매내역
 		List<Map<String, Object>> list = shopService.orderList(orderUser);
 
 		model.addAttribute("list", list);
@@ -240,6 +261,7 @@ public class ShopController {
 			return "redirect:/shop/main";
 		}
 		
+		//리뷰쓰기
 		shopService.writeReview(fileList, review, no, orderUser);
 		
 		return "redirect:/shop/main";
