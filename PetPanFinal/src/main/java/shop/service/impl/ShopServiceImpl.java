@@ -43,6 +43,7 @@ public class ShopServiceImpl implements ShopService{
 	@Override
 	public ShopPaging getpaging(int curPage, String search) {
 		
+		//게시글 총 갯수
 		int total = shopDao.countShop(search);
 		
 		ShopPaging paging = new ShopPaging(total, curPage);
@@ -54,6 +55,7 @@ public class ShopServiceImpl implements ShopService{
 	@Override
 	public List<Shop> shoplist(ShopPaging paging) {
 
+		//페이징 된 쇼핑 메인페이지 리스트
 		List<Shop> list = shopDao.selectAll(paging);
 		
 		return list;
@@ -62,9 +64,18 @@ public class ShopServiceImpl implements ShopService{
 	@Override
 	public Shop view(Shop shop) {
 
+		//쇼핑 상세페이지
 		Shop view = shopDao.selectByObjno(shop);
 		
 		return view;
+	}
+	
+	public List<ShopFile> shopfile(Basket basket){
+		
+		//상품 사진
+		List<ShopFile> list = shopDao.shopfile(basket);
+		
+		return list;
 	}
 	
 	@Override
@@ -72,13 +83,17 @@ public class ShopServiceImpl implements ShopService{
 		
 		if(basket.getQuantity() <= 0) {
 			return;
+			//물건 개수가 없으면 리턴
 		} else {
 			
+			//기존 장바구니 확인
 			int cnt = shopDao.checkBasket(basket);
 			
 			if(cnt <= 0) {
+				//기존 장바구니 없으면 insert
 				shopDao.insertBasket(basket);
 			}else {
+				//기존 장바구니 없으면 update
 				shopDao.updateBasket(basket);
 			}
 		}
@@ -87,34 +102,24 @@ public class ShopServiceImpl implements ShopService{
 	@Override
 	public List<Map<String,Object>> selectBasket(Basket basket) {
 		
+		//장바구니 보여주기
 		List<Map<String,Object>> list = shopDao.selectBasket(basket);
 		
 		return list;
 	}
 	
-	@Override
-	public List<Basket> newBasket(Basket basket) {
-		
-		List<Basket> list = shopDao.basket(basket);
-		
-		return list; 
-	}
 	
-	public List<ShopFile> shopfile(Basket basket){
-		
-		List<ShopFile> list = shopDao.shopfile(basket);
-		
-		return list;
-	}
 	
 	@Override
 	public Member memberShop(Basket basket) {
 		
+		//장바구니 담은 유저 정보
 		return shopDao.memberShop(basket);
 	}
 	
 	@Override
 	public void insertOrder(List<Map<String, Object>> list) {
+		//구매내역
 		
 		OrderUser orderUser = new OrderUser();
 		OrderThing orderThing = new OrderThing();
@@ -152,6 +157,7 @@ public class ShopServiceImpl implements ShopService{
 			orderThing.setQuantity(quantity);
 			orderThing.setObjectno(objectno);
 			
+			//
 			shopDao.insertOrderUser(orderUser);
 			shopDao.insertOrderThing(orderThing);
 			
@@ -177,19 +183,9 @@ public class ShopServiceImpl implements ShopService{
 	}
 	
 	@Override
-	public ReviewPaging reviewPaging(int curPage) {
+	public List<Map<String, Object>> reviewList(Review review) {
 		
-		int total = shopDao.countReview();
-		
-		ReviewPaging paging = new ReviewPaging(total, curPage);
-		
-		return paging;
-	}
-
-	@Override
-	public List<Review> reviewList(Review review) {
-		
-		List<Review> list = shopDao.reviewList(review);
+		List<Map<String, Object>> list = shopDao.reviewList(review);
 			
 		return list;
 	}
@@ -300,6 +296,6 @@ public class ShopServiceImpl implements ShopService{
 		shopDao.insertReport(reportObject);
 		
 	}
-	
+
 	
 }
