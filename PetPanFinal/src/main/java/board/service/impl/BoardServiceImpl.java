@@ -22,6 +22,7 @@ import board.dto.BoardFile;
 import board.dto.BoardRecommend;
 import board.dto.Comment;
 import board.dto.Hospital;
+import board.dto.HospitalFile;
 import board.dto.Notice;
 import board.dto.NoticeFile;
 import board.dto.ReportBoard;
@@ -791,6 +792,20 @@ public class BoardServiceImpl implements BoardService{
 		}
 		
 		return null; 
+	}
+
+	@Override
+	public void modifyHospitalInfo(Hospital hospital, MultipartFile file) {
+
+		HospitalFile hf = new HospitalFile();
+		
+		boardDao.updateHospitalInfo(hospital);
+		
+		if(file != null) {
+			boardDao.deleteHospitalFile(0);
+			hf.setFileSize((int)file.getSize());
+			boardDao.insertHospitalFile(null);
+		}
 	}
 	
 }

@@ -640,4 +640,15 @@ where rnum BETWEEN #{startNo} AND #{endNo}
 				and hospital.hospitalno = #{hospitalNo}
 				and hospital.userno = member.userno
 	</select>
+	<update id="updateHospitalInfo" parameterType="board.dto.Hospital">
+		update hospital
+		set hospitalName = #{hospitalName}
+            , open = #{open}
+            , close = #{close}
+            , mammalia = #{mammalia}
+            , rodent = #{rodent}
+            , birds = #{birds}
+            , reptile  = #{reptile}
+		where userno = #{userNo} 
+	</update>
 </mapper>

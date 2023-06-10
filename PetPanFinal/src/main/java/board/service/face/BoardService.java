@@ -376,5 +376,12 @@ public interface BoardService {
 	 */
 	public Map<String, Object> getHospitalInfo(int boardNo, Integer userNo);
 
+	/**
+	 * 병원 정보 수정
+	 * @param hospital 수정할 병원 정보 객체
+	 * @param file 수정할 파일
+	 */
+	public void modifyHospitalInfo(board.dto.Hospital hospital, MultipartFile file);
+
 
 }

@@ -8,16 +8,23 @@
 
 <script type="text/javascript">
 $(function() {
-	if(${map.USERNO == null}){
+	if(${map == null}){
+		alert("정상적인 접근이 아닙니다.")
 		location.href = "./list"
 	}
+	//time 속성 24시간으로 변경
+	$('.timepicker').timepicker({
+            timeFormat: 'HH:mm',
+            interval: 30,
+            dynamic: false,
+            dropdown: true,
+            scrollbar: true
+    });
 	$("#input-files").append("<tr class = 'file-line' data-no = '-1'>"
 			+ "<td><input type = 'hidden' data-no = '-1' name = 'no' value = '-1'></td"
 			+ "<td><span class = 'file-name'>${map.ORIGINNAME}</span></td>" 
 			+ "<td class = 'xFile' data-no = '-1'> x</td>" 
 			+ "</td>")
-	
-			
 			
 	$(".select .yn").on("click", function() {
 		if( $(this).is(":checked") ) {
@@ -29,6 +36,22 @@ $(function() {
 		}
 	})
 	
+	if( ${map.MAMMALIA == 'y'}){
+		console.log("mammalia")
+		$("input[name='mammalia']").attr("checked", true);
+	}		
+	if( ${map.REPTILE == 'y'}){
+		console.log("reptile")
+		$("input[name='reptile']").attr("checked", true);
+	}		
+	if( ${map.BIRDS == 'y'}){
+		console.log("birds")
+		$("input[name='birds']").attr("checked", true);
+	}		
+	if( ${map.RODENT == 'y'}){
+		console.log("rodent")
+		$("input[name='rodent']").attr("checked", true);
+	}	
 	// 파일 삭제, -1로 value 변경
 	$(document).on("click", ".xFile", function(){ 
 		console.log("xFile clicked")
@@ -152,6 +175,8 @@ input{
 
 table{
 	 border-collapse: collapse;
+	 width: 330px;
+	 margin: 0 auto;
 }
 tr:hover{
 	background-color: #ccc;
@@ -161,8 +186,9 @@ tr:hover{
 	
 }
 .file-name{
-	width:700px;
+	width:330px;
 	display:  inline-block;
+	text-align: left;
 }
 </style>
 
@@ -183,8 +209,8 @@ tr:hover{
    <div class="time">
       <label for="code">영업시간</label>
       
-       <input type="text"  id="open" name="open" value = "${map.OPEN }">  <label style="color: #FF5050; font-size: small;">~ </label>
-       <input type="text"  id="close" name="close" value = "${map.CLOSE }">
+       <input type="time"  id="open" class = "timepicker" name="open" value = "${map.OPEN }">  <label style="color: #FF5050; font-size: small;">~ </label>
+       <input type="time"  id="close" class = "timepicker" name="close" value = "${map.CLOSE }">
    </div><!-- time -->
 	
 <!-- <label style="color: #FF5050; font-size: small;">오전 : </label> -->
@@ -215,7 +241,7 @@ tr:hover{
 	
    <div class="select">
       <button type = "submit" class="btn">변경하기</button>
-      <button type = "button" class = "btn">취소하기</button>
+      <button type = "button" onclick = "location.href='./list'" class = "btn">취소하기</button>
    </div><!-- select -->
 
 </form>
