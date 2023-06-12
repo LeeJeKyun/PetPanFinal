@@ -227,12 +227,12 @@ a {
 </div>
 
 
-<aside style="position: fixed; right: 235px; width: 75px; height: 85px; bottom: 100px; cursor: pointer;">
+<div style="position: fixed; right: 235px; width: 75px; height: 85px; bottom: 100px; cursor: pointer; background-color: #fcfcfc; z-index: 1000;">
 	<a href="#header">∧<br>
 		위로
 	</a><br><br>
 	<a href="<%=request.getContextPath() %>/message/message/list">내 쪽지함</a>
-</aside>
+</div>
 
 
 
