@@ -385,17 +385,22 @@
 	</select>
 	<select id="selectComments" parameterType="map" resultType="map">
 		select * from(
-   			select * from(
-        		select DENSE_RANK() OVER(order by organization) AS cnt
-                    ,commentno, content, write_date AS writeDate, member.userNo, depth, member.username
-                    , organization
-                    , sortno
-        		from commenttable, member
-        		where boardNo = #{boardNo} and member.userno = commenttable.userno
-        		order by organization, sortno
-    			)
-    		order by cnt desc, sortno
-		)    
+			select B.* 
+                ,(select count(*) 
+                    from comrecommend C
+                    where commentNo = B.commentNo) AS isrecommend
+        	from(
+      			select DENSE_RANK() OVER(order by organization) AS cnt
+                  ,commentno, content, write_date AS writeDate, member.userNo, depth, member.username
+                  , organization
+                  , sortno
+                  
+      			from commenttable, member 
+      			where boardNo = #{boardNo} and member.userno = commenttable.userno
+      			order by organization, sortno
+  			)B
+  		order by cnt desc, sortno
+		)      
 <!-- 		where cnt between #{min} and #{max} -->
 	</select>
 	<select id="selectMaxCommentNo" resultType="int">
@@ -651,4 +656,23 @@ where rnum BETWEEN #{startNo} AND #{endNo}
             , reptile  = #{reptile}
 		where userno = #{userNo} 
 	</update>
+	<select id="selectIsComReco" parameterType="map" resultType="integer">
+		select count(*)
+		from comrecommend
+		where userNo = #{userNo} and commentNo = #{commentNo}
+	</select>
+	<delete id="delComReco" parameterType="map">
+		delete
+		from comrecommend
+		where userNo = #{userNo} and commentNo = #{commentNo}
+	</delete>
+	<insert id="plusComReco" parameterType="map">
+		insert into comrecommend(comrecomno, commentNo, userNo)
+		values(seq_comrecommend.nextval, #{commentNo}, #{userNo})
+	</insert>
+	<select id="selectCommentCntReco" parameterType="int" resultType="int">
+		select count(*)
+		from comrecommend
+		where commentNo = #{commentNo}
+	</select>
 </mapper>

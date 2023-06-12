@@ -48,7 +48,7 @@ table{
 .comment{
 	width: 800px;
 	margin-top: 20px;
-/* 	background-color: #ccc; */
+/*  	background-color: #ccc;  */
 	padding-bottom: 20px;
 }
 .left-side{
@@ -148,6 +148,9 @@ table{
 	font-size: 0.6em;
 	text-decoration: underline; 
 	color: black;
+}
+.comment-heart{
+	cursor: pointer;
 }
 </style>
 <script type="text/javascript">
@@ -289,6 +292,68 @@ function writeComment(commentNo){
 			console.log("댓글 ajax 실패");
 		}
 	})
+}
+//댓글 좋아요
+function commentLike(commentNo, status){
+    	
+   	console.log("comment heart clicked");
+   	console.log("comment heart " + commentNo);
+   	
+   	console.log($(".comment-heart[data-index='" + status + "']"))
+
+   	var $div = $(".comment-like-area[data-index='" + status +"']")
+   	console.log($div)
+   	var userno = '<%=session.getAttribute("userno")%>';
+
+    if(userno=="null"){ 
+      	alert("로그인을 해주세요.")
+		return;
+	}
+       
+    $.ajax({
+    	type : "get"
+    	, url : "./comment/like"
+    	, data :{
+    		commentNo: commentNo
+    	}
+    	, dataType : "json"
+    	, success : function(data){
+    		console.log("댓글 좋아요 ajax 성공")
+    		console.log(data)
+    		console.log(data.flag)
+    		console.log(data.count)
+    		
+    		commentLikeChange(data, $div, status, commentNo)
+    	}
+    	, error : function(){
+    		console.log("댓글 좋아요 ajax 실패")
+    	}
+    })	
+}
+//댓글 좋아요 추가/취소
+function commentLikeChange(data, $div, c, commentNo){
+	console.log($div)
+	console.log("댓글 좋아요 추가/취소")
+	var html;
+	if(data.flag){
+		html = "<div style = 'display: inline-block'>";
+		html +=			"<img class = 'comment-heart'" ;
+		html +=			"onclick = 'commentLike(" + commentNo +"," + c +")'"; 
+		html +=			"alt='좋아요'" ;
+		html +=			"src='<%=request.getContextPath()%>/resources/img/fillheart.png'>";
+		html +=	"</div>";
+		
+	}else{
+		html = "<div style = 'display: inline-block'>";
+		html +=			"<img class = 'comment-heart'" ;
+		html +=			"onclick = 'commentLike(" + commentNo +"," + c +")'"; 
+		html +=			"alt='좋아요'" ;
+		html +=			"src='<%=request.getContextPath()%>/resources/img/emptyheart.png'>";
+		html +=	"</div>";
+		
+	}
+	html += "<div style = 'display: inline-block'><span>" + data.count + "</span></div>"
+	$div.html(html)
 }
 //댓글 삭제
 function deleteComment(commentNo){

@@ -807,5 +807,31 @@ public class BoardServiceImpl implements BoardService{
 			boardDao.insertHospitalFile(null);
 		}
 	}
+
+	@Override
+	public boolean commentRecommend(int userNo, int commentNo) {
+		boolean flag = false;
+		Map<String, Integer> map = new HashMap<>();
+		map.put("userNo", userNo);
+		map.put("commentNo", commentNo);
+		
+		logger.info("{}", map);
+		
+		if(boardDao.selectIsComReco(map) > 0) { //이미 추천되어 있음
+			logger.info("추천 취소");
+			boardDao.delComReco(map);
+		}else { //추천이 안되어 있음
+			logger.info("추천 추가");
+			boardDao.plusComReco(map);
+			flag = true;
+		}
+		return flag;
+	}
+
+	@Override
+	public int countCommentReco(int commentNo) {
+		
+		return boardDao.selectCommentCntReco(commentNo);
+	}
 	
 }

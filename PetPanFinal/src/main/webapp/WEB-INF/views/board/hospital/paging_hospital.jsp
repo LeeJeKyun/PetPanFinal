@@ -47,56 +47,38 @@ a{
 	<ul class = "ul">
 		<!-- 처음으로 이동 -->
 		<c:if test="${paging.curPage ne 1 }">
-<<<<<<< HEAD
 			<li class = "startPage li"><a href = "./list?curPage=1&search=${paging.search}&mammalia=${paging.mammalia}&rodent=${paging.rodent}&reptile=${paging.reptile}&birds=${paging.birds}">처음</a></li>
-=======
 			<li class = "startPage li"><a href = "./list?curPage=1&search=${paging.search}&rodent=${paging.rodent}&reptile=${paging.reptile}&birds=${paging.birds}&mammalia=${paging.mammalia}">처음</a></li>
->>>>>>> refs/remotes/origin/master
 		</c:if>
 		
 		<!-- 왼쪽으로 한 페이지 이동 -->
 		<c:if test="${paging.curPage  gt 1 }">
-<<<<<<< HEAD
 			<li class = "li"><a href = "./list?curPage=${paging.curPage-1 }&search=${paging.search}&mammalia=${paging.mammalia}&rodent=${paging.rodent}&reptile=${paging.reptile}&birds=${paging.birds}">&#60;</a></li>
-=======
 			<li class = "li"><a href = "./list?curPage=${paging.curPage-1 }&search=${paging.search}&rodent=${paging.rodent}&reptile=${paging.reptile}&birds=${paging.birds}&mammalia=${paging.mammalia}">&#60;</a></li>
->>>>>>> refs/remotes/origin/master
 		</c:if>
 		
 		<c:forEach var = "i"  begin = "${paging.startPage }" end = "${paging.endPage }">
 <%-- 		<c:forEach var = "i" begin = "1" end = "10"> --%>
 			<c:if test="${paging.curPage eq i }">
-<<<<<<< HEAD
 				<li class = "colorBox li"><a href = "./list?curPage=${i }&search=${paging.search}&mammalia=${paging.mammalia}&rodent=${paging.rodent}&reptile=${paging.reptile}&birds=${paging.birds}">${i }</a></li>
-=======
 				<li class = "colorBox li"><a href = "./list?curPage=${i }&search=${paging.search}&rodent=${paging.rodent}&reptile=${paging.reptile}&birds=${paging.birds}&mammalia=${paging.mammalia}">${i }</a></li>
->>>>>>> refs/remotes/origin/master
 			</c:if>
 			<c:if test="${paging.curPage ne i }">
-<<<<<<< HEAD
 				<li class = "li"><a href = "./list?curPage=${i }&search=${paging.search}&mammalia=${paging.mammalia}&rodent=${paging.rodent}&reptile=${paging.reptile}&birds=${paging.birds}">${i }</a></li>
-=======
 				<li class = "li"><a href = "./list?curPage=${i }&search=${paging.search}&rodent=${paging.rodent}&reptile=${paging.reptile}&birds=${paging.birds}&mammalia=${paging.mammalia}">${i }</a></li>
->>>>>>> refs/remotes/origin/master
 			</c:if>
 		</c:forEach>
 		<!-- 오른쪽 페이지로 한 페이지 이동 -->
 		<c:if test="${paging.curPage  lt paging.totalPage}">
-<<<<<<< HEAD
 			<li class = "li"><a href = "./list?curPage=${paging.curPage+1 }&search=${paging.search}&mammalia=${paging.mammalia}&rodent=${paging.rodent}&reptile=${paging.reptile}&birds=${paging.birds}">&#62;</a></li>
-=======
 			<li class = "li"><a href = "./list?curPage=${paging.curPage+1 }&search=${paging.search}&rodent=${paging.rodent}&reptile=${paging.reptile}&birds=${paging.birds}&mammalia=${paging.mammalia}">&#62;</a></li>
->>>>>>> refs/remotes/origin/master
 		</c:if>
 		
 		<!-- 마지막 페이지로 이동 -->
 		<c:if test="${paging.curPage lt paging.totalPage}">
 
-<<<<<<< HEAD
 			<li class = "endPage li"><a href = "./list?curPage=${paging.totalPage }&search=${paging.search}&mammalia=${paging.mammalia}&rodent=${paging.rodent}&reptile=${paging.reptile}&birds=${paging.birds}">마지막</a></li>
-=======
 			<li class = "endPage li"><a href = "./list?curPage=${paging.totalPage }&search=${paging.search}&rodent=${paging.rodent}&reptile=${paging.reptile}&birds=${paging.birds}&mammalia=${paging.mammalia}">마지막</a></li>
->>>>>>> refs/remotes/origin/master
 		</c:if>
 	</ul>
 </div>

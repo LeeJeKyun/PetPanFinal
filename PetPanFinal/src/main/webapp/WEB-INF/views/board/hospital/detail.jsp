@@ -115,7 +115,7 @@
 <script type="text/javascript">
 $(function(){
 	let today = new Date();   
-
+	
 	console.log("new Date : " + today.getHours());
 	console.log("new Date : " + today.getMinutes());
 	
@@ -126,11 +126,21 @@ $(function(){
 	var closeHour = "${map.CLOSE}".substring(0, 2);
 	var closeMin = "${map.CLOSE}".substring(3, 5);
 	
-	if(openHour < curHour && openMin < curMin && closeHour > curHour && closeMin > curMin){
+	curTime = curHour * 60 + curMin;
+	openTime = openHour * 60 + openMin * 1; //문자라 00을 문자로 더함 * 1로 숫자로 변환
+	closeTime = closeHour * 60 + closeMin * 1;
+	
+	console.log(curTime)
+	console.log(openTime)
+	console.log(closeTime)
+	
+	if(openTime < curTime && closeTime > curTime){
+		
 		//영업중
 		console.log("영업중")
 		$("#isClosed").html("영업중")
 		$("#isClosed").css("color", "green")
+		
 	}else{
 		console.log("닫음")
 		$("#isClosed").html("영업 종료")

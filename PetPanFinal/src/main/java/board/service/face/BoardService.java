@@ -383,5 +383,19 @@ public interface BoardService {
 	 */
 	public void modifyHospitalInfo(board.dto.Hospital hospital, MultipartFile file);
 
+	/**
+	 * 댓글 추천 돼있으면 취소 안돼있으면 추가
+	 * @param userNo 추천하는 userNo
+	 * @param commentNo 추천할 댓글번호
+	 */
+	public boolean commentRecommend(int userNo, int commentNo);
+
+	/**
+	 * 댓글의 추천수 가져오기
+	 * @param commentNo
+	 * @return 추천 개수
+	 */
+	public int countCommentReco(int commentNo);
+
 
 }
