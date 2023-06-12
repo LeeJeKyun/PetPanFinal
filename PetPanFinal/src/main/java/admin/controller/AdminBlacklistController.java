@@ -77,7 +77,9 @@ public class AdminBlacklistController {
 	}
 	
 	@GetMapping("/blacklist/insert")
-	public void blacklistinsert() {		
+	public void blacklistinsert(int userno, Model model) {
+		
+		model.addAttribute("userno",userno);
 		
 	}
 	

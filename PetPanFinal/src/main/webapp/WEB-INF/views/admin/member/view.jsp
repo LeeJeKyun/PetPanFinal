@@ -34,6 +34,8 @@
 		</table>
 		<a href = "./update?userno=${member.userNo}"><button class = "btn btn-primary">정보 수정</button></a>
 		<a href = "./list"><button class = "btn btn-primary">멤버 리스트</button></a>
+		<a href = "../blacklist/insert?userno=${member.userNo}"><button class = "btn btn-danger">블랙</button></a>
+		
 		
 </div>
 </body>
