@@ -18,7 +18,7 @@
 	
 			<tr>
 				<th>유저 번호</th>
-				<td><input type="text" name = "userno"></td>
+				<td><input type="text" name = "userno" value="${userno}"></td>
 			</tr>
 			
 			<tr>

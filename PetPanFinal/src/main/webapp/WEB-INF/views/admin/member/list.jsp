@@ -7,11 +7,11 @@
 
 <c:import url="../../layout/adminHeader.jsp"/>
 
- <form action="./search" method="get">
+ <form action="./list" method="get">
 <div >
 	<table style="margin-top : 100px; margin-left : 400px;">
 		<tr>
-			<td><button class ="btn btn-primary" >검색</button></td><td><input class = "form-control" type="text" name = "keyword" placeholder="유저이름검색" ></td>
+			<td><button class ="btn btn-primary" >검색</button></td><td><input class = "form-control" type="text" name = "search" placeholder="유저이름검색" value="${paging.search}" ></td>
 		</tr>
 	</table>
 </div>
