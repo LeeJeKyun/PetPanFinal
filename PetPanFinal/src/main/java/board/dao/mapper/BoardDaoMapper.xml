@@ -114,8 +114,13 @@
 		VALUES ( #{commentNo}, #{content}, current_date, #{boardNo}, #{userNo}, #{depth}, #{organization}, #{sortNo}, 0 )
 	</insert>
 	
-	<select id="selectCommentByBoardno" parameterType="int" resultType="hashmap">
-		SELECT c.*, userid, m.userno FROM commenttable c, member m
+	<select id="selectCommentByBoardno" parameterType="hashmap" resultType="hashmap">
+		SELECT c.*, userid, m.userno
+			,(SELECT count(*) FROM comrecommend cr WHERE cr.commentno = c.commentno) reccnt 
+			<if test="userNo != 0">
+				, (SELECT count(*) FROM comrecommend cr WHERE cr.userno = #{userNo} AND c.commentno = cr.commentno ) AS isrec
+			</if>
+		FROM commenttable c, member m
 		WHERE boardno = #{boardno} AND m.userno = c.userno
 		ORDER BY organization DESC, sortno
 	</select>
@@ -228,6 +233,26 @@
 		INSERT INTO reportcomment (coreportno, reportdetail, report_date, complete, userno, commentno)
 		VALUES (seq_reportcomment.nextval, #{reportDetail}, current_date, 'N', #{userNo}, #{commentNo} )
 	</insert>
+	
+	<insert id="insertComRecommend" parameterType="hashmap">
+		INSERT INTO comrecommend(comrecomno, commentno, userno)
+		VALUES (seq_comrecommend.nextval, #{commentNo}, #{userNo})
+	</insert>
+	
+	<select id="selectCtnComRecommend" parameterType="int" resultType="int">
+		SELECT count(*) FROM comrecommend
+		WHERE commentno = #{commentNo}
+	</select>
+	
+	<select id="selectCNTRecommendedCom" parameterType="hashmap" resultType="int">
+		SELECT count(*) FROM comrecommend
+		WHERE commentno = #{commentNo} AND userno = #{userNo}
+	</select>
+	
+	<delete id="deleteComRecommend" parameterType="hashmap">
+		DELETE comrecommend
+		WHERE commentno = #{commentNo} AND userno = #{userNo}
+	</delete>
 	
 	<!-- ===============================제균=============================== -->
 	

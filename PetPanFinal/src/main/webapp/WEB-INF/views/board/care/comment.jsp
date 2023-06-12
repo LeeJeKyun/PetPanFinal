@@ -9,7 +9,17 @@
 			
 			<table style="border: 1px solid #fff; margin-bottom: 20px;" class="comment">
 				<tr>
-					<td>${comment.USERID} <small>(<fmt:formatDate value="${comment.WRITE_DATE }" pattern="yyyy.MM.dd"/>)</small> <small style="cursor: pointer; font-size: 10px;" onclick="showComCom(${comment.COMMENTNO})">답글달기</small></td>
+					<td>${comment.USERID} <small>(<fmt:formatDate value="${comment.WRITE_DATE }" pattern="yyyy.MM.dd"/>)</small> <small style="cursor: pointer; font-size: 10px;" onclick="showComCom(${comment.COMMENTNO})">답글달기</small> 
+						<c:if test="${comment.ISREC eq 1}">
+						<img class="displayNone" id="comemptyHeart${comment.COMMENTNO }" style="cursor: pointer;" width="15px" height="15px" alt="추천하기" src="<%=request.getContextPath() %>/resources/img/emptyheart.png" onclick="comRecommend(${comment.COMMENTNO}, event)">
+						<img id="comfillHeart${comment.COMMENTNO }" style="cursor: pointer;" width="15px" height="15px" alt="추천하기" src="<%=request.getContextPath() %>/resources/img/fillheart.png" onclick="comRecommend(${comment.COMMENTNO}, event)">
+						</c:if>
+						<c:if test="${comment.ISREC eq 0 || empty comment.ISREC }">
+						<img id="comemptyHeart${comment.COMMENTNO }" style="cursor: pointer;" width="15px" height="15px" alt="추천하기" src="<%=request.getContextPath() %>/resources/img/emptyheart.png" onclick="comRecommend(${comment.COMMENTNO}, event)">
+						<img class="displayNone" id="comfillHeart${comment.COMMENTNO }" style="cursor: pointer;" width="15px" height="15px" alt="추천하기" src="<%=request.getContextPath() %>/resources/img/fillheart.png" onclick="comRecommend(${comment.COMMENTNO}, event)">
+						</c:if>
+						<small id="comrec${comment.COMMENTNO }">${comment.RECCNT }</small>
+					</td>
 					<td style="text-align: right; width:35px;">
 						<c:if test="${comment.USERNO eq userno }">
 							<span style="color: #555; cursor: pointer; font-size: 11px;" onclick="deleteComment(${comment.COMMENTNO})" >
@@ -40,7 +50,17 @@
 			<hr>
 			<table style="border: 1px solid #fff; margin-bottom: 20px; width: 780px;" class="Comcomment">
 				<tr>
-					<td>↳ ${comment.USERID} <small>(<fmt:formatDate value="${comment.WRITE_DATE }" pattern="yyyy.MM.dd"/>)</small> <small style="cursor: pointer; font-size: 10px;" onclick="showComCom(${comment.COMMENTNO})">답글달기</small></td>
+					<td>↳ ${comment.USERID} <small>(<fmt:formatDate value="${comment.WRITE_DATE }" pattern="yyyy.MM.dd"/>)</small> <small style="cursor: pointer; font-size: 10px;" onclick="showComCom(${comment.COMMENTNO})">답글달기</small>
+						<c:if test="${comment.ISREC eq 1}">
+							<img class="displayNone" id="comemptyHeart${comment.COMMENTNO }" style="cursor: pointer;" width="15px" height="15px" alt="추천하기" src="<%=request.getContextPath() %>/resources/img/emptyheart.png" onclick="comRecommend(${comment.COMMENTNO}, event)">
+							<img id="comfillHeart${comment.COMMENTNO }" style="cursor: pointer;" width="15px" height="15px" alt="추천하기" src="<%=request.getContextPath() %>/resources/img/fillheart.png" onclick="comRecommend(${comment.COMMENTNO}, event)">
+						</c:if>
+						<c:if test="${comment.ISREC eq 0 || empty comment.ISREC }">
+							<img id="comemptyHeart${comment.COMMENTNO }" style="cursor: pointer;" width="15px" height="15px" alt="추천하기" src="<%=request.getContextPath() %>/resources/img/emptyheart.png" onclick="comRecommend(${comment.COMMENTNO}, event)">
+							<img class="displayNone" id="comfillHeart${comment.COMMENTNO }" style="cursor: pointer;" width="15px" height="15px" alt="추천하기" src="<%=request.getContextPath() %>/resources/img/fillheart.png" onclick="comRecommend(${comment.COMMENTNO}, event)">
+						</c:if>
+						<small id="comrec${comment.COMMENTNO }">${comment.RECCNT }</small>
+					</td>
 					<td style="text-align: right; width:35px;">
 						<c:if test="${comment.USERNO eq userno }">
 							<span style="color: #555; cursor: pointer; font-size: 11px;" onclick="deleteComment(${comment.COMMENTNO})" >
@@ -72,7 +92,17 @@
 			<hr>
 			<table style="border: 1px solid #fff; margin-bottom: 20px; width: 720px;" class="Comcomment">
 				<tr>
-					<td>↳ ${comment.USERID} <small>(<fmt:formatDate value="${comment.WRITE_DATE }" pattern="yyyy.MM.dd"/>)</small></td>
+					<td>↳ ${comment.USERID} <small>(<fmt:formatDate value="${comment.WRITE_DATE }" pattern="yyyy.MM.dd"/>)</small>
+						<c:if test="${comment.ISREC eq 1}">
+							<img class="displayNone" id="comemptyHeart${comment.COMMENTNO }" style="cursor: pointer;" width="15px" height="15px" alt="추천하기" src="<%=request.getContextPath() %>/resources/img/emptyheart.png" onclick="comRecommend(${comment.COMMENTNO}, event)">
+							<img id="comfillHeart${comment.COMMENTNO }" style="cursor: pointer;" width="15px" height="15px" alt="추천하기" src="<%=request.getContextPath() %>/resources/img/fillheart.png" onclick="comRecommend(${comment.COMMENTNO}, event)">
+						</c:if>
+						<c:if test="${comment.ISREC eq 0 || empty comment.ISREC }">
+							<img id="comemptyHeart${comment.COMMENTNO }" style="cursor: pointer;" width="15px" height="15px" alt="추천하기" src="<%=request.getContextPath() %>/resources/img/emptyheart.png" onclick="comRecommend(${comment.COMMENTNO}, event)">
+							<img class="displayNone" id="comfillHeart${comment.COMMENTNO }" style="cursor: pointer;" width="15px" height="15px" alt="추천하기" src="<%=request.getContextPath() %>/resources/img/fillheart.png" onclick="comRecommend(${comment.COMMENTNO}, event)">
+						</c:if>
+						<small id="comrec${comment.COMMENTNO }">${comment.RECCNT }</small>
+					</td>
 					<td style="text-align: right; width:35px;">
 						<c:if test="${comment.USERNO eq userno }">
 							<span style="color: #555; cursor: pointer; font-size: 11px;" onclick="deleteComment(${comment.COMMENTNO})" >

@@ -1,5 +1,6 @@
 package board.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import board.dto.Board;
@@ -127,11 +129,6 @@ public class BoardCareController {
 //		String loginid = null;
 		int userNo = 0;
 		boolean isRecommended = false;
-		List<Map<String, Object>> commentList = boardService.getCommentList(boardNo);
-		
-		for(Map<String,Object> m : commentList) {
-			logger.info("{}", m);
-		}
 		
 		if(session.getAttribute("login") != null) {
 //			loginid = (String)session.getAttribute("loginid");
@@ -145,6 +142,12 @@ public class BoardCareController {
 			double distance = boardService.getDistance(loginMember, writerMember);
 //			logger.info("{}", distance);
 			model.addAttribute("distance", distance * 1000);
+		}
+		
+		List<Map<String, Object>> commentList = boardService.getCommentList(boardNo, userNo);
+
+		for(Map<String,Object> m : commentList) {
+			logger.info("{}", m);
 		}
 		
 		model.addAttribute("map", map);
@@ -200,12 +203,18 @@ public class BoardCareController {
 	@GetMapping("/comment")
 	public void care_view_comment(
 			Comment comment
+			, HttpSession session
 			, Model model
 			) {
 		logger.info("Comment : {}", comment);
 		
+		int userno = 0;
+		if(session.getAttribute("login") != null) {
+			userno = (int)session.getAttribute("userno");
+		}
+		
 		boardService.inputComment(comment);
-		List<Map<String, Object>> commentList = boardService.getCommentList(comment.getBoardNo());
+		List<Map<String, Object>> commentList = boardService.getCommentList(comment.getBoardNo(), userno);
 		
 		for(Map<String, Object> m : commentList) {
 			logger.info("map : {}", m);
@@ -289,19 +298,55 @@ public class BoardCareController {
 	public String care_deleteComment(
 			
 			Comment comment,
+			HttpSession session,
 			Model model
 			
 			) {
 		
 		logger.info("Comment : {}", comment);
 		boardService.deleteCareComment(comment);
-		List<Map<String, Object>> commentList = boardService.getCommentList(comment.getBoardNo());
+		
+		
+		int userno = 0;
+		if(session.getAttribute("login") != null) {
+			userno = (int)session.getAttribute("userno");
+		}
+		
+		List<Map<String, Object>> commentList = boardService.getCommentList(comment.getBoardNo(), userno);
 		
 		model.addAttribute("commentList", commentList);
 		
-		
-		
 		return "/board/care/comment";
+	}
+	
+	@GetMapping("/comRecommend")
+	public @ResponseBody int comRecommend(
+			
+			int commentNo,
+			HttpSession session
+			
+			) {
+		
+		int userno = (int)session.getAttribute("userno");
+		logger.info("{}", commentNo);
+		logger.info("userno : {}", userno);
+		
+		Map<String, Object> map = new HashMap<>();
+
+		map.put("commentNo", commentNo);
+		map.put("userNo", userno);
+		
+		if(!boardService.isRecommendedCom(map)) {
+			logger.info("추천");
+			boardService.commentRecommend(map);
+		} else {
+			logger.info("추천취소");
+			boardService.deleteComRecommend(map);
+		}
+
+		int res = boardService.getComRecommendCount(commentNo);
+		
+		return res;
 	}
 	
 }
