@@ -9,6 +9,7 @@ import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
 import board.dto.Comment;
+import board.dto.Hospital;
 import board.dto.Notice;
 import board.dto.NoticeFile;
 import board.dto.ReportBoard;
@@ -542,6 +543,12 @@ public interface BoardDao {
 	 * @return 병원 정보
 	 */
 	public Map<String, Object> selectHospitalInfoByHospitalNo(int hospitalNo);
+
+	/**
+	 * userNo으로 병원 정보 수정
+	 * @param hospital 수정할 병원 정보
+	 */
+	public void updateHospitalInfo(Hospital hospital);
 
 
 	

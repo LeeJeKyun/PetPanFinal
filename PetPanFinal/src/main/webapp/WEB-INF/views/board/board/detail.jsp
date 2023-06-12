@@ -17,6 +17,7 @@
 	widht: 800px;
  	height: 500px; 
 	padding: 20px;
+	position: relative;
 }
 .font-options{
 	color: #c1c1c1;
@@ -47,7 +48,7 @@ table{
 .comment{
 	width: 800px;
 	margin-top: 20px;
-	background-color: #ccc;
+/* 	background-color: #ccc; */
 	padding-bottom: 20px;
 }
 .left-side{
@@ -118,6 +119,10 @@ table{
 	width: 30px;
 	height: 30px;
 	cursor: pointer;
+}
+#like-area{
+	position: absolute;
+	bottom: 0;
 }
 .comment2-area{
 	width: 780px;

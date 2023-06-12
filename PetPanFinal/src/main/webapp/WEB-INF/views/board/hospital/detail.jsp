@@ -58,6 +58,9 @@
 	background-color: #ffdad7;
 	border-radius: 10px 10px 10px 10px;
 }
+#isClosed{
+	font-size: 0.7em;
+}
 /* 지도 apit */
 .node {
     position: absolute;
@@ -111,6 +114,38 @@
 </style>
 <script type="text/javascript">
 $(function(){
+	let today = new Date();   
+
+	console.log("new Date : " + today.getHours());
+	console.log("new Date : " + today.getMinutes());
+	
+	var curHour = today.getHours();
+	var curMin = today.getMinutes();
+	var openHour = "${map.OPEN}".substring(0, 2);
+	var openMin = "${map.OPEN}".substring(3, 5);
+	var closeHour = "${map.CLOSE}".substring(0, 2);
+	var closeMin = "${map.CLOSE}".substring(3, 5);
+	
+	if(openHour < curHour && openMin < curMin && closeHour > curHour && closeMin > curMin){
+		//영업중
+		console.log("영업중")
+		$("#isClosed").html("영업중")
+		$("#isClosed").css("color", "green")
+	}else{
+		console.log("닫음")
+		$("#isClosed").html("영업 종료")
+		$("#isClosed").css("color", "red")
+		
+	}
+	
+// 	if(${map.OPEN} < now && ${map.CLOSE} > now){
+// 		console.log("영업중")
+// 	}else{
+// 		console.log("닫음")
+		
+// 	}
+	console.log("${map.OPEN}");
+	console.log("${map.CLOSE}");
 	
 	console.log(${map.H_LONGITUDE} + " , " + ${map.H_LATITUDE})
 	console.log('${map.ADDRESS}')
@@ -531,7 +566,7 @@ function MarkerTracker(map, target) {
 	<c:if test="${map.REPTILE eq 'y'}">
 		<span class = "name">파충류</span>
 	</c:if>
-	<div>운영 시간 : ${map.OPEN } ~ ${map.CLOSE }</div>
+	<div>운영 시간 : ${map.OPEN } ~ ${map.CLOSE } <span id = "isClosed"></span></div>
 	<div >&#9742;전화번호 : <span id = "phone"></span></div>
 	<div>이메일 : <span>${map.EMAIL }</span></div>
 	<div>우리집에서 병원까지 거리.. <span class = "gray-font"><fmt:formatNumber value = "${map.distance }" pattern=".0" />km</span></div>
