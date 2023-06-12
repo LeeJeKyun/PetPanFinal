@@ -33,7 +33,7 @@
 <div class="container2">
   <h1>테마별 게시판</h1>
   <div align="right">
-    <a href = "./write"><button type="button" class="btn btn-success" data-theme="1" >공지 등록</button></a>
+    <a href = "./write"><button type="button" class="btn btn-success" data-theme="1" style = "margin-left: 700px">공지 등록</button></a>
    </div>
     
   <div class="btn-group" role="group" aria-label="Themes" >

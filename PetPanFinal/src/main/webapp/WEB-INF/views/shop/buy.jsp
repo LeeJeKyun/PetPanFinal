@@ -218,8 +218,8 @@ function requestPay() {
 
 
 <div class="content_bottom">
-	<button type="submit" class="button" name="pay" onclick="requestPay()">결제하기</button>
-	<a href="./main"><button class="button" name="list" >목록으로</button></a>
+	<button type="submit" class="button" name="pay" onclick="requestPay()" style="cursor: pointer;">결제하기</button>
+	<a href="./main"><button class="button" name="list" style="cursor: pointer;">목록으로</button></a>
 </div>
 <c:import url="../layout/footer.jsp" />
 

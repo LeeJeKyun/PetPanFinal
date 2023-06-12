@@ -91,47 +91,116 @@ public interface ShopDao {
 	
 	/**
 	 * OrderUserNo PK 뽑기
-	 * @return
+	 * @return buyno
 	 */
 	public int buyno();
 	
 	
 	/**
-	 * 
+	 * 구매내역 orderuser DB저장
 	 * @param orderUser
 	 */
 	public void insertOrderUser(OrderUser orderUser);
 
+	
+	/**
+	 * 구매내역 orderthing DB저장
+	 * @param orderThing
+	 */
 	public void insertOrderThing(OrderThing orderThing);
 
+	
+	/**
+	 * 장바구니 삭제
+	 * @param userno - 세션 userno
+	 */
 	public void buyDeleteBasket(int userno);
 
+	
+	/**
+	 * 장바구니 삭제할 basketno 가져오기
+	 * @param basket - userno, objectno
+	 * @return
+	 */
 	public Basket selectDeleteBasket(Basket basket);
 
+	
+	/**
+	 * 장바구니 삭제 
+	 * @param basketno
+	 */
 	public void deleteBasket(int basketno);
 
+	
+	/**
+	 * 리뷰리스트 보여주기
+	 * @param review - objectno
+	 * @return
+	 */
 	public List<Map<String, Object>> reviewList(Review review);
 
+	
+	/**
+	 * 구매내역 보여주기
+	 * @param orderUser - userno
+	 * @return
+	 */
 	public List<Map<String, Object>> orderList(OrderUser orderUser);
 
+	
+	/**
+	 * review PK 뽑기
+	 * @return reviewno
+	 */
+	public int selectNextval();
+	
+	/**
+	 * 리뷰 등록
+	 * @param review
+	 */
 	public void writeReview(Review review);
 
+	
+	/**
+	 * 리뷰 사진 저장
+	 * @param reviewFile
+	 */
 	public void insertShopFile(ReviewFile reviewFile);
 
-	public int selectNextval();
-
-	public List<ReviewFile> fileList(int reviewno);
-
-	public List<Integer> selectReviewNo(Review review);
-
+	
+	/**
+	 * 리뷰쓰면 orderUser테이블 complete 바꾸기
+	 * @param review - buyno
+	 */
+	public void updateC(Review review);
+	
+	
+	/**
+	 * 리뷰가 있는지 확인
+	 * @param review - objectno
+	 * @return
+	 */
 	public int cntReviewno(Review review);
 
-	public void updateC(Review review);
-
 	
+	/**
+	 * objectno으로 reviewno불러오기
+	 * @param review - objectno
+	 * @return - reviewno List
+	 */
+	public List<Integer> selectReviewNo(Review review);
+	
+	
+	/**
+	 * 리뷰마다 파일 가져오기 
+	 * @param reviewno
+	 * @return reviewfile List
+	 */
+	public List<ReviewFile> fileList(int reviewno);
+
 
 	/**
-	 * 상품 신고 db저장
+	 * 상품 신고 DB저장
 	 * @param reportObject - userno objectno reportdetail
 	 */
 	public void insertReport(ReportObject reportObject);

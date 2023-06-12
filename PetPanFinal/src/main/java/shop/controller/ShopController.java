@@ -92,6 +92,7 @@ public class ShopController {
 		//---- 리뷰 ----
 		review.setObjectno(shop.getObjectno());
 
+		//리뷰 있는지 확인
 		int checkReview = shopService.cntReview(review);
 		
 		//리뷰가 있을때
@@ -99,14 +100,11 @@ public class ShopController {
 			
 			//리뷰 리스트
 			List<Map<String, Object>> reviewList= shopService.reviewList(review);
-			
 			//리뷰 사진
-			System.out.println(review);
 			Map<Integer, List> FileList = shopService.ReviewfileList(review);
 			
 			model.addAttribute("reviewList", reviewList);
 			model.addAttribute("filelist", FileList);
-			
 			
 		}
 		
@@ -282,6 +280,7 @@ public class ShopController {
 		
 		logger.info("{}", reportObject);
 		
+		//상품신고
 		shopService.insertReport(reportObject);
 		
 		

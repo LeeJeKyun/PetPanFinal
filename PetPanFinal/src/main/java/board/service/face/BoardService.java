@@ -212,6 +212,13 @@ public interface BoardService {
 	 */
 	public boolean isRecommendedCom(Map<String, Object> map);
 	
+	/**
+	 * 댓글추천을 삭제하는 메소드
+	 * 
+	 * @param map
+	 */
+	public void deleteComRecommend(Map<String, Object> map);
+	
 	//---------------------------제균------------------------------------
 
 	/**
@@ -398,11 +405,26 @@ public interface BoardService {
 	public Map<String, Object> getHospitalInfo(int boardNo, Integer userNo);
 
 	/**
-	 * 댓글추천을 삭제하는 메소드
-	 * 
-	 * @param map
+	 * 병원 정보 수정
+	 * @param hospital 수정할 병원 정보 객체
+	 * @param file 수정할 파일
 	 */
-	public void deleteComRecommend(Map<String, Object> map);
+	public void modifyHospitalInfo(board.dto.Hospital hospital, MultipartFile file);
+
+	/**
+	 * 댓글 추천 돼있으면 취소 안돼있으면 추가
+	 * @param userNo 추천하는 userNo
+	 * @param commentNo 추천할 댓글번호
+	 */
+	public boolean commentRecommend(int userNo, int commentNo);
+
+	/**
+	 * 댓글의 추천수 가져오기
+	 * @param commentNo
+	 * @return 추천 개수
+	 */
+	public int countCommentReco(int commentNo);
+
 
 
 

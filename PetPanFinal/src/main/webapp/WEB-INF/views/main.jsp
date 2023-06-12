@@ -9,6 +9,27 @@
 
 
 <style type="text/css">
+
+.find a {
+	text-decoration: none;
+	color: #606060;
+	font-size:12px;
+}
+
+.find {
+	text-align: center;
+}
+
+.mypage a {
+	text-decoration: none;
+	color: #606060;
+	font-size:12px;
+}
+
+.mypage {
+	text-align: center;
+	padding: 30px 30px 20px;
+}
 .main {
 	float: right;
 	border: 1px solid #ccc;
@@ -25,10 +46,11 @@
 
 #H{
 	text-align: center;
-	margin-top: 50px;
+	margin-top: 40px;
 	color: #FF5050;
 	font-size: 30px;
 	font-weight: 550;
+	margin-bottom: 10px;
 }
 
 #Hot {
@@ -55,7 +77,7 @@
 	width: 600px;
 	height: 50px;
 	text-align: center;
-	margin: 0px 29%;
+	margin-left: 40px;
 }
 
 .bb {
@@ -154,12 +176,6 @@
 	color: #606060;
 }
 
-.select a{
-	color: #606060;
-	font-size:12px;
-	
-}
-
 
 .clearbox {
 	height: 0;
@@ -174,11 +190,34 @@
    border-radius: 7px;
    border-color: #FFDAD7;
    width: 300px;
-   height: 35px;
+   height: 55px;
    
 }
 
+.Nick{
+	font-weight:bold;
+	margin: 0;
+	font-size: 18px;
+}
+
+.email {
+	margin: 5px;
+	font-size: small;
+}
 </style>
+
+
+<style type="text/css">
+
+#hospital {
+	float: left;
+	margin-left: 28%;
+}
+
+	
+
+</style>
+
 
 <script type="text/javascript">
 
@@ -211,58 +250,62 @@ $(function(){
 </div>
 
 
+<div id="hospital">
+	<p id="H">병원 검색</p>
+	<form action="<%=request.getContextPath()%>/board/hospital/list?search=${paging.search}" method="get" >
+	
+	<fieldset id="field">
+<!-- 		<div id="Hdiv"> -->
+	<!-- 	<input type="text" id="search"> -->
+		<input type="text" id="search" name="search"  value = "${paging.search }">
+		<button>검색</button>
+<%-- 		<button><img src="<%=request.getContextPath()%>/resources/member/img/검색.png"  width="35px" height="27px" class="img"></button> --%>
+	<%-- 	<button><img src="<%=request.getContextPath()%>/resources/member/img/검색.png"  width="30px" height="25px" class="img"></a> --%>
+<!-- 		</div> -->
+	</fieldset>
+	
+	</form>
 
-<p id="H">병원 검색</p>
-<form action="<%=request.getContextPath()%>/board/hospital/list?search=${paging.search} method="get" >
-
-<fieldset id="field">
-	<div id="Hdiv">
-<!-- 	<input type="text" id="search"> -->
-	<input type = "text" name = "search"  value = "${paging.search }">
-	<button><img src="<%=request.getContextPath()%>/resources/member/img/검색.png"  width="30px" height="25px" class="img"></button>
-<%-- 	<button><img src="<%=request.getContextPath()%>/resources/member/img/검색.png"  width="30px" height="25px" class="img"></a> --%>
-	</div>
-</fieldset>
-
-</form>
-
+</div>
 
 
 <div class="main">
 
-<!-- userId eq null || email eq null -->
 
 	<c:choose>
 
 
 	<c:when test="${login eq null || login eq false  }">
-	<%-- <h2>세션 상태: ${not empty login}</h2> --%>
 	<button onclick="location.href='/member/login/login'" id="btn">로그인</button>
-	   <div class="select">
+	   <div class="find">
 	      <a href="/member/login/id" >아이디 찾기 | </a>
 	      <a href="/member/login//pw" >비밀번호 찾기 | </a>
 	      <a href="/member/login/join" >회원가입</a>
-	   </div>
-	
+	</div>
 	</c:when>
 
 
 
 
-<c:when test="${login eq true  }">
-<%-- <h2>세션 상태: ${login eq true }</h2> --%>
-
-
-<c:forEach items="${petDetail }" var="petDetail" >
-<img alt=".." src="<%=request.getContextPath()%>/petfile/${petDetail.storedName}" width="90px" height="90px" class="img">
-</c:forEach>
-<%-- <img alt=".." src="<%=request.getContextPath()%>/petfile/${petDetail.storedName}" width="90px" height="90px" class="img"> --%>
-<h3>${detail.userName}님</h3>
-<button onclick="location.href='/admin/main'">관리자페이지</button>
-<button onclick="location.href='/member/mypage/mypage'">마이페이지</button>
-<button onclick="location.href='/member/login/logout'">로그아웃</button>
-</c:when>
-
+	<c:when test="${login eq true  }">
+	<%-- <h2>세션 상태: ${login eq true }</h2> --%>
+	   <div class="mypage">
+	
+	
+	<c:forEach items="${petDetail }" var="petDetail" >
+		<img alt=".." src="<%=request.getContextPath()%>/petfile/${petDetail.storedName}" width="90px" height="90px" class="img">
+	</c:forEach>
+	<p class="Nick">${detail.userNick}님</p>
+	쪽지
+	ㅂ<div>
+	<p class="email">${detail.email}</p>
+	</div>
+	
+<!-- 		<button onclick="location.href='/admin/main'">관리자페이지</button> -->
+		<a href="/member/mypage/mypage">마이페이지 |</a>
+		<a href="/member/login/logout">로그아웃</a>
+	</div>
+	</c:when>
 
 </c:choose>
 
@@ -272,7 +315,7 @@ $(function(){
 
 
 
-
+<div class="clearbox"></div>
 
 
 
@@ -344,14 +387,12 @@ $(function(){
 </div>
 
 
-<hr>
 
 
 <div class="clearbox"></div>
 <div class="clearbox"></div>
 <div class="clearbox"></div>
 
-<hr>
 <div class="hot">
 <p id="Hot">새로 나온 게시글</p>
 

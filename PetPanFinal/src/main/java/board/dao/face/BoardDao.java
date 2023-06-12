@@ -9,6 +9,7 @@ import board.dto.Board;
 import board.dto.BoardFile;
 import board.dto.BoardRecommend;
 import board.dto.Comment;
+import board.dto.Hospital;
 import board.dto.Notice;
 import board.dto.NoticeFile;
 import board.dto.ReportBoard;
@@ -571,6 +572,37 @@ public interface BoardDao {
 	 * @return 병원 정보
 	 */
 	public Map<String, Object> selectHospitalInfoByHospitalNo(int hospitalNo);
+
+	/**
+	 * userNo으로 병원 정보 수정
+	 * @param hospital 수정할 병원 정보
+	 */
+	public void updateHospitalInfo(Hospital hospital);
+
+	/**
+	 * 댓글을 추천했는지 가져오기
+	 * @param map
+	 */
+	public Integer selectIsComReco(Map<String, Integer> map);
+
+	/**
+	 * 추천 취소
+	 * @param map
+	 */
+	public void delComReco(Map<String, Integer> map);
+
+	/**
+	 * 추천 추가
+	 * @param map
+	 */
+	public void plusComReco(Map<String, Integer> map);
+
+	/**
+	 * 댓글의 추천 개수 조회
+	 * @param commentNo
+	 * @return 댓글의 추천 개수 
+	 */
+	public int selectCommentCntReco(int commentNo);
 
 
 	

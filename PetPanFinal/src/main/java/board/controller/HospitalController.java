@@ -1,6 +1,7 @@
 package board.controller;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -127,7 +128,11 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		model.addAttribute("map", map);
 	}
 	@PostMapping("/modifyinfo")
-	public void modifyHospitalInfo() {
+	public void modifyHospitalInfo(Hospital hospital
+									, MultipartFile file
+									, HttpSession session) {
+		hospital.setUserNo((int)session.getAttribute("userno"));
 		
+		boardService.modifyHospitalInfo(hospital, file);
 	}
 }
