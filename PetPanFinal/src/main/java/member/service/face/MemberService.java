@@ -258,6 +258,20 @@ public interface MemberService {
 	 */
 	public Member getMemberInfoByUserid(Member member);
 
+	/**
+	 * 펫 사진 삭제
+	 * 
+	 * @param petFile
+	 */
+	public void deletePetPhoto(PetFile petFile);
+
+	/**
+	 * 펫 정보 삭제
+	 * 
+	 * @param pet
+	 */
+	public void deletePetInfo(Pet pet);
+
 
 
 
