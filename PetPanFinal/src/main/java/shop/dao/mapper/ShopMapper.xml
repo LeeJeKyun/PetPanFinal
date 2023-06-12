@@ -7,7 +7,7 @@
 
 	<select id="countShop" resultType="int" parameterType="String">
 		select count(*) from shop
-		where name like ('%' || #{search} || '%')
+		where name like ('%${search}%')
 	</select>
 	
 	<select id="selectAll" resultType="shop.dto.Shop" parameterType="util.ShopPaging">
@@ -16,7 +16,8 @@
 		        select rownum rnum, B.*
 		        from (
 		            SELECT * FROM shop
-		            where deleteobj = 1
+		            where deleteobj = 1 
+	            	and name like ('%${search}%')
 		            ORDER BY objectno DESC
 		        )B
 		    )
@@ -28,15 +29,15 @@
 		where objectno = #{objectno} 
 	</select>
 	
-	<insert id="insertBasket" parameterType="shop.dto.Basket">
-		insert into basket 
-		values ( seq_basket.nextval, #{quantity}, #{userno}, #{objectno} )
-	</insert>
-	
 	<select id="checkBasket" resultType="int" parameterType="shop.dto.Basket">
 		select count(*) from basket
 		where userno = #{userno} and objectno = #{objectno}
 	</select>
+	
+	<insert id="insertBasket" parameterType="shop.dto.Basket">
+		insert into basket 
+		values ( seq_basket.nextval, #{quantity}, #{userno}, #{objectno} )
+	</insert>
 	
 	<update id="updateBasket" parameterType="shop.dto.Basket">
 		update basket set quantity = #{quantity} 
@@ -49,11 +50,6 @@
 		inner join shop b
 		on a.objectno = b.objectno
 		where userno = ${userno}
-	</select>
-	
-	<select id="basket" resultType="shop.dto.Basket" parameterType="shop.dto.Basket">
-		select * from basket
-		where userno = #{userno}
 	</select>
 	
 	<select id="shopfile" resultType="shop.dto.ShopFile" parameterType="shop.dto.Basket">
@@ -95,13 +91,12 @@
 		where basketno = #{basketno}
 	</delete>
 	
-	<select id="countReview" resultType="int">
-		select count(*) from review
-	</select>
-	
 	<select id="reviewList" resultType="hashmap" parameterType="shop.dto.Review" >
-		SELECT * from review
+		SELECT * from review R
+		inner join member M
+		on R.userno = M.userno
 		where objectno = #{objectno}
+		order by reviewno desc
 	</select>
 	
 	<select id="orderList" resultType="hashmap" parameterType="shop.dto.OrderUser">

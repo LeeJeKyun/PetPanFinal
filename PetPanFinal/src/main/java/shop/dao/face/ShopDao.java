@@ -19,26 +19,87 @@ import util.ShopPaging;
 
 public interface ShopDao {
 
+	/**
+	 * 게시글 총 개수
+	 * @param search - 검색
+	 * @return
+	 */
 	public int countShop(String search);
 
+	
+	/**
+	 * 페이징 된 쇼핑 메인페이지
+	 * @param paging - 페이징
+	 * @return
+	 */
 	public List<Shop> selectAll(ShopPaging paging);
 	
+	
+	/**
+	 * objectno마다 하나의 게시글
+	 * @param shop - objectno
+	 * @return
+	 */
 	public Shop selectByObjno(Shop shop);
 
-	public void insertBasket(Basket basket);
-
-	public int checkBasket(Basket basket);
 	
+	/**
+	 * 상품 사진
+	 * @param basket - objectno
+	 * @return
+	 */
+	public List<ShopFile> shopfile(Basket basket);
+	
+	
+	/**
+	 * 기존의 장바구니에 담겨있는지 확인 
+	 * @param basket - userno objectno
+	 * @return count(*) - int
+	 */
+	public int checkBasket(Basket basket);
+
+	
+	/**
+	 * 장바구니 담기
+	 * @param basket - quantity userno objectno
+	 */
+	public void insertBasket(Basket basket);
+	
+	
+	/**
+	 * 장바구니 업데이트
+	 * @param basket - userno objectno
+	 */
 	public void updateBasket(Basket basket);
 	
+	
+	/**
+	 * 장바구니 보여주기
+	 * @param basket
+	 * @return - userno
+	 */
 	public List<Map<String, Object>> selectBasket(Basket basket);
 
-	public List<Basket> basket(Basket basket);
-
+	
+	/**
+	 * 장바구니 담은 유저 정보
+	 * @param basket - userno
+	 * @return
+	 */
 	public Member memberShop(Basket basket);
 
+	
+	/**
+	 * OrderUserNo PK 뽑기
+	 * @return
+	 */
 	public int buyno();
 	
+	
+	/**
+	 * 
+	 * @param orderUser
+	 */
 	public void insertOrderUser(OrderUser orderUser);
 
 	public void insertOrderThing(OrderThing orderThing);
@@ -49,9 +110,7 @@ public interface ShopDao {
 
 	public void deleteBasket(int basketno);
 
-	public int countReview();
-
-	public List<Review> reviewList(Review review);
+	public List<Map<String, Object>> reviewList(Review review);
 
 	public List<Map<String, Object>> orderList(OrderUser orderUser);
 
@@ -69,7 +128,7 @@ public interface ShopDao {
 
 	public void updateC(Review review);
 
-	public List<ShopFile> shopfile(Basket basket);
+	
 
 	/**
 	 * 상품 신고 db저장
