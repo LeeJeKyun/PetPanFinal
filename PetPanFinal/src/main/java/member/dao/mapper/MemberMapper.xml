@@ -198,7 +198,7 @@
   	
   	
   	<delete id="deletePetfile" parameterType="member.dto.Pet">
-  		delete from petfile where petno = #{petNo}
+  		DELETE FROM petfile WHERE petno = #{petNo}
   	</delete>
   	
   	<update id="updatePet" parameterType="member.dto.Pet">
@@ -211,6 +211,16 @@
 		SELECT userno, usernick FROM member
 		WHERE userid = #{userId}
 	</select>
+  	
+  	 <delete id="deletePetPhoto" parameterType="int">
+  		DELETE FROM petfile WHERE petNo=#{petNo}
+  	</delete>
+  	
+  	<delete id="deletePetInfo" parameterType="int">
+  		DELETE FROM pet WHERE petNo=#{petNo}
+  	</delete>
+  	
+  	
   	
   	
   </mapper>

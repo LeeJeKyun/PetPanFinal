@@ -226,14 +226,15 @@ public interface MemberDao {
 	public PetFile selectPetFileByPet(Pet pet);
 
 	/**
+	 * 펫 수정 전 기존 파일 삭제
 	 * 
 	 * @param pet
 	 */
-	
 	public void deletePetfile(Pet pet);
 	
 	
 	/**
+	 * 펫 사진 수정
 	 * 
 	 * @param pet
 	 */
@@ -247,6 +248,20 @@ public interface MemberDao {
 	 * @return
 	 */
 	public Member selectUserNoMemberByUserId(Member member);
+
+	/**
+	 * 펫 사진 삭제
+	 * 
+	 * @param petFile
+	 */
+	public void deletePetPhoto(PetFile petFile);
+
+	/**
+	 * 펫 정보 삭제
+	 * 
+	 * @param pet
+	 */
+	public void deletePetInfo(Pet pet);
 
 
 

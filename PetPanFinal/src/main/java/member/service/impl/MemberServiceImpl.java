@@ -544,4 +544,22 @@ public class MemberServiceImpl implements MemberService {
 		
 		return 0;
 	}
+	
+	
+	@Override
+	public void deletePetPhoto(PetFile petFile) {
+		
+		memberDao.deletePetPhoto(petFile);
+		
+	}
+	
+	@Override
+	public void deletePetInfo(Pet pet) {
+
+		memberDao.deletePetInfo(pet);
+		
+	}
+	
+	
+	
 }

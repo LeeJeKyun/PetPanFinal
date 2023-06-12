@@ -43,6 +43,7 @@ public class MyPageController {
 			, Member member
 			, Model model
 			, Pet pet
+			, PetFile petF
 			) {
 		
 		// 세션에 담긴 userno 가져오기
@@ -65,6 +66,8 @@ public class MyPageController {
 			petFile.setPetNo(p.getPetNo());
 			logger.info("petFile: {}", petFile);
 			petFileList.add(petFile);
+
+			session.setAttribute("petNo", petFile.getPetNo());
 		}
 		
 		// petno로 펫 사진 불러오기
@@ -72,9 +75,35 @@ public class MyPageController {
 		model.addAttribute("petInfo", petInfo);
 		model.addAttribute("petDetail", petDetail);
 		
+		
 		logger.info("petDetail : {}" , petDetail);
 		
+//		memberService.deletePetPhoto(petF);
+//		memberService.deletePetInfo(pet);
+
+		
+		
 	}
+	
+	@GetMapping("/mypage/delete")
+	public void delete(
+			Pet pet
+			, PetFile petFile) {
+	}
+	
+	@PostMapping("/mypage/delete")
+	public String deleteProc(
+			Pet pet
+			, PetFile petFile
+			, HttpSession session) {
+		
+		
+		memberService.deletePetPhoto(petFile);
+		memberService.deletePetInfo(pet);
+		
+		return "redirect:/member/mypage/mypage";
+	}
+	
 	
 
 	@GetMapping("/mypage/petUpdate")
