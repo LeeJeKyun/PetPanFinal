@@ -37,20 +37,7 @@
 </style>
 <script type="text/javascript">
 $(function(){
-	var c = 0;
-	for(var i = 0; i < ${hospitalList.size()}; i++){
-		console.log(i)
-	
-		var f = String(phone).substring(0, 3);
-			f += '-';
-		var m = String(phone).substring(3, 7);
-			m += '-'
-		var e = String(phone).substring(7, phone.length);
-			console.log(f + m + e);
-		
-		c += 1;
-		$("#phone").html(f + m + e)
-	}
+
 	
 	$("#radius option:eq(${paging.radius})").prop("selected", true);
 	$("#choose").click(function(){
@@ -60,6 +47,23 @@ $(function(){
 			$("#animals").css("display", "none");
 		}
 	})
+	
+
+// 	for(var i = 0; i < ${hospitalList.size()}; i++){
+// 		console.log(i)
+
+// 		var phone = ${hospitalList.get(i).get('PHONE')}; 
+
+// 		console.log(phone)
+// 		var f = String(phone).substring(0, 3);
+// 			f += '-';
+// 		var m = String(phone).substring(3, 7);
+// 			m += '-'
+// 		var e = String(phone).substring(7, phone.length);
+// 		console.log(f + m + e);
+
+// 		$(".phone").eq(i).html(f + m + e)
+// 	}
 })
 </script>
 
@@ -78,6 +82,13 @@ $(function(){
 		</div>
 		<div class = "info">
 			<div>운영시간: ${i.OPEN } ~ ${i.CLOSE }</div>
+<%-- 			<div data-cnt = ${c.index }>전화번호: <span class = "phone"></span></div> --%>
+			<c:set var = "phone" value = "${i.PHONE }" />
+			<div>전화번호: 
+				<span class = "phone">
+					${fn:substring(phone, 0, 3) }-${fn:substring(phone, 3, 7) }-${fn:substring(phone, 7, 11) }
+				</span>
+			</div>
 			<div data-cnt = ${c.index }>전화번호: <span class = "phone"></span></div>
 			<div>특수동물 가능</div>
  			<c:if test="${i.MAMMALIA eq 'y' }"> 

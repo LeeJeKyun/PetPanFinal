@@ -173,7 +173,7 @@ public class BoardController {
 		
 		ModelAndView mav = new ModelAndView();
 		
-		// commentNo, content, writeDate, userNo, depth, refcommentNo
+		// commentNo, content, writeDate, userNo, depth, refcommentNo, isRecommend
 		List<Map<String, Object>> list =  boardService.getComments(boardNo);
 		logger.info("comments list : {}",list);
 		
@@ -227,5 +227,25 @@ public class BoardController {
 		
 		model.addAttribute("data", true);
 		model.addAttribute("flag", true);
+	}
+	@GetMapping("/board/comment/like")
+	public String commentLike(int commentNo, HttpSession session, Model model) {
+		if(session.getAttribute("userno") == null) {
+			return "redirect:/";
+		}
+		Map<String, Object> map = new HashMap<>();
+		int userNo = (int)session.getAttribute("userno");
+		
+		boolean flag = boardService.commentRecommend(userNo, commentNo);
+		
+		int count = boardService.countCommentReco(commentNo);
+		
+//		map.put("flag", flag);
+//		map.put("count", count);
+//		
+//		model.addAttribute("map",map);
+		model.addAttribute("flag", flag);
+		model.addAttribute("count", count);
+		return "jsonView";
 	}
 }

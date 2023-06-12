@@ -5,9 +5,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:import url="./mypage_header.jsp" />
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 <script type="text/javascript">
 $(function() {
+	
+	//time 속성 24시간으로 변경
+// 	$('.timepicker').timepicker({
+//             timeFormat: 'HH:mm',
+//             interval: 30,
+//             dynamic: false,
+//             dropdown: true,
+//             scrollbar: true
+//     });
+	
 	$(".select .yn").on("click", function() {
 		if( $(this).is(":checked") ) {
 			console.log("cc", $(this))
@@ -176,6 +186,10 @@ tr:hover{
    </div><!-- select -->
 
    <div class="time">
+      <label for="code">영업시간</label>
+      
+       <input type="time" min = "00:00" max = "24:00" step="1800"  id="open" name="open" class = "timepicker">  <label style="color: #FF5050; font-size: small;">~ </label>
+       <input type="time"  id="close" name="close" class = "timepicker">
       <label for="code">영업시간</label>					
 <!-- 			<select	class="form-control" name="email2" id="email2"> -->
 <!-- 				<option value="">08:00</option> -->
