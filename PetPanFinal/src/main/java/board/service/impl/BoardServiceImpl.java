@@ -222,9 +222,13 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	@Override
-	public List<Map<String, Object>> getCommentList(int boardno) {
+	public List<Map<String, Object>> getCommentList(int boardno, int userNo) {
 		
-		return boardDao.selectCommentByBoardno(boardno);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("boardno", boardno);
+		map.put("userNo", userNo);
+		
+		return boardDao.selectCommentByBoardno(map);
 	}
 	
 	@Override
@@ -324,8 +328,37 @@ public class BoardServiceImpl implements BoardService{
 		boardDao.updateComment(comment.getCommentNo());
 	}
 	
+	@Override
+	public void commentRecommend(Map<String, Object> map) {
+		boardDao.insertComRecommend(map);
+	}
+	
+	@Override
+	public int getComRecommendCount(int commentNo) {
+		return boardDao.selectCtnComRecommend(commentNo);
+	}
+	
+	@Override
+	public boolean isRecommendedCom(Map<String, Object> map) {
+		
+		int res = boardDao.selectCNTRecommendedCom(map);
+		
+		if(res > 0) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public void deleteComRecommend(Map<String, Object> map) {
+		boardDao.deleteComRecommend(map); 
+	}
+	
 	
 	//-------------------------------제균----------------------------------
+
+
 
 
 	@Override

@@ -415,6 +415,32 @@ function deleteComment(commentNo){
 		})
 		
 }
+
+<%-- 댓글추천 AJAX --%>
+function comRecommend(commentNo, e){
+	console.log("click & " + commentNo);
+	$("#comemptyHeart" + commentNo).toggleClass('displayNone')
+	$("#comfillHeart" + commentNo).toggleClass('displayNone')
+		
+	$.ajax({
+		type : "get" 
+			, url: "./comRecommend"
+			, data : { 
+				commentNo : commentNo, 
+			}
+			, dataType : "html"
+			, success : function(data){
+// 				console.log("AJAX 성공")
+				console.log(data)
+// 				console.log(e.target);
+// 				console.log($("#comrec" + commentNo));
+				$("#comrec" + commentNo).html(data);
+			}
+			, error : function(){
+				console.log("AJAX 실패")
+			}
+		})
+}
 </script>
 
 <div id = "fcontainer" >

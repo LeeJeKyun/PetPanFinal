@@ -132,7 +132,7 @@ public interface BoardDao {
 	 * @param boardno
 	 * @return
 	 */
-	public List<Map<String, Object>> selectCommentByBoardno(int boardno);
+	public List<Map<String, Object>> selectCommentByBoardno(Map<String, Object> map);
 	
 	/**
 	 * 품앗이 게시판에 띄울 최신공지사항을 가져오는 메소드
@@ -218,6 +218,35 @@ public interface BoardDao {
 	 */
 	public void insertCareCommentReport(ReportComment reportComment);
 	
+	/**
+	 * 댓글추천을 db에 insert하는 메소드
+	 * 
+	 * @param map
+	 */
+	public void insertComRecommend(Map<String, Object> map);
+	
+	/**
+	 * 댓글 추천수를 가져오는 메소드
+	 * 
+	 * @param commentNo
+	 * @return
+	 */
+	public int selectCtnComRecommend(int commentNo);
+	
+	/**
+	 * 댓글을 추천했었는지 확인하는 메소드
+	 * 
+	 * @param map
+	 * @return
+	 */
+	public int selectCNTRecommendedCom(Map<String, Object> map);
+	
+	/**
+	 * 댓글추천을 삭제하는 메소드
+	 * 
+	 * @param map
+	 */
+	public void deleteComRecommend(Map<String, Object> map);
 	
 	//--------------------------제균--------------------------------
 

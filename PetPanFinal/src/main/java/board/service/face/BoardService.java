@@ -118,7 +118,7 @@ public interface BoardService {
 	 * @param boardno
 	 * @return
 	 */
-	public List<Map<String, Object>> getCommentList(int boardno);
+	public List<Map<String, Object>> getCommentList(int boardno, int userNo);
 
 	/**
 	 * 품앗이 게시판에 띄울 공지사항을 가져오는 메소드
@@ -190,6 +190,34 @@ public interface BoardService {
 	 */
 	public void deleteCareComment(Comment comment);
 
+	/**
+	 * 게시판의 댓글을 추천하는 메소드
+	 * 
+	 * @param map - 세션의 userNo, 댓글의 commentNo을 담은 map
+	 */
+	public void commentRecommend(Map<String, Object> map);
+
+	/**
+	 * 해당 댓글의 추천수를 가져오는 메소드
+	 * 
+	 * @param commentNo
+	 */
+	public int getComRecommendCount(int commentNo);
+	
+	/**
+	 * 해당 댓글을 추천했었는지 확인하는 메소드
+	 * 
+	 * @param map
+	 * @return
+	 */
+	public boolean isRecommendedCom(Map<String, Object> map);
+	
+	/**
+	 * 댓글추천을 삭제하는 메소드
+	 * 
+	 * @param map
+	 */
+	public void deleteComRecommend(Map<String, Object> map);
 	
 	//---------------------------제균------------------------------------
 
@@ -396,6 +424,9 @@ public interface BoardService {
 	 * @return 추천 개수
 	 */
 	public int countCommentReco(int commentNo);
+
+
+
 
 
 }
