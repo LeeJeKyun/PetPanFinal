@@ -77,8 +77,13 @@ public class AdminBlacklistController {
 	}
 	
 	@GetMapping("/blacklist/insert")
-	public void blacklistinsert() {		
+	public void blacklistinsert(@RequestParam(required=false)int userno, Model model) {
 		
+		
+		if (userno != 0) {
+		model.addAttribute("userno",userno);
+		
+		}
 	}
 	
 	

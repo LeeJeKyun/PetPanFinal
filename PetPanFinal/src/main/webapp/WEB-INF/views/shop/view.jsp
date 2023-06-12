@@ -249,19 +249,19 @@
 			</div>
 			<% if( null != session.getAttribute("login")){ %>
 				<div class="button_set">
-					<button class="btn_basket">장바구니 담기</button>
+					<button class="btn_basket" style="cursor: pointer;">장바구니 담기</button>
 					<input type="hidden" class = "quantity" name ="quantity" value = "1">
 					<input type = "hidden" id ="basketInsert" name ="objectno" value = "${view.objectno }">
-					<a href="./main"><button class="btn_main">목록으로</button></a>
+					<a href="./main"><button class="btn_main" style="cursor: pointer;">목록으로</button></a>
 					<form action="./buy" method="post">
-						<button class="btn_buy">바로구매</button>
+						<button class="btn_buy" style="cursor: pointer;">바로구매</button>
 						<input type="hidden" class = "quantity" name = "quantity" value = "1">
 						<input type = "hidden" id = "buy" name ="objectno" value = "${view.objectno }">
 					</form>
 				</div>
 			<% }else{ %>
 			<div class="button_set">
-				<a href="./main"><button class="btn_main2">목록으로</button></a>
+				<a href="./main" style="cursor: pointer;"><button class="btn_main2">목록으로</button></a>
 			</div>
 			<%} %>
 		</div>
