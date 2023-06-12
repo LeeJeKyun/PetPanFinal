@@ -74,13 +74,14 @@
 	<select id="selectPetInfo" parameterType="int" resultType="member.dto.Pet">
 		SELECT * FROM pet
 		WHERE userNo=#{userNo}
+		ORDER BY petno
 	</select>
 	
 
 	<select id="selectPetFile" parameterType="int" resultType="member.dto.PetFile">
 		SELECT * FROM petfile
 		WHERE petNo=#{petNo}
- 
+		ORDER BY petno
 	</select>
 
 	<select id ="selectHospital" resultType="int" parameterType="member.dto.Member">
@@ -164,7 +165,6 @@
 		WHERE userName=#{userName} AND userId=#{userId} AND email=#{email}
 	</select>
 	
-	
 	<update id="updatePw" parameterType="member.dto.Member">
   		UPDATE member
   		SET userPw=#{userPw}
@@ -174,13 +174,53 @@
 	<select id="idDu" resultType="int">
       SELECT count(*) FROM member
       WHERE userId = #{userId}
-   </select>
+	</select>
 
 	<select id="nickDu" resultType="int">
       SELECT count(*) FROM member
       WHERE userNick = #{userNick}
-   </select>
+	</select>
 	
+	<select id="selectPetprofile" parameterType="member.dto.PetFile" resultType="member.dto.PetFile">
+		SELECT * FROM petfile
+		WHERE petNo=#{petNo}
+	</select>
+  	
+  	<select id="selectPetByPetNo" parameterType="member.dto.Pet" resultType="member.dto.Pet">
+  		SELECT * FROM pet
+  		WHERE petNo= #{petNo}
+  	</select>
+  	
+  	<select id="selectPetFileByPet" parameterType="member.dto.Pet" resultType="member.dto.PetFile">
+  		SELECT * FROM petfile
+  		WHERE petNo= #{petNo}
+  	</select>
+  	
+  	
+  	<delete id="deletePetfile" parameterType="member.dto.Pet">
+  		DELETE FROM petfile WHERE petno = #{petNo}
+  	</delete>
+  	
+  	<update id="updatePet" parameterType="member.dto.Pet">
+  		update Pet 
+  		set petName = #{petName}, type=#{type}
+  		where petNo = #{petNo}
+  	</update>
+  	  	
+	<select id="selectUserNoMemberByUserId" parameterType="member.dto.Member" resultType="member.dto.Member">
+		SELECT userno, usernick FROM member
+		WHERE userid = #{userId}
+	</select>
+  	
+  	 <delete id="deletePetPhoto" parameterType="int">
+  		DELETE FROM petfile WHERE petNo=#{petNo}
+  	</delete>
+  	
+  	<delete id="deletePetInfo" parameterType="int">
+  		DELETE FROM pet WHERE petNo=#{petNo}
+  	</delete>
+  	
+  	
   	
   	
   </mapper>

@@ -122,6 +122,20 @@ public interface AdminService {
 
 	public void deletenotice(int noticeno);
 
+	public void noticechangeAndDeleteFile(List<Integer> delete, List<Integer> save);
+
+	public void changeNotice(Notice notice);
+
+	public void saveNoticeFiles(List<MultipartFile> fileList, Notice notice, List<Integer> no);
+
+	public AdminPaging getBlacklistPage(int curPage);
+
+	public AdminPaging getmemberPage(int curPage);
+
+	public AdminPaging getSearchMemberPage(int curPage, String keyword);
+
+	public void resellCheckedShop(List<String> resell);
+
 
 
 	

@@ -61,7 +61,7 @@ a{
 		<div class="search_div" style="text-align: center; margin: 20px; margin-left: -125px;">
 			<form action="<%=request.getContextPath() %>/shop/main" method="get">
 				<input type="text" name="search" value="${search }">
-				<input type="submit" id="codeIdSubmit" value="검색" class="btn btn-info">
+				<input type="submit" id="codeIdSubmit" value="검색" class="btn btn-info"style="cursor: pointer;">
 			</form>
 		</div>
 		<ul class = "ul">

@@ -40,9 +40,9 @@
 	<logger name="admin">
 		<level value="info" />
 	</logger>
-	<logger name="member">
-		<level value="trace" />
-	</logger>
+<!-- 	<logger name="member"> -->
+<!-- 		<level value="trace" /> -->
+<!-- 	</logger> -->
 
 <!-- 	<logger name="board.dao"> -->
 <!-- 		<level value="trace" /> -->

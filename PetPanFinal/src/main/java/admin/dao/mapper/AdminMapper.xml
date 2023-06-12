@@ -9,6 +9,22 @@
 		SELECT count(*) FROM reportboard
 	</select>
 	
+	<select id="selectAllBlacklist" resultType="int">
+		SELECT count(*) FROM Blacklist
+	</select>
+	
+	<select id="selectAllMember" resultType="int">
+		SELECT count(*) FROM Member
+	</select>
+	
+	<select id="selectSearchMember" resultType="int" >
+		SELECT count(*) FROM Member WHERE username LIKE ('%${keyword}%')
+	</select>
+	
+
+
+	
+	
 	  <select id="selectTotalSearch" resultType="int" parameterType="String">
 		SELECT count(*) FROM reportboard WHERE reportdetail LIKE ('%${search}%')
 	</select>
@@ -237,42 +253,10 @@
 	
 	<update id="updateMember" parameterType="member.dto.Member">
 		UPDATE member
-  		SET userpw=#{userPw}, usernick=#{userNick}, email=#{email}, address=#{address}, zipcode=#{zipCode}, detailaddress=#{detailaddress }, latitude=#{latitude}, longitude=#{longitude}, phone=#{phone}
+  		SET userpw=#{userPw}, usernick=#{userNick}, email=#{email}, address=#{address}, zipcode=#{zipCode}, detailaddress=#{detailaddress }, latitude=#{latitude}, longitude=#{longitude}, phone=#{phone}, positionNo = #{positionNo} 
   		WHERE userno=#{userNo}
 	</update>
-	
-	<!-- 샾파일 참고  -->
-	<!--  ==================================== -->
-<!-- 		<select id="selectShop" parameterType="int" resultType="shop.dto.Shop"> -->
-<!-- 		SELECT * FROM SHOP WHERE OBJECTNO = #{objectno} -->
-<!-- 	</select> -->
-	
-<!-- 	<select id="selectShopFile" parameterType="int" resultType="shop.dto.ShopFile"> -->
-<!-- 		SELECT * FROM SHOPFILE WHERE OBJECTNO = #{objectno} ORDER BY FILENO -->
-<!-- 	</select> -->
-	
-<!-- 	<select id="selectShopFileByFileno" resultType="shop.dto.ShopFile"> -->
-<!-- 		SELECT * FROM SHOPFILE WHERE FILENO = #{e} -->
-<!-- 	</select> -->
-	
-<!-- 	<delete id="deleteChangeFileOnDb" parameterType="int"> -->
-<!-- 		DELETE FROM SHOPFILE WHERE FILENO = #{e} -->
-<!-- 	</delete> -->
-	
-<!-- 	<update id="updateShopDetail" parameterType="shop.dto.Shop"> -->
-<!-- 		UPDATE SHOP SET NAME = #{name},  -->
-<!-- 		PRICE = #{price},  -->
-<!-- 		REMAIN = #{remain},  -->
-<!-- 		SHOPCONTENT = #{shopcontent}  -->
-<!-- 		WHERE OBJECTNO = #{objectno} -->
-<!-- 	</update> -->
-	
-<!-- 	<update id="changeShopDeleteobj" parameterType="int"> -->
-<!-- 		UPDATE SHOP SET DELETEOBJ = 0 WHERE OBJECTNO = #{objectno} -->
-<!-- 	</update> -->
-	
-	<!--  ==================================== -->
-	
+
 	
 	<select id="selectBynoticeno" parameterType="int" resultType="board.dto.Notice">
 		SELECT * FROM NOTICE WHERE noticeno = #{noticeno}
@@ -288,6 +272,21 @@
 	
 	<delete id="deletenotice" parameterType="int">
 		delete from notice where noticeno = #{noticeno}
+	</delete>
+	
+	<update id="updatenoticeDetail" parameterType="board.dto.Notice">
+		UPDATE notice
+		SET noticetitle = #{noticetitle} , noticecontent = #{noticecontent}, boardtypeno=#{boardtypeno}
+		WHERE noticeno = #{noticeno}
+	</update>
+	
+	<select id="selectnoticeFileByFileno"	parameterType="int" resultType = "board.dto.NoticeFile">
+		SELECT * FROM noticefile 
+		WHERE fileno = #{fileno}
+	</select>
+	
+	<delete id = "deleteFileByFileno" parameterType="int">
+		delete from noticeFile where fileno = #{fileno}	
 	</delete>
 	
 

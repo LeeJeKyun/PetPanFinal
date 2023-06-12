@@ -89,6 +89,7 @@ $(function(){
 					${fn:substring(phone, 0, 3) }-${fn:substring(phone, 3, 7) }-${fn:substring(phone, 7, 11) }
 				</span>
 			</div>
+			<div data-cnt = ${c.index }>전화번호: <span class = "phone"></span></div>
 			<div>특수동물 가능</div>
  			<c:if test="${i.MAMMALIA eq 'y' }"> 
 				<span class = "name">포유류</span>

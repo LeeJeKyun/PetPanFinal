@@ -86,11 +86,32 @@ $(function() {
       		</tr>
 
 			<tr><th>유저핸드폰번호</th><td><input class="form-control" value = "${member.phone}" name = "phone"/></td></tr>
-			<tr><th>유저 포지션</th><td><input class="form-control" value = "${member.positionNo}" name = "positionNo" />
+			<tr> 
+			  <th>유저 포지션</th>
+			  <td>
+						<input type="radio" class="form-check-input" name="positionNo" value="1" id="userPosition1"
+						      ><label for="userPosition1">일반유저</label>
+						<input type="radio" class="form-check-input" name="positionNo" value="2" id="userPosition2"
+						      ><label for="userPosition2">병원관계자</label>
+						<input type="radio" class="form-check-input" name="positionNo" value="3" id="userPosition3"
+						      ><label for="userPosition3">관리자 승격!!</label>
+			  </td>				
+			</tr>
+
 					
-			
-			</td></tr>
 		</table>
+<script>
+  const memberPositionNo = "${member.positionNo}"; // 유저의 포지션 값을 가져옵니다.
+
+  // 가져온 포지션 값을 기반으로 radio 버튼을 선택합니다.
+  if (memberPositionNo === "1") {
+    document.getElementById("userPosition1").checked = true;
+  } else if (memberPositionNo === "2") {
+    document.getElementById("userPosition2").checked = true;
+  } else if (memberPositionNo === "3") {
+    document.getElementById("userPosition3").checked = true;
+  }
+</script>
 		<button class = "btn btn-primary">정보 수정</button>
 		<a href = "./view?userno=${member.userNo}"><button type="button" class = "btn btn-danger">취소</button></a>
 		

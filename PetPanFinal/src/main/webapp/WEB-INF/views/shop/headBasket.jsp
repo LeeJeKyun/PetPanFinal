@@ -11,23 +11,7 @@
 
 <c:import url="../layout/header.jsp" />
 
-<% int totalQuantity = 0;
-	List<Map<String,Object>> list = (List<Map<String,Object>>)request.getAttribute("list");
-	Member member = (Member)request.getAttribute("member");
-	
-	int totalPrice = 0;
-	
-	for( int i=0; i<list.size(); i++){
-		BigDecimal bd = (BigDecimal)list.get(i).get("QUANTITY");
-		totalQuantity += bd.intValue();
-	}
-
-	for( int i=0; i<list.size(); i++){
-		BigDecimal quantity = (BigDecimal)list.get(i).get("QUANTITY");
-		BigDecimal price = (BigDecimal)list.get(i).get("PRICE");
-		totalPrice += quantity.intValue() * price.intValue();
-	}
-	
+<% 
 	int merchant_uid = 0;
 	for(int i = 0; i <8; i++){
 		merchant_uid += (Math.random()*100000000);
@@ -61,10 +45,6 @@
 		    display: block;
 		    float: left;   		
   		}
-	.line{
-	  width: 100%;
-	  border-top:1px solid #c6c6cf;  		
-	}
 	.list{
 		height: 300px;
 	}
@@ -116,40 +96,33 @@
 </div>			
 
 <div class="content_top">
-<c:forEach items="${list}" var="list" varStatus="status">
-	<div class="list">
-		<div class="ct_left_area">
-			<div class="image_wrap">
-				<img src="/images/download.jpg">
+	<c:forEach items="${list}" var="list" varStatus="status">
+		<div class="list ${list.OBJECTNO }">
+			<div class="ct_left_area">
+				<div class="image_wrap">
+					<img src="/upload/${list.IMG1 }">
+				</div>
 			</div>
-		</div>
-		<div class="ct_right_area">
-			<table class="table" data-objectno="${list.OBJECTNO}" >
-			  <tr>
-			    <th>상품명</th>
-			    <th>개당 가격</th>
-			    <th>총 가격</th>
-			    <th>주문 수량</th>
-			    <th></th>
-			  </tr>
-			  <tr class="tr">
-			    <td>${list.NAME}</td>
-			    <td>가격 : <fmt:formatNumber value="${list.PRICE}" pattern="#,### 원" /></td>
-			    <td>총 가격 : <fmt:formatNumber value="${list.PRICE * list.QUANTITY}" pattern="#,### 원" /></td>
-			    <td><input type="text"  class="order_cnt" value="${list.QUANTITY }" readonly="readonly" style="text-align:center;"/></td>
-			    <td><button class="order_delete">삭제</button>
-			  </tr>
-			</table>
-		</div>		
-	</div>	
-	<div class="line"></div>
-
-</c:forEach>
-
-	<div class="total">
-			<div class="price_count">총 개수 : <fmt:formatNumber value="<%=totalQuantity %>" pattern="#,### " /></div>
-			<div class="price_total">총 가격 : <fmt:formatNumber value="<%=totalPrice %>" pattern="#,### 원" /></div>
-	</div>
+			<div class="ct_right_area">
+				<table class="table" data-objectno="${list.OBJECTNO}" >
+				  <tr>
+				    <th>상품명</th>
+				    <th>개당 가격</th>
+				    <th>총 가격</th>
+				    <th>주문 수량</th>
+				    <th></th>
+				  </tr>
+				  <tr id="tr">
+				    <td>${list.NAME}</td>
+				    <td>가격 : <fmt:formatNumber value="${list.PRICE}" pattern="#,### 원" /></td>
+				    <td>총 가격 : <fmt:formatNumber value="${list.PRICE * list.QUANTITY}" pattern="#,### 원" /></td>
+				    <td><input type="text"  class="order_cnt" value="${list.QUANTITY }" readonly="readonly" style="text-align:center;"/></td>
+				    <td><button class="order_delete" onclick="deleteBasket(${list.OBJECTNO})">삭제</button>
+				  </tr>
+				</table>
+			</div>		
+		</div>	
+	</c:forEach>
 	<div class="button_set">
 		<a href="./main"><button class="button" id="btn_list">목록으로</button></a>
 		<form action="./buy" method="post">
@@ -162,45 +135,31 @@
 </div>
 	
 <script type="text/javascript">
+	  
+function deleteBasket(objectno) {
 
-function deleteBasket() {
-	
-	$(document).on('click', '.order_delete', function() {
-		
-		console.log("click")
-		
-		console.log($(this).closest('table').attr("data-objectno"))
-		
-		var objectno = $(this).closest('table').attr("data-objectno")
-		
-		console.log(objectno)
-    	console.log($(this).closest($(".table")))
-		
-		$.ajax({
-		    url: './deleteBasket',
-		    type: 'GET',
-		    data: {objectno:objectno },
-		    dataType: "html",
-		    success: function(res) {
-				
-		    	console.log(res)
-		    	$(this).closest('table').remove();
-		    	
-		    },
-		    error: function(error) {
-		    	
-		    	console.log("delete 실패")
-		    	
-		    	
-		    }
-		})
-		
-    	
-		
+   	console.log(objectno)
+   	
+	$.ajax({
+	    url: './deleteBasket',
+	    type: 'GET',
+	    data: {objectno:objectno },
+	    dataType: "html",
+	    success: function(res) {
+			
+	    	$("."+objectno).remove();
+	    	
+	    },
+	    error: function(error) {
+	    	
+	    	console.log("delete 실패")
+	    	
+	    	
+	    }
 	})
+		
 }
 
-deleteBasket();
 </script>
 <c:import url="../layout/footer.jsp" />
 

@@ -29,35 +29,23 @@ public class AdminMemberController {
 	
 	
 	@GetMapping("/member/list")
-	public void viewUserBoard(@RequestParam(defaultValue = "0") int curPage, Model model) {
+	public void viewUserBoard(@RequestParam(defaultValue = "0") int curPage, Model model, String search) {
 
 		AdminPaging paging = new AdminPaging();
 		
-		paging = adminService.getPage(curPage);
+		paging = adminService.getSearchMemberPage(curPage,search);
 		
-
+		logger.info("{}",paging);
 		
-		List<Member> list = adminService.getMemberBoard(paging);
+		List<Member> list = adminService.getsearchMemberBoard(paging,search);
+		
+		paging.setSearch(search);
 		
 		model.addAttribute("list",list);
 		model.addAttribute("paging",paging);
 	}
 	
-	@GetMapping("/member/search")
-	public void viewsearchBoard(@RequestParam(defaultValue = "0") int curPage, String keyword, Model model ) {
-		
-		AdminPaging paging = new AdminPaging();
-		
-		paging = adminService.getPage(curPage);
-		
-		
-		
-		List<Member> list = adminService.getsearchMemberBoard(paging,keyword);
-		
-		model.addAttribute("list",list);
-		model.addAttribute("paging",paging);
-		
-	}
+
 	
 	@GetMapping("/member/view")
 	public void viewMember(int userno, Model model ) {

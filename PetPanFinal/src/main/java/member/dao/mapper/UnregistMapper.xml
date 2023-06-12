@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member.dao.face.UnregistDao">
+
+	<select id="selectRegMember" resultType="int" parameterType="member.dto.Member">
+		SELECT count(*) FROM MEMBER WHERE USERNO = #{userNo} AND USERPW = #{userPw}
+	</select>
+	
+	<delete id="deleteReportBoardByUserNo" parameterType="int">
+		DELETE FROM REPORTBOARD WHERE userno = #{userno}
+	</delete>
+	
+	<delete id="deleteReportBoardByBoardNo" parameterType="int">
+		DELETE FROM REPORTBOARD WHERE boardno IN (
+		SELECT boardno FROM board WHERE userno = #{userno})
+	</delete>
+	
+	<delete id="deleteReportCommentByUserNo" parameterType="int">
+		DELETE FROM REPORTCOMMENT WHERE userno = #{userno}
+	</delete>
+	
+	<delete id="deleteReportCommentByCommentNo1" parameterType="int">
+		DELETE FROM REPORTCOMMENT WHERE commentno IN(SELECT commentno FROM commenttable WHERE userno = #{userno})
+	</delete>
+	
+	<delete id="deleteReportCommentByCommentNo2" parameterType="int">
+		DELETE FROM REPORTCOMMENT WHERE commentno IN(
+		SELECT commentno FROM commenttable WHERE boardno IN(
+		SELECT boardno FROM board WHERE userno = #{userno}))
+	</delete>
+	
+	<delete id="deleteReportObjectByUserNo" parameterType="int">
+		DELETE FROM REPORTOBJECT WHERE userno = #{userno}
+	</delete>
+	
+	<delete id="deleteReviewFileByUserNo" parameterType="int">
+		DELETE FROM REVIEWFILE WHERE reviewno IN(SELECT reviewno FROM review WHERE userno = #{userno})
+	</delete>
+	
+	<delete id="deleteReviewByUserNo" parameterType="int">
+		DELETE FROM REVIEW WHERE userno = #{userno}
+	</delete>
+	
+	<delete id="deletePetFileByUserNo" parameterType="int">
+		DELETE FROM petfile WHERE petno IN( SELECT petno FROM pet WHERE userno = #{userno})
+	</delete>
+	
+	<delete id="deletePetByUserNo" parameterType="int">
+		DELETE FROM pet WHERE userno = #{userno}
+	</delete>
+	
+	<delete id="deleteHospitalFileByUserNo" parameterType="int">
+		DELETE hospitalfile WHERE hospitalno =( SELECT hospitalno FROM hospital WHERE userno = #{userno})
+	</delete>
+	
+	<delete id="deleteHospitalByUserNo" parameterType="int">
+		DELETE FROM hospital WHERE userno = #{userno}
+	</delete>
+	
+	<delete id="deleteBlackListByUserNo" parameterType="int">
+		DELETE FROM blacklist WHERE userno = #{userno}
+	</delete>
+	
+	<delete id="deleteBasketByUserNo" parameterType="int">
+		DELETE FROM basket WHERE userno = #{userno}
+	</delete>
+	
+	<delete id="deleteBoardFileByUserNo" parameterType="int">
+		DELETE FROM boardfile WHERE boardno IN(SELECT boardno FROM board WHERE userno = #{userno})
+	</delete>
+	
+	<update id="updateCommentTableByUserNo" parameterType="int">
+		UPDATE commenttable set userno = -1, content = '탈퇴한 회원이 작성한 글은 볼 수 없습니다.' WHERE commentno IN(SELECT commentno FROM commenttable WHERE userno = #{userno})
+	</update>
+	
+	<delete id="deleteCommentRecommendByUserNo" parameterType="int">
+		DELETE FROM comrecommend WHERE commentno IN
+		(SELECT commentno FROM COMMENTTABLE WHERE userno = #{userno})
+	</delete>
+	
+	<delete id="deleteCommentRecommendBoardByUserNo" parameterType="int">
+		DELETE FROM comrecommend WHERE commentno IN(
+		SELECT commentno FROM COMMENTTABLE WHERE boardno IN
+		(SELECT boardno FROM board WHERE userno = #{userno}))
+	</delete>
+	
+	<delete id="deleteBoardRecommendByUserNo" parameterType="int">
+		DELETE FROM boardrecommend
+		WHERE boardno IN (
+		   SELECT boardno FROM board WHERE userno = #{userno}
+		)
+	</delete>
+
+	<update id="updateCommentRecommendByUserNo" parameterType="int">
+		UPDATE comrecommend set userno = -1 WHERE comrecomno IN (SELECT comrecomno FROM comrecommend WHERE userno = #{userno})
+	</update>
+	
+	<update id="updateBoardRecommendByUserNo" parameterType="int">
+		UPDATE boardrecommend set userno = -1 WHERE boardrecomno IN (SELECT boardrecomno FROM boardrecommend WHERE userno = #{userno})
+	</update>
+	
+	<delete id="deleteMessageByUserNo" parameterType="int">
+		DELETE FROM MESSAGE WHERE receiveuserno = #{userno}
+	</delete>
+	
+	<update id="updateMessageByUserNo" parameterType="int">
+		UPDATE MESSAGE SET senduserno = -1 WHERE SENDUSERNO = #{userno}
+	</update>
+	
+	<update id="updateOrderByUserNo" parameterType="int">
+		UPDATE ORDERUSER SET userno = -1 WHERE userno = #{userno}
+	</update>
+	
+	<delete id="deleteCommentTableByuserNo" parameterType="int">
+		DELETE FROM commenttable WHERE boardno IN(SELECT boardno FROM board WHERE userno = #{userno})
+	</delete>
+	
+	<delete id="deleteBoardByUserNo" parameterType="int">
+		DELETE FROM BOARD WHERE userno = #{userno}
+	</delete>
+	
+	<delete id="deleteUser" parameterType="int">
+		DELETE FROM MEMBER WHERE userno = #{userno}
+	</delete>
+
+</mapper>

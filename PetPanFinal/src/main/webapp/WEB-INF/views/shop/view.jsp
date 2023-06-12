@@ -10,23 +10,27 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="../layout/header.jsp" />
 
-<% int totalQuantity = 0;
-	List<Map<String,Object>> list = (List<Map<String,Object>>)request.getAttribute("list");
-	Member member = (Member)request.getAttribute("member");
+<% 
+	if(null != session.getAttribute("login")){
+		int totalQuantity = 0;
+		List<Map<String,Object>> list = (List<Map<String,Object>>)request.getAttribute("list");
+		Member member = (Member)request.getAttribute("member");
+		
+		int totalPrice = 0;
+		
+		for( int i=0; i<list.size(); i++){
+			BigDecimal bd = (BigDecimal)list.get(i).get("QUANTITY");
+			totalQuantity += bd.intValue();
+		}
 	
-	int totalPrice = 0;
-	
-	for( int i=0; i<list.size(); i++){
-		BigDecimal bd = (BigDecimal)list.get(i).get("QUANTITY");
-		totalQuantity += bd.intValue();
-	}
-
-	for( int i=0; i<list.size(); i++){
-		BigDecimal quantity = (BigDecimal)list.get(i).get("QUANTITY");
-		BigDecimal price = (BigDecimal)list.get(i).get("PRICE");
-		totalPrice += quantity.intValue() * price.intValue();
+		for( int i=0; i<list.size(); i++){
+			BigDecimal quantity = (BigDecimal)list.get(i).get("QUANTITY");
+			BigDecimal price = (BigDecimal)list.get(i).get("PRICE");
+			totalPrice += quantity.intValue() * price.intValue();
+		}
 	}
 %>
+
 <style type="text/css">
 .content_top{
 	    width: 80%;
@@ -149,7 +153,18 @@
     					border: 1px solid darkcyan;
     					color: #fff;			  	  	
     					float: right;	
+		  	  		}.btn_main2{
+						display: inline-block;
+    					width: 380px;
+					    text-align: center;
+					    height: 50px;
+    					line-height: 50px;
+    					background-color: darkcyan;
+    					border: 1px solid darkcyan;
+    					color: #fff;			  	  	
+    					float: right;	
 		  	  		}
+		  	  		
   	
   	.content_middle{
 		width: 80%;
@@ -227,22 +242,28 @@
 		<div class="button">						
 			<div class="button_quantity">
 				주문수량
-				    <button type ="button" style="cursor: pointer;" id="plus">+</button>
-			        <input type="text"  class="order_cnt" value="1" readonly="readonly" style="text-align:center;"/>
 			        <button type="button" style="cursor: pointer;" id="minus">-</button>
+			        <input type="text"  class="order_cnt" value="1" readonly="readonly" style="text-align:center;"/>
+				    <button type ="button" style="cursor: pointer;" id="plus">+</button>
 				<br>
 			</div>
+			<% if( null != session.getAttribute("login")){ %>
+				<div class="button_set">
+					<button class="btn_basket" style="cursor: pointer;">장바구니 담기</button>
+					<input type="hidden" class = "quantity" name ="quantity" value = "1">
+					<input type = "hidden" id ="basketInsert" name ="objectno" value = "${view.objectno }">
+					<a href="./main"><button class="btn_main" style="cursor: pointer;">목록으로</button></a>
+					<form action="./buy" method="post">
+						<button class="btn_buy" style="cursor: pointer;">바로구매</button>
+						<input type="hidden" class = "quantity" name = "quantity" value = "1">
+						<input type = "hidden" id = "buy" name ="objectno" value = "${view.objectno }">
+					</form>
+				</div>
+			<% }else{ %>
 			<div class="button_set">
-				<button class="btn_basket">장바구니 담기</button>
-				<input type="hidden" class = "quantity" name ="quantity" value = "1">
-				<input type = "hidden" id ="basketInsert" name ="objectno" value = "${view.objectno }">
-				<a href="./main"><button class="btn_main">목록으로</button></a>
-				<form action="./buy" method="post">
-					<button class="btn_buy">바로구매</button>
-					<input type="hidden" class = "quantity" name = "quantity" value = "1">
-					<input type = "hidden" id = "buy" name ="objectno" value = "${view.objectno }">
-				</form>
+				<a href="./main" style="cursor: pointer;"><button class="btn_main2">목록으로</button></a>
 			</div>
+			<%} %>
 		</div>
 	</div>
 </div>
@@ -260,9 +281,7 @@
 	</div>
 </div>
 <div title="신고하기" class="rep">
-	<form action="./report?objectno=${view.objectno }" method="post">
-		<button type="submit"><img src="./../../resources/img/report.jpg" alt="신고하기" class="report"></button>
-	</form>
+	<button onclick="report()"><img src="./../../resources/img/report.jpg" alt="신고하기" class="report"></button>
 </div>
 <div class="line">
 </div>				
@@ -460,6 +479,12 @@ $(function() {
 	})	
 
 })
+
+function report() {
+	
+	window.open("./report?objectno=" + ${view.objectno}, "신고", "width=400, height=500, resizable=no");
+}
+
 </script>
 <c:import url="../layout/footer.jsp" />
 
