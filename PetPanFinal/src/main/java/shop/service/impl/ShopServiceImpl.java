@@ -157,7 +157,7 @@ public class ShopServiceImpl implements ShopService{
 			orderThing.setQuantity(quantity);
 			orderThing.setObjectno(objectno);
 			
-			//
+			//DB저장
 			shopDao.insertOrderUser(orderUser);
 			shopDao.insertOrderThing(orderThing);
 			
@@ -168,6 +168,7 @@ public class ShopServiceImpl implements ShopService{
 	@Override
 	public void buyDeleteBasket(int userno) {
 		
+		//장바구니 삭제
 		shopDao.buyDeleteBasket(userno);
 		
 	}
@@ -175,10 +176,12 @@ public class ShopServiceImpl implements ShopService{
 	@Override
 	public void deleteBasket(Basket basket) {
 	
+		//basketno 가져오기
 		Basket selectBasket = shopDao.selectDeleteBasket(basket);
 		
 		int basketno = selectBasket.getBasketno();
 		
+		//장바구니 삭제
 		shopDao.deleteBasket(basketno);
 	}
 	
@@ -250,23 +253,26 @@ public class ShopServiceImpl implements ShopService{
 			reviewFile.setStoredname(storedName);
 			reviewFile.setFilesize(fileList.get(i).getSize());
 			
-			if(i==0) {
+			if(i==0) {//사진마다 저장하면 안되니까 1번만저장
 				review.setImage1(storedName);
 				
+				//리뷰 DB저장
 				shopDao.writeReview(review);
 				
 			}
 			
-			//DB insert
+			//리뷰파일 DB저장
 			shopDao.insertShopFile(reviewFile);
 			
 		}
+		//리뷰쓰면 orderUser테이블 complete 바꾸기
 		shopDao.updateC(review);
 		
 	}
 	@Override
 	public int cntReview(Review review) {
 		
+		//리뷰가 있는지 확인
 		int cnt = shopDao.cntReviewno(review);
 		
 		return cnt;
@@ -275,24 +281,32 @@ public class ShopServiceImpl implements ShopService{
 	@Override
 	public Map<Integer, List> ReviewfileList(Review review) {
 		
+		//objectno로 revieno불러오기
 		List<Integer> reviewno = shopDao.selectReviewNo(review);
 		
-		Map<Integer,List> listMap = new HashMap<Integer, List>();
-		
+		//이거 개빡침
+		//리뷰 하나당 사진이 여러개라서 요래 복잡함
+		//어케했노
 		List<ReviewFile> list = new ArrayList<ReviewFile>();
+		Map<Integer,List> listMap = new HashMap<Integer, List>();
 		
 		for(int i=0; i<reviewno.size();i++ ) {
 			
+			//reviewno마다 파일 가져오기
 			list = shopDao.fileList(reviewno.get(i));
 			
 			listMap.put(i, list);
+			
 		}
+		
 		return listMap;
+		
 	}
 
 	@Override
 	public void insertReport(ReportObject reportObject) {
 		
+		//상품신고
 		shopDao.insertReport(reportObject);
 		
 	}
