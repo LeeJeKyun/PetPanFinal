@@ -41,7 +41,7 @@
 
 <div class="container2">
 	<div>
-		<form action="/petpan/admin/blacklist/delete" method="get">
+		<form action="./delete" method="get">
 		<table class = "table table-striped" style="width:800px">
 		<tr>
 		<th>블랙번호</th>
@@ -67,7 +67,7 @@
 		</table>
 		<input type="checkbox" id="checkall" name="checkall" class="checkall">전부선택
 		<input type="submit" id="codeIdSubmit" value="선택 삭제" class="btn btn-danger">
-		<a href="./insert?userno=0"><button type="button" class="btn btn-info">삽입하기</button></a>
+		<a href="./insert?userno=0"><button type="button" class="btn btn-info" id="insert">삽입하기</button></a>
 	</form>
 	</div>	
 	<div class = "" style="margin-left: 170px;">	

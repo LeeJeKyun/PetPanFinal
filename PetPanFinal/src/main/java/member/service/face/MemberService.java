@@ -271,6 +271,14 @@ public interface MemberService {
 	 * @param pet
 	 */
 	public void deletePetInfo(Pet pet);
+	
+	/**
+	 * userno로 불러오기
+	 * @param userno
+	 * @return 
+	 */
+	
+	public int selectByUserno(int userno);
 
 	/**
 	 * 관계자,,

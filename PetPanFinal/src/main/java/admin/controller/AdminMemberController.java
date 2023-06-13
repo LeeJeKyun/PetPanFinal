@@ -27,7 +27,7 @@ public class AdminMemberController {
 	@Autowired AdminService adminService;
 	@Autowired MemberService memberService;
 	
-	
+	//멤버 리스트 가져오기
 	@GetMapping("/member/list")
 	public void viewUserBoard(@RequestParam(defaultValue = "0") int curPage, Model model, String search) {
 
@@ -46,7 +46,7 @@ public class AdminMemberController {
 	}
 	
 
-	
+	//멤버 개인 보여주기
 	@GetMapping("/member/view")
 	public void viewMember(int userno, Model model ) {
 		
@@ -60,7 +60,7 @@ public class AdminMemberController {
 		model.addAttribute("member",member);
 		
 	}
-	
+	//멤버 업데이트 get
 	@GetMapping("/member/update")
 	public void updateMember(int userno, Model model ) {
 		
@@ -74,7 +74,7 @@ public class AdminMemberController {
 		model.addAttribute("member",member);
 		
 	}
-	
+	//멤버 업데이트 실행
 	@PostMapping("/member/update")
 	public String updateMemberPost(Member member, @RequestParam("address") String jibunAddress) {
 		
@@ -93,6 +93,14 @@ public class AdminMemberController {
 		
 		return "redirect:./list" ;
 		
+	}
+	
+	@GetMapping("/member/appadmin")
+	public String updateAdmin(int userno ) {
+		
+		adminService.appointmentAdmin(userno);
+		
+		return "redirect:./view?userno=" + userno;
 	}
 
 	

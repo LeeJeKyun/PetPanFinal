@@ -574,6 +574,12 @@ public class MemberServiceImpl implements MemberService {
 		
 		return false;
 	}
+	@Override
+	public int selectByUserno(int userno) {
+		
+		return memberDao.selectByUserno(userno);
+	}
+	
 	
 	
 }

@@ -11,14 +11,6 @@
 
 <c:import url="../layout/header.jsp" />
 
-<% 
-	int merchant_uid = 0;
-	for(int i = 0; i <8; i++){
-		merchant_uid += (Math.random()*100000000);
-	}
-%>
-
-
 <style>
 
 .content_top{
@@ -125,11 +117,12 @@
 	</c:forEach>
 	<div class="button_set">
 		<a href="./main"><button class="button" id="btn_list">목록으로</button></a>
-		<form action="./buy" method="post">
+		<form action="./buy" method="get">
 			<button class="button" id="btn_buy">바로구매</button>
-			<input type="hidden" class = "quantity" name = "quantity" value = "1">
-			<c:set var="listSize" value="${list.size()}" />
-			<input type = "hidden" id = "buy" name ="objectno" value = "${list[0].USERNO}">
+<!-- 			<input type="hidden" class = "quantity" name = "quantity" value = "1"> -->
+			<input type="hidden" name = "userno" value = "${member.userNo }">
+<%-- 			<c:set var="listSize" value="${list.size()}" /> --%>
+<%-- 			<input type = "hidden" id = "buy" name ="objectno" value = "${list[0].USERNO}"> --%>
 		</form>
 	</div>
 </div>

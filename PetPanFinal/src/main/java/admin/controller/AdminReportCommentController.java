@@ -27,8 +27,8 @@ public class AdminReportCommentController {
 	
 	@GetMapping("/list")
 	public void reportComment(@RequestParam(defaultValue = "0") int curPage, Model model) {
-		logger.info("/reportboard [GET}");
-		logger.info("curPage = {}", curPage);
+//		logger.info("/reportboard [GET}");
+//		logger.info("curPage = {}", curPage);
 		AdminPaging paging = new AdminPaging();
 		
 		paging = adminService.getPageComment(curPage);

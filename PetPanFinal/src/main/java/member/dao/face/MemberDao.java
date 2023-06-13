@@ -281,6 +281,14 @@ public interface MemberDao {
 	 * @param pet
 	 */
 	public void deletePetInfo(Pet pet);
+	
+	/**
+	 * 
+	 * @param userno
+	 * @return userno 수
+	 */
+	
+	public int selectByUserno(int userno);
 
 
 

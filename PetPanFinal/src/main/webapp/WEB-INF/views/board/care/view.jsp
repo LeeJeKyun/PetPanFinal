@@ -454,6 +454,13 @@ function comRecommend(commentNo, e){
 		<h1>중고거래</h1>
 	</c:if>
 	<div id = "report-area">
+		<c:if test="${userno eq map.USERNO }">
+			<a href="./update?boardNo=${map.BOARDNO }">
+				<button type="button" style="width: 85px; height: 33px; font-size: 17px; font-weight: bold; background-color: #f5cbcb; border-radius: 10px 10px 10px 10px / 10px 10px 10px 9px; border: none; color: #FF5050; cursor: pointer;">
+				수정하기
+				</button>
+			</a>
+		</c:if>
 		<a href="./list">
 			<button type="button" style="width: 85px; height: 33px; font-size: 17px; font-weight: bold; background-color: #f5cbcb; border-radius: 10px 10px 10px 10px / 10px 10px 10px 9px; border: none; color: #FF5050; cursor: pointer;">
 				목록으로
