@@ -219,6 +219,29 @@ public interface BoardService {
 	 */
 	public void deleteComRecommend(Map<String, Object> map);
 	
+	/**
+	 * 품앗이 게시판의 글을 수정하는 메소드 
+	 * 
+	 * @param board
+	 */
+	public void updateBoardCare(Board board);
+
+	/**
+	 * 게시글 수정 시에 업로드된 파일을 저장하는 메소드 
+	 * 
+	 * @param fileList
+	 * @param boardNo
+	 * @param no
+	 */
+	public void saveUpdateFile(List<MultipartFile> fileList, int boardNo, List<Integer> no);
+
+	/**
+	 * 품앗이 게시글을 수정할 때 파일을 지우는 메소
+	 * 
+	 * @param boardFile
+	 */
+	public boolean deleteFileCare(BoardFile boardFile);
+	
 	//---------------------------제균------------------------------------
 
 	/**
@@ -425,7 +448,10 @@ public interface BoardService {
 	 */
 	public int countCommentReco(int commentNo);
 
+	
 
+
+	
 
 
 

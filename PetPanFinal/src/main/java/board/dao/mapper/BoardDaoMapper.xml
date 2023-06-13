@@ -254,6 +254,18 @@
 		WHERE commentno = #{commentNo} AND userno = #{userNo}
 	</delete>
 	
+	<update id="updateCareBoard" parameterType="board.dto.Board">
+		UPDATE board
+		SET boardtitle = #{boardTitle}
+			, content = #{content}
+		WHERE boardno = #{boardNo}
+	</update>
+	
+	<delete id="deleteBoardFileWhenUpdate" parameterType="board.dto.BoardFile">
+		DELETE boardfile
+		WHERE fileno = #{fileno}
+	</delete>
+	
 	<!-- ===============================제균=============================== -->
 	
 	

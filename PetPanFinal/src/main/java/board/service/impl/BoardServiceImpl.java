@@ -356,8 +356,79 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	
-	//-------------------------------제균----------------------------------
+	@Override
+	public void updateBoardCare(Board board) {
+		boardDao.updateCareBoard(board);
+	}
+	
+	
+	@Override
+	public void saveUpdateFile(List<MultipartFile> fileList, int boardNo, List<Integer> no) {
+		for(int i = 0; i < fileList.size(); i++) {
+			if(null == no || no.get(i) == -1) continue;  // -1 이면 올리지 않는 취소한 파일
+			
+			if(fileList.get(i).getSize() <= 0)  continue;  // 파일의 크기가 0이면  
+			
+			// 파일이 저장될 경로
+			String storedPath = context.getRealPath("upload");
+			logger.info(" storedPath : {}", storedPath);
+			
+			// upload폴더가 없으면 생성
+			File storedFolder = new File(storedPath);
+			storedFolder.mkdir();
+			
+			File dest = null;
+			String storedName = null;
+			
+			do {
+				//저장할 파일 이름 생성
+				storedName = fileList.get(i).getOriginalFilename(); //원본 파일명
+				
+				storedName += UUID.randomUUID().toString().split("-")[0]; //
+				logger.info("storedName : {}", storedName);
 
+				//실제 저장될 파일 객체
+				dest = new File(storedFolder, storedName);
+				
+			}while(dest.exists());
+			
+			try {
+				// 업로드된 파일을 upload 폴더에 저장
+				fileList.get(i).transferTo(dest);
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			//DB에 저장할 객체
+			Map<String, Object> map  = new HashMap<>();
+			
+			map.put("boardNo", boardNo);
+			map.put("originName", fileList.get(i).getOriginalFilename());
+			map.put("storedName", storedName);
+			map.put("fileSize", fileList.get(i).getSize());
+			
+			logger.info("map: {} ",map);
+			
+			//DB insert
+			boardDao.insertBoardFile(map);
+		}
+	}
+	
+	@Override
+	public boolean deleteFileCare(BoardFile boardFile) {
+		int res = boardDao.deleteBoardFileWhenUpdate(boardFile);
+		
+		if(res > 0) {
+			return true;
+		}
+		
+		return false;
+		
+	}
+
+	
+	//-------------------------------제균----------------------------------
 
 
 
