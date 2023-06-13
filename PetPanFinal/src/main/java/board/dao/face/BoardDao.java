@@ -619,7 +619,4 @@ public interface BoardDao {
 	public int selectCommentCntReco(int commentNo);
 
 	
-
-
-	
 }

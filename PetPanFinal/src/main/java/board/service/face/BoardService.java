@@ -236,7 +236,7 @@ public interface BoardService {
 	public void saveUpdateFile(List<MultipartFile> fileList, int boardNo, List<Integer> no);
 
 	/**
-	 * 품앗이 게시글을 수정할 때 파일을 지우는 메소
+	 * 품앗이 게시글을 수정할 때 파일을 지우는 메소드 
 	 * 
 	 * @param boardFile
 	 */
