@@ -289,11 +289,6 @@
 		UPDATE MEMBER SET positionNo = 3 WHERE userno = #{userno}
 	</update>
 	
-
-	
-	<!-- 	public Notice selectBynoticeno(int noticeno);
-
-	public List<NoticeFile> selectnoticeFile(int noticeno); -->
 	
 
 </mapper>

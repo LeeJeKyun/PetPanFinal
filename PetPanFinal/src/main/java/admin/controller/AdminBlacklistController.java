@@ -30,13 +30,14 @@ public class AdminBlacklistController {
 	@Autowired AdminService adminService;
 	@Autowired MemberService memberService;
 	
+	//메인페이지 매핑
 	@GetMapping("/")
 	public String goMain1() {
 		
 		return "redirect:/admin/main";
 		
 	}
-	
+	//메인페이지 매핑2
 	@GetMapping("/main")
 	public void goMain2() {
 	
@@ -46,13 +47,10 @@ public class AdminBlacklistController {
 	//blacklist 수정
 	@GetMapping("/blacklist/list")
 	public void viewblackBoard(@RequestParam(defaultValue = "0") int curPage, Model model) {
-//		logger.info("/reportboard [GET}");
-//		logger.info("curPage = {}", curPage);
 		AdminPaging paging = new AdminPaging();
 		
 		paging = adminService.getBlacklistPage(curPage);
 		
-//		logger.info("paging = {}", paging);
 		List<Map<String,Object>> list = adminService.getBlacklistBoard(paging);
 		
 	
@@ -64,36 +62,36 @@ public class AdminBlacklistController {
 	}
 
 	
-
+	//블랙리스트 삭제 (한번에)
 	@GetMapping("/blacklist/delete")
 	public String blacklistdelete(@RequestParam(value="delete",required=false) List<String> delete) {
 		
-//		logger.info("delete = {}", delete);
 		adminService.deleteblacklist(delete);
 		
 		
-		return "redirect:/admin/blacklist/board";
+		return "redirect:./list";
 		
 	}
 	
+	//블랙리스트 insert
 	@GetMapping("/blacklist/insert")
-	public void blacklistinsert(@RequestParam(required=false)int userno, Model model) {
+	public void blacklistinsert(@RequestParam(required=false)int userno,Model model) {
 		
+		int isUserno = memberService.selectByUserno(userno);
 		
-		if (userno != 0) {
+		if(userno != 0) {
 		model.addAttribute("userno",userno);
-		
 		}
 	}
 	
-	
+	//블랙리스트 insert
 	@PostMapping("/blacklist/insert")
 	public String blacklistdeleteproc(Blacklist blacklist) {
 		
-		
+		if (blacklist.getUserno() !=0) {
 		logger.info("blacklist = {}", blacklist);
 		adminService.insertblacklist(blacklist);
-		
+		}
 		return "redirect:./list";
 
 	}

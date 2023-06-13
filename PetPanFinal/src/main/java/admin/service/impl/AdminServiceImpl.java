@@ -46,6 +46,8 @@ public class AdminServiceImpl implements AdminService{
 	@Autowired ServletContext context;
 	@Autowired AdminShopDao adminShopDao;
 	@Autowired MemberDao memberDao;
+
+
 	@Override
 	public List<ReportBoard> getReportBoard(AdminPaging paging) {
 		
@@ -1067,12 +1069,13 @@ public class AdminServiceImpl implements AdminService{
 		
 		
 	}
-
+	
 	@Override
 	public void appointmentAdmin(int userno) {
 		adminDao.updateMemberToAdmin(userno);
 		
 	}
+	
 }
 
 

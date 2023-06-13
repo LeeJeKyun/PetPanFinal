@@ -113,8 +113,8 @@ $(function(){
 			alert("입력해주세요.")
 			return
 		}
-		if($(content.value).text() == '') {
-			alert("required c")
+		if(!$("form")[1].checkValidity()) {
+			alert("내용을 입력해주세요")
 			return
 		}
 		$("form").submit();
