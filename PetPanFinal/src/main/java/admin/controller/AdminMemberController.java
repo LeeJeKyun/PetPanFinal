@@ -94,6 +94,14 @@ public class AdminMemberController {
 		return "redirect:./list" ;
 		
 	}
+	
+	@GetMapping("/member/appadmin")
+	public String updateAdmin(int userno ) {
+		
+		adminService.appointmentAdmin(userno);
+		
+		return "redirect:./view?userno=" + userno;
+	}
 
 	
 	
