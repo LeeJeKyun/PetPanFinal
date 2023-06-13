@@ -4,7 +4,9 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
+		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
@@ -60,7 +62,13 @@
 	<!-- d업로드된 파일 하나당 사이즈 제한 : 5MB -->
 		<beans:property name="maxUploadSizePerFile" value="5242880"></beans:property>
 	</beans:bean>
+	<!-- 웹소캣 등록 -->
+		<!-- 웹소캣 등록 -->
+
+	
+
 	
 	<context:component-scan base-package="admin.controller, board.controller, main.controller, member.controller, shop.controller, admin.service, board.service, main.service, member.service, shop.service, message.controller, message.service, aop " />
 	
+
 </beans:beans>

@@ -40,7 +40,7 @@
 <div class="container2">
 <div align="center">
 	<form action="<%=request.getContextPath() %>/admin/reportshop/delete" method="get">
-		<table class = "table table-striped" style="width:1400px">
+		<table class = "table table-striped" style="width:1500px">
 		<tr>
 		<th>신고번호</th>
 		<th>신고상품번호</th>
@@ -62,8 +62,10 @@
 		<td>${list.userNo }</td>
 		<td>${list.userName }</td>
 		<td><fmt:formatDate value="${list.reportDate }" pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate></td>
-		<td>${list.complete }</td>
-		<td><c:if test="${list.complete eq 'N' }"><input type="checkbox" id="delete" name="delete" class="delete" value="${list.objreportNo }"></c:if>
+		<td><c:if test="${list.complete eq 'n' }">처리필요</c:if>
+			<c:if test="${list.complete eq 'Y' }">처리완료</c:if>
+		</td>
+		<td><c:if test="${list.complete eq 'n' }"><input type="checkbox" id="delete" name="delete" class="delete" value="${list.objreportNo }"></c:if>
 			<c:if test="${list.complete eq 'Y' }"><input type="checkbox" disabled="disabled"></c:if></td>
 		</tr>
 		</c:forEach>
