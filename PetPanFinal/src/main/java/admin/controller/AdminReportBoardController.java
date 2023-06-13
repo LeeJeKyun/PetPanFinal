@@ -30,21 +30,24 @@ public class AdminReportBoardController {
 			Model model, 
 			@RequestParam(required=false,defaultValue = "")String search) {
 
-		logger.info("/reportboard [GET}");
-		logger.info("curPage = {}", curPage);
+//		logger.info("/reportboard [GET}");
+//		logger.info("curPage = {}", curPage);
+		// 어드민 페이징 객체 생성
 		AdminPaging paging = new AdminPaging();
 
 //		logger.info("/reportboard [GET}");
 //		logger.info("curPage = {}", curPage);
 	
+		// 받아온 search 검색값과 현재 페이지 값을 바탕으로 총 페이징을 완성한다.
 		paging = adminService.getPage(curPage,search);
 		
-		logger.info(search);
+//		logger.info(search);
 		
 //		logger.info("paging = {}", paging);
 		List<ReportBoard> list;
 
-			list = adminService.getSearchReportBoard(paging);
+		list = adminService.getSearchReportBoard(paging);
+		
 		
 		model.addAttribute("search",search);
 		model.addAttribute("list",list);

@@ -86,17 +86,17 @@
 		<td>${list.price }</td>
 		<td>${list.remain }</td>
 		<td>
-			<c:if test="${list.deleteobj eq 1 }">판매중</c:if>
-			<c:if test="${list.deleteobj ne 1 }">판매중단</c:if>
+			<c:if test="${list.deleteobj eq 1 and list.remain > 0  }">판매중</c:if>
+			<c:if test="${list.deleteobj ne 1 or list.remain <= 0  }">판매중단</c:if>
 		</td>
 		<td>
-			<c:if test="${list.deleteobj eq 1 }"><input type="checkbox" id="delete" name="delete" class="delete" value="${list.objectno }"></c:if>
-			<c:if test="${list.deleteobj ne 1 }"><input type="checkbox" disabled="disabled"></c:if>
+			<c:if test="${list.deleteobj eq 1 and list.remain > 0}"><input type="checkbox" id="delete" name="delete" class="delete" value="${list.objectno }"></c:if>
+			<c:if test="${list.deleteobj ne 1 or list.remain <= 0}"><input type="checkbox" disabled="disabled"></c:if>
 		</td>
 		
 		<td>
-			<c:if test="${list.deleteobj ne 1 }"><input type="checkbox" id="resell" name="resell" class="resell" value="${list.objectno }"></c:if>
-			<c:if test="${list.deleteobj eq 1 }"><input type="checkbox" disabled="disabled"></c:if>
+			<c:if test="${list.deleteobj ne 1 and list.remain > 0 }"><input type="checkbox" id="resell" name="resell" class="resell" value="${list.objectno }"></c:if>
+			<c:if test="${list.deleteobj eq 1 or list.remain <= 0 }"><input type="checkbox" disabled="disabled"></c:if>
 		</td>
 		</tr>
 		</c:forEach>

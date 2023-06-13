@@ -148,12 +148,6 @@ $(function(){
 		
 	}
 	
-// 	if(${map.OPEN} < now && ${map.CLOSE} > now){
-// 		console.log("영업중")
-// 	}else{
-// 		console.log("닫음")
-		
-// 	}
 	console.log("${map.OPEN}");
 	console.log("${map.CLOSE}");
 	
@@ -530,9 +524,9 @@ function MarkerTracker(map, target) {
 	var map = new kakao.maps.Map(mapContainer, mapOption);
 	
 	// 병원
-	var dkpos1 = new kakao.maps.LatLng(${map.H_LONGITUDE}, ${map.H_LATITUDE});
+	var dkpos1 = new kakao.maps.LatLng(${map.H_LATITUDE}, ${map.H_LONGITUDE});
 	// 사용자의 집
-	var dkpos2 = new kakao.maps.LatLng(${map.U_LONGITUDE}, ${map.U_LATITUDE}); 
+	var dkpos2 = new kakao.maps.LatLng(${map.U_LATITUDE}, ${map.U_LONGITUDE}); 
 	
 	// 툴팁을 노출하는 마커를 생성합니다.
 	var marker1 = new TooltipMarker(dkpos1, '병원');
