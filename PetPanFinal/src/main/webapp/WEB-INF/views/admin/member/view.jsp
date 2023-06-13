@@ -35,7 +35,9 @@
 		<a href = "./update?userno=${member.userNo}"><button class = "btn btn-primary">정보 수정</button></a>
 		<a href = "./list"><button class = "btn btn-primary">멤버 리스트</button></a>
 		<a href = "../blacklist/insert?userno=${member.userNo}"><button class = "btn btn-danger">블랙</button></a>
-		
+		<c:if test="${member.positionNo ne 3}">
+		<a href = "./appadmin?userno=${member.userNo}"><button class = "btn btn-info">관리자 승격</button></a>
+		</c:if>
 		
 </div>
 </body>

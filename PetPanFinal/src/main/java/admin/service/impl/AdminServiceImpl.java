@@ -128,6 +128,7 @@ public class AdminServiceImpl implements AdminService{
 	        //Report의 complete를 N->Y로 바꾸는 메소드
 //	        adminDao.updateReportComplete(deleteNo);
 	        
+	        // 동적쿼리를 적용하기 위해서 MAP에 저장하는 과정
 	        HashMap<String, Integer> boardnoMap = new HashMap<String, Integer>();
 	        HashMap<String, Integer> deleteNoMap = new HashMap<String, Integer>();
 	        // 받아온 boardno를 Map에 저장하게 하는 코드
@@ -313,9 +314,9 @@ public class AdminServiceImpl implements AdminService{
 	public List<ReportComment> getReportComment(AdminPaging paging) {
 		List<ReportComment> list = adminDao.ReportCommentselectAll(paging);
 		
-		for(ReportComment e : list) {
-			System.out.println(e);
-		}
+//		for(ReportComment e : list) {
+//			System.out.println(e);
+//		}
 		
 		return list;
 	}
@@ -391,7 +392,7 @@ public class AdminServiceImpl implements AdminService{
 		Blacklist blacklist = new Blacklist();
 		
 		if(docommentNo!=null) {
-	        //comment의 내용을 지워서 '관리자에 의해 삭제된 게시글 입니다' 로 업데이트 하는 구문
+	        //comment의 내용을 지워서 '관리자에 의해 삭제된 댓글 입니다' 로 업데이트 하는 구문
 	        adminDao.updateReportComment(docommentNo);	
 		}
 		
@@ -430,9 +431,9 @@ public class AdminServiceImpl implements AdminService{
 		
 		List<ReportBoard> list = adminDao.ReportBoardSearchselectAll(paging);
 		
-		for(ReportBoard e : list) {
-			System.out.println(e);
-		}
+//		for(ReportBoard e : list) {
+////			System.out.println(e);
+//		}
 		
 		return list;
 	}
@@ -454,9 +455,9 @@ public class AdminServiceImpl implements AdminService{
 		
 		List<Shop> list = adminShopDao.ShoptselectAll(paging);
 		
-		for(Shop e : list) {
-			System.out.println(e);
-		}
+//		for(Shop e : list) {
+//			System.out.println(e);
+//		}
 		
 		return list;
 	}
@@ -468,15 +469,17 @@ public class AdminServiceImpl implements AdminService{
 		}
 		
 	    List<String> deleteNoList = delete;
-	    List<HashMap> deleteNoMaplist = new ArrayList<HashMap>();
+	    List<HashMap> objectNoMaplist = new ArrayList<HashMap>();
 	    
 	    for (int i = 0; i < deleteNoList.size(); i++) {
 	        int deleteNo = Integer.valueOf(deleteNoList.get(i));
 	        HashMap<String, Integer> deleteNoMap = new HashMap<String, Integer>();
+	        //체크로 받아온 objectNo를 맵에 저장한다.
 	        deleteNoMap.put("objectNo", deleteNo);
-	        deleteNoMaplist.add(i, deleteNoMap);
+	        //map에 저장된 K/V쌍을 objectNoMaplist에 저장한다.
+	        objectNoMaplist.add(i, deleteNoMap);
 	    }
-	    adminShopDao.updateShopDeleteObj(deleteNoMaplist);
+	    adminShopDao.updateShopDeleteObj(objectNoMaplist);
 		
 	}
 
@@ -539,7 +542,7 @@ public class AdminServiceImpl implements AdminService{
 			
 			// 파일이 저장될 경로
 			String storedPath = context.getRealPath("upload");
-			logger.info(" storedPath : {}", storedPath);
+//			logger.info(" storedPath : {}", storedPath);
 			
 			// upload폴더가 없으면 생성
 			File storedFolder = new File(storedPath);
@@ -553,7 +556,7 @@ public class AdminServiceImpl implements AdminService{
 				storedName = fileList.get(i).getOriginalFilename(); //원본 파일명
 				
 				storedName += UUID.randomUUID().toString().split("-")[0]; //
-				logger.info("storedName : {}", storedName);
+//				logger.info("storedName : {}", storedName);
 
 				//실제 저장될 파일 객체
 				dest = new File(storedFolder, storedName);
@@ -577,7 +580,7 @@ public class AdminServiceImpl implements AdminService{
 			shopfile.setFilesize(fileList.get(i).getSize());
 			
 			
-			logger.info("shopfile: {} ",shopfile);
+//			logger.info("shopfile: {} ",shopfile);
 			
 			//DB insert
 			adminShopDao.insertShopFile(shopfile);
@@ -597,9 +600,9 @@ public class AdminServiceImpl implements AdminService{
 		
 		List<ShopFile> list = adminShopDao.selectShopFile(objectno);
 				
-			for(ShopFile e : list) {
-					System.out.println(e);
-			}		
+//			for(ShopFile e : list) {
+//					System.out.println(e);
+//			}		
 				
 				
 		return list;
@@ -611,6 +614,7 @@ public class AdminServiceImpl implements AdminService{
 		
 		if(save!=null) {
 			for(int i=save.size()-1; i>=0 ;i--) {
+				// save로부터 어떤 파일을 남길 것인지 를 계산한다.
 				int remove = save.get(i);
 				delete.remove(remove);
 				System.out.println(remove);
@@ -619,6 +623,7 @@ public class AdminServiceImpl implements AdminService{
 				
 				
 			for(int e : delete) {
+				//남은 파일들은 save 인덱스가 지워져서 넘어오지 않은 녀석들이기 때문에 삭제를 진행한다.
 				ShopFile deletefile = adminShopDao.selectShopFileByFileno(e);
 				String storedPath = context.getRealPath("upload");
 				String storedName = "\\";
@@ -736,9 +741,9 @@ public class AdminServiceImpl implements AdminService{
 		
 		List<HashMap<String, Object>> list = adminShopDao.selectAllBuyer(adminPaging);
 		
-		for(HashMap<String, Object> e : list) {
-			System.out.println(e);
-		}
+//		for(HashMap<String, Object> e : list) {
+//			System.out.println(e);
+//		}
 		
 		return list;
 	}
@@ -755,6 +760,10 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public void completeCheckedBuyer(List<String> delete) {
 		
+		if (delete == null) {
+			return;
+		}
+		
 	    List<String> completeNoList = delete;
 	    OrderThing orderThing = new OrderThing();
 	    
@@ -762,9 +771,13 @@ public class AdminServiceImpl implements AdminService{
 
 	    for (int i = 0; i < completeNoList.size(); i++) {
 	        int completno = Integer.valueOf(completeNoList.get(i));
-	        //update할 objectno를 받아오는 메소드
+	        //update할 buyno를 받아오는 메소드
 	        orderThing = adminShopDao.selectObjectno(completno);
 	        adminShopDao.updateObjectReamin(orderThing);
+	        int remain = adminShopDao.selectObjectReamin(orderThing);
+	        if(remain<=0) {
+	        	adminShopDao.updateShop(orderThing.getObjectno());
+	        }
 	        HashMap<String, Integer> deleteNoMap = new HashMap<String, Integer>();
 	        deleteNoMap.put("buyNo", completno);
 	        
@@ -775,7 +788,7 @@ public class AdminServiceImpl implements AdminService{
 	        deleteNoMaplist.add(i, deleteNoMap);
 	    }
 	    
-	    System.out.println(deleteNoMaplist);
+//	    System.out.println(deleteNoMaplist);
 //		for(HashMap e : boardnoMaplist) {
 //			System.out.println(e);
 //		}
@@ -855,6 +868,10 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public void changeObjReport(List<String> delete) {
+		
+		if (delete == null) {
+			return;
+		}
 		
 		List<HashMap> objreportNolist = new ArrayList<HashMap>();
 		
@@ -1048,6 +1065,12 @@ public class AdminServiceImpl implements AdminService{
 	    
 	    adminShopDao.updateShopResellObj(resellNoMaplist);
 		
+		
+	}
+
+	@Override
+	public void appointmentAdmin(int userno) {
+		adminDao.updateMemberToAdmin(userno);
 		
 	}
 }
