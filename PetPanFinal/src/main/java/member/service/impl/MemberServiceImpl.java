@@ -560,6 +560,12 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 	
+	@Override
+	public int selectByUserno(int userno) {
+		
+		return memberDao.selectByUserno(userno);
+	}
+	
 	
 	
 }

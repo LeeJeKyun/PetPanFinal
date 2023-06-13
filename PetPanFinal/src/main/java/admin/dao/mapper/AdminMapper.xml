@@ -289,11 +289,6 @@
 		delete from noticeFile where fileno = #{fileno}	
 	</delete>
 	
-
-	
-	<!-- 	public Notice selectBynoticeno(int noticeno);
-
-	public List<NoticeFile> selectnoticeFile(int noticeno); -->
 	
 
 </mapper>

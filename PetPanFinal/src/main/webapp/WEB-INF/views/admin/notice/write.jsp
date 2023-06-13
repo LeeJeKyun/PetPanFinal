@@ -103,11 +103,15 @@ $(function(){
 		oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
 		
 		if(!$("form")[0].checkValidity()) {
-			alert("입력해주세요.")
+			alert("제목을입력해주세요.")
+			return
+		}
+		if($("noticecontent").val() == '' || $("noticecontent").val() == '<p><br></p>') {
+			alert("내용을입력해주세요.")
 			return
 		}
 		if($(content.value).text() == '') {
-			alert("required c")
+			alert("내용을 입력해주세요")
 			return
 		}
 		$("form").submit();
@@ -185,7 +189,7 @@ function updateContents(){
 			<div id = "input-files" align="right" ></div>
 			
 			<div align="right">
-			<button  id = "btnWrite" class="btn btn-primary">작성</button>
+			<button  type="button" id = "btnWrite" class="btn btn-primary">작성</button>
 			<a href = "./list" class="btn btn-danger">공지 등록 취소</a>
 			</div>
 		</form>

@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import admin.dao.face.AdminDao;
 import admin.dao.face.AdminShopDao;
 import admin.dto.Blacklist;
+import admin.dto.ChatMsg;
 import admin.dto.ReportBoard;
 import admin.dto.ReportComment;
 import admin.dto.ReportObject;
@@ -46,6 +47,7 @@ public class AdminServiceImpl implements AdminService{
 	@Autowired ServletContext context;
 	@Autowired AdminShopDao adminShopDao;
 	@Autowired MemberDao memberDao;
+	
 	@Override
 	public List<ReportBoard> getReportBoard(AdminPaging paging) {
 		
@@ -1050,6 +1052,7 @@ public class AdminServiceImpl implements AdminService{
 		
 		
 	}
+	
 }
 
 
