@@ -238,6 +238,8 @@ $(function(){
 		console.log('완성된 이메일 : ' + email); // 이메일 오는지 확인
 		const checkInput = $('.mail-check') // 인증번호 입력하는곳 
 		
+				alert('인증번호가 전송되었습니다.')
+
 		// 이메일을 적지 않았을 때 ajax를 막아야한다,,
 		if($('#emailF').val()==''){
 			$('#mail-check-warn').html('이메일 인증 해주세요!')
@@ -245,18 +247,27 @@ $(function(){
 			return;
 		}
 		
-			alert('인증번호가 전송되었습니다.')
 		
 		$.ajax({
 			type : 'get',
 			url : '/member/mailCheck?email='+email, // GET방식이라 Url 뒤에 email을 붙일수있다.
 			success : function (data) {	// data는 serviceImpl의 joinEmail에서 보내주는 authNumber
 				console.log("data : " +  data);
+				  if(data){
 				checkInput.attr('disabled',false);
-				code =data;
-			}			
-		}); // end ajax
-	}); // end send email
+				
+				  }
+			}
+		
+		  ,error : function() {
+	            console.log("실패!")
+	         }
+	      }); // end ajax
+	   }); // end send email
+
+	   var code = ""; // 인증번호 저장을 위한 코드
+	   var isCertification = false;
+
 
 	//인증번호 비교 
 	// blur -> focus가 벗어나는 경우 발생
@@ -264,7 +275,18 @@ $(function(){
 		const inputCode = $(this).val();
 		const $resultMsg = $('#mail-check-warn');
 		
-		if(inputCode === code){
+		
+	    //사용자가 입력한 인증번호를 비교하는 AJAX
+	      $.ajax({
+	         type : 'POST',
+	         data: {inputCode: inputCode},
+	         url : '/member/mailCheck',
+	         success : function (data) {
+	            console.log("data : " +  data);
+		
+		if(data){
+			isCertification = true;
+
 			$resultMsg.html('인증번호가 일치합니다.');
 			$resultMsg.css('color','green');
 			$('#mail-Check-Btn').attr('disabled',true);
@@ -273,11 +295,22 @@ $(function(){
 			$('#email2').attr('onFocus', 'this.initialSelect = this.selectedIndex');
 	         $('#email2').attr('onChange', 'this.selectedIndex = this.initialSelect');
 		}else{
+			isCertification = false;
 			$resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요!.');
 			$resultMsg.css('color','red');
 		}
-	});
-
+		
+	         }
+	         
+	         ,error : function() {
+	             console.log("실패!")
+	          }
+	       }); // end ajax
+	    });
+	
+	
+	
+	
 	//이메일주소 가져오기
 	$("#emailF").blur(function(){
 		email();	

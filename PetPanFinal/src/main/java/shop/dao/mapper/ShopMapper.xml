@@ -8,6 +8,7 @@
 	<select id="countShop" resultType="int" parameterType="String">
 		select count(*) from shop
 		where name like ('%${search}%')
+		and deleteobj = 1 
 	</select>
 	
 	<select id="selectAll" resultType="shop.dto.Shop" parameterType="util.ShopPaging">

@@ -59,9 +59,8 @@ input{
 }
 
 .select{
-    width: 300px;
-    margin: 35px auto;
-    text-align: center;
+    width: 420px;
+    margin: 15px auto;
 }
 
 .select span{
@@ -72,10 +71,16 @@ input{
 }
  
 .select input[type=text]{
-   width: 50%;
+   width: 200px;
    height: 35px;
 
 } 
+
+#userName {
+   width: 200px;
+   height: 35px;
+	margin-left: 30px;
+}
 
 #btn{
    background-color: #FFDAD7;
@@ -95,11 +100,31 @@ input{
 	clear: both;
 }
 
+.clearbox {
+	height: 40px;
+	overflow: hidden;
+	line-height: 0;
+	clear: both;
+}
+
 
 input:focus {
 	outline: 1px solid #FF5050;
 }
 
+#id {
+	position: absolute;
+	margin-left: 815px;
+}
+
+#pw {
+	position: absolute;
+	margin-left: 980px;
+}
+
+.name{
+	text-align: center;
+}
 </style>
 
 </head>
@@ -108,15 +133,28 @@ input:focus {
 <div id="search_id">
 
 
-	<div>
-   <a href='./id' style="text-align:center; font-size:20px; color:#FF5060;">아이디 찾기</a><br>
-   <a href='./pw' style="text-align:center; font-size:20px; color:#FF5060;">비밀번호 찾기</a><br>
+	<div id="id">
+   <a href='./id' style="text-align:center; font-size:17px; color:#FF5060;">아이디 찾기</a><br>
    </div>
+   
+	<div id="pw">
+   <a href='./pw' style="text-align:center; font-size:17px; color:#FF5060;">비밀번호 찾기</a><br>
+   </div>
+
+
+<div class="clearbox"></div>
+
+
+
+
+
    
 <form action="./id" method="post">
 
+
+<div class="name">
+
    <div class="select">
-   	
       <label for="userName" >이름</label>
       <input type="text" class="boxcolor" id="userName" name="userName">
       <div id="clear"></div>
@@ -131,10 +169,12 @@ input:focus {
       
    </div>
 
-    
    <div class="select">
-      <button id="id_check" >아이디 찾기</button>
+      <button id="btn" >아이디 찾기</button>
    </div>
+
+</div>
+    
    
 
 

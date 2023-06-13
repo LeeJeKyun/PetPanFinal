@@ -49,14 +49,17 @@ $(function(){
 })
 
 
-
+// 이메일 인증
 
 $(function(){
+	
 	$('#mail-Check-Btn').click(function() {
 		const email = $('#emailF').val() + $("#middle").text() + $('#email2').val(); // 이메일 주소값 얻어오기!
 		console.log('완성된 이메일 : ' + email); // 이메일 오는지 확인
 		const checkInput = $('.mail-check') // 인증번호 입력하는곳 
 		
+		alert('인증번호가 전송되었습니다.')
+
 		// 이메일을 적지 않았을 때 ajax를 막아야한다!!
 		if($('#emailF').val()==''){
 			$('#mail-check-warn').html('이메일 인증 해주세요!')
@@ -64,7 +67,6 @@ $(function(){
 			return;
 		}
 
-		alert('인증번호가 전송되었습니다.')
 		
 		
 		$.ajax({
@@ -72,20 +74,45 @@ $(function(){
 			url : '/member/pwMailCheck?email='+email, // GET방식이라 Url 뒤에 email을 붙일수있다.
 			success : function (data) {	// data는 serviceImpl의 joinEmail에서 보내주는 authNumber
 				console.log("data : " +  data);
+				
+			if(data){
+			
 				checkInput.attr('disabled',false);
-				code =data;
-			}			
-		}); // end ajax
-	}); // end send email
+				
+			  }
+			}
+		
+		  ,error : function() {
+	            console.log("실패!")
+	         }
+	      }); // end ajax
+	   }); // end send email
 
+
+	   var code = ""; // 인증번호 저장을 위한 코드
+	   var isCertification = false;
+	   
+	   
+	   
 	//인증번호 비교 
 	// blur -> focus가 벗어나는 경우 발생
 	$('.mail-check').blur(function () {
 		const inputCode = $(this).val();
 		const $resultMsg = $('#mail-check-warn');
 		
-		if(inputCode === code){
-			$resultMsg.html('인증번호가 일치합니다.');
+		
+	    //사용자가 입력한 인증번호를 비교하는 AJAX
+	      $.ajax({
+	         type : 'POST',
+	         data: {inputCode: inputCode},
+	         url : '/member/mailCheck',
+	         success : function (data) {
+	            console.log("data : " +  data);
+
+	    if(data){
+	    	isCertification = true;
+			
+	    	$resultMsg.html('인증번호가 일치합니다.');
 			$resultMsg.css('color','green');
 			$('#mail-Check-Btn').attr('disabled',true);
 			$('#email').attr('readonly',true);
@@ -93,16 +120,22 @@ $(function(){
 			$('#email2').attr('onFocus', 'this.initialSelect = this.selectedIndex');
 	         $('#email2').attr('onChange', 'this.selectedIndex = this.initialSelect');
 		}else{
+			sCertification = false;
 			$resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요!.');
 			$resultMsg.css('color','red');
 		}
-	});
+	         }
+	         
+	         ,error : function() {
+	             console.log("실패!")
+	          }
+	      }); // end ajax
+	   });
 
-})
-
-
+});
 
 </script>
+
 
 <style type="text/css">
 
@@ -119,15 +152,20 @@ input{
 }
 
 .select{
-    width: 300px;
-    margin: 35px auto;
-    text-align: center;
+    width: 420px;
+    margin: 15px auto;
 }
  
+ 
 .select input[type=text]{
-   width: 50%;
+   width: 420px;
    height: 35px;
 
+} 
+
+.select input[type=password]{
+   width: 420px;
+   height: 35px;
 } 
 
 #btn{
@@ -135,7 +173,7 @@ input{
    color : #FF5050;
    border-radius: 7px;
    border-color: #FFDAD7;
-   width: 300px;
+   width: 430px;
    height: 35px;
    
 }
@@ -149,6 +187,28 @@ input:focus {
 	outline: 1px solid #FF5050;
 }
 
+#eamil2 {
+	width: 150px;
+	
+}
+
+#id {
+	position: absolute;
+	margin-left: 158px;
+}
+
+#pw {
+	position: absolute;
+	margin-left: 327px;
+}
+
+.clearbox {
+	height: 40px;
+	overflow: hidden;
+	line-height: 0;
+	clear: both;
+}
+
 </style>
 
 </head>
@@ -157,10 +217,16 @@ input:focus {
 <div id="search_pw">
 
 
-	<div>
-   <a href='./id' style="text-align:center; font-size:20px; color:#FF5060;">아이디 찾기</a><br>
-   <a href='./pw' style="text-align:center; font-size:20px; color:#FF5060;">비밀번호 찾기</a><br>
+	<div id="id">
+   <a href='./id' style="text-align:center; font-size:17px; color:#FF5060;">아이디 찾기</a><br>
    </div>
+   
+	<div id="pw">
+   <a href='./pw' style="text-align:center; font-size:17px; color:#FF5060;">비밀번호 찾기</a><br>
+   </div>
+
+
+<div class="clearbox"></div>
    
 <form action="./pw" method="post">
 
@@ -190,22 +256,11 @@ input:focus {
 					<option>직접입력</option>
 				</datalist>
 		
-		
-<!-- 			<input type="text" class="form-control" name="email" id="email" placeholder="이메일" style="width:150px">  -->
-<!-- 			<datalist class="form-control" id="email2"> -->
-<!-- 				<option>@naver.com</option> -->
-<!-- 				<option>@daum.net</option> -->
-<!-- 				<option>@gmail.com</option> -->
-<!-- 				<option>@hanmail.com</option> -->
-<!-- 				<option>@yahoo.co.kr</option> -->
-<!-- 			</datalist> -->
-			
-			
 				<button type="button"id="mail-Check-Btn" class="input-group-addon">본인인증</button>
 			<div class="btn">
 				<input class="mail-check"
 					placeholder="인증번호를 입력해주세요!" disabled="disabled" maxlength="6">
-			</div>
+			</div><!-- btn -->
 			<span id="mail-check-warn"></span>
 		</div>
 	</div>
