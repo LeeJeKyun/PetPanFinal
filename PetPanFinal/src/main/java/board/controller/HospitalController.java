@@ -79,6 +79,7 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		logger.info("병원 정보 {}", hospitalList);
 		
 		model.addAttribute("hospitalList", hospitalList);
+		logger.info("paging {}", paging);
 		model.addAttribute("paging", paging);
 	}
 //	@GetMapping("/enroll")

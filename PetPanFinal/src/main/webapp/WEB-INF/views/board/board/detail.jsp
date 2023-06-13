@@ -70,6 +70,12 @@ table{
 	font-size: 0.8em;
 	cursor: pointer;
 }
+.update-comment{
+	padding-right: 20px;
+	padding-top: 20px;
+	font-size: 0.8em;
+	cursor: pointer;
+}
 .date{
 	font-size: 0.8em;
 }
@@ -110,6 +116,16 @@ table{
 	text-align: center;
 	padding-top: 10px;
 }
+#update-board{
+	display: inline-block;
+	color: black;
+	background-color: #ffdad7;
+	width:100px;
+	height: 34px;
+	border-radius: 10px 10px 10px 10px;
+	text-align: center;
+	padding-top: 10px;
+}
 #set-area{
 	text-align: right;
 	margin-bottom: 10px;
@@ -125,14 +141,14 @@ table{
 	bottom: 0;
 }
 .comment2-area{
-	width: 780px;
-	padding-left: 20px;
+	width: 720px;
+	padding-left: 80px;
 /* 	background-color: #ff50602e; */
 	padding-bottom: 20px;
 }
 .comment3-area{
-	width: 720px;
-	padding-left: 80px;
+	width: 680px;
+	padding-left: 120px;
 	padding-bottom: 20px;
 }
 #refresh{
@@ -424,6 +440,7 @@ function commentShow(commentNo) {
 	}
 }
 
+
 </script>
 <div id = "fcontainer">
 	<c:if test="${map.BOARDTYPENO == 2}">
@@ -438,6 +455,7 @@ function commentShow(commentNo) {
 		<!-- 게시글의 userno과 session의 userno이 같으면 -->
 		<c:if test="${map.USERNO == userno }">
 			<a href = "./delete/board?boardNo=${map.BOARDNO }"  id = "delete-board">게시글 삭제</a>
+			<a href = "./update?boardNo=${map.BOARDNO }" id = "update-board">게시글 수정</a>
 		</c:if>
 		</div>
 		
@@ -463,7 +481,7 @@ function commentShow(commentNo) {
 	</div>
 	<hr>
 	<div id = "main">
-		<div>작성자 :  ${map.USERNAME }</div>
+		<div>작성자 :  ${map.USERNICK }</div>
 		<div id = "title">
 			<h3>${map.BOARDTITLE }</h3>
 		 </div>

@@ -38,8 +38,8 @@
 <script type="text/javascript">
 $(function(){
 
+	$("option[value='" + ${paging.radius} + "']").prop("selected", true);
 	
-	$("#radius option:eq(${paging.radius})").prop("selected", true);
 	$("#choose").click(function(){
 		if($("#choose").is(":checked") ){
 			$("#animals").css("display", "");
@@ -47,29 +47,12 @@ $(function(){
 			$("#animals").css("display", "none");
 		}
 	})
-	
-
-// 	for(var i = 0; i < ${hospitalList.size()}; i++){
-// 		console.log(i)
-
-// 		var phone = ${hospitalList.get(i).get('PHONE')}; 
-
-// 		console.log(phone)
-// 		var f = String(phone).substring(0, 3);
-// 			f += '-';
-// 		var m = String(phone).substring(3, 7);
-// 			m += '-'
-// 		var e = String(phone).substring(7, phone.length);
-// 		console.log(f + m + e);
-
-// 		$(".phone").eq(i).html(f + m + e)
-// 	}
 })
 </script>
 
 <div id = "container">
 	<h2>병원</h2>
-	
+	<c:if test="${hospitalList != null }">
  	<c:forEach var = "i" items = "${hospitalList }" varStatus="c">
 	<div class = "block">
 		<div class = "img" data-hospitalNo = ${i.HOSPITALNO }>
@@ -82,14 +65,12 @@ $(function(){
 		</div>
 		<div class = "info">
 			<div>운영시간: ${i.OPEN } ~ ${i.CLOSE }</div>
-<%-- 			<div data-cnt = ${c.index }>전화번호: <span class = "phone"></span></div> --%>
 			<c:set var = "phone" value = "${i.PHONE }" />
 			<div>전화번호: 
 				<span class = "phone">
 					${fn:substring(phone, 0, 3) }-${fn:substring(phone, 3, 7) }-${fn:substring(phone, 7, 11) }
 				</span>
 			</div>
-			<div data-cnt = ${c.index }>전화번호: <span class = "phone"></span></div>
 			<div>특수동물 가능</div>
  			<c:if test="${i.MAMMALIA eq 'y' }"> 
 				<span class = "name">포유류</span>
@@ -106,6 +87,7 @@ $(function(){
 		</div>
 	</div>
 	</c:forEach>
+	</c:if>
 	<form action = "./list" method = "get" id = "searchBox">
 		<select name = "radius" id = "radius" style = "display:inline-block">
 			<option value = "0">전체</option>
