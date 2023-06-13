@@ -16,21 +16,23 @@
 	 <c:if test="${i.DEPTH == 1}">
 	 <div class = "comment-area" data-commentNo ="${i.COMMENTNO}" >
 	 		<div class = " f comment">
+	 		<hr>
 	 			<div class = "info-space">
 	 				<table>
 	 					<tr>
-	 						<td class = "left-side name-space">${i.USERNAME}
+	 						<td class = "left-side name-space">${i.USERNICK}
 	 							<span class = "date">(<fmt:formatDate value="${i.WRITEDATE }" pattern = "yyyy.MM.dd"/>)</span>
 	 							<c:if test="${i.USERNO != -1 }">
 	 							<c:if test="${not empty userno }">
 	 								<span onclick="commentShow(${i.COMMENTNO})" class = "comment3">답글달기</span>
 	 							</c:if>
+	 							
 	 							<!-- 댓글 좋아요 -->
 	 							<div class = "comment-like-area" data-index = "${c.index}">
-	 								<c:if test="${i.ISRECOMMEND == 0}">
+	 								<c:if test="${i.RECOMMENDED == 0}">
 								 	<div style = "display: inline-block"><img class = "comment-heart" onclick = "commentLike(${i.COMMENTNO }, ${c.index })" alt="좋아요" src="<%=request.getContextPath()%>/resources/img/emptyheart.png"></div>
 									</c:if>
-									<c:if test="${i.ISRECOMMEND != 0}">
+									<c:if test="${i.RECOMMENDED == 1}">
 									<div style = "display: inline-block"><img alt="좋아요" class = "comment-heart" onclick = "commentLike(${i.COMMENTNO }, ${c.index })" src="<%=request.getContextPath()%>/resources/img/fillheart.png"></div>
 									</c:if>
 									<div style = "display: inline-block"><span>${i.ISRECOMMEND }</span></div>
@@ -40,7 +42,7 @@
 	 						
 	 						<c:if test="${i.USERNO == userno }">
 	 						<td class = "right-side" >
-	 								<span class = "delete-comment" onclick = "deleteComment(${i.COMMENTNO })">삭제</span></td>
+	 								<span class = "delete-comment" onclick = "deleteComment(${i.COMMENTNO })">삭제</span>
 	 						</c:if>
 	 						
 	 						<!-- 신고 -->
@@ -62,6 +64,7 @@
 	 </div>
 	 <div class = "writeBox"></div>
 	 </c:if>
+	 <div class = "organization" data-organization = '${i.ORGANIZATION}'>
 	 <c:if test="${i.DEPTH == 2 }">
 	 
 	<div class = "comment2-area" data-commentNo = "${i.COMMENTNO }">
@@ -78,7 +81,7 @@
 	 </div>
 	 </c:if>
 	 <!-- 신고 -->
-		↳ ${i.USERNAME} 
+		↳ ${i.USERNICK} 
 			<span class = "date">(<fmt:formatDate value="${i.WRITEDATE }" pattern = "yyyy.MM.dd"/>)</span>
 	 		<c:if test="${i.USERNO != -1 }">
 			<c:if test="${not empty userno }">
@@ -86,10 +89,10 @@
 			</c:if>
 			<!-- 댓글 좋아요 -->
 	 			<div class = "comment-like-area" data-index = "${c.index}">
-	 			<c:if test="${i.ISRECOMMEND == 0}">
+	 			<c:if test="${i.RECOMMENDED == 0}">
 			 	<div style = "display: inline-block"><img class = "comment-heart" onclick = "commentLike(${i.COMMENTNO }, ${c.index })" alt="좋아요" src="<%=request.getContextPath()%>/resources/img/emptyheart.png"></div>
 				</c:if>
-				<c:if test="${i.ISRECOMMEND != 0}">
+				<c:if test="${i.RECOMMENDED == 1}">
 				<div style = "display: inline-block"><img alt="좋아요" class = "comment-heart" onclick = "commentLike(${i.COMMENTNO }, ${c.index })" src="<%=request.getContextPath()%>/resources/img/fillheart.png"></div>
 				</c:if>
 				<div style = "display: inline-block"><span>${i.ISRECOMMEND }</span></div>
@@ -102,6 +105,8 @@
 	</div>
 	 <div class = "writeBox"></div>
 	 </c:if>
+	 </div>  <!-- organization -->
+	 <div class = "organization" data-organization = '${i.ORGANIZATION}'>
 	 <c:if test="${i.DEPTH == 3 }">
 	 <div class = "comment3-area" data-commentNo = "${i.COMMENTNO }">
 	 <hr>
@@ -116,14 +121,14 @@
 	 	<span class = "report-comment" onclick = "reportComment(${i.COMMENTNO })">신고하기</span>
 	 </div>
 	 </c:if>
-	 	↳ ${i.USERNAME} <span class = "date">(<fmt:formatDate value="${i.WRITEDATE }" pattern = "yyyy.MM.dd"/>)</span>
+	 	↳ ${i.USERNICK} <span class = "date">(<fmt:formatDate value="${i.WRITEDATE }" pattern = "yyyy.MM.dd"/>)</span>
 	 		<!-- 댓글 좋아요 -->
 	 		<c:if test="${i.USERNO != -1 }">
 	 			<div class = "comment-like-area" data-index = "${c.index}">
-	 			<c:if test="${i.ISRECOMMEND == 0}">
+	 			<c:if test="${i.RECOMMENDED == 0}">
 			 	<div style = "display: inline-block"><img class = "comment-heart" onclick = "commentLike(${i.COMMENTNO }, ${c.index })" alt="좋아요" src="<%=request.getContextPath()%>/resources/img/emptyheart.png"></div>
 				</c:if>
-				<c:if test="${i.ISRECOMMEND != 0}">
+				<c:if test="${i.RECOMMENDED == 1}">
 				<div style = "display: inline-block"><img alt="좋아요" class = "comment-heart" onclick = "commentLike(${i.COMMENTNO }, ${c.index })" src="<%=request.getContextPath()%>/resources/img/fillheart.png"></div>
 				</c:if>
 				<div style = "display: inline-block"><span>${i.ISRECOMMEND }</span></div>
@@ -136,4 +141,5 @@
 	 </div>
 	 
 	 </c:if>
+	 </div> <!-- organization -->
 	 </c:forEach>

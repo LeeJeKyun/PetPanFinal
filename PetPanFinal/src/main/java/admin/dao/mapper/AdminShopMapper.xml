@@ -144,5 +144,9 @@
  			#{objreportNo.objreportNo}
 		</foreach>
   	</update>
+  	
+  	<select id="selectObjectReamin" parameterType="shop.dto.OrderThing" resultType="int">
+  		SELECT REMAIN FROM SHOP WHERE OBJECTNO = #{objectno}
+  	</select>
 	
   </mapper>

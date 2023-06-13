@@ -113,8 +113,8 @@ $(function(){
 			alert("입력해주세요.")
 			return
 		}
-		if($(content.value).text() == '') {
-			alert("required c")
+		if(!$("form")[1].checkValidity()) {
+			alert("내용을 입력해주세요")
 			return
 		}
 		$("form").submit();
@@ -163,6 +163,7 @@ $(function(){
 	})
 	// ---------------
 	$("#fileBtn").click(function(){
+		$("#file").val('');
 		$("#file").click();
 	})
 // 	$("#btnWrite").click(function(){
@@ -204,10 +205,10 @@ function updateContents(){
 			</div>
 			<br>
 			<textarea id = "content" name = "shopcontent" required = "required"></textarea>
-			<input type ="file" name ="file" id = "file" multiple = "multiple" accept = ".gif, .jpg, .png, .jpeg" style = "display: none" required = "required"><br>
+			<input type ="file" name ="file" id = "file" multiple = "multiple" accept = ".gif, .jpg, .png, .jpeg" style = "display: none"><br>
 			<div style="float: right">
 			<br>
-			<button type = "button" id ="fileBtn" class="btn btn-info" > 추가 첨부파일</button>
+			<button type = "button" id ="fileBtn" class="btn btn-info" >추가 첨부파일</button>
 			</div>
 			<div id = "input-files" align="right"></div>
 			

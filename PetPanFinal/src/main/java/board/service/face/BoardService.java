@@ -3,6 +3,8 @@ package board.service.face;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import board.dto.Board;
@@ -353,9 +355,10 @@ public interface BoardService {
 	 * 댓글 가져오기
 	 * 
 	 * @param boardNo 가져올 댓글의 boardNo
+	 * @param userno 
 	 * @return boardNo에 맞는 댓글
 	 */
-	public List<Map<String, Object>> getComments(int boardNo);
+	public List<Map<String, Object>> getComments(int boardNo, int userno);
 
 	/**
 	 *  댓글 작성
@@ -447,6 +450,20 @@ public interface BoardService {
 	 * @return 추천 개수
 	 */
 	public int countCommentReco(int commentNo);
+	/**
+	 * 조회수 1 추가
+	 * @param boardNo
+	 */
+	public void plusHit(int boardNo);
+
+	/**
+	 * 게시글 수정
+	 * @param fileList 수정할 파일 정보 
+	 * @param no 수정할 파일 취소 리스트
+	 * @param session
+	 * @param board 
+	 */
+	public void updateBoard(List<MultipartFile> fileList, List<Integer> no, HttpSession session, Board board);
 
 	
 

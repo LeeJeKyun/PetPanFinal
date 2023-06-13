@@ -10,13 +10,13 @@
 $(function() {
 	
 	//time 속성 24시간으로 변경
-// 	$('.timepicker').timepicker({
-//             timeFormat: 'HH:mm',
-//             interval: 30,
-//             dynamic: false,
-//             dropdown: true,
-//             scrollbar: true
-//     });
+	$('.timepicker').timepicker({
+            timeFormat: 'HH:mm',
+            interval: 30,
+            dynamic: false,
+            dropdown: true,
+            scrollbar: true
+    });
 	
 	$(".select .yn").on("click", function() {
 		if( $(this).is(":checked") ) {
@@ -163,6 +163,7 @@ tr:hover{
 	width:700px;
 	display:  inline-block;
 }
+
 </style>
 
 <div class="text">
@@ -188,26 +189,9 @@ tr:hover{
    <div class="time">
       <label for="code">영업시간</label>
       
-       <input type="time" min = "00:00" max = "24:00" step="1800"  id="open" name="open" class = "timepicker">  <label style="color: #FF5050; font-size: small;">~ </label>
-       <input type="time"  id="close" name="close" class = "timepicker">
+       <input type="time" id="open" name="open" class = "timepicker">  <label style="color: #FF5050; font-size: small;">~ </label>
+       <input type="time" id="close" name="close" class = "timepicker">
       <label for="code">영업시간</label>					
-<!-- 			<select	class="form-control" name="email2" id="email2"> -->
-<!-- 				<option value="">08:00</option> -->
-<!-- 				<option>09:00</option> -->
-<!-- 				<option>10:00</option> -->
-<!-- 				<option>11:00</option> -->
-<!-- 			</select>  -->
-       <input type="text"  id="open" name="open" >  <label style="color: #FF5050; font-size: small;">~ </label>
-       <input type="text"  id="close" name="close">
-<!--        		<select	class="form-control" name="email2" id="email2"> -->
-<!-- 				<option>17:00</option> -->
-<!-- 				<option>18:00</option> -->
-<!-- 				<option>19:00</option> -->
-<!-- 				<option>20:00</option> -->
-<!-- 			</select>  -->
-       
-       
-       
    </div><!-- time -->
 	
 <!-- <label style="color: #FF5050; font-size: small;">오전 : </label> -->

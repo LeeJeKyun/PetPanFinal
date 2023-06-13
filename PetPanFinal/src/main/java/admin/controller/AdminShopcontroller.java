@@ -30,18 +30,18 @@ public class AdminShopcontroller {
 	public void ShopList(@RequestParam(defaultValue = "0") int curPage, 
 			Model model, 
 			@RequestParam(required=false,defaultValue = "")String search) {
-		logger.info("/reportboard [GET}");
-		logger.info("curPage = {}", curPage);
+//		logger.info("/reportboard [GET}");
+//		logger.info("curPage = {}", curPage);
 		AdminPaging paging = new AdminPaging();
 
 	
 		paging = adminService.getShopPage(curPage,search);
 		
-		logger.info(search);
+//		logger.info(search);
 		
 		List<Shop> list;
 
-			list = adminService.getSearchShopBoard(paging);
+		list = adminService.getSearchShopBoard(paging);
 		
 		model.addAttribute("search",search);
 		model.addAttribute("list",list);
@@ -77,12 +77,12 @@ public class AdminShopcontroller {
 		if(shop.getShopcontent() == null || shop.getName() == null )
 			return "redirect:/admin/shop/list";
 		
-		logger.info("write post");
-		
-		logger.info("no : {}", no);
-		logger.info("fileList : {}", fileList);
-		logger.info("board : {}", shop);
-		logger.info("board : {}", img);
+//		logger.info("write post");
+//		
+//		logger.info("no : {}", no);
+//		logger.info("fileList : {}", fileList);
+//		logger.info("board : {}", shop);
+//		logger.info("board : {}", img);
 		
 		int objectno = adminService.saveShopGetObjectno(shop,img);
 		

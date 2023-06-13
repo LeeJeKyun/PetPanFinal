@@ -86,17 +86,33 @@ table{
 <script type="text/javascript">
 $(function(){
 	
+	
+	if(${map.BOARDTYPENO == 2}){
+		// 자유 게시판
+		console.log("boardTypeNo 2")
+		$("input[value='2']").prop("checked", true)
+	}else if( ${map.BOARDTYPENO == 3}){
+		//중고거래
+		console.log("boardTypeNo 3")
+		$("input[value='3']").prop("checked", true)
+	}
+	
+// 	for(var i = 0; i < file.length; i++){
+// 		console.log( file[i].name );
+// 		$(".file-line").eq(i).remove();
+// 		$("#input-files").append("<tr class = 'file-line' data-no = " + i + ">"
+// 									+ "<td><input type = 'hidden' data-no = " + i +" name = 'no' value = " + i +"></td"
+// 									+ "<td><span class = 'file-name'>" + file[i].name + "</span></td>" 
+// 									+ "<td class = 'xFile' data-no = " + i + " > x</td>" 
+// 									+ "</td>")
+// 	}
+	
 	//작성 버튼 동작
 	$("#btnWrite").click(function(){
 		console.log("btnWrite click");
 		
 		console.log($("#smart_editor2"))
 		
-// 		if($("#title").val() == '') {
-// 			alert("required")
-			
-// 			return
-// 		}
 		oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
 		
 		if(!$("form")[0].checkValidity()) {
@@ -108,7 +124,7 @@ $(function(){
 			return
 		}
 		var confirmV;
-		confirmV = confirm("게시글을 작성하시겠습니까?");
+		confirmV = confirm("게시글을 수정하시겠습니까?");
 		if(confirmV){
 			$("form").submit();
 		}
@@ -123,9 +139,9 @@ $(function(){
 		
 		console.log( $(".file-line")[no] )
 		
-		$("input[name=no]").get(no).value = -1;
-		
 		$(".file-line").eq(no).hide();
+		
+		$("input[name=no]").get(no).value = -1;
 		
 	})
 	// 파일 선택
@@ -138,19 +154,15 @@ $(function(){
 		var file  = document.getElementById("file").files;
 		
 		
+		$(".file-line").remove();
 		for(var i = 0; i < file.length; i++){
 			console.log( file[i].name );
-			$(".file-line").eq(i).remove();
-//			$("#input-files").append("<div class = 'file-line' data-no = "+ i + ">"
-//													+ "<input type = 'hidden' data-no = " + i +" name = 'no' value = " + i +">"
-//													+ file[i].name 
-//													+ "<span class = 'xFile' data-no = " + i + " style = 'cursor: pointer;'> x </span>" 
-//													+ "</div>")
+// 			$(".file-line").eq(i).remove();
 			$("#input-files").append("<tr class = 'file-line' data-no = " + i + ">"
-										+ "<td><input type = 'hidden' data-no = " + i +" name = 'no' value = " + i +"></td"
+										+ "<td><input type = 'hidden' data-no = " + i +" name = 'no' value = " + i +"></td>"
 										+ "<td><span class = 'file-name'>" + file[i].name + "</span></td>" 
 										+ "<td class = 'xFile' data-no = " + i + " > x</td>" 
-										+ "</td>")
+									+ "</tr>")
 			console.log(i)
 			console.log(file[i].lastModified)
 		}
@@ -159,10 +171,6 @@ $(function(){
 	$("#fileBtn").click(function(){
 		$("#file").click();
 	})
-// 	$("#btnWrite").click(function(){
-// 		console.log("updateContents() 호출")
-// 		updateContents();
-// 	})
 })
 
 function updateContents(){
@@ -173,20 +181,28 @@ function updateContents(){
 
 <div id = "container">
 	<div id = "center-div">
-		<h2 style = "margin-top: 20px; margin-bottom: 20px; margin-left: 30px;">글 작성중</h2>
-		<form action = "./write" method = "post" id = "content-form" enctype="multipart/form-data">
+		<h2 style = "margin-top: 20px; margin-bottom: 20px; margin-left: 30px;">글 수정중</h2>
+		<form action = "./update" method = "post" id = "content-form" enctype="multipart/form-data">
 			<div>
 				<label>자유게시판<input type = "radio" name = boardTypeNo value = "2"></label>
 				<label>중고거래<input type = "radio" name = "boardTypeNo" value = "3"></label>
-				<a href = "../board" id = "cancelBtn">글쓰기 취소</a>
+				<a href = "../board" id = "cancelBtn">글수정 취소</a>
 			</div>
-			<input type = "text" name = "boardTitle" id = "title" placeholder = "제목을 입력하세요" required = "required">	
+			<input type = "text" name = "boardTitle" id = "title" placeholder = "제목을 입력하세요" required = "required" value = "${map.BOARDTITLE }">	
 			
-			<textarea id = "content" name = "content" required = "required"></textarea>
+			<textarea id = "content" name = "content" required = "required" >${map.CONTENT }</textarea>
+			<input type = "hidden" name = "boardNo" value = "${map.BOARDNO }">
 			<input type ="file" name ="file" id = "file" multiple = "multiple" accept = ".gif, .jpg, .png, .jpeg" style = "display: none"><br>
 			<button type = "button" id ="fileBtn" >첨부파일</button>
-			<!-- <div id = "input-files"></div> -->
-			<table id = "input-files"></table>
+			<table id = "input-files">
+			<c:forEach var = "i" items = "${listFile }" varStatus="c">
+				<tr class = 'file-line' data-no = "${c.index }">
+					<td><input type = 'hidden' data-no = "${c.index }" value = "${c.index }"></td>
+					<td><span class = 'file-name'> ${i.originName } </span></td> 
+					<td class = 'xFile' data-no = "${c.index }" > x</td>
+				</tr>
+			</c:forEach>
+			</table>
 			
 			<button type = "button"  id = "btnWrite" >작성</button>
 		</form>
