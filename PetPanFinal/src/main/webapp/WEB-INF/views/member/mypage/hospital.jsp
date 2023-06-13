@@ -163,7 +163,6 @@ tr:hover{
 	width:700px;
 	display:  inline-block;
 }
-
 </style>
 
 <div class="text">
@@ -190,7 +189,7 @@ tr:hover{
       <label for="code">영업시간</label>
       
        <input type="time" id="open" name="open" class = "timepicker">  <label style="color: #FF5050; font-size: small;">~ </label>
-       <input type="time" id="close" name="close" class = "timepicker">
+       <input type="time"  id="close" name="close" class = "timepicker">
       <label for="code">영업시간</label>					
    </div><!-- time -->
 	
