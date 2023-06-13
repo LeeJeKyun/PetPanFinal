@@ -101,8 +101,8 @@
 }
 
 #old {
-	margin-left: 500px;
- 	margin-right: 500px; 
+	margin-left: 1050px;
+ 	margin-right: 250px; 
 }
 
 #old2 {
@@ -213,8 +213,68 @@
 	float: left;
 	margin-left: 28%;
 }
+#gridWrap{
+	display: grid;
+	grid-template-columns: 500px 500px;
+	grid-column-gap: 200px;
+	margin-top: 20px;
+}
+#grid1{
+	display: grid;
+	grid-template-columns: 120px 240px 120px;
+	width: 500px;
+	margin: 0 auto;
+	position: relative;
+}
 
-	
+#grid2{
+	display: grid;
+	grid-template-columns: 120px 240px 120px;
+	width: 500px;
+	margin: 0 auto;
+	position: relative;
+}
+
+.th{
+	border-top: 2px solid pink;
+	border-bottom: 1px solid pink;
+	text-align: center;
+}
+.td{
+	border-bottom: 1px solid pink;
+	height: 25px;
+	text-align: center;
+}	
+#middleWrap{
+	width:1500px;
+	display: flex;
+	justify-content: center;
+}
+.title{
+	width: 500px;
+}
+#oldet{
+	top: -35px;
+	left: 180px;
+	position: absolute;
+}
+#freet{
+	top: -35px;
+	left: 180px;
+	position: absolute;
+}
+
+
+#btn22{
+   background-color: #FFDAD7;
+   color : #FF5050;
+   border-radius: 7px;
+   border-color: #FFDAD7;
+   width: 50px;
+   height: 35px;
+   
+}
+
 
 </style>
 
@@ -239,7 +299,7 @@ $(function(){
 
 <div id="slick">
 
-<div><img src="<%=request.getContextPath()%>/resources/member/img/뽀비.jpg"></div>
+<div><img src="<%=request.getContextPath()%>/resources/member/img/뽀비.png"></div>
 <div><img src="<%=request.getContextPath()%>/resources/member/img/연두.jpg"></div>
 <div><img src="<%=request.getContextPath()%>/resources/member/img/써니.jpg"></div>
 <div><img src="<%=request.getContextPath()%>/resources/member/img/갱얼쥐.jpg"></div>
@@ -258,7 +318,7 @@ $(function(){
 <!-- 		<div id="Hdiv"> -->
 	<!-- 	<input type="text" id="search"> -->
 		<input type="text" id="search" name="search"  value = "${paging.search }">
-		<button>검색</button>
+		<button id="btn22">검색</button>
 <%-- 		<button><img src="<%=request.getContextPath()%>/resources/member/img/검색.png"  width="35px" height="27px" class="img"></button> --%>
 	<%-- 	<button><img src="<%=request.getContextPath()%>/resources/member/img/검색.png"  width="30px" height="25px" class="img"></a> --%>
 <!-- 		</div> -->
@@ -286,8 +346,7 @@ $(function(){
 
 
 
-
-	<c:when test="${login eq true  }">
+	<c:when test="${login eq true and empty mgr }">
 	<%-- <h2>세션 상태: ${login eq true }</h2> --%>
 	   <div class="mypage">
 	
@@ -297,14 +356,27 @@ $(function(){
 	</c:forEach>
 	<p class="Nick">${detail.userNick}님</p>
 	쪽지
-	ㅂ<div>
+	<div>
 	<p class="email">${detail.email}</p>
 	</div>
 	
-<!-- 		<button onclick="location.href='/admin/main'">관리자페이지</button> -->
 		<a href="/member/mypage/mypage">마이페이지 |</a>
 		<a href="/member/login/logout">로그아웃</a>
 	</div>
+	</c:when>
+	
+	
+	<c:when test="${ not empty mgr and mgr}">
+		
+	<p class="Nick">${detail.userNick}님</p>
+	<div>
+	<p class="email">${detail.email}</p>
+	</div>
+		<a href="/admin/main">관리자페이지 |</a>
+		<a href="/member/login/logout">로그아웃</a>
+		
+<!-- 		<button onclick="location.href='/admin/main'">관리자페이지</button> -->
+	
 	</c:when>
 
 </c:choose>
@@ -314,76 +386,41 @@ $(function(){
 </div> <!-- main -->
 
 
-
 <div class="clearbox"></div>
-
-
-
 
 
 
 <div class="hot">
 <p id="Hot">인기 게시글</p>
 
-	<div class="bb">
-	<ul>
-		<li>
-		<p id="free">자유 게시판</p>
-		</li>
-		
-		<li>
-		<p id="old">중고 거래</p>
-		</li>
-	</ul>
+<div id="middleWrap">
+	<div id="gridWrap">
+		<div id="grid1">
+			<div id="freet" class="title">자유 게시판 <a href="/board/board">더보기</a></div>
+			<div class="th">글번호</div>
+			<div class="th">글제목</div>
+			<div class="th">조회수</div>
+			<c:forEach items="${free }" var="free" >
+					<div class="td"> ${free.boardNo }</div>
+					<div class="td"><a style="color:#606060;" href="../../board/board/detail?boardNo=${free.boardNo }"> ${free.boardTitle }</a></div>
+					<div class="td">${free.hit }</div>
+			</c:forEach>
+		</div>
+		<div id="grid2">
+			<div id="oldet" class="title">중고 거래 <a href="/board/board?category=3">더보기</a></div>
+			<div class="th">글번호</div>
+			<div class="th">글제목</div>
+			<div class="th">조회수</div>
+			<c:forEach items="${old }" var="old" >
+					<div class="td"> ${old.boardNo }</div>
+					<div class="td"><a style="color:#606060;" href="../../board/board/detail?boardNo=${old.boardNo }"> ${old.boardTitle }</a></div>
+					<div class="td">${old.hit }</div>
+			</c:forEach>
+		</div>
 	</div>
-	
-
-</div> <!-- hot -->
-
-
-<div class="freeTable">
-
-	<table class = "table-list" style = "width:500px; margin-left:80px; border-collapse: collapse;">
-		<tr class = "th-border items">
-			<th>글 번호</th>
-			<th>글 제목	</th>
-			<th>조회수</th>
-		</tr>
-	
-	<c:forEach items="${free }" var="free" >
-		<tr class = "td-style items">
-			<td> ${free.boardNo }</td>
-			<td><a href="../../board/board/detail?boardNo=${free.boardNo }"> ${free.boardTitle }</a></td>
-			<td class = "date">${free.hit }</td>
-		</tr>
-	</c:forEach>
-	
-	</table>
-
 </div>
 
-
-<div class="oldTable">
-
-
-	<table class = "table-list" style = "width:500px; margin-left:80px; border-collapse: collapse;">
-		<tr class = "th-border items">
-			<th>글 번호</th>
-			<th>글 제목	</th>
-			<th>조회수</th>
-		</tr>
 	
-	
-	<c:forEach items="${old }" var="old" >
-		<tr class = "td-style items">
-			<td> ${old.boardNo }</td>
-			<td><a href="../../board/board/detail?boardNo=${old.boardNo }"> ${old.boardTitle } </a></td>
-			<td class = "date">${old.hit }</td>
-		</tr>
-	</c:forEach>
-	
-	</table>
-
 </div>
 
 
@@ -399,13 +436,16 @@ $(function(){
 	<div class="bb">
 	<ul>
 		<li>
-		<p id="free2">자유 게시판</p>
+		<p id="free2">자유 게시판 <a href="/board/board">더보기</a></p>
+		
 		</li>
 		<li>
-		<p id="old2">중고 거래</p>
+		<p id="old2">중고 거래 <a href="/board/board?category=3">더보기</a></p>
+		
+		
 		</li>
 		<li>
-		<p id="poom">품앗이</p>
+		<p id="poom">품앗이 <a href="/board/care/list">더보기</a></p>
 		</li>
 	</ul>
 	</div>

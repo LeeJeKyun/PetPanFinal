@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="member.dao.face.UnregistDao">
 
 	<select id="selectRegMember" resultType="int" parameterType="member.dto.Member">
-		SELECT count(*) FROM MEMBER WHERE USERNO = #{userNo} AND USERPW = #{userPw}
+		SELECT count(*) FROM MEMBER WHERE USERNO = #{userNo} AND userPw = #{userPw}
 	</select>
 	
 	<delete id="deleteReportBoardByUserNo" parameterType="int">

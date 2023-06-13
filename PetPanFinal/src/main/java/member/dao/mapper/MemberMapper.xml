@@ -34,6 +34,11 @@
   		FROM member
   		WHERE suserno=#{suserno}
   	</select>
+
+  	 <select id ="selectMgr" resultType="int" parameterType="member.dto.Member">
+  		SELECT positionNo FROM member
+  		WHERE userNo=#{userNo}
+  	</select>
   	
   	<insert id="kakaoinsert" parameterType="member.dto.Member">
   		INSERT INTO member( userno, username, userid, userpw, email, address, zipcode, phone, detailaddress, positionno, latitude, longitude, suserno, usernick )

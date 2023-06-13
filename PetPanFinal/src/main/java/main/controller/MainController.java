@@ -46,7 +46,8 @@ public class MainController {
 			, @RequestParam(defaultValue = "N") char mammalia
 			, @RequestParam(defaultValue = "N") char reptile
 			) {
-		logger.info("로그인 성공 메인");
+		
+//		logger.info("로그인 성공 메인");
 		
 		if( session.getAttribute("login") != null) {
 		

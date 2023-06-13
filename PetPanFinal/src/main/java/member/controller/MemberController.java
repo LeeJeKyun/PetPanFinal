@@ -39,7 +39,6 @@ public class MemberController {
 	
 	
 	
-	
 	@GetMapping("/login/login")
 	public void login() {
 		logger.info("Login");
@@ -102,7 +101,6 @@ public class MemberController {
 	
 	
 	// 네이버
-	
 	@RequestMapping("/naverLogin")
 	public ModelAndView naverLogin(
 			HttpSession session ) {
@@ -215,6 +213,8 @@ public class MemberController {
 			boolean black = memberService.selcetBlack(member2);
 			boolean hospital = memberService.selectHospital(member2);
 
+			boolean mgr = memberService.selectMgr(member2);
+			
 			// 블랙리스트 로그인 실패
 			if( black ) {
 				
@@ -237,6 +237,11 @@ public class MemberController {
 				}
 				
 				// 관리자 로그인
+				
+				if( mgr ) {
+					session.setAttribute("mgr", true);
+					
+				}
 				
 			}
 			
@@ -307,21 +312,84 @@ public class MemberController {
 	
 	@GetMapping("/mailCheck")
 	@ResponseBody
-	public String joinm( String email ) {
-		logger.info("/login/joinm");
+	public boolean joinm( String email, HttpSession session ) {
+		
 		logger.info("이메일 인증 : {}" + email);
 		
-		return memberService.joinEmail(email);
+		session.setAttribute("code", memberService.joinEmail(email));
+		session.setMaxInactiveInterval(3*60);
+		
+		return true;
 	}
+	
+	//회원가입시 이메일 인증
+	@PostMapping("/mailCheck")
+	@ResponseBody
+	public boolean mailUserCheck(int inputCode, HttpSession session) {
+	   System.out.println("이메일 인증 요청이 들어옴!");
+     
+	   logger.info("이메일 인증 요청이 들어옴!");
+     //인증 코드 유효 시간 -> 세션 시간을 변경했기에 로그인시 세션이 30분이 유지되는지 
+     //확인 필요, 만약 30분 유지 못하고 3분으로 고정된다면 로그인시에 세션시간을 30분으로 변경하는
+     //코드가 필요하다고 생각됨
+	      
+     logger.info("userCode: {}, session Code: {}", inputCode, (Integer)session.getAttribute("code"));
+	      
+     if(inputCode == (Integer)session.getAttribute("code")) {
+        return true;
+      }
+       return false;
+       
+	   }
+	
+	
 	
 	@GetMapping("/pwMailCheck")
 	@ResponseBody
-	public String pwLogin( String email ) {
-		logger.info("/login/pwLogin");
+	public boolean pwLogin( String email, HttpSession session ) {
 		logger.info("이메일 인증 : {}" + email);
 		
-		return memberService.pwEmail(email);
+		session.setAttribute("code", memberService.pwEmail(email));
+		session.setMaxInactiveInterval(3*60);
+		
+		
+		
+		return true;
+		
 	}
+	
+	
+	//회원가입시 이메일 인증
+	@PostMapping("/pwMailCheck")
+	@ResponseBody
+	public boolean pwMailCheck(int inputCode, HttpSession session) {
+     
+	   logger.info("이메일 인증 요청이 들어옴!");
+     //인증 코드 유효 시간 -> 세션 시간을 변경했기에 로그인시 세션이 30분이 유지되는지 
+     //확인 필요, 만약 30분 유지 못하고 3분으로 고정된다면 로그인시에 세션시간을 30분으로 변경하는
+     //코드가 필요하다고 생각됨
+	      
+     logger.info("userCode: {}, session Code: {}", inputCode, (Integer)session.getAttribute("code"));
+	      
+     if(inputCode == (Integer)session.getAttribute("code")) {
+        return true;
+      }
+       return false;
+       
+	   }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	@PostMapping("/login/join")
