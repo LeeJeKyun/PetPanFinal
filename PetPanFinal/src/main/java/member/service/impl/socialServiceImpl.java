@@ -97,7 +97,7 @@ public class socialServiceImpl implements socialService{
 	    }
 	
 
-	   
+	
 	   public HashMap<String, Object> getUserInfo (String access_Token) {
 		    
 //		    요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
@@ -177,34 +177,6 @@ public class socialServiceImpl implements socialService{
 	   
 	   
 
-	   
-	   @Override
-	public void kakaoLogout(String access_Token) {
-		   
-		   String reqURL = "https://kapi.kakao.com/v1/user/logout";
-		    try {
-		        URL url = new URL(reqURL);
-		        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		        conn.setRequestMethod("POST");
-		        conn.setRequestProperty("Authorization", "Bearer " + access_Token);
-		        
-		        int responseCode = conn.getResponseCode();
-		        logger.info("responseCode : " + responseCode);
-		        
-		        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-		        
-		        String result = "";
-		        String line = "";
-		        
-		        while ((line = br.readLine()) != null) {
-		            result += line;
-		        }
-		        logger.info(result);
-		    } catch (IOException e) {
-		        e.printStackTrace();
-		    }   
-	}
-	   
 	   
 //	   -------------------네이버
 	   

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -22,6 +23,10 @@ public class KakaoController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(KakaoController.class);
 	@Autowired socialService kakaoService;
+	
+	
+	
+	
 	
 	@RequestMapping("/")
 	public String index() {
@@ -49,9 +54,20 @@ public class KakaoController {
 		
 	}
 	
+	@GetMapping("/kakaoLogout")
+	public void inde() {
+		
+		logger.info("로그아웃");
+		
+	}  
 	
-	
-	
+//	@RequestMapping("/kakaoLogout")
+//	public String logout(HttpSession session) {
+//		kakaoService.kakaoLogout((String)session.getAttribute("access_Token"));
+//	    session.removeAttribute("access_Token");
+//	    session.removeAttribute("userId");
+//	    return "/login/login";
+//	}
 	
 	
 	

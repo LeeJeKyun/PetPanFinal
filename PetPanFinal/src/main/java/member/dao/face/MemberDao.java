@@ -28,6 +28,12 @@ public interface MemberDao {
 	 */
 	public void insertJoin(Member member);
 
+	/**
+	 * 로그인
+	 * 
+	 * @param member
+	 * @return
+	 */
 	public Member selectlogin(Member member);
 
 	/**
@@ -38,6 +44,19 @@ public interface MemberDao {
 	 */
 	public int selcetBlack(Member member);
 
+	/**
+	 * 관계자인지 아닌지
+	 * 
+	 * @param member
+	 * @return
+	 */
+	public int selectMgr(Member member);
+
+	/**
+	 * 
+	 * 
+	 * @param member
+	 */
 	public void kakaoinsert(Member member);
 
 	/**
@@ -270,6 +289,7 @@ public interface MemberDao {
 	 */
 	
 	public int selectByUserno(int userno);
+
 
 
 

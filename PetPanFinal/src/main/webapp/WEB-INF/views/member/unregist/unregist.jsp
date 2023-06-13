@@ -20,10 +20,11 @@
 
  .m{ 
 	text-align: center;
-	border: 1px solid #263959;
+	border: 1px solid #FF5050;
 	border-radius: 2em;
-	width: 500px;
+	width: 529px;
 	margin: auto;
+	height: 330px;
  } 
 
  .my{ 
@@ -50,9 +51,22 @@
   	float: left; 
   	margin: 15px -150px;
  }
- label{
- 	
- }
+
+.select{
+    width: 420px;
+    margin: 15px auto;
+
+}
+
+#btn{
+   background-color: #FFDAD7;
+   color : #FF5050;
+   border-radius: 7px;
+   border-color: #FFDAD7;
+   width: 430px;
+   height: 35px;
+
+}
 
 </style>
 
@@ -72,11 +86,13 @@
 <h4>
 1. 사이트를 탈퇴할 경우 저장했던 사진,파일, 게시한 글과 작성한 댓글, 받은 쪽지, 작성한 리뷰와 거래 목록이 모두 사라지게 됩니다.<br><br>
 2. 보낸 쪽지의 경우, 받은 쪽에서 사라지진 않습니다. <br>하지만 탈퇴된 회원이 보낸 메세지로 변경되게 됩니다.<br><br>
-3. 어떠한 경우에도 탈퇴된 회원의 정보를 복구할 수는 없습니다. <br>신중하게 탈퇴를 해주시기 바랍니다. <br><br>
+3. 어떠한 경우에도 탈퇴된 회원의 정보를 복구할 수는 없습니다. <br>신중하게 탈퇴를 해주시기 바랍니다. <br>
 </h4>
-<input type="checkbox" name="delete" value="Y"> 전 본 약관을 자세히 숙지하고 탈퇴에 동의합니다. <br><br>
-<button>탈퇴</button>
-<br><br>
+<input type="checkbox" name="delete" value="Y"> 전 본 약관을 자세히 숙지하고 탈퇴에 동의합니다.
+	<div class="select">
+		<button id="btn">탈퇴하기</button>
+	</div>
+
 </div> <!-- m -->
 </form>
 
