@@ -604,6 +604,19 @@ public interface BoardDao {
 	 */
 	public int selectCommentCntReco(int commentNo);
 
+	/**
+	 * session에 있는 userNO과 게시글을 올린 userNo이 맞는지 확인
+	 * @param board
+	 * @return 맞으면 1 아니면 0
+	 */
+	public Integer getBoardNoUserNoByUserNo(Board board);
+
+	/**
+	 * 게시글 수정
+	 * @param board
+	 */
+	public void updateBoardWrite(Board board);
+
 
 	
 }

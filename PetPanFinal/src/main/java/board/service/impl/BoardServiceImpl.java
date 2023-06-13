@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -521,6 +522,7 @@ public class BoardServiceImpl implements BoardService{
 		if( boardDao.checkReco(boardReco) > 0 ) {
 			return true;
 		}
+
 		return false;
 	}
 	public Map<String, Object> getCareView(int boardNo) {
@@ -554,10 +556,11 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<Map<String, Object>> getComments(int boardNo) {
+	public List<Map<String, Object>> getComments(int boardNo, int userno) {
 
 		Map<String, Integer> map = new HashMap<>();
 		map.put("boardNo", boardNo);
+		map.put("userNo", userno);
 		
 		//가장 큰 cnt가져오기 , 가장 최근 댓글
 //		Integer cnt = boardDao.selectMaxCommentCnt(boardNo);
@@ -787,11 +790,10 @@ public class BoardServiceImpl implements BoardService{
 			double distance = calculateDistance(Loc);
 			logger.info("distance {} ", distance);
 			
-			map.put("distance", distance);
-			map.put("U_LONGITUDE", userLoc.get("U_LONGITUDE"));
-			map.put("U_LATITUDE", userLoc.get("U_LATITUDE"));
-			map.put("H_LONGITUDE", Loc.get("H_LONGITUDE"));
-			map.put("H_LATITUDE", Loc.get("H_LATITUDE"));
+			map.put("U_LATITUDE", userLoc.get("U_LONGITUDE"));
+			map.put("U_LONGITUDE", userLoc.get("U_LATITUDE"));
+			map.put("H_LATITUDE", Loc.get("H_LONGITUDE"));
+			map.put("H_LONGITUDE", Loc.get("H_LATITUDE"));
 		}
 		logger.info("map return 전 {}", map);
 		return map;
@@ -809,10 +811,10 @@ public class BoardServiceImpl implements BoardService{
 	}
 	public double calculateDistance(Map<String, String> loc) {
 		return 6371.0 * Math.acos(  
-		          Math.cos(Math.toRadians( Double.valueOf(loc.get("U_LONGITUDE"))   ) )
-		          * Math.cos( Math.toRadians(Double.valueOf( loc.get("H_LONGITUDE"))  ) )
-		          * Math.cos( Math.toRadians( Double.valueOf(loc.get("H_LATITUDE"))  ) - Math.toRadians(Double.valueOf( loc.get("U_LATITUDE"))) )
-		          + (Math.sin(Math.toRadians(Double.valueOf( loc.get("U_LONGITUDE")) ) ) * Math.sin(( Math.toRadians(Double.valueOf( loc.get("H_LONGITUDE"))  ) ) )) 
+		          Math.cos(Math.toRadians( Double.valueOf(loc.get("U_LATITUDE"))   ) )
+		          * Math.cos( Math.toRadians(Double.valueOf( loc.get("H_LATITUDE"))  ) )
+		          * Math.cos( Math.toRadians( Double.valueOf(loc.get("H_LONGITUDE"))  ) - Math.toRadians(Double.valueOf( loc.get("U_LONGITUDE"))) )
+		          + (Math.sin(Math.toRadians(Double.valueOf( loc.get("U_LATITUDE")) ) ) * Math.sin(( Math.toRadians(Double.valueOf( loc.get("H_LATITUDE"))  ) ) )) 
 		          );        
 	}
 
@@ -865,6 +867,91 @@ public class BoardServiceImpl implements BoardService{
 	public int countCommentReco(int commentNo) {
 		
 		return boardDao.selectCommentCntReco(commentNo);
+	}
+
+	@Override
+	public void plusHit(int boardNo) {
+
+		boardDao.updateHits(boardNo);
+	}
+
+	@Override
+	public void updateBoard(List<MultipartFile> fileList, List<Integer> no, HttpSession session, Board board) {
+		String mark = "(수정됨)";
+		String boardTitle = board.getBoardTitle();
+		if(!boardTitle.substring(0,5).equals("(수정됨)")) {
+			logger.info("수정됨");
+			mark += boardTitle;
+			board.setBoardTitle(mark);
+		}
+		if(session.getAttribute("userno") == null) {
+			logger.info("userno null");
+			return;
+		}
+		logger.info("userno null 아님");
+		
+		board.setUserNo((int)session.getAttribute("userno"));
+		
+		logger.info("board {}", board);
+		if(boardDao.getBoardNoUserNoByUserNo(board) == 1) {
+			logger.info("1 이다 {}", board);
+			boardDao.updateBoardWrite(board);
+		}
+		logger.info("통과");
+		if(no == null) {
+			logger.info("no null");
+			return;
+		}
+		logger.info("no null 아님");	
+		boardDao.deleteBoardFile(board.getBoardNo());
+		logger.info("delete file 아님");	
+		
+		for(int i = 0; i < no.size(); i++) {
+			if(no.get(i) != -1) {
+				if(fileList.get(i).getSize() <= 0)  continue;  // 파일의 크기가 0이면  
+					
+				// 파일이 저장될 경로
+				String storedPath = context.getRealPath("upload");
+				logger.info(" storedPath : {}", storedPath);
+					
+				// upload폴더가 없으면 생성
+				File storedFolder = new File(storedPath);
+				storedFolder.mkdir();
+				
+				File dest = null;
+				String storedName = null;
+				
+				do {
+					//저장할 파일 이름 생성
+					storedName = fileList.get(i).getOriginalFilename(); //원본 파일명
+					
+					storedName += UUID.randomUUID().toString().split("-")[0]; //
+					logger.info("storedName : {}", storedName);
+						//실제 저장될 파일 객체
+					dest = new File(storedFolder, storedName);
+					
+				}while(dest.exists());
+				
+				try {
+					// 업로드된 파일을 upload 폴더에 저장
+					fileList.get(i).transferTo(dest);
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				//DB에 저장할 객체
+				Map<String, Object> mapFile  = new HashMap<>();
+				
+				mapFile.put("storedName", storedName);
+				mapFile.put("originName", fileList.get(i).getOriginalFilename());
+				mapFile.put("fileSize", fileList.get(i).getSize());
+				mapFile.put("boardNo", board.getBoardNo());
+				
+				//board File insert
+				boardDao.insertBoardFile(mapFile);
+			}
+		}
 	}
 	
 }
