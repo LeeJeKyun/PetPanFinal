@@ -43,7 +43,7 @@ public class MemberController {
 	
 	
 	@GetMapping("/login/login")
-	public void login(String msg, Model model, String errMsg, HttpServletRequest request) { 
+	public void login(String msg, Model model, HttpServletRequest request) { 
 		logger.info("Login");
 		logger.info("msg :{}" , msg);
 		
@@ -53,12 +53,7 @@ public class MemberController {
 		
 		}
 		
-		if( errMsg != null) {
-			
-			errMsg = errMsg.replace("false", "아이디, 비밀번호를 확인해주세요.");
-			model.addAttribute("errMsg", errMsg);
-			
-		}
+
 
 		
 	}
@@ -243,7 +238,7 @@ public class MemberController {
 				String msg = "false";
 				model.addAttribute("msg", msg);
 				
-				return "redirect:./login?";
+				return "redirect:./login?msg=" + msg;
 			}
 			
 			

@@ -139,6 +139,7 @@
    	<bean id="jobExcueteTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="quartzJob"/>
 		
+
 <!-- 		매일 12시간마다 한번씩 실행.  -->
 <!-- 		<property name="cronExpression" value="0 0 0/12 1/1 * ? *"/> -->
 

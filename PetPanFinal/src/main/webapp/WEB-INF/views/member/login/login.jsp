@@ -208,7 +208,7 @@ input:focus {
    <div class="select">
       <label for="userPw" ></label>
       <input type="password" class="boxcolor" id="userPw" name="userPw" placeholder="비밀번호">
-      <span id="userPw_msg" class="msg" style="color:red"></span>
+      <span id="userPw_msg" class="msg" style="color:red">${msg }</span>
       <br>
    	  <c:if test="${nolog eq true}">해당 아이디에 존재하는 정보가 없습니다.</c:if>
    	  <c:if test="${loginFail > 0}">비밀번호를 틀리셨습니다.<c:if test="${loginFail < 5}"> (${loginFail}/5)</c:if></c:if>

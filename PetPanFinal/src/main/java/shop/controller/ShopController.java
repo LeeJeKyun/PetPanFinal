@@ -148,6 +148,9 @@ public class ShopController {
 		
 		Member member = shopService.memberShop(basket);
 		
+		System.out.println(list);
+		System.out.println(member);
+		
 		model.addAttribute("member", member);
 	}
 	
@@ -161,12 +164,15 @@ public class ShopController {
 		
 		//구매전 장바구니 확인 
 		List<Map<String,Object>> list = shopService.selectBasket(basket);
+		model.addAttribute("list", list);
 
 		
 		Member member = shopService.memberShop(basket);
 		
 		model.addAttribute("member", member);		
 		
+		System.out.println(list);
+		System.out.println(member);
 	}
 	
 	
