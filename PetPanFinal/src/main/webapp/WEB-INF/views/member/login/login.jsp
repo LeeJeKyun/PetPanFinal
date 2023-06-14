@@ -180,7 +180,6 @@ input:focus {
 <%--    <c:if test="${not empty cookie.user_check}"> --%>
 <%--    		<c:set value="checked" var="checked"/> --%>
 <%--    	</c:if> --%>
-   	
       <label for="userId" ></label>
       <input type="text" class="boxcolor" id="userId" name="userId" placeholder="아이디">
       <span id="userId_msg" class="msg" style="color:red"></span>
@@ -190,8 +189,14 @@ input:focus {
       <label for="userPw" ></label>
       <input type="password" class="boxcolor" id="userPw" name="userPw" placeholder="비밀번호">
       <span id="userPw_msg" class="msg" style="color:red"></span>
-   
+      <br>
+   	  <c:if test="${nolog eq true}">해당 아이디에 존재하는 정보가 없습니다.</c:if>
+   	  <c:if test="${loginFail > 0}">비밀번호를 틀리셨습니다.<c:if test="${loginFail < 5}"> (${loginFail}/5)</c:if></c:if>
+   	  <c:if test="${loginFail >= 5}">비밀번호를 5회 이상 틀리셨습니다.<br>
+   	  
+   	  </c:if>
    </div>
+  
    <div class="select">
       <input type="checkbox" name="rememberId" id="rememberId"  >아이디 저장
       <span id="login_error" class="msg" style="color:red"></span>

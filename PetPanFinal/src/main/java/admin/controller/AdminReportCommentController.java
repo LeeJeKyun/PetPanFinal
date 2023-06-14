@@ -26,7 +26,7 @@ public class AdminReportCommentController {
 	@Autowired AdminService adminService;
 	
 	@GetMapping("/list")
-	public void reportComment(@RequestParam(defaultValue = "0") int curPage, Model model) {
+	public void reportComment(@RequestParam(defaultValue = "1") int curPage, Model model) {
 //		logger.info("/reportboard [GET}");
 //		logger.info("curPage = {}", curPage);
 		AdminPaging paging = new AdminPaging();
@@ -68,9 +68,14 @@ public class AdminReportCommentController {
 		//신고한 게시글 상세정보
 		comment = adminService.getComment(reportComment.getCommentNo());
 		
+		int doblack = adminService.findBlack(domember.getUserNo());
+		int getblack = adminService.findBlack(getmember.getUserNo());
+		
 		model.addAttribute("list", reportComment);
 		model.addAttribute("domember", domember);
 		model.addAttribute("getmember", getmember);
+		model.addAttribute("doblack", doblack);
+		model.addAttribute("getblack", getblack);
 		model.addAttribute("comment", comment);
 		
 	}

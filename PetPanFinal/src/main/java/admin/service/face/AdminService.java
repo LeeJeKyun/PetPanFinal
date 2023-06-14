@@ -345,10 +345,18 @@ public interface AdminService {
 	 */
 	public void resellCheckedShop(List<String> resell);
 	
-	
-	
-
+	/**
+	 * 
+	 * @param userno
+	 */
 	public void appointmentAdmin(int userno);
+
+	/**
+	 * 
+	 * @param userNo
+	 * @return
+	 */
+	public int findBlack(int userNo);
 
 
 

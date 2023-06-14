@@ -28,7 +28,7 @@ public class AdminReportShopController {
 	
 	@GetMapping("/list")
 	public void reporetShoplist(
-			@RequestParam(defaultValue = "0") int curPage, 
+			@RequestParam(defaultValue = "1") int curPage, 
 			Model model, 
 			@RequestParam(required=false,defaultValue = "")String search
 			) {
@@ -57,11 +57,11 @@ public class AdminReportShopController {
 			) {
 		reportObject = adminService.getReportObject(objreportNo);
 		getmember = adminService.getShopReportMember(reportObject);
-		
-
-		
+		int getblack = adminService.findBlack(getmember.getUserNo());
+	
 		model.addAttribute("list",reportObject);
 		model.addAttribute("getmember", getmember);
+		model.addAttribute("getblack", getblack);
 	}
 	
 	@PostMapping("/view/delete")

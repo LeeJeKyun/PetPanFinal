@@ -218,6 +218,8 @@ public interface AdminDao {
 
 	public void updateMemberToAdmin(int userno);
 
+	public int selectCountBlackByuserNo(int userNo);
+
 
 	
 

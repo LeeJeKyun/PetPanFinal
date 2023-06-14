@@ -20,10 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.google.gson.JsonObject;
 
 import board.dto.Board;
+import member.dto.LoginFail;
 import member.dto.Member;
 import member.service.face.MemberService;
 import member.service.face.socialService;
@@ -40,7 +43,16 @@ public class MemberController {
 	
 	
 	@GetMapping("/login/login")
-	public void login() {
+	public void login(Model model, HttpServletRequest request) {
+		
+//		System.out.println(((Model) model).asMap().get("loginFail"));
+		
+//		if((Integer)((Model) model).asMap().get("loginFail") != null) {
+//		int loginFail = (int) ((Model) model).asMap().get("loginFail");
+//		System.out.println(loginFail);
+//		}
+		
+	    
 		logger.info("Login");
 	}
 	
@@ -202,7 +214,7 @@ public class MemberController {
 			, HttpServletResponse resp
 			, HttpServletRequest req
 			, Model model
-			
+			, RedirectAttributes redirect
 			) {
 		
 		logger.info("/login/login");
@@ -226,11 +238,11 @@ public class MemberController {
 			
 			// 로그인 성공
 			if( !black ){
-			
+				
 				// 일반회원 로그인 성공
 				session.setAttribute("login", true );
 				session.setAttribute("userno", member2.getUserNo());
-
+				memberService.deleteFailStack(member2.getUserNo());
 				// 병원 관계자 로그인
 				if( hospital ) {
 					session.setAttribute("hospital", true);
@@ -244,10 +256,27 @@ public class MemberController {
 				}
 				
 			}
-			
 //			logger.info("hospital : {}", hospital);
 			Member detail = memberService.userDetail(member2);
 			model.addAttribute("info", member);
+			
+		}
+		
+		else if (memberService.login( member )==false) {
+			Member failmember = memberService.findMemberFromId(member);
+			if(failmember != null) {
+			int loginFail = memberService.addAndGetFailStack(failmember.getUserNo());
+			System.out.println(loginFail);
+			redirect.addFlashAttribute("loginFail", loginFail);
+				
+			return "redirect:login";
+			}
+			else {
+			redirect.addFlashAttribute("nolog", true);
+			
+			return "redirect:login";
+			
+			}
 			
 		}
 		

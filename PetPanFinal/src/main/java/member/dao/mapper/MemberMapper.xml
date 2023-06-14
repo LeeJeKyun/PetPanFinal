@@ -229,5 +229,26 @@
   		select count(*) from member where userno = #{userno}  	
   	</select>
   	
+  	<select id="selectStack" parameterType="int" resultType="int">
+  		select failcount from loginfail where userno = #{userno}
+  	</select>
+  	
+  	<insert id="insertFailStack" parameterType="int">
+  		insert into loginfail (failno , failcount, userno) VALUES (seq_loginfail.nextval, 1, #{userno})
+  	</insert>
+  	
+  	<update id="updateFailStack" parameterType="int">
+  		UPDATE loginfail SET failcount = failcount + 1 WHERE userno = #{userno}
+  	</update>
+  	
+  	<select id="selectcountStack" parameterType="int" resultType="int">
+  		select count(*) from loginfail where userno = #{userno}
+  	</select>
+  	
+  	<delete id="deleteFailStack" parameterType="int">
+  		DELETE FROM loginfail where userno = #{userno}
+  	</delete>
+  
+  	
   	
   </mapper>

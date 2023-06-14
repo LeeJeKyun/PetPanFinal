@@ -26,7 +26,7 @@ public class AdminReportBoardController {
 	@Autowired AdminService adminService;
 	
 	@GetMapping("/list")
-	public void reportBoard(@RequestParam(defaultValue = "0") int curPage, 
+	public void reportBoard(@RequestParam(defaultValue = "1") int curPage, 
 			Model model, 
 			@RequestParam(required=false,defaultValue = "")String search) {
 
@@ -40,7 +40,6 @@ public class AdminReportBoardController {
 	
 		// 받아온 search 검색값과 현재 페이지 값을 바탕으로 총 페이징을 완성한다.
 		paging = adminService.getPage(curPage,search);
-		
 //		logger.info(search);
 		
 //		logger.info("paging = {}", paging);
@@ -82,9 +81,15 @@ public class AdminReportBoardController {
 		//신고한 게시글 상세정보
 		board = adminService.getBoard(reportboard.getBoardNo());
 		
+		// 차후 추가한 메소드 ( 블랙리스트에 사람이 있을 경우에 disable로 바꾸기 위한 변수)
+		int doblack = adminService.findBlack(domember.getUserNo());
+		int getblack = adminService.findBlack(getmember.getUserNo());
+		
 		model.addAttribute("list", reportboard);
 		model.addAttribute("domember", domember);
 		model.addAttribute("getmember", getmember);
+		model.addAttribute("doblack", doblack);
+		model.addAttribute("getblack", getblack);
 		model.addAttribute("board", board);
 		
 		
