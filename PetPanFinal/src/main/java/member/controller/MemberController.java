@@ -290,15 +290,6 @@ public class MemberController {
 			
 			}
 			
-		}else {
-			
-			logger.info("로그인 실패");
-			
-			String errMsg = "false";
-			model.addAttribute("errMsg", errMsg);
-			
-			
-			return "redirect:./login?";
 		}
 		
 		
