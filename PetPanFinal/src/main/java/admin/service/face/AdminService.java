@@ -354,8 +354,9 @@ public interface AdminService {
 	 * @param resell
 	 */
 	public void resellCheckedShop(List<String> resell);
+	
 	/**
-	 * 관리자 승격 메소드
+	 * 
 	 * @param userno
 	 */
 	public void appointmentAdmin(int userno);
@@ -371,6 +372,14 @@ public interface AdminService {
 	 * @param userno
 	 */
 	public void deleteblacklistOne(int userno);
+
+	/**
+	 * 
+	 * @param userNo
+	 * @return
+	 */
+	public int findBlack(int userNo);
+
 
 
 

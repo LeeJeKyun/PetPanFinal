@@ -281,6 +281,8 @@ public interface AdminDao {
 	 */
 	public void deleteBlacklistOne(int userno);
 
+	public int selectCountBlackByuserNo(int userNo);
+
 
 	
 

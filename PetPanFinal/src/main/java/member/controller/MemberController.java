@@ -20,10 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.google.gson.JsonObject;
 
 import board.dto.Board;
+import member.dto.LoginFail;
 import member.dto.Member;
 import member.service.face.MemberService;
 import member.service.face.socialService;
@@ -40,7 +43,7 @@ public class MemberController {
 	
 	
 	@GetMapping("/login/login")
-	public void login( String msg, Model model, String errMsg ) {
+	public void login(String msg, Model model, String errMsg, HttpServletRequest request) { 
 		logger.info("Login");
 		logger.info("msg :{}" , msg);
 		
@@ -218,7 +221,7 @@ public class MemberController {
 			, HttpServletResponse resp
 			, HttpServletRequest req
 			, Model model
-			
+			, RedirectAttributes redirect
 			) {
 		
 		logger.info("/login/login");
@@ -246,38 +249,49 @@ public class MemberController {
 			
 			// 로그인 성공
 			if( !black ){
-			
+				
 				// 일반회원 로그인 성공
 				session.setAttribute("login", true );
 				session.setAttribute("userno", member2.getUserNo());
-
+				memberService.deleteFailStack(member2.getUserNo());
 				// 병원 관계자 로그인
 				if( hospital ) {
 					session.setAttribute("hospital", true);
+					
 				}
 				
 				// 관리자 로그인
 				if( mgr ) {
 					session.setAttribute("mgr", true);
+					memberService.deleteFailStack(member2.getUserNo());
 					
 				}
 				
-			} 
-			
+			}
+//			logger.info("hospital : {}", hospital);
 			Member detail = memberService.userDetail(member2);
 			model.addAttribute("info", member);
 			
-		} else {
+		} 
+		
+		else if (memberService.login( member )==false) {
+			Member failmember = memberService.findMemberFromId(member);
+			if(failmember != null) {
+			int loginFail = memberService.addAndGetFailStack(failmember.getUserNo());
+			System.out.println(loginFail);
+			redirect.addFlashAttribute("loginFail", loginFail);
+				
+			return "redirect:login";
+			}
+			else {
+			redirect.addFlashAttribute("nolog", true);
 			
-			logger.info("로그인 실패");
-			session.invalidate();
+			return "redirect:login";
 			
-			String errMsg = "false";
-			model.addAttribute("errMsg", errMsg);
+			}
 			
-			
-			return "redirect:./login?";
 		}
+		
 		
 		return "redirect:/";
 	}

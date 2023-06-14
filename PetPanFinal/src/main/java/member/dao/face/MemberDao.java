@@ -290,6 +290,17 @@ public interface MemberDao {
 	
 	public int selectByUserno(int userno);
 
+	public int selectStack(int userno);
+
+	public void insertFailStack(int userno);
+
+	public void updateFailStack(int userno);
+
+	public int selectcountStack(int userno);
+
+	public void deleteFailStack(int userNo);
+
+
 
 
 
