@@ -297,14 +297,17 @@ $(function(){
 
 
 
+
+
 <div id="slick">
 
 <div><img src="<%=request.getContextPath()%>/resources/member/img/뽀비.png"></div>
 <div><img src="<%=request.getContextPath()%>/resources/member/img/연두.jpg"></div>
 <div><img src="<%=request.getContextPath()%>/resources/member/img/써니.jpg"></div>
-<div><img src="<%=request.getContextPath()%>/resources/member/img/갱얼쥐.jpg"></div>
+<%-- <div><img src="<%=request.getContextPath()%>/resources/member/img/갱얼쥐.jpg"></div> --%>
+<div><img src="<%=request.getContextPath()%>/resources/member/img/갱쥐.png"></div>
 <div><img src="<%=request.getContextPath()%>/resources/member/img/사슴.jpg"></div>
-<div><img src="<%=request.getContextPath()%>/resources/member/img/아라.jpg"></div>
+<div><img src="<%=request.getContextPath()%>/resources/member/img/아라.jpg"></div>	
 <div><img src="<%=request.getContextPath()%>/resources/member/img/토토.jpg"></div>
 
 </div>
@@ -355,7 +358,21 @@ $(function(){
 		<img alt=".." src="<%=request.getContextPath()%>/petfile/${petDetail.storedName}" width="90px" height="90px" class="img">
 	</c:forEach>
 	<p class="Nick">${detail.userNick}님</p>
-	쪽지
+	
+	
+	
+	<c:choose>
+	
+	<c:when test="${doread eq 0 }">
+		<div style="color:F606060;">쪽지</div>
+	</c:when>
+	<c:when test="${doread > 0}"  >
+		<div ><a href="/message/message/list" ><span style="color:#FF5050;">쪽지 ${doread}</span></a></div>
+	</c:when>
+	
+	</c:choose>
+	
+	
 	<div>
 	<p class="email">${detail.email}</p>
 	</div>

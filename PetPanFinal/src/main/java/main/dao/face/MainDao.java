@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import board.dto.Board;
+import message.dto.Message;
 import util.HospitalPaging;
 
 public interface MainDao {
@@ -64,6 +65,13 @@ public interface MainDao {
 	 * @return 조회된 병원
 	 */
 	List<Map<String, Object>> selectHospitalAll(HospitalPaging paging);
+
+	/**
+	 * 읽음 확인
+	 * 
+	 * @param message
+	 */
+	public int selectDoread(Message message);
 
 	
 	
