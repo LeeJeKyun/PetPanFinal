@@ -1076,6 +1076,17 @@ public class AdminServiceImpl implements AdminService{
 		
 	}
 	
+	@Override
+	public int isBlack(int userno) {
+		return adminDao.selectCntByuserno(userno);
+	}
+	
+	@Override
+	public void deleteblacklistOne(int userno) {
+		adminDao.deleteBlacklistOne(userno);
+		
+	}
+	
 }
 
 
