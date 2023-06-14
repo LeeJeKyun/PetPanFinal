@@ -1,5 +1,6 @@
 package message.service.face;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -83,5 +84,17 @@ public interface MessageService {
 	 * @param messagenoList
 	 */
 	public void saveMessageByList(List<Integer> messagenoList);
+
+	/**
+	 * 모든 유저에게 쪽지를 보내는 메소드.
+	 * 
+	 */
+	public void sendMessageToAll(String content);
+
+	/**
+	 * 30일이 지난 쪽지를 삭제하는 메소드.
+	 * 
+	 */
+	public void deleteMessageRoutin();
 
 }

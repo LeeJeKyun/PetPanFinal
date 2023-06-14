@@ -22,11 +22,14 @@ public class BatchController {
 	@Autowired private SimpleJobLauncher jobLauncher;
 	
 	@RequestMapping("/message")
-	public void messageToAll() {
+	public void messageToAll(String content) {
+		
+		System.out.println(content);
 		
 		JobParameters jobParameters = new JobParametersBuilder()
 				.addString("a", "b")
 				.addDate("date", new Date())
+				.addString("content",content)
 				.toJobParameters();
 		
 		try {

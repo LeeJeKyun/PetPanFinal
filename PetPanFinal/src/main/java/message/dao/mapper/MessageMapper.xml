@@ -77,4 +77,25 @@
 		WHERE messageno = #{messageno}
 	</delete>
 	
+	<insert id="insertMessageToAll" parameterType="message.dto.Message">
+		INSERT INTO message(messageno, content, send_date, doread, savemessage, receiveuserno, senduserno)
+			<foreach collection="list" item="message" separator="UNION ALL" >
+				(SELECT get_seq_message(), #{content}, sysdate, 'N', 'N', #{message.receiveUserNo}, 91 FROM dual)
+			</foreach>
+	</insert>
+	
+	<delete id="deleteMessageThirtyDate">
+	<![CDATA[
+		DELETE message
+		WHERE send_date + 30 <= sysdate
+		AND savemessage != Y
+	]]>	
+	</delete>
+	
+	<select id="selectNormalUserList" resultType="message.dto.Message">
+		SELECT userno as receiveuserno FROM member
+		WHERE POSITIONNO = 1 OR POSITIONNO = 2
+		ORDER BY userno DESC
+	</select>
+	
 </mapper>

@@ -12,7 +12,7 @@
    <!-- Root Context: defines shared resources visible to all other web components -->
    
    <mvc:annotation-driven />
-   <context:component-scan base-package="">
+   <context:component-scan base-package="**.service">
    		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
    </context:component-scan>
    
@@ -86,7 +86,7 @@
 		</batch:step>
 	</batch:job>
 
-	<bean id="task2" class="" />
+	<bean id="task2" class="admin.batch.task.MessageToAllTasklet" />
 	<batch:job id="messageToAll">
 		<batch:step id="SendStep">
 			<batch:tasklet ref="task2" />
@@ -128,7 +128,7 @@
 
 
 	<bean id="quartzJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-		<property name="jobClass" value="batchTest.quartz.QuartzJob"/>
+		<property name="jobClass" value="admin.quartz.QuartzJob"/>
 		<property name="jobDataAsMap">
 			<map>
 				<entry key="quartzService" value-ref="quartzService" />
@@ -139,8 +139,8 @@
    	<bean id="jobExcueteTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="quartzJob"/>
 		
-<!-- 		(0초 시작 5초마다)초 매분 매시 매일 매월 (설정없음)요일 매년  -->
-		<property name="cronExpression" value="0/5 * * * * ? *"/>
+<!-- 		매일 12시간마다 한번씩 실행.  -->
+		<property name="cronExpression" value="0 0 0/12 1/1 * ? *"/>
 	</bean>
 	
 	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
