@@ -7,10 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.socket.WebSocketMessage;
 
 import admin.dto.Blacklist;
-import admin.dto.ChatMsg;
 import admin.dto.ReportBoard;
 import admin.dto.ReportComment;
 import admin.dto.ReportObject;
@@ -98,9 +96,18 @@ public interface AdminService {
 	 */
 	public void changeReportBoard(Integer boreportNo, Integer doboardNo, Integer getdoblack, Integer getgetblack,
 			String getdoblackres, String getgetblackres);
-
+	/**
+	 * 멤버 전체 가져오기
+	 * @param paging
+	 * @return
+	 */
 	public List<Member> getMemberBoard(AdminPaging paging);
-
+	/**
+	 * 검색된 멤버 가져오기
+	 * @param paging
+	 * @param keyword
+	 * @return
+	 */
 	public List<Member> getsearchMemberBoard(AdminPaging paging, String keyword);
 
 	/**
@@ -315,24 +322,27 @@ public interface AdminService {
 	public void deletenotice(int noticeno);
 
 	public void noticechangeAndDeleteFile(List<Integer> delete, List<Integer> save);
-
+	/**
+	 * 공지 변경 메소드
+	 * @param notice
+	 */
 	public void changeNotice(Notice notice);
 
 	public void saveNoticeFiles(List<MultipartFile> fileList, Notice notice, List<Integer> no);
 	/**
-	 * 
+	 * 블랙리스트 페이징 가져오기
 	 * @param curPage
 	 * @return
 	 */
 	public AdminPaging getBlacklistPage(int curPage);
 	/**
-	 * 
+	 * 멤버 페이징 가져오기
 	 * @param curPage
 	 * @return
 	 */
 	public AdminPaging getmemberPage(int curPage);
 	/**
-	 * 
+	 * 검색된 멤버 페이징 가져오기
 	 * @param curPage
 	 * @param keyword
 	 * @return
@@ -345,10 +355,31 @@ public interface AdminService {
 	 */
 	public void resellCheckedShop(List<String> resell);
 	
-	
-	
-
+	/**
+	 * 
+	 * @param userno
+	 */
 	public void appointmentAdmin(int userno);
+	/**
+	 * userno로 블랙리스트에 있는지 확인
+	 * @param userno
+	 * @return
+	 */
+	public int isBlack(int userno);
+	
+	/**
+	 * 하나삭제
+	 * @param userno
+	 */
+	public void deleteblacklistOne(int userno);
+
+	/**
+	 * 
+	 * @param userNo
+	 * @return
+	 */
+	public int findBlack(int userNo);
+
 
 
 

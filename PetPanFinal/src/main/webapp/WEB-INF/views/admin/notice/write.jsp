@@ -110,10 +110,6 @@ $(function(){
 			alert("내용을입력해주세요.")
 			return
 		}
-		if($(content.value).text() == '') {
-			alert("내용을 입력해주세요")
-			return
-		}
 		$("form").submit();
 	})
 	

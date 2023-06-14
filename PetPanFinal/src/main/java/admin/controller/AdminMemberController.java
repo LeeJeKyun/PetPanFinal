@@ -55,9 +55,23 @@ public class AdminMemberController {
 		member.setUserNo(userno);
 		
 		member = memberService.userDetail(member);
-		
+		System.out.println(member);
+		int isBlack = 0;
+		isBlack = adminService.isBlack(userno);
+		System.out.println("isBlack : " + isBlack);
 		
 		model.addAttribute("member",member);
+		model.addAttribute("isBlack",isBlack);
+		
+	}
+	//멤버가 블랙인가
+	@GetMapping("/member/isblack")
+	public void isblack(int userno, Model model ) {
+		
+
+		int isBlack = 0;
+		isBlack = adminService.isBlack(userno);
+		model.addAttribute("checkBlack",isBlack);
 		
 	}
 	//멤버 업데이트 get

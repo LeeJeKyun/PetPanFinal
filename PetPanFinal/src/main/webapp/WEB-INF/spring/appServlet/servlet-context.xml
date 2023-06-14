@@ -70,11 +70,7 @@
 	<!-- d업로드된 파일 하나당 사이즈 제한 : 5MB -->
 		<beans:property name="maxUploadSizePerFile" value="5242880"></beans:property>
 	</beans:bean>
-	<!-- 웹소캣 등록 -->
-		<!-- 웹소캣 등록 -->
-	
 
-	
 	<context:component-scan base-package="admin.controller, board.controller, main.controller, member.controller, shop.controller, admin.service, board.service, main.service, member.service, shop.service, message.controller, message.service, aop " >
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
 	</context:component-scan>

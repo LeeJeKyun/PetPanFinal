@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import admin.dto.Blacklist;
 import admin.service.face.AdminService;
@@ -72,12 +73,12 @@ public class AdminBlacklistController {
 		return "redirect:./list";
 		
 	}
+
 	
 	//블랙리스트 insert
 	@GetMapping("/blacklist/insert")
 	public void blacklistinsert(@RequestParam(required=false)int userno,Model model) {
 		
-		int isUserno = memberService.selectByUserno(userno);
 		
 		if(userno != 0) {
 		model.addAttribute("userno",userno);
@@ -95,7 +96,13 @@ public class AdminBlacklistController {
 		return "redirect:./list";
 
 	}
-	
+	@GetMapping("/blacklist/deleteOne")
+	@ResponseBody
+	public void blacklistdeleteOne(int userno,Model model) {
+		
+		adminService.deleteblacklistOne(userno);
+		
+	}
 	
 	
 	

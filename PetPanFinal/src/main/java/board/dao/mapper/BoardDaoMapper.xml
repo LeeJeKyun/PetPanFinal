@@ -627,7 +627,8 @@
 		where rnum BETWEEN #{startNo} AND #{endNo}
 	</select>
 	<select id="selectHospital" parameterType="util.HospitalPaging" resultType="map">
-		select * from(
+		
+select * from(
 	    	select rownum rnum, A.*
 	    	from(
 	        	select  hospital.hospitalNo, hospitalName, mammalia, reptile, rodent, birds, userName
@@ -659,7 +660,7 @@
 	        	order by member.userno
 	    	)A
 		)
-where rnum BETWEEN #{startNo} AND #{endNo}					
+where rnum BETWEEN #{startNo} AND #{endNo}		
 	</select>
 	<select id="selectHospitalDetail" parameterType="int" resultType="map">
 		select M.*, H.hospitalNo, H.hospitalName, H.hospitalCode, H.mammalia, H.reptile, H.rodent, H.birds, open, close

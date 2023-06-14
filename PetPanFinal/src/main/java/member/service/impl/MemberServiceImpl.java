@@ -579,6 +579,36 @@ public class MemberServiceImpl implements MemberService {
 		
 		return memberDao.selectByUserno(userno);
 	}
+
+	@Override
+	public Member findMemberFromId(Member member) {
+		
+		Member check = memberDao.selectUserNoMemberByUserId(member);
+		
+		return check;
+	}
+
+	@Override
+	public int addAndGetFailStack(int userno) {
+		int check = memberDao.selectcountStack(userno);
+		System.out.println(check);
+		if(check == 0) {
+			memberDao.insertFailStack(userno);
+		}else if (check != 0) {	
+			memberDao.updateFailStack(userno);
+		}
+		int failstack = memberDao.selectStack(userno);
+		
+		
+		return failstack;
+	}
+
+	@Override
+	public void deleteFailStack(int userNo) {
+		memberDao.deleteFailStack(userNo);
+		
+	}
+
 	
 	
 	

@@ -27,7 +27,7 @@ public class AdminShopcontroller {
 	@Autowired AdminService adminService;
 	
 	@GetMapping("/list")
-	public void ShopList(@RequestParam(defaultValue = "0") int curPage, 
+	public void ShopList(@RequestParam(defaultValue = "1") int curPage, 
 			Model model, 
 			@RequestParam(required=false,defaultValue = "")String search) {
 //		logger.info("/reportboard [GET}");

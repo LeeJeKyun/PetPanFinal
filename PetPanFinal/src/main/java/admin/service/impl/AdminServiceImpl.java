@@ -1075,6 +1075,23 @@ public class AdminServiceImpl implements AdminService{
 		adminDao.updateMemberToAdmin(userno);
 		
 	}
+
+	@Override
+	public int findBlack(int userNo) {
+		int cheak = adminDao.selectCountBlackByuserNo(userNo);
+		return cheak;
+	}
+	
+	@Override
+	public int isBlack(int userno) {
+		return adminDao.selectCntByuserno(userno);
+	}
+	
+	@Override
+	public void deleteblacklistOne(int userno) {
+		adminDao.deleteBlacklistOne(userno);
+		
+	}
 	
 }
 
