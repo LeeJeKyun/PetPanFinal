@@ -19,6 +19,7 @@ import member.dto.Member;
 import member.dto.Pet;
 import member.dto.PetFile;
 import member.service.face.MemberService;
+import message.dto.Message;
 import util.HospitalPaging;
 
 
@@ -46,7 +47,8 @@ public class MainController {
 			, @RequestParam(defaultValue = "N") char mammalia
 			, @RequestParam(defaultValue = "N") char reptile
 			) {
-		logger.info("로그인 성공 메인");
+		
+//		logger.info("로그인 성공 메인");
 		
 		if( session.getAttribute("login") != null) {
 		
@@ -70,7 +72,14 @@ public class MainController {
 		}
 		
 	}
-	
+		Message message = new Message();
+		
+		if( session.getAttribute("userno") != null) {
+		
+		message.setReceiveUserNo((int)session.getAttribute("userno"));
+		int doread = mainService.selectDoread(message);
+		model.addAttribute("doread", doread);
+		}
 		
 		// 자유게시판 인기순 조회
 		List<Board> free = mainService.selectFree(board);

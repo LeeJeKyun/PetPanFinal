@@ -146,7 +146,7 @@ public interface MemberService {
 	 * @param email
 	 * @return
 	 */
-	public String joinEmail(String email);
+	public int joinEmail(String email);
 
 	/**
 	 * 마이페이지 내가쓴 리뷰
@@ -215,7 +215,7 @@ public interface MemberService {
 	 * @param email
 	 * @return
 	 */
-	public String pwEmail(String email);
+	public int pwEmail(String email);
 
 	/**
 	 * 
@@ -279,6 +279,14 @@ public interface MemberService {
 	 */
 	
 	public int selectByUserno(int userno);
+
+	/**
+	 * 관계자,,
+	 * 
+	 * @param member
+	 * @return
+	 */
+	public boolean selectMgr(Member member);
 
 
 

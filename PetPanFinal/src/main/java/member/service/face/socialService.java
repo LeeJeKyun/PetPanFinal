@@ -18,12 +18,6 @@ public interface socialService {
 	 */
 	public String getAccessToken(String code);
 
-	/**
-	 * 로그아웃
-	 * 
-	 * @param attribute
-	 */
-	public void kakaoLogout(String access_Token);
 
 	/**
 	 * access
@@ -66,6 +60,8 @@ public interface socialService {
 	public String getApiURL(String code, String state);
 
 	public JsonObject getTokenNaver(String apiURL);
+
+
 
 
 	

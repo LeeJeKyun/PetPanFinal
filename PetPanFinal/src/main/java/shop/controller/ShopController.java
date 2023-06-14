@@ -1,5 +1,6 @@
 package shop.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -133,8 +134,21 @@ public class ShopController {
 	
 	
 	@GetMapping("/buy")
-	public void buy(Model model, Basket basket) {
+	public void buy(Model model, int userno, Basket basket) {
 		
+		basket.setUserno(userno);
+		
+		model.addAttribute("basket", basket);
+		//바로 구매 누르면 장바구니 자동 등록
+		shopService.insertBasket(basket);
+		
+		//구매전 장바구니 확인 
+		List<Map<String,Object>> list = shopService.selectBasket(basket);
+		model.addAttribute("list", list);
+		
+		Member member = shopService.memberShop(basket);
+		
+		model.addAttribute("member", member);
 	}
 	
 	@PostMapping("/buy")
@@ -147,7 +161,7 @@ public class ShopController {
 		
 		//구매전 장바구니 확인 
 		List<Map<String,Object>> list = shopService.selectBasket(basket);
-		model.addAttribute("list", list);
+
 		
 		Member member = shopService.memberShop(basket);
 		

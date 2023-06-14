@@ -99,20 +99,25 @@ public class BoardController {
 	
 	@GetMapping("/board/detail")
 	public void detail(int boardNo, HttpSession session ,Model model) {
-		// boardno, boardTitle, hit, recommend, writeDate, userName, content, boardTypeNo, writeDate
-		Map<String, Object> map =  boardService.getBoardOne(boardNo);
 		boolean like = false;
-		// boardNo에 맞는 파일 가져오기
-		List<BoardFile> list = boardService.getBoardFile(boardNo);
 		
 		// 게시글 추천 눌렀는지 가져오기
 		BoardRecommend boardReco = new BoardRecommend();
 		boardReco.setBoardNo(boardNo);
+		
 		if(null != session.getAttribute("userno")) {
 			boardReco.setUserNo((int)session.getAttribute("userno"));
+			//boardService.
 			like = boardService.isLike(boardReco); 
+			boardService.plusHit(boardNo);
 		}
+		
+		// boardno, boardTitle, hit, recommend, writeDate, userName, content, boardTypeNo, writeDate
+		Map<String, Object> map =  boardService.getBoardOne(boardNo);
 //		boardReco.setUserNo(1);
+		
+		// boardNo에 맞는 파일 가져오기
+		List<BoardFile> list = boardService.getBoardFile(boardNo);
 		
 		logger.info("like : {}", like);
 		model.addAttribute("like", like);
@@ -149,7 +154,28 @@ public class BoardController {
 		logger.info("게시글 삭제 {}", boardNo);
 		return "redirect:/board/board";
 	}
-	
+	@GetMapping("/board/update")
+	public void updateBoardPath(int boardNo, Model model) {
+		//게시글 정보 가져오기
+		Map<String, Object> map = boardService.getBoardOne(boardNo);
+		logger.info("map {} ", map);
+		
+		List<BoardFile> listFile =  boardService.getBoardFile(boardNo);
+		logger.info("listFile {} ", listFile);
+		
+		model.addAttribute("map", map);
+		model.addAttribute("listFile", listFile);
+	}
+	@PostMapping("/board/update")
+	public String updateBoard(@RequestParam(value = "file", required = false)List<MultipartFile> fileList //올릴 파일 리스트
+			, Board board
+			, @RequestParam(required = false) List<Integer> no // 취소된 파일 -1 
+			,	HttpSession session
+			) {
+		
+		boardService.updateBoard(fileList, no, session, board);
+		return "redirect:/board/board";
+	}
 	@GetMapping("/board/recommend")
 	public ModelAndView recommend(BoardRecommend boardReco, HttpSession session) {
 
@@ -169,12 +195,12 @@ public class BoardController {
 		return mv;
 	}
 	@PostMapping("/board/comment")
-	public ModelAndView comment(int boardNo) {
+	public ModelAndView comment(int boardNo, HttpSession session) {
 		
 		ModelAndView mav = new ModelAndView();
 		
 		// commentNo, content, writeDate, userNo, depth, refcommentNo, isRecommend
-		List<Map<String, Object>> list =  boardService.getComments(boardNo);
+		List<Map<String, Object>> list =  boardService.getComments(boardNo, (int)session.getAttribute("userno"));
 		logger.info("comments list : {}",list);
 		
 		mav.addObject("list", list);

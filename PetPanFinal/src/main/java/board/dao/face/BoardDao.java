@@ -248,6 +248,20 @@ public interface BoardDao {
 	 */
 	public void deleteComRecommend(Map<String, Object> map);
 	
+	/**
+	 * 품앗이 게시글을 수정하는 메소드 
+	 * 
+	 * @param board
+	 */
+	public void updateCareBoard(Board board);
+	
+	/**
+	 * 품앗이 게시글 수정 시에 파일 삭제를 하면 들어오는 AJAX
+	 * 
+	 * @param boardFile
+	 */
+	public int deleteBoardFileWhenUpdate(BoardFile boardFile);
+	
 	//--------------------------제균--------------------------------
 
 
@@ -604,6 +618,18 @@ public interface BoardDao {
 	 */
 	public int selectCommentCntReco(int commentNo);
 
+	/**
+	 * session에 있는 userNO과 게시글을 올린 userNo이 맞는지 확인
+	 * @param board
+	 * @return 맞으면 1 아니면 0
+	 */
+	public Integer getBoardNoUserNoByUserNo(Board board);
+
+	/**
+	 * 게시글 수정
+	 * @param board
+	 */
+	public void updateBoardWrite(Board board);
 
 	
 }

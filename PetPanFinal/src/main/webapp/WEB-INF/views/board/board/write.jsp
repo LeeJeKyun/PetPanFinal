@@ -188,19 +188,7 @@ function updateContents(){
 			<!-- <div id = "input-files"></div> -->
 			<table id = "input-files"></table>
 			
-<!-- 			<button type = "submit"  id = "btnWrite" onclick = "updateContents()">작성</button> -->
 			<button type = "button"  id = "btnWrite" >작성</button>
-			
-<!-- 			<div id = "modal"> -->
-<!-- 				<div class = "modal_content">  -->
-<!-- 					모달 창 -->
-<!-- 					<div class = "modal_layer"> -->
-<!-- 						모달차앛아 -->
-<!-- 						<button id = "yesBtn">확인</button> -->
-<!-- 						<button id = "noBtn">취소</button> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
 		</form>
 	</div>
 </div>

@@ -349,4 +349,59 @@ public class BoardCareController {
 		return res;
 	}
 	
+	@GetMapping("/update")
+	public void careUpdate(
+			
+			Board board,
+			Model model
+			
+			) {
+		
+		Map<String, Object> boardMap = boardService.getBoardOne(board.getBoardNo());
+		List<BoardFile> boardFile = boardService.getBoardFile(board.getBoardNo());
+		
+		logger.info("boardMap : {}", boardMap);
+		logger.info("boardFile : {}", boardFile);
+		model.addAttribute("map", boardMap);
+		model.addAttribute("boardFile",boardFile);
+	}
+	
+	@PostMapping("/update")
+	public String careUpdateProc(
+			
+			@RequestParam(value="file", required=false)List<MultipartFile> fileList
+			, Board board
+			, @RequestParam(required = false) List<Integer> no
+			, HttpSession session
+			
+			) {
+		
+		logger.info("board : {}", board);
+		logger.info("fileList : {}", fileList);
+		logger.info("no : {}", no);
+
+		boardService.updateBoardCare(board);
+		boardService.saveUpdateFile(fileList, board.getBoardNo(), no);
+		
+		return "redirect:list";
+	}
+	
+	@GetMapping("/fileDelete")
+	public @ResponseBody String fileDelete(
+			
+			BoardFile boardFile
+			
+			) {
+		
+		logger.info("boardFile : {}", boardFile);
+		
+		boolean res = boardService.deleteFileCare(boardFile);
+		
+		if(res) {
+			return "delete Complete!!";
+		}
+		
+		return "delete fail";
+	}
+	
 }

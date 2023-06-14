@@ -254,6 +254,19 @@
 		WHERE commentno = #{commentNo} AND userno = #{userNo}
 	</delete>
 	
+	<update id="updateCareBoard" parameterType="board.dto.Board">
+		UPDATE board
+		SET boardtitle = #{boardTitle}
+			, content = #{content}
+		WHERE boardno = #{boardNo}
+	</update>
+	
+	<delete id="deleteBoardFileWhenUpdate" parameterType="board.dto.BoardFile">
+		DELETE boardfile
+		WHERE fileno = #{fileno}
+	</delete>
+	
+	
 	<!-- ===============================제균=============================== -->
 	
 	
@@ -285,7 +298,7 @@
                     
                     , B.* FROM(
 				SELECT board.boardno, boardtitle, username, write_date AS writeDate, hit
-                        , member.userno, boardtypeno
+                        , member.userno, boardtypeno, usernick
 				FROM board, member
 				
 				WHERE board.userno = member.userno AND boardtypeno = 3 AND content like '%'||#{search}||'%' OR
@@ -308,7 +321,7 @@
                     
                     , B.* FROM(
 				SELECT board.boardno, boardtitle, username, write_date AS writeDate, hit
-                        , member.userno, boardtypeno
+                        , member.userno, boardtypeno, usernick
 				FROM board, member
 				
 				WHERE board.userno = member.userno AND boardtypeno = 2 AND content like '%'||#{search}||'%' OR
@@ -415,9 +428,12 @@
                 ,(select count(*) 
                     from comrecommend C
                     where commentNo = B.commentNo) AS isrecommend
+                , (select count(*)
+                	from comrecommend C
+                	where commentNo = B.commentNo and userNo = #{userNo}) recommended    
         	from(
       			select DENSE_RANK() OVER(order by organization) AS cnt
-                  ,commentno, content, write_date AS writeDate, member.userNo, depth, member.username
+                  ,commentno, content, write_date AS writeDate, member.userNo, depth, member.username, member.usernick
                   , organization
                   , sortno
                   
@@ -701,4 +717,16 @@ where rnum BETWEEN #{startNo} AND #{endNo}
 		from comrecommend
 		where commentNo = #{commentNo}
 	</select>
+	<select id="getBoardNoUserNoByUserNo" parameterType="board.dto.Board" resultType="integer">
+		select count(*)
+		from board
+		where boardNo = #{boardNo} and userNo = #{userNo} 
+	</select>
+	<update id="updateBoardWrite" parameterType="board.dto.Board">
+		update board
+		set boardtitle = #{boardTitle}
+    		, Content = #{content}
+    		, boardTypeNo = #{boardTypeNo}
+		where boardNo = #{boardNo} 
+	</update>
 </mapper>

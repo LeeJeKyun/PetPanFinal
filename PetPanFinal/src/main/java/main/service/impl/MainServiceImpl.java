@@ -12,6 +12,7 @@ import board.dto.Board;
 import main.dao.face.MainDao;
 import main.service.face.MainService;
 import member.service.face.MemberService;
+import message.dto.Message;
 import util.HospitalPaging;
 
 @Service
@@ -87,5 +88,16 @@ public class MainServiceImpl implements MainService {
 
 			return list;
 	}
+	
+	
+	
+	@Override
+	public int selectDoread(Message message) {
+
+		
+		return mainDao.selectDoread(message);
+		
+	}
+	
 	
 }
