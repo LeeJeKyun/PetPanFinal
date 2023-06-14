@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch https://www.springframework.org/schema/batch/spring-batch.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
    
    <!-- Root Context: defines shared resources visible to all other web components -->
+   
+   <mvc:annotation-driven />
+   <context:component-scan base-package="">
+   		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+   </context:component-scan>
    
    <!-- DB접속 정보 -->
    <bean id= "dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -63,6 +74,82 @@
       
    </bean>
    
+   	<!-- 트랜잭션 매니저 스프링 빈 설정 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="task1" class="admin.batch.task.DeleteMessageTaskLet" />
+	<batch:job id="deleteMessage">
+		<batch:step id="deleteStep">
+			<batch:tasklet ref="task1" />
+		</batch:step>
+	</batch:job>
+
+	<bean id="task2" class="" />
+	<batch:job id="messageToAll">
+		<batch:step id="SendStep">
+			<batch:tasklet ref="task2" />
+		</batch:step>
+	</batch:job>
+	
+	
+	<!-- 스프링 배치의 metadata를 담당하는 빈. -->
+	<bean id="jobRepository"
+		class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="isolationLevelForCreate"
+			value="ISOLATION_DEFAULT" />
+	</bean>
+
+	<!-- 스프링 배치 job을 실행하는 빈. -->
+	<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+
+	
+	<bean id="jobRegistry" class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
+ 
+	<bean class="org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor">
+		<property name="jobRegistry" ref="jobRegistry" />
+	</bean>
+ 
+	<bean id="jobOperator" class="org.springframework.batch.core.launch.support.SimpleJobOperator">
+		<property name="jobLauncher" ref="jobLauncher" />
+		<property name="jobExplorer" ref="jobExplorer" />
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="jobRegistry" ref="jobRegistry" />
+	</bean>
+ 
+	<bean id="jobExplorer" class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+
+	<bean id="quartzJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="batchTest.quartz.QuartzJob"/>
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="quartzService" value-ref="quartzService" />
+			</map>
+		</property>
+	</bean>
+   
+   	<bean id="jobExcueteTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="quartzJob"/>
+		
+<!-- 		(0초 시작 5초마다)초 매분 매시 매일 매월 (설정없음)요일 매년  -->
+		<property name="cronExpression" value="0/5 * * * * ? *"/>
+	</bean>
+	
+	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="jobExcueteTrigger"/>
+			</list>
+		</property>
+	</bean>
    
 </beans>
-      
+
