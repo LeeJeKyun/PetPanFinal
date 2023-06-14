@@ -288,6 +288,12 @@ public interface MemberService {
 	 */
 	public boolean selectMgr(Member member);
 
+	public Member findMemberFromId(Member member);
+
+	public int addAndGetFailStack(int userno);
+
+	public void deleteFailStack(int userNo);
+
 
 
 

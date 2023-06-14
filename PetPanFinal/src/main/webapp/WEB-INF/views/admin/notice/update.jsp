@@ -112,19 +112,10 @@ $(function(){
 		
 		console.log($("#smart_editor2"))
 		
-// 		if($("#title").val() == '') {
-// 			alert("required")
-			
-// 			return
-// 		}
 		oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
 		
 		if(!$("form")[0].checkValidity()) {
 			alert("입력해주세요.")
-			return
-		}
-		if($(content.value).text() == '') {
-			alert("required c")
 			return
 		}
 		$("form").submit();
@@ -157,11 +148,6 @@ $(function(){
 		for(var i = 0; i < file.length; i++){
 			console.log( file[i].name );
 			$(".file-line").eq(i).remove();
-//			$("#input-files").append("<div class = 'file-line' data-no = "+ i + ">"
-//													+ "<input type = 'hidden' data-no = " + i +" name = 'no' value = " + i +">"
-//													+ file[i].name 
-//													+ "<span class = 'xFile' data-no = " + i + " style = 'cursor: pointer;'> x </span>" 
-//													+ "</div>")
 			$("#input-files").append("<tr class = 'file-line' data-no = " + i + ">"
 										+ "<td><input type = 'hidden' data-no = " + i +" name = 'no' value = " + i +"></td"
 										+ "<td><span class = 'file-name'>" + file[i].name + "</span></td>" 

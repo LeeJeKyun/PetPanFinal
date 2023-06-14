@@ -289,6 +289,19 @@
 		UPDATE MEMBER SET positionNo = 3 WHERE userno = #{userno}
 	</update>
 	
+	<select id="selectCountBlackByuserNo" parameterType="int" resultType="int">
+		SELECT count(*) FROM BLACKLIST WHERE userno = #{userno}
+	</select>
+	
+	<select id="selectCntByuserno" parameterType = "int" resultType="int">
+		select count(*) from Blacklist WHERE userno= #{userno}
+	</select>
+	
+	<delete id="deleteBlacklistOne" parameterType="int">
+		delete from blacklist where userno = #{userno}
+	</delete>
+	
+	
 	
 
 </mapper>

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import board.dto.Board;
+import message.dto.Message;
 import util.HospitalPaging;
 
 
@@ -64,6 +65,14 @@ public interface MainService {
 	 * @return
 	 */
 	List<Map<String, Object>> getHospitalInfo(HospitalPaging paging);
+
+	/**
+	 * 메시지 읽음 확인
+	 * 
+	 * @param message
+	 * @return 
+	 */
+	public int selectDoread(Message message);
 
 
 	

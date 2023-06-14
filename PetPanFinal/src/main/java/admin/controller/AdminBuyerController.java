@@ -25,15 +25,17 @@ public class AdminBuyerController {
 	
 	@GetMapping("/list")
 	public void getBuyerList(Model model,
-			@RequestParam(defaultValue = "0") int curPage,
+			@RequestParam(defaultValue = "1") int curPage,
 			@RequestParam(required=false,defaultValue = "")String search
 			){
 		AdminPaging adminPaging = new AdminPaging();
 		
 		adminPaging = adminService.getPageBuyer(curPage,search);
 		List<HashMap<String,Object>> list = adminService.getBuyerList(adminPaging);
+	
 		
 		model.addAttribute("list", list);
+		model.addAttribute("paging", adminPaging);
 		
 	}
 	

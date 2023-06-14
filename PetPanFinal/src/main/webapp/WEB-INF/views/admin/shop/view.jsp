@@ -3,29 +3,39 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+<style type="text/css">
+th{
+	width: 20%;
+}
+</style>
 <c:import url="../../layout/adminHeader.jsp"/>
 <body>
+
 
 <div class="container2" style="margin-left: 500px">
 <div>
 	<div>
 
-		  
-		  <p>상품 번호: ${shop.objectno}</p>
-		  <p>상품 이름: ${shop.name}</p>
-		  <p>대표 사진 : 
+		  <table class = "table table-striped" style="width:1300px"> 
+		  <tr><th>상품 번호</th> <td> ${shop.objectno}</td></tr>
+		  <tr><th>상품 이름</th> <td> ${shop.name}</td></tr>
+		  <tr><th>대표 사진</th> <td> 
 			<img alt=".." src="<%=request.getContextPath()%>/upload/${shop.img1}" width="800px" height="auto" class="img">
-		  <p>상품 내용: ${shop.shopcontent}</p>
-		  <p><c:forEach items="${shopFile }" var="shopFile">
-			<img alt=".." src="<%=request.getContextPath()%>/upload/${shopFile.storedname}" width="800px" height="auto"  class="img">
+		  <tr><th>상품 내용</th> <td> ${shop.shopcontent}</td></tr>
+		  <tr><th>상품 사진</th><td>
+		  <c:forEach items="${shopFile }" var="shopFile">
+		   <img alt=".." src="<%=request.getContextPath()%>/upload/${shopFile.storedname}" width="800px" height="auto"  class="img">
 			<br>
-			</c:forEach></p>
-		  <p>현재 가격: <fmt:formatNumber value="${shop.price}" pattern="#,###원" /></p>
-		  <p>남은 수량: <fmt:formatNumber value="${shop.remain}" pattern="#,###개" /></p>
-		  <p>판매 여부: 
+			</c:forEach>
+			</td>
+			</tr>
+		  <tr><th>현재 가격</th> <td> <fmt:formatNumber value="${shop.price}" pattern="#,###원" /></td></tr>
+		  <tr><th>남은 수량</th> <td> <fmt:formatNumber value="${shop.remain}" pattern="#,###개" /></td></tr>
+		  <tr><th>판매 여부</th> <td> 
 		  	<c:if test="${shop.deleteobj eq 1 }">판매중</c:if>
 			<c:if test="${shop.deleteobj ne 1 }">판매중단</c:if>
-			</p>
+		</td></tr>
+		</table>
 		</div>
 		<hr>
 	</div>
