@@ -20,16 +20,32 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 <!-- 	인터셉터 설정 -->
-<!-- 	<interceptors> -->
-<!-- 		<interceptor> -->
+	<interceptors>
+		<interceptor>
 <!--  		mapping path는 url  -->
-<!-- 			<mapping path="/admin/**"/> -->
-<!-- 			인터셉터가 적용되지 않도록 제외할 예외 페이지 -->
-<!-- 			<exclude-mapping path="/admin/error"/> -->
+			<mapping path="/admin/**"/>
 <!--  			인터셉터 클래스 지정  -->
-<!-- 			<beans:bean class="admin.controller.AdminController"/> -->
-<!-- 		</interceptor> -->
-<!-- 	</interceptors> -->
+			<beans:bean class="interceptor.AdminInterceptor"/>
+		</interceptor>
+		<interceptor>
+<!--  		mapping path는 url  -->
+			<mapping path="/member/**"/>
+<!-- 			<mapping path="/board/**"/> -->
+			<mapping path="/shop/**"/>
+			<mapping path="/message/**"/>
+			<mapping path="/board/board/write" />
+			<mapping path="/board/care/**" />
+			
+<!-- 인터셉터가 적용되지 않도록 제외할 예외 페이지 URL -->
+			<exclude-mapping path="/member/login/login" />
+			<exclude-mapping path="/member/login/join" />
+			<exclude-mapping path="/board/hospital/list" />
+			<exclude-mapping path="/shop/main" />
+			<exclude-mapping path="/shop/view" />
+<!--  			인터셉터 클래스 지정  -->
+			<beans:bean class="interceptor.MemberInterceptor"/>
+		</interceptor>
+	</interceptors>
 
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
