@@ -19,13 +19,13 @@ public class DeleteMessageTaskLet implements Tasklet {
 
 		// 메시지를 지우는 TaskLet 로직 영역
 		
-		System.out.println("5초마다 삭제 실행.");
+		System.out.println("5초마다 실행 보여주기 : " + new Date());
 		
 		messageService.deleteMessageRoutin();
 		
 		return RepeatStatus.FINISHED;
 	}
 
-	
+	 
 	
 }
