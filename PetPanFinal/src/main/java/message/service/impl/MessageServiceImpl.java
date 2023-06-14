@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import member.dao.face.MemberDao;
 import member.dto.Member;
 import message.dao.face.MessageDao;
 import message.dto.Message;
@@ -120,6 +121,20 @@ public class MessageServiceImpl implements MessageService {
 			
 		}
 	}
+
+	@Override
+	public void sendMessageToAll(String content) {
+		
+		List<Message> list = messageDao.selectNormalUserList();
+		
+		messageDao.insertMessageToAll(list, content);
+	}	
+
+	@Override
+	public void deleteMessageRoutin() {
+		messageDao.deleteMessageThirtyDate();
+	}
+	
 	
 	
 	

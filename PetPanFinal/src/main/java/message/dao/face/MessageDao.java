@@ -1,7 +1,10 @@
 package message.dao.face;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
 
 import member.dto.Member;
 import message.dto.Message;
@@ -69,5 +72,33 @@ public interface MessageDao {
 	 * @return
 	 */
 	public int deleteMessageByMessageno(Message message);
+	
+	/**
+	 * 모두에게 메시지를 insert하는 메소드.
+	 * 
+	 */
+	public void insertMessageToAll(@Param(value="list")List<Message> list, @Param(value = "content") String content);
+
+	/**
+	 * 30일에 한번 메시지를 삭제하는 메소드.
+	 * 
+	 * @param nowDate
+	 */
+	public void deleteMessageThirtyDate();
+
+	/**
+	 * 공지를 받아야 하는 멤버의 userno을 받아오는 메소드 
+	 * 
+	 * @return
+	 */
+	public List<Message> selectNormalUserList();
+
+	/**
+	 * 다음 쪽지의 시퀀스번호를 가져오는 메소 
+	 * 
+	 * @return
+	 */
+	public List<Integer> selectNextSeq(@Param(value="seqList")List<Message> seqList);
+	
 	
 }
