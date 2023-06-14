@@ -4,8 +4,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 
+
 <c:import url = "../../layout/header.jsp" />
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9f00b2dea1e24ed23b6212ee4f4f660b"></script>
+
 <style>
 #container{
 	width: 800px;
@@ -114,6 +116,16 @@
 </style>
 <script type="text/javascript">
 $(function(){
+	
+	//time 속성 24시간으로 변경
+	$('.timepicker').timepicker({
+            timeFormat: 'HH:mm',
+            interval: 30,
+            dynamic: false,
+            dropdown: true,
+            scrollbar: true
+    });
+	
 	let today = new Date();   
 	
 	console.log("new Date : " + today.getHours());
@@ -516,7 +528,7 @@ function MarkerTracker(map, target) {
 	
 	var mapContainer = document.getElementById('map-area'), // 지도를 표시할 div 
 	mapOption = {
-	    center: new kakao.maps.LatLng(${map.H_LONGITUDE}, ${map.H_LATITUDE}), // 지도의 중심좌표
+	    center: new kakao.maps.LatLng(${map.H_LATITUDE}, ${map.H_LONGITUDE}), // 지도의 중심좌표
 	    level: 3 // 지도의 확대 레벨
 	};
 	

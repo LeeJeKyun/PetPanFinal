@@ -3,9 +3,10 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 
 <c:import url="./mypage_header.jsp" />
-<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
 <script type="text/javascript">
 $(function() {
 	
@@ -147,10 +148,14 @@ input{
 #input-files{
 	margin-top: 10px;
 	margin-bottom: 10px;
+	text-align: left; 
+	
 }
 
 table{
 	 border-collapse: collapse;
+	 width: 200px;
+	 margin: 0 auto;
 }
 tr:hover{
 	background-color: #ccc;
@@ -160,7 +165,7 @@ tr:hover{
 	
 }
 .file-name{
-	width:700px;
+	width:300px;
 	display:  inline-block;
 }
 </style>
@@ -188,9 +193,9 @@ tr:hover{
    <div class="time">
       <label for="code">영업시간</label>
       
-       <input type="time" id="open" name="open" class = "timepicker">  <label style="color: #FF5050; font-size: small;">~ </label>
-       <input type="time"  id="close" name="close" class = "timepicker">
-      <label for="code">영업시간</label>					
+       <input type="time" name="open" class = "timepicker">  ~ 
+       <input type="time" name="close" class = "timepicker">
+<!--       <label for="code">영업시간</label>					 -->
    </div><!-- time -->
 	
 <!-- <label style="color: #FF5050; font-size: small;">오전 : </label> -->

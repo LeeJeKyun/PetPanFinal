@@ -802,9 +802,11 @@ public class BoardServiceImpl implements BoardService{
 			hPaging = new HospitalPaging(boardDao.selectHospitalAllCnt(paging), paging.getCurPage()
 											, 9, 5);
 		}else {
+			logger.info("selectHospitalCnt 전");
 			// 반경을 넣은 검색
 			hPaging = new HospitalPaging(boardDao.selectHospitalCnt(paging), paging.getCurPage()
 					, 9, 5);
+			logger.info("selectHospitalCnt 통과");
 		}
 		hPaging.setSearch(paging.getSearch());
 		hPaging.setUserNo(paging.getUserNo());
@@ -824,10 +826,13 @@ public class BoardServiceImpl implements BoardService{
 		
 		if(paging.getRadius() == 0) {
 			//반경이 0이면 전체 검색
+			logger.info("getRadius == 0");
 			list = boardDao.selectHospitalAll(paging); 
 		}else {
 			// 반경을 넣은 검색
+			logger.info("getRadius != 0 전");
 			list = boardDao.selectHospital(paging);
+			logger.info("getRadius != 0 후");
 		}
 		return list;
 	}
@@ -861,10 +866,12 @@ public class BoardServiceImpl implements BoardService{
 			double distance = calculateDistance(Loc);
 			logger.info("distance {} ", distance);
 			
-			map.put("U_LATITUDE", userLoc.get("U_LONGITUDE"));
-			map.put("U_LONGITUDE", userLoc.get("U_LATITUDE"));
-			map.put("H_LATITUDE", Loc.get("H_LONGITUDE"));
-			map.put("H_LONGITUDE", Loc.get("H_LATITUDE"));
+			map.put("U_LATITUDE", userLoc.get("U_LATITUDE"));
+			map.put("U_LONGITUDE", userLoc.get("U_LONGITUDE"));
+			map.put("H_LATITUDE", Loc.get("H_LATITUDE"));
+			map.put("H_LONGITUDE", Loc.get("H_LONGITUDE"));
+			
+			map.put("distance", distance);
 		}
 		logger.info("map return 전 {}", map);
 		return map;
