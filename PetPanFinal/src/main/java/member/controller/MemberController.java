@@ -43,17 +43,24 @@ public class MemberController {
 	
 	
 	@GetMapping("/login/login")
-	public void login(Model model, HttpServletRequest request) {
-		
-//		System.out.println(((Model) model).asMap().get("loginFail"));
-		
-//		if((Integer)((Model) model).asMap().get("loginFail") != null) {
-//		int loginFail = (int) ((Model) model).asMap().get("loginFail");
-//		System.out.println(loginFail);
-//		}
-		
-	    
+	public void login(String msg, Model model, String errMsg, HttpServletRequest request) { 
 		logger.info("Login");
+		logger.info("msg :{}" , msg);
+		
+		if( msg != null) {
+		msg = msg.replace("false", "정지된 계정 입니다.");
+		model.addAttribute("msg", msg);
+		
+		}
+		
+		if( errMsg != null) {
+			
+			errMsg = errMsg.replace("false", "아이디, 비밀번호를 확인해주세요.");
+			model.addAttribute("errMsg", errMsg);
+			
+		}
+
+		
 	}
 	
 	
@@ -233,6 +240,10 @@ public class MemberController {
 				logger.info("로그인 실패");
 				session.invalidate();
 				
+				String msg = "false";
+				model.addAttribute("msg", msg);
+				
+				return "redirect:./login?";
 			}
 			
 			
@@ -246,12 +257,13 @@ public class MemberController {
 				// 병원 관계자 로그인
 				if( hospital ) {
 					session.setAttribute("hospital", true);
+					
 				}
 				
 				// 관리자 로그인
-				
 				if( mgr ) {
 					session.setAttribute("mgr", true);
+					memberService.deleteFailStack(member2.getUserNo());
 					
 				}
 				
@@ -260,7 +272,7 @@ public class MemberController {
 			Member detail = memberService.userDetail(member2);
 			model.addAttribute("info", member);
 			
-		}
+		} 
 		
 		else if (memberService.login( member )==false) {
 			Member failmember = memberService.findMemberFromId(member);
@@ -278,7 +290,17 @@ public class MemberController {
 			
 			}
 			
+		}else {
+			
+			logger.info("로그인 실패");
+			
+			String errMsg = "false";
+			model.addAttribute("errMsg", errMsg);
+			
+			
+			return "redirect:./login?";
 		}
+		
 		
 		return "redirect:/";
 	}

@@ -65,9 +65,13 @@ public interface AdminDao {
 
 	// 개발 도중 사용을 멈춘 메소드
 //	public void DeleteReport(int deleteNo);
-
-	public List<Map<String, Object>> BlacklistselectAll(AdminPaging paging);
 	
+	/**
+	 * 블랙리스트 전부 가져오기
+	 * @param paging
+	 * @return
+	 */
+	public List<Map<String, Object>> BlacklistselectAll(AdminPaging paging);
 	public int selectObjectNo();
 
 	public void insertObjectContent(Shop shop);
@@ -101,9 +105,17 @@ public interface AdminDao {
 	 * @param blacklist
 	 */
 	public void insertBlacklist(Blacklist blacklist);
-
+	/**
+	 * 멤버 전부 가져오기
+	 * @param paging
+	 * @return
+	 */
 	public List<Member> MemberselectAll(AdminPaging paging);
-
+	/**
+	 * 검색된 멤버 가져오기
+	 * @param map
+	 * @return
+	 */
 	public List<Member> MemberselectByKeyword(Map<String, Object> map);
 
 	/**
@@ -160,9 +172,15 @@ public interface AdminDao {
 	public int selectTotal();
 
 	public List<Notice> SelectBytheme(int theme);
-
+	/**
+	 * 공지 삽입
+	 * @param notice
+	 */
 	public void insertNotice(Notice notice);
-
+	/**
+	 * 공지 파일 삽입
+	 * @param noticeFile
+	 */
 	public void insertNoticeFile(NoticeFile noticeFile);
 	
 	/**
@@ -193,30 +211,75 @@ public interface AdminDao {
 	 * @param deleteNoMaplist
 	 */
 	public void updateReportCompleteCommentlist(List<HashMap> Maplist);
-
+	/**
+	 * 멤버 정보 수정
+	 * @param member
+	 * @return
+	 */
 	public int updateMember(Member member);
-
+	/**
+	 * 공지 하나 가져오기
+	 * @param noticeno
+	 * @return
+	 */
 	public Notice selectBynoticeno(int noticeno);
-
+	/**
+	 * 공지번호에 따른 file들 가져오기
+	 * @param noticeno
+	 * @return
+	 */
 	public List<NoticeFile> selectnoticeFile(int noticeno);
-
+	/**
+	 * 공지파일삭제
+	 * @param noticeno
+	 */
 	public void deletenoticeFile(int noticeno);
-
+	/**
+	 * 공지삭제
+	 * @param noticeno
+	 */
 	public void deletenotice(int noticeno);
-
+	/**
+	 * 공지 세부사항 수정
+	 * @param notice
+	 */
 	public void updatenoticeDetail(Notice notice);
 
 	public void deleteFileByFileno(int e);
 
 	public NoticeFile selectnoticeFileByFileno(int e);
-
+	/**
+	 * 페이징을 위한 블랙리스트 전체 숫자 가져오기
+	 * @return
+	 */
 	public int selectAllBlacklist();
-
+	/**
+	 * 페이징을 위한 멤버 전체 숫자 가져오기
+	 * @return
+	 */
 	public int selectAllMember();
-
+	/**
+	 * 페이징을 위한 검색 멤버 전체 숫자 가져오기
+	 * @param keyword
+	 * @return
+	 */
 	public int selectSearchMember(String keyword);
-
+	/**
+	 * 관리자 승격 메소드
+	 * @param userno
+	 */
 	public void updateMemberToAdmin(int userno);
+	/**
+	 * 블랙리스트에서 숫자 조회
+	 * @param userno
+	 * @return
+	 */
+	public int selectCntByuserno(int userno);
+	/**
+	 * 블랙리스트 하나 삭제
+	 * @param userno
+	 */
+	public void deleteBlacklistOne(int userno);
 
 	public int selectCountBlackByuserNo(int userNo);
 

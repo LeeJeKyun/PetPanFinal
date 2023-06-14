@@ -32,11 +32,11 @@
     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/assets/css/demo.css" />
     <style type="text/css">
-    .container2{
-    	margin-left: 200px;
-    	margin-top: 200px;
+    .container2{ 
+
+    	margin-top: 100px; 
     
-    }
+   } 
     
     
     </style>
@@ -46,7 +46,7 @@
     <div>
         <h1>블랙유저 등록</h1>
         <hr>
-        <form action="./insert" method="post">
+        <form id="blackForm" action="./insert" method="post">
             <table class="table table-striped" style="width:800px">
                 <tr>
                     <th>유저 번호</th>
@@ -54,15 +54,57 @@
                 </tr>
                 <tr>
                     <th>정지 사유</th>
-                    <td><input type="text" name="reason" required class="form-control"></td>
+                    <td><input type="text" name="reason" required class="form-control" id="reason"></td>
                 </tr>
             </table>
-            <button type="submit" id="btn" class="btn btn-primary">삽입하기</button>
-            <a href="./list"><button type="button" class="btn btn-danger">취소</button></a>
+            <button type="button" id="btn" class="btn btn-primary">삽입하기</button>
+      		<button type="button" id="cancelBtn" class="btn btn-danger">취소</button>
         </form>
     </div>
-</div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   </div>
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+$(document).ready(function() {
+	$('#reason').focus();
+	
+  // Enter 키 이벤트 처리
+  $(document).keypress(function(e) {
+    if (e.which === 13) {
+      $('#btn').click();
+    }
+  });
+  
+  // 삽입하기 버튼 클릭 시 폼 수동 제출
+  $('#btn').click(function() {
+    $('#blackForm').submit();
+  });
+
+  // 폼 제출 시 삽입 후 알림 창 표시
+  $('#blackForm').submit(function(e) {
+    e.preventDefault();
+    
+    // AJAX를 사용하여 삽입 요청 보내기
+    $.ajax({
+      url: $(this).attr('action'),
+      type: $(this).attr('method'),
+      data: $(this).serialize(),
+      success: function(response) {
+        alert('삽입이 완료되었습니다.');
+        opener.location.reload();
+        window.close();
+      },
+      error: function() {
+        alert('삽입에 실패했습니다. 다시 시도해주세요.');
+      }
+    });
+  });
+
+  // 취소 버튼 클릭 시 창 닫기
+  $('#cancelBtn').click(function() {
+    window.close();
+  });
+});
+</script>
+
 </body>
 </html>

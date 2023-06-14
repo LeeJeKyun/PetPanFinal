@@ -4,6 +4,9 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
+
+
 <c:import url="../../layout/header_plain.jsp" />
 <script type="text/javascript">
 
@@ -35,22 +38,35 @@ $(function(){
 	//아이디,비밀번호 정규화가 틀렸을 경우 버튼푸시 실패
 	function validate(){
 
-	   //가입하기버튼 눌렀을 때 아이디 유효성검사
+	   //로그인버튼 눌렀을 때 아이디 유효성검사
 	   if($('#userId').val()==''){
 	      $('#userId_msg').html("아이디를 입력해주세요")
 	      return true;
 	   }
 	   
-	   //가입하기버튼 눌렀을 때 비밀번호 유효성검사
+	   //로그인버튼 눌렀을 때 비밀번호 유효성검사
 	   if($('#userPw').val()==''){
 	      $('#userPw_msg').html("비밀번호를 입력해주세요")
 	      return true;
 	   }
 	   return false;
 	}
+	
+	
 
 
-// 아이디 저장하기 (쿠키)
+
+//     $(document).ready(function() {
+    	
+//         var message = "[[${msg}]]";
+        
+//         if (message != "") {
+//             alert(message);
+//         }
+//     })
+
+
+// 아이디 저장하기 (쿠키) 7일간 저장됨
 $(document).ready(function(){
 	  
     var key = getCookie("key");
@@ -103,6 +119,10 @@ function getCookie(cookieName) {
     }
     return unescape(cookieValue);
 }
+
+
+
+
 
 
 </script>
@@ -179,7 +199,7 @@ input:focus {
    <div class="select">
 <%--    <c:if test="${not empty cookie.user_check}"> --%>
 <%--    		<c:set value="checked" var="checked"/> --%>
-<%--    	</c:if> --%>
+<%--    </c:if> --%>
       <label for="userId" ></label>
       <input type="text" class="boxcolor" id="userId" name="userId" placeholder="아이디">
       <span id="userId_msg" class="msg" style="color:red"></span>
@@ -202,6 +222,9 @@ input:focus {
       <span id="login_error" class="msg" style="color:red"></span>
    </div>
     
+        
+
+
    <div class="select">
       <button id="btn" >로그인</button>
    </div>

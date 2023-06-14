@@ -97,5 +97,12 @@
 	</select>
   	
   	
+  	 <select id ="selectDoread" resultType="int" parameterType="message.dto.Message">
+       	SELECT COUNT(*)
+  		FROM message
+  		WHERE DOREAD = 'N' AND receiveUserNo = #{receiveUserNo}
+  	</select>
+  	
+  	
   	
   </mapper>
