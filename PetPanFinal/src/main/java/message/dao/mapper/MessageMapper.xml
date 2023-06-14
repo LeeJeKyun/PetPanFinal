@@ -88,7 +88,7 @@
 	<![CDATA[
 		DELETE message
 		WHERE send_date + 30 <= sysdate
-		AND savemessage != Y
+		AND savemessage != 'y' OR savemessage != 'Y'
 	]]>	
 	</delete>
 	

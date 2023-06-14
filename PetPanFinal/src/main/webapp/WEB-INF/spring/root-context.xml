@@ -139,6 +139,12 @@
    	<bean id="jobExcueteTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="quartzJob"/>
 		
+
+<!-- 		매일 12시간마다 한번씩 실행.  -->
+<!-- 		<property name="cronExpression" value="0 0 0/12 1/1 * ? *"/> -->
+
+			<!-- (0초 시작 5초마다)초 매분 매시 매일 매월 (설정없음)요일 매년 -->
+			<property name="cronExpression" value="0/5 * * * * ? *"/>
 	</bean>
 	
 	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
