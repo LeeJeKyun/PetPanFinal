@@ -7,7 +7,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>+ + + PETPAN + + +</title>
+<title>PETPAN</title>
+
+
 
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -21,6 +23,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
+
+<!-- 로고 -->
+<link rel="icon" type="image/png" href='<%=request.getContextPath()%>/resources/img/logo.png' sizes="20x11">
+
+
 
 <style type="text/css">
 
@@ -165,7 +172,7 @@ a {
 <!-- </div> -->
 
 
-<h1><a href="/">PET PAN</a></h1>
+<h1><a href="/"><img style="width:55px;" src="<%=request.getContextPath()%>/resources/img/logo.png">PET PAN</a></h1>
 
 
 

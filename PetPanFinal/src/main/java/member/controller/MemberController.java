@@ -40,8 +40,24 @@ public class MemberController {
 	
 	
 	@GetMapping("/login/login")
-	public void login() {
+	public void login( String msg, Model model, String errMsg ) {
 		logger.info("Login");
+		logger.info("msg :{}" , msg);
+		
+		if( msg != null) {
+		msg = msg.replace("false", "정지된 계정 입니다.");
+		model.addAttribute("msg", msg);
+		
+		}
+		
+		if( errMsg != null) {
+			
+			errMsg = errMsg.replace("false", "아이디, 비밀번호를 확인해주세요.");
+			model.addAttribute("errMsg", errMsg);
+			
+		}
+
+		
 	}
 	
 	
@@ -221,6 +237,10 @@ public class MemberController {
 				logger.info("로그인 실패");
 				session.invalidate();
 				
+				String msg = "false";
+				model.addAttribute("msg", msg);
+				
+				return "redirect:./login?";
 			}
 			
 			
@@ -237,18 +257,26 @@ public class MemberController {
 				}
 				
 				// 관리자 로그인
-				
 				if( mgr ) {
 					session.setAttribute("mgr", true);
 					
 				}
 				
-			}
+			} 
 			
-//			logger.info("hospital : {}", hospital);
 			Member detail = memberService.userDetail(member2);
 			model.addAttribute("info", member);
 			
+		} else {
+			
+			logger.info("로그인 실패");
+			session.invalidate();
+			
+			String errMsg = "false";
+			model.addAttribute("errMsg", errMsg);
+			
+			
+			return "redirect:./login?";
 		}
 		
 		return "redirect:/";
