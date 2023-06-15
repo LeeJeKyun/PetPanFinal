@@ -2,14 +2,19 @@ package member.service.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -607,6 +612,155 @@ public class MemberServiceImpl implements MemberService {
 	public void deleteFailStack(int userNo) {
 		memberDao.deleteFailStack(userNo);
 		
+	}
+
+	@Override
+	public int GetFailStack(int userNo) {
+		int failstack = 0;
+		if(memberDao.selectcountStack(userNo)>0) {
+		failstack = memberDao.selectStack(userNo);
+		}
+		return failstack;
+	}
+
+	@Override
+	public String BringCaptchaKey() {
+		
+	    String clientId = "_hKrZaPw2JlxHW2OwF4S";//애플리케이션 클라이언트 아이디값";
+	    String clientSecret = "b3FpD5nVb_";//애플리케이션 클라이언트 시크릿값";
+	    String key = null;
+	    try {
+	        String code = "0"; // 키 발급시 0,  캡차 이미지 비교시 1로 세팅
+	        String apiURL = "https://openapi.naver.com/v1/captcha/nkey?code=" + code;
+	        URL url = new URL(apiURL);
+	        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+	        con.setRequestMethod("GET");
+	        con.setRequestProperty("X-Naver-Client-Id", clientId);
+	        con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
+	        int responseCode = con.getResponseCode();
+	        BufferedReader br;
+	        if(responseCode==200) { // 정상 호출
+	            br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+	        } else {  // 에러 발생
+	            br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+	        }
+	        String inputLine;
+	        StringBuffer response = new StringBuffer();
+	        while ((inputLine = br.readLine()) != null) {
+	            response.append(inputLine);
+	        }
+	        br.close();
+	        System.out.println("결과는 =" + response.toString());
+	        key = response.substring(8, 24);
+	        System.out.println(key);
+	    } catch (Exception e) {
+	        System.out.println(e);
+	    }
+
+		return key;
+		
+	}
+
+	@Override
+	public String BringCaptchaPhoto(String key2) {
+	    String clientId = "_hKrZaPw2JlxHW2OwF4S";//애플리케이션 클라이언트 아이디값";
+	    String clientSecret = "b3FpD5nVb_";//애플리케이션 클라이언트 시크릿값";
+	    String fileno = "";
+	    try {
+	        String key = key2; // https://openapi.naver.com/v1/captcha/nkey 호출로 받은 키값
+	        String apiURL = "https://openapi.naver.com/v1/captcha/ncaptcha.bin?key=" + key;
+	        URL url = new URL(apiURL);
+	        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+	        con.setRequestMethod("GET");
+	        con.setRequestProperty("X-Naver-Client-Id", clientId);
+	        con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
+	        int responseCode = con.getResponseCode();
+	        BufferedReader br;
+	        if(responseCode==200) { // 정상 호출
+	            InputStream is = con.getInputStream();
+	            int read = 0;
+	            byte[] bytes = new byte[1024];
+	    		String storedPath = context.getRealPath("data");
+	    		logger.info("storedPath + {}", storedPath );
+	    		
+	    		// uploa폴더가 존재하지 않으면 생성한다.
+	    		File storedFolder = new File(storedPath);
+	    		storedFolder.mkdir();
+	            // 랜덤한 이름으로 파일 생성
+	            String tempname = Long.valueOf(new Date().getTime()).toString();
+	            
+	            fileno += storedPath;
+	            fileno += "\\";
+	            fileno += tempname;
+	            fileno += ".jpg";
+	            
+	            File f = new File(storedPath + "/" + tempname + ".jpg");
+	            f.createNewFile();
+	            OutputStream outputStream = new FileOutputStream(f);
+	            while ((read =is.read(bytes)) != -1) {
+	                outputStream.write(bytes, 0, read);
+	            }
+	            is.close();
+	        } else {  // 에러 발생
+	            br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+	            String inputLine;
+	            StringBuffer response = new StringBuffer();
+	            while ((inputLine = br.readLine()) != null) {
+	                response.append(inputLine);
+	            }
+	            br.close();
+	            System.out.println(response.toString());
+	        }
+	    } catch (Exception e) {
+	        System.out.println(e);
+	        System.out.println("에러?");
+	    }
+		return fileno;
+		
+	}
+
+	@Override
+	public boolean checktrue(String captcha, String key2) {
+	    String clientId = "_hKrZaPw2JlxHW2OwF4S";//애플리케이션 클라이언트 아이디값";
+	    String clientSecret = "b3FpD5nVb_";//애플리케이션 클라이언트 시크릿값";
+	    String check = null;
+	    try {
+	        String code = "1"; // 키 발급시 0,  캡차 이미지 비교시 1로 세팅
+	        String key = key2; // 캡차 키 발급시 받은 키값
+	        String value = captcha; // 사용자가 입력한 캡차 이미지 글자값
+	        String apiURL = "https://openapi.naver.com/v1/captcha/nkey?code=" + code +"&key="+ key + "&value="+ value;
+
+	        URL url = new URL(apiURL);
+	        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+	        con.setRequestMethod("GET");
+	        con.setRequestProperty("X-Naver-Client-Id", clientId);
+	        con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
+	        int responseCode = con.getResponseCode();
+	        BufferedReader br;
+	        if(responseCode==200) { // 정상 호출
+	            br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+	        } else {  // 에러 발생
+	            br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+	        }
+	        String inputLine;
+	        StringBuffer response = new StringBuffer();
+	        while ((inputLine = br.readLine()) != null) {
+	            response.append(inputLine);
+	        }
+	        br.close();
+	        System.out.println(response.toString());
+	        check = response.substring(10, 11);
+	        System.out.println(check);
+	    } catch (Exception e) {
+	        System.out.println(e);
+	    }
+	    if(check.equals("t")) {
+	    	return true;
+	    }else if (check.equals("f")) {
+	    	return false;
+	    }else {
+	    	return false;
+	    }
 	}
 
 	

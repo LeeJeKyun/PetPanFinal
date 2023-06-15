@@ -211,8 +211,13 @@ input:focus {
       <span id="userPw_msg" class="msg" style="color:red">${msg }</span>
       <br>
    	  <c:if test="${nolog eq true}">해당 아이디에 존재하는 정보가 없습니다.</c:if>
-   	  <c:if test="${loginFail > 0}">비밀번호를 틀리셨습니다.<c:if test="${loginFail < 5}"> (${loginFail}/5)</c:if></c:if>
-   	  <c:if test="${loginFail >= 5}">비밀번호를 5회 이상 틀리셨습니다.<br>
+   	  <c:if test="${loginFail > 0}"><c:if test="${loginFail < 5}">비밀번호를 틀리셨습니다. (${loginFail}/5)</c:if></c:if><br>
+   	  <c:if test="${loginFail >= 5}">비밀번호를 5회 이상 틀리셨습니다.<br><br>
+   	  <img src="${filename }" >
+   	  <c:if test="${cap < 1}">자동입력방지문자를 틀리셨습니다.<br><br></c:if>
+   	  <input type="text" name = "captcha" required="required">
+   	  <br>
+   	  <input type="hidden" name = "key" value="${key }">
    	  </c:if>
    </div>
   
