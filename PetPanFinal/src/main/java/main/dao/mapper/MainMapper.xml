@@ -24,29 +24,21 @@
   	
   	
   	
-  	<select id="selectNewFree" resultType="board.dto.Board" parameterType="board.dto.Board">
-  		SELECT rownum, b.boardNo, b.boardTitle, b.hit FROM
-  			(SELECT * FROM board
-  			WHERE boardtypeno = 2 
-  			ORDER BY boardNo desc) b
-  		WHERE rownum between 1 and 10
-  	</select>
+<!--   	<select id="selectNewFree" resultType="board.dto.Board" parameterType="board.dto.Board"> -->
+<!--   		SELECT rownum, b.boardNo, b.boardTitle, b.hit FROM -->
+<!--   			(SELECT * FROM board -->
+<!--   			WHERE boardtypeno = 2  -->
+<!--   			ORDER BY boardNo desc) b -->
+<!--   		WHERE rownum between 1 and 10 -->
+<!--   	</select> -->
   	
-  	<select id="selectNewOld" resultType="board.dto.Board" parameterType="board.dto.Board">
-  		SELECT rownum, b.boardNo, b.boardTitle, b.hit FROM
-  			(SELECT * FROM board
-  			WHERE boardtypeno = 3 
-  			ORDER BY boardNo desc) b
-  		WHERE rownum between 1 and 10
-  	</select>
-  	
-  	<select id="selectPoom" resultType="board.dto.Board" parameterType="board.dto.Board">
-  		SELECT rownum, b.boardNo, b.boardTitle, b.hit FROM
-  			(SELECT * FROM board
-  			WHERE boardtypeno = 1 
-  			ORDER BY boardNo desc) b
-  		WHERE rownum between 1 and 10
-  	</select>
+<!--   	<select id="selectNewOld" resultType="board.dto.Board" parameterType="board.dto.Board"> -->
+<!--   		SELECT rownum, b.boardNo, b.boardTitle, b.hit FROM -->
+<!--   			(SELECT * FROM board -->
+<!--   			WHERE boardtypeno = 3  -->
+<!--   			ORDER BY boardNo desc) b -->
+<!--   		WHERE rownum between 1 and 10 -->
+<!--   	</select> -->
   	
   	
   	<select id="selectHospitalAllCnt" parameterType="util.HospitalPaging" resultType="int">
@@ -102,6 +94,32 @@
   		FROM message
   		WHERE DOREAD = 'N' AND receiveUserNo = #{receiveUserNo}
   	</select>
+  	
+  	
+  	<select id="selectPoom" resultType="board.dto.Board" parameterType="board.dto.Board">
+  		SELECT rownum, b.boardNo, b.boardTitle, b.hit FROM
+  			(SELECT * FROM board
+  			WHERE boardtypeno = 1 
+  			ORDER BY boardNo desc) b
+  		WHERE rownum between 1 and 3
+  	</select>
+  	
+  	<select id="selectPoomPhoto" parameterType="int" resultType="board.dto.BoardFile">
+  		SELECT rownum, b.* FROM(SELECT * FROM boardFile
+  		WHERE boardno = #{boardNo}) b
+  		WHERE rownum = 1
+  	</select>
+
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
   	
   	
   	

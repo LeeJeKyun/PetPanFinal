@@ -347,17 +347,17 @@ public class MemberController {
 	   }
 	
 	
-	@GetMapping("/mailCheck")
-	@ResponseBody
-	public boolean joinm( String email, HttpSession session ) {
-		
-		logger.info("이메일 인증 : {}" + email);
-		
-		session.setAttribute("code", memberService.joinEmail(email));
-		session.setMaxInactiveInterval(3*60);
-		
-		return true;
-	}
+		@GetMapping("/mailCheck")
+		@ResponseBody
+		public boolean joinm( String email, HttpSession session ) {
+			
+			logger.info("이메일 인증 : {}" + email);
+			
+			session.setAttribute("code", memberService.joinEmail(email));
+			session.setMaxInactiveInterval(3*60);
+			
+			return true;
+		}
 	
 	//회원가입시 이메일 인증
 	@PostMapping("/mailCheck")
