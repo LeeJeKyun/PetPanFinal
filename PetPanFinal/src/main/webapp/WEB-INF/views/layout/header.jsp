@@ -183,15 +183,15 @@ a {
 		<li><a href="<%=request.getContextPath() %>/board/care/list">품앗이</a>
 			<ul>
 				<li><a href="<%=request.getContextPath() %>/board/care/list">품앗이</a></li>
-				<li><a href="#">임보</a></li>
-				<li><a href="#">유기동물</a></li>
+				<li><a href="#"> &nbsp;</a></li>
+				<li><a href="#"> &nbsp;</a></li>
 			</ul>
 		</li>
 		<li><a href="<%=request.getContextPath() %>/board/hospital/list">병원</a>
 			<ul>
 				<li><a href="<%=request.getContextPath() %>/board/hospital/list">병원</a></li>
 				<li><a href="<%=request.getContextPath() %>/board/hospital/list">병원검색</a></li>
-				<li><a href="#">병원리뷰</a></li>
+				<li><a href="#"> &nbsp;</a></li>
 			</ul>
 		</li>
 		<li><a href="<%=request.getContextPath() %>/shop/main">쇼핑</a>
@@ -234,7 +234,7 @@ a {
 </div>
 
 
-<div style="position: fixed; right: 235px; width: 75px; height: 85px; bottom: 100px; cursor: pointer; background-color: #fcfcfc; z-index: 1000;">
+<div style="position: fixed; right: 235px; width: 75px; height: 85px; bottom: 100px; cursor: pointer;  z-index: 1000;">
 	<a href="#header">∧<br>
 		위로
 	</a><br><br>
