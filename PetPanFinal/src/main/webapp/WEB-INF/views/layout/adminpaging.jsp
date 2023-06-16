@@ -17,6 +17,8 @@
  	height: 50px; 
 	margin-top: 50px;
  	margin-left: 100px; 
+ 	text-align: center;
+ 	justify-content: center;
 }
 /* .page-item{ */
 /* 	float: left;	 */
@@ -28,6 +30,7 @@
  a{ 
  	text-decoration-line: none;
  	color :#5f61e6;
+ 	float: none;
 	
  }
 /* .endPage{ */

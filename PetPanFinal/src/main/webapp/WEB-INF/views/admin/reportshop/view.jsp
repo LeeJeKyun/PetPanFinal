@@ -70,7 +70,7 @@ th{
 		  </table>
 		</div>
 		<hr>
-		<input type="submit" id="codeIdSubmit" value="선택 게시글 삭제/선택 회원 블랙리스트 추가">
+		<input type="submit" id="codeIdSubmit" value="선택 게시글 삭제/선택 회원 블랙리스트 추가" class="btn btn-danger">
 		</form>
 	</div>
 	</div>

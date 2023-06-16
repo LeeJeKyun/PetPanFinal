@@ -123,11 +123,11 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public void sendMessageToAll(String content) {
+	public void sendMessageToAll(String content, int senduserno) {
 		
 		List<Message> list = messageDao.selectNormalUserList();
 		
-		messageDao.insertMessageToAll(list, content);
+		messageDao.insertMessageToAll(list, content, senduserno);
 	}	
 
 	@Override

@@ -50,10 +50,13 @@ public class MemberController {
 		if( msg != null) {
 		msg = msg.replace("false", "정지된 계정 입니다.");
 		model.addAttribute("msg", msg);
-		
 		}
 		
-
+		String key = memberService.BringCaptchaKey();
+		String filename = memberService.BringCaptchaPhoto(key);
+		
+		model.addAttribute("key", key);
+		model.addAttribute("filename", filename);
 
 		
 	}
@@ -217,12 +220,38 @@ public class MemberController {
 			, HttpServletRequest req
 			, Model model
 			, RedirectAttributes redirect
+			, @RequestParam(defaultValue = "")String captcha
+			,String key
 			) {
 		
 		logger.info("/login/login");
 		
-		if( memberService.login( member ) ) {
+		Member failmember = memberService.findMemberFromId(member);
+		
+		if (memberService.login( member )==false) {
 			
+			if(failmember != null) {
+			int loginFail = memberService.addAndGetFailStack(failmember.getUserNo());
+			redirect.addFlashAttribute("loginFail", loginFail);
+				
+			return "redirect:login";
+			}
+			else {
+			redirect.addFlashAttribute("nolog", true);
+			
+			return "redirect:login";
+			
+			}
+			
+		}
+		
+		else if( memberService.login( member ) ) {
+			
+			Integer already = memberService.GetFailStack(failmember.getUserNo());
+			boolean check = false;
+			if(already>=5) {
+				check = memberService.checktrue(captcha, key);
+			}
 			Member member2 = memberService.selectlogin(member);
 			boolean black = memberService.selcetBlack(member2);
 			boolean hospital = memberService.selectHospital(member2);
@@ -239,6 +268,19 @@ public class MemberController {
 				model.addAttribute("msg", msg);
 				
 				return "redirect:./login?msg=" + msg;
+			}
+			
+			if(already>=5 && check == true) {
+				already = 0;
+			}
+			
+			if(already>=5 && check == false) {
+				
+				redirect.addFlashAttribute("loginFail", already);
+				redirect.addFlashAttribute("cap", 0);
+				
+				return "redirect:login";
+				
 			}
 			
 			
@@ -269,23 +311,6 @@ public class MemberController {
 			
 		} 
 		
-		else if (memberService.login( member )==false) {
-			Member failmember = memberService.findMemberFromId(member);
-			if(failmember != null) {
-			int loginFail = memberService.addAndGetFailStack(failmember.getUserNo());
-			System.out.println(loginFail);
-			redirect.addFlashAttribute("loginFail", loginFail);
-				
-			return "redirect:login";
-			}
-			else {
-			redirect.addFlashAttribute("nolog", true);
-			
-			return "redirect:login";
-			
-			}
-			
-		}
 		
 		
 		return "redirect:/";

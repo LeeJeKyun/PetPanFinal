@@ -77,7 +77,7 @@ public interface MessageDao {
 	 * 모두에게 메시지를 insert하는 메소드.
 	 * 
 	 */
-	public void insertMessageToAll(@Param(value="list")List<Message> list, @Param(value = "content") String content);
+	public void insertMessageToAll(@Param(value="list")List<Message> list, @Param(value = "content") String content, @Param(value = "senduserno") int senduserno);
 
 	/**
 	 * 30일에 한번 메시지를 삭제하는 메소드.

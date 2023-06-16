@@ -100,6 +100,11 @@
          }else{
             document.getElementById('notice').className = 'menu-item';
          }
+        if (currentUrl.includes("/batch/")){
+            document.getElementById('message').className = 'menu-item active';
+         }else{
+            document.getElementById('notice').className = 'menu-item';
+         }
         if (currentUrl.includes("/reportboard/")){
            document.getElementById('reportboard').className = 'menu-item active';
         }else{
@@ -172,6 +177,7 @@
     right : 500px;
     width: 270px;
     height: 30px;
+    justify-content: center;
    }
    
 
@@ -241,6 +247,12 @@
               <a href="<%=request.getContextPath() %>/admin/notice/list" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-volume-full"></i>
                 <div data-i18n="Account Settings">Notice Manage</div>
+              </a>
+            </li>
+            <li class="menu-item" id="message">
+              <a href="<%=request.getContextPath() %>/admin/batch/write" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-chat"></i>
+                <div data-i18n="Account Settings">Notice Message</div>
               </a>
             </li>
             
