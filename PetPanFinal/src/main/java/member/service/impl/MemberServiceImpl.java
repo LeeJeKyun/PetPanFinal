@@ -680,20 +680,17 @@ public class MemberServiceImpl implements MemberService {
 	            InputStream is = con.getInputStream();
 	            int read = 0;
 	            byte[] bytes = new byte[1024];
-	    		String storedPath = context.getRealPath("data");
+	    		String storedPath = context.getRealPath("upload");
 	    		logger.info("storedPath + {}", storedPath );
 	    		
-	    		// uploa폴더가 존재하지 않으면 생성한다.
+	    		// upload폴더가 존재하지 않으면 생성한다.
 	    		File storedFolder = new File(storedPath);
 	    		storedFolder.mkdir();
 	            // 랜덤한 이름으로 파일 생성
 	            String tempname = Long.valueOf(new Date().getTime()).toString();
 	            
-	            fileno += storedPath;
-	            fileno += "\\";
 	            fileno += tempname;
 	            fileno += ".jpg";
-	            
 	            File f = new File(storedPath + "/" + tempname + ".jpg");
 	            f.createNewFile();
 	            OutputStream outputStream = new FileOutputStream(f);
