@@ -198,9 +198,12 @@ public class BoardController {
 	public ModelAndView comment(int boardNo, HttpSession session) {
 		
 		ModelAndView mav = new ModelAndView();
-		
+		int userNo = -1;
+		if(session.getAttribute("userno") != null) {
+			userNo = (int)session.getAttribute("userno");
+		}
 		// commentNo, content, writeDate, userNo, depth, refcommentNo, isRecommend
-		List<Map<String, Object>> list =  boardService.getComments(boardNo, (int)session.getAttribute("userno"));
+		List<Map<String, Object>> list =  boardService.getComments(boardNo, userNo);
 		logger.info("comments list : {}",list);
 		
 		mav.addObject("list", list);

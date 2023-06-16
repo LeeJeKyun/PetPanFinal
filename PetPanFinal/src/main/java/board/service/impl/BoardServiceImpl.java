@@ -911,13 +911,69 @@ public class BoardServiceImpl implements BoardService{
 	public void modifyHospitalInfo(Hospital hospital, MultipartFile file) {
 
 		HospitalFile hf = new HospitalFile();
-		
+		if(hospital.getBirds() != 'y') {
+			hospital.setBirds('N');
+		}
+		if(hospital.getRodent() != 'y') {
+			hospital.setRodent('N');
+		}
+		if(hospital.getMammalia() != 'y') {
+			hospital.setMammalia('N');
+		}
+		if(hospital.getReptile() != 'y') {
+			hospital.setReptile('N');
+		}
+		logger.info(" hospital {} : ",hospital);
+		logger.info("file {}", file);
 		boardDao.updateHospitalInfo(hospital);
 		
 		if(file != null) {
-			boardDao.deleteHospitalFile(0);
-			hf.setFileSize((int)file.getSize());
-			boardDao.insertHospitalFile(null);
+//			hf.setFileSize((int)file.getSize());
+			
+			if(file.getSize() > 0) {   // 파일의 크기가 0이면  
+				boardDao.deleteHospitalFile(hospital.getHospitalNo());
+					
+				// 파일이 저장될 경로
+				String storedPath = context.getRealPath("upload");
+				logger.info(" storedPath : {}", storedPath);
+					
+				// upload폴더가 없으면 생성
+				File storedFolder = new File(storedPath);
+				storedFolder.mkdir();
+				
+				File dest = null;
+				String storedName = null;
+				
+				do {
+					//저장할 파일 이름 생성
+					storedName = file.getOriginalFilename(); //원본 파일명
+					
+					storedName += UUID.randomUUID().toString().split("-")[0]; //
+					logger.info("storedName : {}", storedName);
+						//실제 저장될 파일 객체
+					dest = new File(storedFolder, storedName);
+					
+				}while(dest.exists());
+				
+				try {
+					// 업로드된 파일을 upload 폴더에 저장
+					file.transferTo(dest);
+					} catch (IllegalStateException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				//DB에 저장할 객체
+				Map<String, Object> mapFile  = new HashMap<>();
+						
+				mapFile.put("storedName", storedName);
+				mapFile.put("originName", file.getOriginalFilename());
+				mapFile.put("fileSize", file.getSize());
+				mapFile.put("hospitalNo", hospital.getHospitalNo());
+		
+				boardDao.insertHospitalFile(mapFile);
+			}
+			
 		}
 	}
 
@@ -1030,6 +1086,15 @@ public class BoardServiceImpl implements BoardService{
 				boardDao.insertBoardFile(mapFile);
 			}
 		}
+	}
+
+	@Override
+	public Map<String, String> getUserLoc(HttpSession session) {
+		
+		if(session.getAttribute("userno") != null) {
+			return boardDao.selectUserLoc((int)session.getAttribute("userno"));
+		}
+		return null;
 	}
 	
 }
