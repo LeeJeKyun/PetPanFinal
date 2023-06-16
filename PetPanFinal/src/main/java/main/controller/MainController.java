@@ -1,5 +1,7 @@
 package main.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +16,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import board.dto.Board;
+import board.dto.BoardFile;
+import board.dto.BoardFile;
+import board.dto.BoardFile;
+import board.dto.BoardFile;
+import board.service.face.BoardService;
 import main.service.face.MainService;
 import member.dto.Member;
 import member.dto.Pet;
@@ -30,6 +37,7 @@ public class MainController {
 
 	@Autowired private MemberService memberService;
 	@Autowired MainService mainService;
+	@Autowired BoardService boardService;
 
 	@GetMapping("/")
 	public String main(
@@ -38,6 +46,7 @@ public class MainController {
 			, Model model
 			, PetFile petFile
 			, Board board
+			, BoardFile boardFile
 			,@RequestParam(defaultValue = "1") Integer curPage
 				// 검색어, 반경
 			, @RequestParam(required = false) String search
@@ -88,18 +97,36 @@ public class MainController {
 		List<Board> old = mainService.selectOld(board);
 		
 		
-		List<Board> newFree = mainService.selectNewFree(board);
-		List<Board> newOld = mainService.selectNewOld(board);
+//		List<Board> newFree = mainService.selectNewFree(board);
+//		List<Board> newOld = mainService.selectNewOld(board);
+
+		
+		
+		// 품앗이 게시글 조회
 		List<Board> poom = mainService.selectPoom(board);
+
+		logger.info("poom : {}", poom);
+
+		List<BoardFile> poomPhoto = mainService.getPoomPhoto(poom);
 		
-		
+//		for(BoardFile bf : poomPhoto) {
+//			logger.info("bf : {}", bf);
+//		}
 		
 		
 		model.addAttribute("free", free);
 		model.addAttribute("old", old);
-		model.addAttribute("newFree", newFree);
-		model.addAttribute("newOld", newOld);
+		
+//		model.addAttribute("newFree", newFree);
+//		model.addAttribute("newOld", newOld);
+		
+		
 		model.addAttribute("poom", poom);
+		model.addAttribute("poomPhoto", poomPhoto);
+		
+		
+		
+		
 		
 		
 		

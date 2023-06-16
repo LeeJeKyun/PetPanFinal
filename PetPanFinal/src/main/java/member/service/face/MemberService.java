@@ -294,6 +294,14 @@ public interface MemberService {
 
 	public void deleteFailStack(int userNo);
 
+	public int GetFailStack(int userNo);
+
+	public String BringCaptchaKey();
+
+	public String BringCaptchaPhoto(String key);
+
+	public boolean checktrue(String captcha, String key);
+
 
 
 

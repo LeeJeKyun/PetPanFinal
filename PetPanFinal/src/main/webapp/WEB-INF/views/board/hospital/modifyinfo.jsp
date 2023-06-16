@@ -244,6 +244,7 @@ tr:hover{
       <button type = "button" onclick = "location.href='./list'" class = "btn">취소하기</button>
    </div><!-- select -->
 
+	<input type = "hidden" name = "hospitalNo" value = "${map.HOSPITALNO }" >
 </form>
 
 </div>

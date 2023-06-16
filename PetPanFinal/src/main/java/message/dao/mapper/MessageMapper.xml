@@ -80,7 +80,7 @@
 	<insert id="insertMessageToAll" parameterType="message.dto.Message">
 		INSERT INTO message(messageno, content, send_date, doread, savemessage, receiveuserno, senduserno)
 			<foreach collection="list" item="message" separator="UNION ALL" >
-				(SELECT get_seq_message(), #{content}, sysdate, 'N', 'N', #{message.receiveUserNo}, 91 FROM dual)
+				(SELECT get_seq_message(), #{content}, sysdate, 'N', 'N', #{message.receiveUserNo}, #{senduserno} FROM dual)
 			</foreach>
 	</insert>
 	

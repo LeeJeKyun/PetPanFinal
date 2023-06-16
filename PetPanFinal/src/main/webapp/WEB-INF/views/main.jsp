@@ -39,7 +39,7 @@
 
 #slick div img {
 	width: 100%;
-	height: 300px;
+	height: 400px;
 	margin: auto;
 	z-index: 2;
 }
@@ -279,6 +279,58 @@
 </style>
 
 
+<style type="text/css">
+
+.poomPhoto {
+	width: 240px;
+	height: 180px;
+}
+
+.poomTable {
+	width:1500px;
+	display: flex;
+	justify-content: center;
+}
+
+
+#mid {
+	display: grid;
+	grid-template-columns: 736px 400px 400px;
+/* 		grid-column-gap: 30px; */
+	text-align: center;
+	
+}
+
+#grid {
+	display: grid;
+	grid-template-columns: 550px 400px 400px;
+/* 		grid-column-gap: 60px; */
+	margin-top: 20px;
+		text-align: center;
+	
+}
+
+#photo {
+	margin: 0 auto;
+}
+
+#title {
+	margin: 0 auto;
+}
+/* #grid4{ */
+/* 	display: grid; */
+/* 	grid-template-columns: 120px 240px 120px; */
+/* 	width: 500px; */
+/* 	margin: 0 auto; */
+/* 	position: relative; */
+/* } */
+
+
+
+
+
+</style>
+
 <script type="text/javascript">
 
 $(function(){
@@ -301,6 +353,7 @@ $(function(){
 
 <div id="slick">
 
+<div><img src="<%=request.getContextPath()%>/resources/member/img/petpan1.jpg"></div>
 <div><img src="<%=request.getContextPath()%>/resources/member/img/뽀비.png"></div>
 <div><img src="<%=request.getContextPath()%>/resources/member/img/연두.jpg"></div>
 <div><img src="<%=request.getContextPath()%>/resources/member/img/써니.jpg"></div>
@@ -364,7 +417,7 @@ $(function(){
 	<c:choose>
 	
 	<c:when test="${doread eq 0 }">
-		<div style="color:F606060;">쪽지</div>
+		<div style="color:F606060;"><a href="/message/message/list" >쪽지</a></div>
 	</c:when>
 	<c:when test="${doread > 0}"  >
 		<div ><a href="/message/message/list" ><span style="color:#FF5050;">쪽지 ${doread}</span></a></div>
@@ -392,7 +445,6 @@ $(function(){
 		<a href="/admin/main">관리자페이지 |</a>
 		<a href="/member/login/logout">로그아웃</a>
 		
-<!-- 		<button onclick="location.href='/admin/main'">관리자페이지</button> -->
 	
 	</c:when>
 
@@ -404,7 +456,34 @@ $(function(){
 
 
 <div class="clearbox"></div>
+<a href="/board/care/list" style="margin-left: 1200px;">더보기</a>
+<div class="poomTable">
+	<div id="mid">
+		<div id="grid">
+<!-- 			<div id="grid4"> -->
+				<c:forEach var="content" items="${poom}">
+				<c:forEach var="photo" items="${poomPhoto}" >
+					<c:choose>
+					<c:when test="${content.boardNo  eq photo.boardno}">
+					<div id="photo"><a href="../../board/board/detail?boardNo=${content.boardNo }"><img alt=".." src="<%=request.getContextPath() %>/upload/${photo.storedName}"  class="poomPhoto"></a>
+					<div id="title"><a href="../../board/board/detail?boardNo=${content.boardNo }">${content.boardTitle }</a></div>
+					</div>
+					</c:when>
+					</c:choose>
+				</c:forEach>
+				</c:forEach>
+					
+			</div><!-- drid2 -->
+		</div><!-- grid -->
+	
+	</div><!-- mid -->
+<!-- </div> -->
 
+
+
+
+
+<div class="clearbox"></div>
 
 
 <div class="hot">
@@ -446,129 +525,6 @@ $(function(){
 <div class="clearbox"></div>
 <div class="clearbox"></div>
 <div class="clearbox"></div>
-
-<div class="hot">
-<p id="Hot">새로 나온 게시글</p>
-
-	<div class="bb">
-	<ul>
-		<li>
-		<p id="free2">자유 게시판 <a href="/board/board">더보기</a></p>
-		
-		</li>
-		<li>
-		<p id="old2">중고 거래 <a href="/board/board?category=3">더보기</a></p>
-		
-		
-		</li>
-		<li>
-		<p id="poom">품앗이 <a href="/board/care/list">더보기</a></p>
-		</li>
-	</ul>
-	</div>
-</div> <!-- hot -->
-
-
-
-
-
-
-<div class="newFreeTable">
-
-	<table class = "table-list" style = "width:500px; margin-left:80px; border-collapse: collapse;">
-		<tr class = "th-border items">
-			<th>글 번호</th>
-			<th>글 제목	</th>
-			<th>조회수</th>
-		</tr>
-	
-	<c:forEach items="${newFree }" var="newFree" >
-		<tr class = "td-style items">
-			<td> ${newFree.boardNo }</td>
-			<td><a href="../../board/board/detail?boardNo=${newFree.boardNo }"> ${newFree.boardTitle }</a></td>
-			<td class = "date">${newFree.hit }</td>
-		</tr>
-	</c:forEach>
-	
-	</table>
-
-</div>
-
-
-<div class="newOldTable">
-
-
-	<table class = "table-list" style = "width:500px; margin-left:80px; border-collapse: collapse;">
-		<tr class = "th-border items">
-			<th>글 번호</th>
-			<th>글 제목	</th>
-			<th>조회수</th>
-		</tr>
-	
-	
-	<c:forEach items="${newOld }" var="newOld" >
-		<tr class = "td-style items">
-			<td> ${newOld.boardNo }</td>
-			<td><a href="../../board/board/detail?boardNo=${newOld.boardNo }"> ${newOld.boardTitle } </a></td>
-			<td class = "date">${newOld.hit }</td>
-		</tr>
-	</c:forEach>
-	
-	</table>
-	
-	</div>
-
-
-
-<div class="poomTable">
-
-
-	<table class = "table-list" style = "width:500px; margin-left:80px; border-collapse: collapse;">
-		<tr class = "th-border items">
-			<th>글 번호</th>
-			<th>글 제목	</th>
-			<th>조회수</th>
-		</tr>
-	
-	
-	<c:forEach items="${poom }" var="poom" >
-		<tr class = "td-style items">
-			<td> ${poom.boardNo }</td>
-			<td><a href="../../board/board/detail?boardNo=${poom.boardNo }"> ${poom.boardTitle } </a></td>
-			<td class = "date">${poom.hit }</td>
-		</tr>
-	</c:forEach>
-	
-	</table>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="clearbox"></div>
-<div class="clearbox"></div>
-<div class="clearbox"></div>
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -55,7 +55,7 @@ public interface BoardService {
 	 * @param search
 	 * @return
 	 */
-	public Paging getCarePaging(int curPage, String search);
+	public Paging getCarePaging(int curPage, String search, Member loginMember, String distance);
 
 	/**
 	 * 페이징객체를 기반으로 care게시판의 list를 반환하는 메소드
@@ -464,6 +464,12 @@ public interface BoardService {
 	 * @param board 
 	 */
 	public void updateBoard(List<MultipartFile> fileList, List<Integer> no, HttpSession session, Board board);
+	/**
+	 * 로그인한 사용자 좌표 가져오기
+	 * @param session 사용자의 userNO 가져오기
+	 * @return
+	 */
+	public Map<String, String> getUserLoc(HttpSession session);
 
 	
 

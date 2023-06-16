@@ -81,6 +81,7 @@
 		<input type="submit" id="codeIdSubmit" value="검색" class="btn btn-info">
 	</form>
 	</div>
+	
 	<c:import url="../../layout/adminpaging.jsp"/>
 </div>
 </div>

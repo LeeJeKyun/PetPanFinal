@@ -113,10 +113,7 @@ $(function(){
 			alert("입력해주세요.")
 			return
 		}
-		if(!$("form")[1].checkValidity()) {
-			alert("내용을 입력해주세요")
-			return
-		}
+
 		$("form").submit();
 	})
 	

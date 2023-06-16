@@ -7,6 +7,7 @@
 <c:import url = "../../layout/header.jsp" />
 
 <link rel ="stylesheet" href = "<%= request.getContextPath() %>/resources/hospital/list.css" />
+
 <style>
 #enroll-area{
 	text-align: right;
@@ -34,6 +35,11 @@
 	height: 50px;
 	margin: 0 auto;
 }
+#map-area{
+	width: 1000px;
+	height: 500px;
+}
+
 </style>
 <script type="text/javascript">
 $(function(){
@@ -47,7 +53,33 @@ $(function(){
 			$("#animals").css("display", "none");
 		}
 	})
+	if(${fn:contains(paging.rodent, 'y')} ||
+			${fn:contains(paging.reptile, 'y')} ||
+			${fn:contains(paging.mammalia, 'y')} ||
+			${fn:contains(paging.birds, 'y')}){
+		$("#choose").prop("checked", true);
+	}
+	if($("#choose").is(":checked") ){
+		$("#animals").css("display", "");
+	}else{
+		$("#animals").css("display", "none");
+	}
+	if(${fn:contains(paging.rodent, 'y')} ){
+		$("[name='rodent']").prop("checked", true)
+	}
+	if(${fn:contains(paging.reptile, 'y')} ){
+		$("[name='reptile']").prop("checked", true)
+	}
+	if(${fn:contains(paging.mammalia, 'y')} ){
+		$("[name='mammalia']").prop("checked", true)
+	}
+	if(${fn:contains(paging.birds, 'y')} ){
+		$("[name='birds']").prop("checked", true)
+	}
+	
 })
+//--------------------------------------------------------------------------------
+
 </script>
 
 <div id = "container">
@@ -102,6 +134,9 @@ $(function(){
 		</div>
 		<input type = "text" name = "search" placeholder = "검색할 병원을 입력하세요" value = "${paging.search }">
 		<button>검색</button>
+		<div >
+			<button type = "reset">검색어 초기화</button>
+		</div>
 		<div id = "animals" style = "display: none;">
 			<label><input type = "checkbox" name = "reptile" value = "y">파충류</label>
 			<label><input type = "checkbox" name = "mammalia" value = "y">포유류</label>
