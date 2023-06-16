@@ -65,10 +65,10 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public Paging getCarePaging(int curPage, String search) {
+	public Paging getCarePaging(int curPage, String search, Member loginMember, String distance) {
 		
 		Paging paging = null;
-		paging = new Paging(boardDao.selectCareCntAll(search), curPage, 10, 10);
+		paging = new Paging(boardDao.selectCareCntAll(search, loginMember, distance), curPage, 10, 10);
 		paging.setSearch(search);
 		
 		return paging;

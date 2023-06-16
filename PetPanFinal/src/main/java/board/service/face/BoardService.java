@@ -55,7 +55,7 @@ public interface BoardService {
 	 * @param search
 	 * @return
 	 */
-	public Paging getCarePaging(int curPage, String search);
+	public Paging getCarePaging(int curPage, String search, Member loginMember, String distance);
 
 	/**
 	 * 페이징객체를 기반으로 care게시판의 list를 반환하는 메소드
