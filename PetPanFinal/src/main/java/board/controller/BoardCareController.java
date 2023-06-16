@@ -45,9 +45,9 @@ public class BoardCareController {
 			) {
 		
 		logger.info("/care/list [GET]");
-		Paging paging = boardService.getCarePaging(curPage, search);
 		
 		List<Map<String, Object>> list = null;
+		Paging paging = null;
 		
 		//로그인을 했을 때는 계정의 정보를 가져와서 주변 게시글만 띄워준다. 
 		if(session.getAttribute("login") != null && (boolean)session.getAttribute("login") != false) {
@@ -55,16 +55,13 @@ public class BoardCareController {
 			int userno = (int)session.getAttribute("userno");
 			
 			Member loginMember = boardService.getUserInfo(userno);
+			paging = boardService.getCarePaging(curPage, search, loginMember, distance);
 			
 			list = boardService.getCareListFromLogin(paging, loginMember, distance);
 			model.addAttribute("login", true);
 			
-		} else {
-			
-			list = boardService.getCareList(paging);
-			model.addAttribute("login", "null");
-			
 		}
+		
 		List<Map<String, Object>> noticeList = boardService.getNoticeListToCare();
 		
 		//확인해보기
@@ -77,6 +74,7 @@ public class BoardCareController {
 //			logger.info("map -> {}", m);
 //		}
 		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("distance", distance);
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		

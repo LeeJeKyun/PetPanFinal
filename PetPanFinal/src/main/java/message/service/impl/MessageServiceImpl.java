@@ -129,7 +129,6 @@ public class MessageServiceImpl implements MessageService {
 		
 		messageDao.insertMessageToAll(list, content, senduserno);
 	}	
-
 	@Override
 	public void deleteMessageRoutin() {
 		messageDao.deleteMessageThirtyDate();

@@ -35,9 +35,32 @@
 	</select>
 	
 	<select id="selectCareCntAll" parameterType="string" resultType="int">
-		SELECT count(*) FROM board
+		SELECT count(*) FROM board, boardfile, member
 		WHERE boardtitle LIKE '%${search}%' 
-			AND boardtypeno = 1
+			AND boardtypeno = 1 AND board.boardno = boardfile.boardno
+			AND member.userno = board.userno
+			<choose>
+				<when test="distance == 2" >
+					 AND latitude BETWEEN #{loginMember.latitude}-0.0129 AND #{loginMember.latitude}+0.0129
+					 AND longitude BETWEEN #{loginMember.longitude}-0.0159 AND #{loginMember.longitude}+0.0159
+				</when>
+				<when test="distance == 4" >
+					 AND latitude BETWEEN #{loginMember.latitude}-0.0258 AND #{loginMember.latitude}+0.0258
+					 AND longitude BETWEEN #{loginMember.longitude}-0.0318 AND #{loginMember.longitude}+0.0318
+				</when>
+				<when test="distance == 6" >
+					 AND latitude BETWEEN #{loginMember.latitude}-0.0387 AND #{loginMember.latitude}+0.0387
+					 AND longitude BETWEEN #{loginMember.longitude}-0.0477 AND #{loginMember.longitude}+0.0477
+				</when>
+				<when test="distance == 8" >
+					 AND latitude BETWEEN #{loginMember.latitude}-0.0516 AND #{loginMember.latitude}+0.0516
+					 AND longitude BETWEEN #{loginMember.longitude}-0.0636 AND #{loginMember.longitude}+0.0636
+				</when>
+				<when test="distance == 10" >
+					 AND latitude BETWEEN #{loginMember.latitude}-0.0645 AND #{loginMember.latitude}+0.0645
+					 AND longitude BETWEEN #{loginMember.longitude}-0.0795 AND #{loginMember.longitude}+0.0795
+				</when>
+			</choose>
 	</select>
 	
 	
