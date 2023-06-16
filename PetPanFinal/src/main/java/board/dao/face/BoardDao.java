@@ -50,7 +50,7 @@ public interface BoardDao {
 	 * @param search
 	 * @return
 	 */
-	public int selectCareCntAll(String search);
+	public int selectCareCntAll(@Param("search")String search, @Param("loginMember")Member loginMember, @Param("distance")String distance);
 
 	/**
 	 * paging객체를 기반으로 care행(boardtypeno=1)을 반환하는 메소드

@@ -99,11 +99,6 @@ function openInfo(userid){
 
 <div style="text-align: left; width: 1100px; margin: 0 auto;">
 	<span style="font-size: 2em; font-weight: bold;">품앗이</span>
-	<select name="boardselect" id="boardselect" onchange="location.href=(this.value);" style="height: 30px; font-size: 16px;">
-		<option value="" selected="selected">품앗이</option>
-		<option value="">임시보호</option>
-		<option value="" >유기동물</option>
-	</select>
 	
 	
 	<div style="text-align: right;">

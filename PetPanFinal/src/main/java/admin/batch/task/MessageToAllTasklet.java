@@ -26,8 +26,9 @@ public class MessageToAllTasklet implements Tasklet {
 		Map<String,Object> map = context.getJobParameters();
 //		System.out.println(map);
 		String content = (String)map.get("content");
-		
-		messageService.sendMessageToAll(content);
+		long senduserno = (long) map.get("senduserno");
+		int convertedUserno = (int) senduserno;
+		messageService.sendMessageToAll(content, convertedUserno);
 		
 		return RepeatStatus.FINISHED;
 	}

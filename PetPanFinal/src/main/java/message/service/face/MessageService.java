@@ -89,7 +89,7 @@ public interface MessageService {
 	 * 모든 유저에게 쪽지를 보내는 메소드.
 	 * 
 	 */
-	public void sendMessageToAll(String content);
+	public void sendMessageToAll(String content, int senduserno);
 
 	/**
 	 * 30일이 지난 쪽지를 삭제하는 메소드.
