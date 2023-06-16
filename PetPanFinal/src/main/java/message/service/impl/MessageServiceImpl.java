@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import member.dao.face.MemberDao;
 import member.dto.Member;
@@ -124,14 +123,12 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	@Transactional
-	public void sendMessageToAll(String content) {
+	public void sendMessageToAll(String content, int senduserno) {
 		
 		List<Message> list = messageDao.selectNormalUserList();
 		
-		messageDao.insertMessageToAll(list, content);
+		messageDao.insertMessageToAll(list, content, senduserno);
 	}	
-	@Transactional
 	@Override
 	public void deleteMessageRoutin() {
 		messageDao.deleteMessageThirtyDate();

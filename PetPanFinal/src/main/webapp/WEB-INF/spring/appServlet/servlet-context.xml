@@ -29,16 +29,17 @@
 		</interceptor>
 		<interceptor>
 <!--  		mapping path는 url  -->
-			<mapping path="/member/**"/>
+			<mapping path="/member/mypage/**"/>
+			<mapping path="/member/unregist/**"/>
 <!-- 			<mapping path="/board/**"/> -->
 			<mapping path="/shop/**"/>
 			<mapping path="/message/**"/>
 			<mapping path="/board/board/write" />
 			<mapping path="/board/care/**" />
+			<mapping path="/board/hospital/**" />
 			
 <!-- 인터셉터가 적용되지 않도록 제외할 예외 페이지 URL -->
-			<exclude-mapping path="/member/login/login" />
-			<exclude-mapping path="/member/login/join" />
+
 			<exclude-mapping path="/board/hospital/list" />
 			<exclude-mapping path="/shop/main" />
 			<exclude-mapping path="/shop/view" />
