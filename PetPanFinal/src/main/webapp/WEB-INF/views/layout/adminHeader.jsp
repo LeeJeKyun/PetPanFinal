@@ -177,6 +177,7 @@
     right : 500px;
     width: 270px;
     height: 30px;
+    justify-content: center;
    }
    
 
