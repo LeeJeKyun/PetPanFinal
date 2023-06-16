@@ -464,6 +464,12 @@ public interface BoardService {
 	 * @param board 
 	 */
 	public void updateBoard(List<MultipartFile> fileList, List<Integer> no, HttpSession session, Board board);
+	/**
+	 * 로그인한 사용자 좌표 가져오기
+	 * @param session 사용자의 userNO 가져오기
+	 * @return
+	 */
+	public Map<String, String> getUserLoc(HttpSession session);
 
 	
 

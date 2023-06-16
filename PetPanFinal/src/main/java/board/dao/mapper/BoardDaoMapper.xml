@@ -604,7 +604,7 @@
     		select rownum rnum, B.* from( 
         		select hospital.hospitalNo, hospitalName, mammalia, reptile, rodent, birds
                         , open, close, member.userNo, address, phone
-                        , originName, storedName
+                        , originName, storedName, latitude, longitude
         		from hospital, member, hospitalFile
         		where hospital.userNo = member.userNo
         		AND hospital.hospitalNo = hospitalFile.hospitalNo
@@ -633,7 +633,7 @@ select * from(
 	    	from(
 	        	select  hospital.hospitalNo, hospitalName, mammalia, reptile, rodent, birds, userName
 	                            , open, close, member.userNo, address, phone
-	                            , originName, storedName
+	                            , originName, storedName, latitude, longitude
 	        	from member, hospital, hospitalFile
 	        	where longitude BETWEEN (select longitude from member where userNo = 161 ) - 0.0129 * #{radius}
 	                              AND

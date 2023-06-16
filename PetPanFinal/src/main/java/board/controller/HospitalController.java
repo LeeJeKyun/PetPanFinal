@@ -76,8 +76,11 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		List<Map<String, Object>> hospitalList  = boardService.getHospitalInfo(paging);
 		logger.info(" hospitalList {} ", hospitalList);
 		
-		logger.info("병원 정보 {}", hospitalList);
+		// 로그인한 사용자 좌표 가져오기
+		Map<String, String> map = boardService.getUserLoc(session);
+		logger.info("user 좌표 {}", map );
 		
+		model.addAttribute("userLoc", map);
 		model.addAttribute("hospitalList", hospitalList);
 		logger.info("paging {}", paging);
 		model.addAttribute("paging", paging);
@@ -129,11 +132,13 @@ private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		model.addAttribute("map", map);
 	}
 	@PostMapping("/modifyinfo")
-	public void modifyHospitalInfo(Hospital hospital
+	public String modifyHospitalInfo(Hospital hospital
 									, MultipartFile file
 									, HttpSession session) {
 		hospital.setUserNo((int)session.getAttribute("userno"));
 		
 		boardService.modifyHospitalInfo(hospital, file);
+		
+		return "redirect:./list";
 	}
 }
