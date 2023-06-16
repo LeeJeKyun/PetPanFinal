@@ -177,20 +177,20 @@ public class AdminServiceImpl implements AdminService{
 		
 	@Override
 	public void deleteblacklist(List<String> delete) {
-		if (delete == null) {
-			return;
-		}
-	
 		
-		int rownum = 0;
+		List<String> deleteNoList = delete;
+	    List<HashMap> BlacklistNoMaplist = new ArrayList<HashMap>();
+	    
+	    for (int i = 0; i < deleteNoList.size(); i++) {
+	        int deleteNo = Integer.valueOf(deleteNoList.get(i));
+	        HashMap<String, Integer> deleteNoMap = new HashMap<String, Integer>();
+	        //체크로 받아온 objectNo를 맵에 저장한다.
+	        deleteNoMap.put("blackno", deleteNo);
+	        //map에 저장된 K/V쌍을 objectNoMaplist에 저장한다.
+	        BlacklistNoMaplist.add(i, deleteNoMap);
+	    }
+	    adminDao.deleteBlacklist(BlacklistNoMaplist);
 		
-		
-		for (int i = 0; i < delete.size(); i++) {
-			int deleteNo = Integer.valueOf(delete.get(i))  ;
-		 rownum += adminDao.deleteBlacklist(deleteNo);
-		
-		}
-		logger.info("삭제된 행의 개수" + rownum);
 	}
 	
 	@Override
@@ -665,8 +665,8 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public void writeNotice(List<MultipartFile> fileList, Notice notice, List<Integer> no, HttpSession session) {
 		
-		notice.setUserno(96);
-//		notice.setUserno((int)session.getAttribute("userno"));
+
+		notice.setUserno((int)session.getAttribute("userno"));
 		logger.info("공지 : {}", notice);
 		adminDao.insertNotice(notice);
 		

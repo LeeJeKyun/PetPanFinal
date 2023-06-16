@@ -98,7 +98,6 @@ public interface AdminDao {
 	 */
 	public void updateReportComplete(int deleteNo);
 
-	public int deleteBlacklist(int deleteNo);
 
 	/**
 	 * blacklist에 정보가 들어 있을 경우 해당하는 번호의 유저를 블랙리스트에 추가한다.
@@ -280,8 +279,18 @@ public interface AdminDao {
 	 * @param userno
 	 */
 	public void deleteBlacklistOne(int userno);
-
+	/**
+	 * 
+	 * @param userNo
+	 * @return
+	 */
 	public int selectCountBlackByuserNo(int userNo);
+	/**
+	 * 한번에 삭제
+	 * @param blacklistNoMaplist
+	 * @return 
+	 */
+	public int deleteBlacklist(List<HashMap> blacklistNoMaplist);
 
 
 	
