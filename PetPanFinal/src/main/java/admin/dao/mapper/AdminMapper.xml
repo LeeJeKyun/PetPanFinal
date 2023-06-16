@@ -108,9 +108,14 @@
 		UPDATE reportboard SET COMPLETE = 'Y' WHERE boreportno = #{deleteNo}
 	</update>
 	
-	<delete id="deleteBlacklist">
-	DELETE FROM blacklist where blackno = #{blackNo}
+	
+	<delete id="deleteBlacklist" parameterType="java.util.List">
+		  DELETE FROM blacklist WHERE blackno IN
+		  <foreach collection="list" item="blackno" open="(" close=")" separator=",">
+		    #{blackno.blackno}
+		  </foreach>
 	</delete>
+
 	
 	<insert id="insertBlacklist">
 		INSERT INTO blacklist(blackno, blackdate, reason, userno)

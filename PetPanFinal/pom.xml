@@ -15,12 +15,12 @@
 	</properties>
 	<!-- 추가 메이븐 저장소 설정 -->
 	<!--properties아래   dependencies위에 설정-->
-	<repositories>
-		<repository>
-			<id>oracle</id>
-			<url>http://maven.jahia.org/maven2</url>
-		</repository>
-	</repositories>
+<!-- 	<repositories> -->
+<!-- 		<repository> -->
+<!-- 			<id>oracle</id> -->
+<!-- 			<url>http://maven.jahia.org/maven2</url> -->
+<!-- 		</repository> -->
+<!-- 	</repositories> -->
 	
 	
 	
