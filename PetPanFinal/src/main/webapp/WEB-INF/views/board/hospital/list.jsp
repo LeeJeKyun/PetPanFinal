@@ -39,7 +39,6 @@
 	width: 1000px;
 	height: 500px;
 }
-
 </style>
 <script type="text/javascript">
 $(function(){
@@ -76,7 +75,10 @@ $(function(){
 	if(${fn:contains(paging.birds, 'y')} ){
 		$("[name='birds']").prop("checked", true)
 	}
-	
+	$("#reset").click(function(){
+		console.log("reset clicked")
+		$("input[name='search']").attr("value", "");
+	})
 })
 //--------------------------------------------------------------------------------
 
@@ -135,7 +137,7 @@ $(function(){
 		<input type = "text" name = "search" placeholder = "검색할 병원을 입력하세요" value = "${paging.search }">
 		<button>검색</button>
 		<div >
-			<button type = "reset">검색어 초기화</button>
+			<button type = "reset" id = "reset">검색어 초기화</button>
 		</div>
 		<div id = "animals" style = "display: none;">
 			<label><input type = "checkbox" name = "reptile" value = "y">파충류</label>
