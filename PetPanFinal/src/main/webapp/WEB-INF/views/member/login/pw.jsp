@@ -130,9 +130,32 @@ $(function(){
 	             console.log("실패!")
 	          }
 	      }); // end ajax
-	   });
+	  
+	});
+	
+	
+	  	//이메일주소 가져오기
+	  	$("#emailF").blur(function(){
+	  		email();	
+	  	});
 
-});
+	  	$("#email2").change(function(){
+	  		email();	
+	  	});
+
+	  })
+
+
+
+	  function email() {
+	  	const emailF = $("#emailF").val();
+	  	const middle = $("#middle").text();
+	  	const address = $("#email2").val();
+	  	
+	  	if(emailF != "" && address != "") {
+	  		$("#email").val(emailF + middle + address);
+	  	}
+	  };
 
 </script>
 
@@ -255,6 +278,7 @@ input:focus {
 					<option value="gmail.com">gmail.com</option>
 					<option>직접입력</option>
 				</datalist>
+				<input id="email" name="email" value="">
 		
 				<button type="button"id="mail-Check-Btn" class="input-group-addon">본인인증</button>
 			<div class="btn">
