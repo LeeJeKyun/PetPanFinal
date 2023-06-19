@@ -22,7 +22,7 @@
 
 <div class="container2">
 	<div>
-		<table class = "table table-striped" style="width:1300px">
+		<table class = "table table-striped" style="width:1400px">
 				<tr>
 		<th>유저번호</th>
 		<th>유저이름</th>
@@ -31,7 +31,7 @@
 		<th>유저이메일</th>
 		<th>유저주소</th>
 		<th>유저핸드폰번호</th>
-		<th>유저 포지션</th>
+		<th>등급</th>
 
 		</tr>
 		<c:forEach var="list" items="${list}">
@@ -44,7 +44,7 @@
 		<td>${list.email}</td>
 		<td>${list.address}</td>
 		<td>${list.phone}</td>
-		<td>${list.positionNo}</td>
+		<td>${list.positionNo== 1 ? "일반" : member.positionNo == 2 ? "병원" : "관리자"}</td>
 		</tr>
 		</c:forEach>
 		</table>
