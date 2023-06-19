@@ -891,8 +891,10 @@ public class BoardServiceImpl implements BoardService{
 		return 6371.0 * Math.acos(  
 		          Math.cos(Math.toRadians( Double.valueOf(loc.get("U_LATITUDE"))   ) )
 		          * Math.cos( Math.toRadians(Double.valueOf( loc.get("H_LATITUDE"))  ) )
-		          * Math.cos( Math.toRadians( Double.valueOf(loc.get("H_LONGITUDE"))  ) - Math.toRadians(Double.valueOf( loc.get("U_LONGITUDE"))) )
-		          + (Math.sin(Math.toRadians(Double.valueOf( loc.get("U_LATITUDE")) ) ) * Math.sin(( Math.toRadians(Double.valueOf( loc.get("H_LATITUDE"))  ) ) )) 
+		          * Math.cos( Math.toRadians( Double.valueOf(loc.get("H_LONGITUDE"))  ) 
+		        		  - Math.toRadians(Double.valueOf( loc.get("U_LONGITUDE"))) )
+		          + (Math.sin(Math.toRadians(Double.valueOf( loc.get("U_LATITUDE")) ) ) 
+		        		  * Math.sin(( Math.toRadians(Double.valueOf( loc.get("H_LATITUDE"))  ) ) )) 
 		          );        
 	}
 
@@ -1013,6 +1015,10 @@ public class BoardServiceImpl implements BoardService{
 	public void updateBoard(List<MultipartFile> fileList, List<Integer> no, HttpSession session, Board board) {
 		String mark = "(수정됨)";
 		String boardTitle = board.getBoardTitle();
+		if(boardTitle.length() < 5) {
+			mark += boardTitle;
+			boardTitle = mark;
+		}
 		if(!boardTitle.substring(0,5).equals("(수정됨)")) {
 			logger.info("수정됨");
 			mark += boardTitle;

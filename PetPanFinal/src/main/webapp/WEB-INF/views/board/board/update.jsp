@@ -204,7 +204,7 @@ function updateContents(){
 			</c:forEach>
 			</table>
 			
-			<button type = "button"  id = "btnWrite" >작성</button>
+			<button type = "button"  id = "btnWrite" >글 수정</button>
 		</form>
 	</div>
 </div>
