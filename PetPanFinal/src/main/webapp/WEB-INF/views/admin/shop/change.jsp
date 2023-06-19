@@ -196,7 +196,7 @@ $(document).on('click', '.deleteReturn', function() {
 </script>
 <div id = "container">
 	<div id = "center-div">
-		<h4 style = "margin-top: 20px; margin-bottom: 20px; margin-left: 30px;">상품 등록</h4>
+		<h4 style = "margin-top: 20px; margin-bottom: 20px; margin-left: 30px;">상품 수정</h4>
 		<form action = "<%=request.getContextPath() %>/admin/shop/change" method = "post" id = "content-form" enctype="multipart/form-data">
 			<input type = "hidden" value="${shop.objectno }" name="objectno">
 			<div style="float: right">

@@ -35,9 +35,9 @@
     <div class="container" style="padding-top: 100px; padding-left: 220px;">
         <!-- Add necessary container div or adjust existing container -->
         <div class="button-grid" align="center">
-            <div><button id="button" class="btn" type="button" onclick="location.href=''">유저 관리</button></div>
-            <div><button id="button" class="btn" type="button" onclick="location.href=''">블랙리스트 관리</button></div>
-            <div><button id="button" class="btn" type="button" onclick="location.href=''">공지 관리</button></div>
+            <div><button id="button" class="btn" type="button" onclick="location.href='<%=request.getContextPath() %>/admin/member/list'">유저 관리</button></div>
+            <div><button id="button" class="btn" type="button" onclick="location.href='<%=request.getContextPath() %>/admin/blacklist/list'">블랙리스트 관리</button></div>
+            <div><button id="button" class="btn" type="button" onclick="location.href='<%=request.getContextPath() %>/admin/notice/list'">공지 관리</button></div>
             <div><button id="button" class="btn" type="button" onclick="location.href='<%=request.getContextPath() %>/admin/reportboard/list'">신고 게시글</button></div>
             <div><button id="button" class="btn" type="button" onclick="location.href='<%=request.getContextPath() %>/admin/reportcomment/list'">신고 댓글</button></div>
             <div><button id="button" class="btn" type="button" onclick="location.href='<%=request.getContextPath() %>/admin/shop/list'">상품 관리</button></div>
