@@ -103,7 +103,7 @@
 			value="ISOLATION_DEFAULT" />
 	</bean>
 
-	<!-- 스프링 배치 job을 실행하는 빈. -->
+ 	<!-- 스프링 배치 job을 실행하는 빈. --> 
 	<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
 		<property name="jobRepository" ref="jobRepository" />
 	</bean>

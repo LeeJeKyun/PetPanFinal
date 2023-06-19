@@ -89,7 +89,7 @@
 		DELETE message
 		WHERE send_date + 30 <= sysdate
 		AND savemessage != 'y' OR savemessage != 'Y'
-	]]>	
+	]]>
 	</delete>
 	
 	<select id="selectNormalUserList" resultType="message.dto.Message">
